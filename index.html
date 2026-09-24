@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- ADICIONE ESTA LINHA -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="./vendor/react.js"></script>
 <script src="./vendor/react-dom.js"></script>
 <script src="./support.js"></script>
@@ -731,15 +731,103 @@
     .gav-b svg { width: 18px; height: 18px; margin-top: 3px; color: var(--ink); transition: transform .25s; }
     .gav-b[aria-expanded="true"] svg { transform: rotate(180deg); }
     .gav-t { padding: 0 15px 16px; color: #a6b0d1; font-size: 15px; line-height: 1.6; animation: abrir .35s cubic-bezier(.16, 1, .3, 1); }
-    /* ADICIONE ISTO NO FINAL DO SEU <style> PARA CORRIGIR O ESPAÇAMENTO */
-    .mapa-in { height: 260px !important; } 
-    .liga { margin-top: -30px !important; position: relative; z-index: 2; }
-    .vira-b { margin-top: -30px !important; }
+    /* ===== ajustes set/2026 ===== */
+
+    /* a barra do topo fica fixa de verdade (o sticky ficava preso num contêiner de 1 tela só) */
+    .nav { position: fixed; top: 0; left: 0; right: 0; z-index: 60; background: #090b18; box-shadow: 0 6px 18px rgba(9, 11, 24, .7); }
+    .page { padding-top: 54px; }
+    .nav-now { transition: color .3s; }
+    .nav-bar i { transition: transform .2s linear, background-color .3s, box-shadow .3s; }
+
+    /* texto corrido: claro e firme. O cinza fica só pras legendas de foto (.figcap / .note) */
+    .txt { color: #dfe6fb; font-weight: 500; }
+    .txt b, .txt strong { color: #ffffff; }
+    .gav-t { color: #dfe6fb; }
+
+    /* mapa: só anda pro lado, quadrados menores e mais juntos */
+    .mapa { overflow-y: hidden; overscroll-behavior: contain; touch-action: pan-x pan-y; }
+    .mapa-in { height: 290px; }
+    .no { width: 42px; height: 42px; margin: -21px 0 0 -21px; font-size: 13px; border-width: 2.5px; }
+    .mapa-sec { padding-top: 76px; }
+    .mapa-dica { position: absolute; right: 24px; top: 40px; margin: 0; color: #a56cff; font-size: 10px; letter-spacing: .08em; transition: opacity .4s; }
+    .mapa-dica span { display: inline-block; animation: dica 1.2s ease-in-out infinite; }
+    .mapa-dica.on { opacity: 0; }
+    @keyframes dica { 50% { transform: translateX(5px); } }
+    /* a linha roxa sai do 12 só quando a pessoa chega nele, e se desenha */
+    .mapa-in path.volta-12 { stroke: #a56cff; stroke-width: 3; stroke-dasharray: 1 1; stroke-dashoffset: 1; opacity: 0; transition: stroke-dashoffset 1s cubic-bezier(.65, 0, .35, 1), opacity .2s; }
+    .mapa-in path.volta-12.on { stroke-dashoffset: 0; opacity: 1; }
+    .vira-b { margin-top: 0; }
+    .vira-b .pan:last-child .route { opacity: 0; transition: opacity .5s .7s; }
+    .vira-b.on .pan:last-child .route { opacity: 1; }
+    @media (prefers-reduced-motion: reduce) { .vira-b .pan:last-child .route { opacity: 1; } }
+
+    /* caixinhas de história: 1 ---- 2 ---- 3, toca no número e vai */
+    .story-top.passo-nav { display: flex; gap: 0; padding: 14px 14px 0; overflow-x: auto; scrollbar-width: none; }
+    .story-top.passo-nav::-webkit-scrollbar { display: none; }
+    .pn { display: flex; align-items: center; flex: 1 0 auto; min-width: 0; }
+    .pn:first-child { flex: none; min-width: 0; }
+    .pn::before { content: ""; flex: 1; min-width: 8px; margin: 0 3px; border-top: 2px dashed #2b3154; transition: border-color .25s; }
+    .pn:first-child::before { display: none; }
+    .pn > span { display: grid; place-items: center; width: 28px; height: 28px; flex: none; border: 2px solid #2b3154; color: #7883a5; font-size: 12px; font-weight: 800; font-variant-numeric: tabular-nums; transition: background-color .25s, border-color .25s, color .25s, transform .2s; }
+    .pn.on > span { border-color: var(--c); color: var(--ink); }
+    .pn.on::before { border-top-style: solid; border-color: var(--c); }
+    .pn.cur > span { background: var(--c); color: #090b18; transform: scale(1.08); box-shadow: 0 0 14px rgba(var(--rgb), .45); }
+    .p-esp .pn.cur > span { color: #ffffff; }
+    .story-ft { justify-content: flex-end; }
+
+    /* diferente: marcos com ícone, em vez de parede de texto */
+    .marcos { display: flex; flex-direction: column; gap: 0; margin-top: 30px; }
+    .marco { position: relative; display: grid; grid-template-columns: 52px minmax(0, 1fr); gap: 16px; padding-bottom: 28px; }
+    .marco::before { content: ""; position: absolute; left: 25px; top: 56px; bottom: 6px; width: 2px; background: repeating-linear-gradient(180deg, rgba(var(--rgb), .55) 0 6px, transparent 6px 12px); }
+    .marco:last-child { padding-bottom: 0; }
+    .marco:last-child::before { display: none; }
+    .marco-ic { width: 52px; height: 52px; display: grid; place-items: center; border: 2px solid var(--c); background: rgba(var(--rgb), .10); color: var(--ink); box-shadow: 4px 4px 0 rgba(var(--rgb), .30); }
+    .marco-ic svg { width: 28px; height: 28px; }
+    .marco-k { color: var(--ink); font-size: 11px; letter-spacing: .08em; }
+    .marco-t { margin-top: 6px; color: #dfe6fb; font-size: 16px; font-weight: 500; line-height: 1.55; }
+    .marco-t b { color: #ffffff; }
+    .marco-q { margin-top: 10px; color: #eef4ff; font-size: 21px; line-height: 1.18; }
+    .agenda { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 18px; }
+    .agenda span { padding: 6px 9px; border: 1px solid rgba(var(--rgb), .5); background: rgba(var(--rgb), .06); color: #eef4ff; font-size: 12px; font-weight: 700; }
+    .agenda span.full { border-color: #ff4d6d; color: #ff4d6d; background: rgba(255, 77, 109, .08); }
+    .herois { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 16px; }
+    .herois span { padding: 6px 10px 5px; border: 1px solid rgba(var(--rgb), .5); color: var(--ink); font-size: 11px; }
+    .tremor { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; margin-top: 20px; }
+    .tremor span { padding: 12px 8px; border: 1px dashed rgba(var(--rgb), .55); color: #eef4ff; font-size: 13px; font-weight: 700; line-height: 1.25; text-align: center; animation: tremer-leve 2.4s ease-in-out infinite; }
+    .tremor span:nth-child(2) { animation-delay: .3s; } .tremor span:nth-child(3) { animation-delay: .6s; }
+    @keyframes tremer-leve { 0%, 88%, 100% { transform: none; } 91% { transform: translateX(-1.5px); } 94% { transform: translateX(1.5px); } 97% { transform: translateX(-1px); } }
+    @media (prefers-reduced-motion: reduce) { .tremor span { animation: none; } }
+
+    /* residência IFCE: um cartão que acende, em vez de parágrafo fosco */
+    .resid { position: relative; margin-top: 30px; padding: 20px 18px 18px; border: 2px solid var(--c); background: radial-gradient(120% 100% at 100% 0%, rgba(var(--rgb), .16), transparent 60%), #0c0f22; box-shadow: 6px 6px 0 rgba(var(--rgb), .25); }
+    .resid-top { display: flex; align-items: center; gap: 12px; }
+    .resid-ic { width: 44px; height: 44px; flex: none; display: grid; place-items: center; background: var(--c); color: #090b18; }
+    .resid-ic svg { width: 26px; height: 26px; }
+    .resid-k { color: var(--ink); font-size: 10px; letter-spacing: .08em; line-height: 1.4; }
+    .resid-h { color: #eef4ff; font-size: 22px; font-weight: 800; letter-spacing: -.02em; line-height: 1.1; }
+    .resid-t { margin-top: 14px; color: #dfe6fb; font-size: 16px; font-weight: 500; line-height: 1.55; }
+    .resid-t b { color: #ffffff; }
+    .ganhos { display: grid; grid-template-columns: minmax(0, 1fr); gap: 8px; margin-top: 16px; }
+    .ganho { display: grid; grid-template-columns: 38px minmax(0, 1fr); gap: 12px; align-items: center; padding: 11px 12px; border: 1px solid rgba(var(--rgb), .40); background: rgba(9, 11, 24, .6); }
+    .ganho-ic { width: 38px; height: 38px; display: grid; place-items: center; border: 1.5px solid var(--c); color: var(--ink); }
+    .ganho-ic svg { width: 20px; height: 20px; }
+    .ganho b { display: block; color: #eef4ff; font-size: 14px; font-weight: 800; letter-spacing: .02em; text-transform: uppercase; line-height: 1.2; }
+    .ganho small { display: block; margin-top: 2px; color: #a6b0d1; font-size: 13px; line-height: 1.35; }
+
+    /* professor: escolas em etiquetas */
+    .escolas { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 18px; }
+    .escolas span { padding: 7px 10px 6px; border: 1px solid rgba(var(--rgb), .55); background: rgba(var(--rgb), .10); color: var(--ink); font-size: 12px; font-weight: 800; letter-spacing: .04em; text-transform: uppercase; }
+
+    /* o porquê da liberdade: passos que acendem */
+    .cruz { margin-top: 26px; padding: 20px 20px 18px; border: 1px solid rgba(var(--rgb), .45); background: #0c0f22; }
+    .cruz-q { color: #eef4ff; font-size: 24px; line-height: 1.16; }
+    .cruz-t { margin-top: 12px; color: #dfe6fb; font-size: 16px; font-weight: 500; line-height: 1.58; }
+    .cruz-t + .cruz-t { margin-top: 10px; }
   </style>
 </helmet>
 <div class="nav">
-  <div class="nav-in"><span class="nav-av"><span></span></span><p class="nav-now">{{ nav.label }}</p></div>
-  <div class="nav-bar"><i style="transform: scaleX({{ nav.scale }});"></i></div>
+  <div class="nav-in"><span class="nav-av"><span></span></span><p class="nav-now" style="color: {{ nav.color }};">{{ nav.label }}</p></div>
+  <div class="nav-bar"><i style="transform: scaleX({{ nav.scale }}); background: {{ nav.color }}; box-shadow: 0 0 10px {{ nav.color }};"></i></div>
 </div>
 
 <div class="page">
@@ -847,7 +935,7 @@
         <h2 class="h2 l d">Meu coração começou a ficar aquecido de amor.</h2>
         <p class="say w e s">Um amor maior do que robótica, conquistas acadêmicas e qualquer coisa.</p>
         <div class="story" id="story-vivo" onPointerDown="{{ sv.down }}" onPointerUp="{{ sv.up }}">
-  <div class="story-top"><sc-for list="{{ sv.bars }}" as="b" hint-placeholder-count="14"><i class="{{ b.cls }}"></i></sc-for></div>
+  <div class="story-top passo-nav"><sc-for list="{{ sv.nums }}" as="b" hint-placeholder-count="14"><button type="button" class="pn {{ b.cls }}" onClick="{{ b.go }}" aria-label="{{ b.aria }}"><span>{{ b.n }}</span></button></sc-for></div>
   <div class="story-body">
           <sc-if value="{{ sv.s0 }}" hint-placeholder-val="{{ true }}"><div class="step"><p>Quando eu li as palavras de Jesus (embora já tivesse ouvido muito pela boca dos outros, agora tinha parado para ler a Bíblia e buscar na fonte!) minha reação era: Uau! QUANTAS PALAVRAS DESSE HOMEM FAZIAM SENTIDO!</p></div></sc-if>
           <sc-if value="{{ sv.s1 }}" hint-placeholder-val="{{ false }}"><div class="step"><p>Na verdade, geralmente minha reação lendo a Bíblia era ficar estático por horas refletindo, porque elas pegavam profundo e eu nem sabia o que dizer.</p></div></sc-if>
@@ -865,14 +953,12 @@
           <sc-if value="{{ sv.s13 }}" hint-placeholder-val="{{ false }}"><div class="step"><p>Começou a despertar uma compaixão dentro de mim e eu não pude mais conter!</p><p class="e">Talvez precisassem do que eu tinha:</p></div></sc-if>
           </div>
   <div class="story-ft">
-    <span class="story-count tab">{{ sv.count }}</span>
     <button type="button" class="sbtn" onClick="{{ sv.toggle }}" aria-label="Ver tudo de uma vez" aria-pressed="{{ sv.all }}">
       <sc-if value="{{ sv.notAll }}" hint-placeholder-val="{{ true }}"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"></path></svg></sc-if>
       <sc-if value="{{ sv.all }}" hint-placeholder-val="{{ false }}"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5h14v14H5z"></path><path d="M9 12h6"></path></svg></sc-if>
     </button>
     <sc-if value="{{ sv.stepMode }}" hint-placeholder-val="{{ true }}">
       <div class="story-nav">
-        <button type="button" class="sbtn" onClick="{{ sv.prev }}" disabled="{{ sv.atStart }}" aria-label="Trecho anterior"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 12H5"></path><path d="M11 5l-7 7 7 7"></path></svg></button>
         <button type="button" class="sbtn main" onClick="{{ sv.next }}" aria-label="Próximo trecho">
           <sc-if value="{{ sv.notLast }}" hint-placeholder-val="{{ true }}"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15"></path><path d="M13 5l7 7-7 7"></path></svg></sc-if>
           <sc-if value="{{ sv.last }}" hint-placeholder-val="{{ false }}"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4.5 12a7.5 7.5 0 1 0 2.2-5.3"></path><path d="M4 3.5V9h5.5"></path></svg></sc-if>
@@ -939,7 +1025,7 @@
       <div class="proj" id="intervalo">
         <h3 class="sub-h d">Intervalo com Deus</h3>
         <div class="story" id="story-intervalo" onPointerDown="{{ si.down }}" onPointerUp="{{ si.up }}">
-  <div class="story-top"><sc-for list="{{ si.bars }}" as="b" hint-placeholder-count="4"><i class="{{ b.cls }}"></i></sc-for></div>
+  <div class="story-top passo-nav"><sc-for list="{{ si.nums }}" as="b" hint-placeholder-count="4"><button type="button" class="pn {{ b.cls }}" onClick="{{ b.go }}" aria-label="{{ b.aria }}"><span>{{ b.n }}</span></button></sc-for></div>
   <div class="story-body">
           <sc-if value="{{ si.s0 }}" hint-placeholder-val="{{ true }}"><div class="step"><p>Quando entrei no Colégio Militar no 6º ano, e era serelepe, sempre fugia de um Tenente que me chamava para ir numa reunião na cantina <span class="fala">"pra falar de Deus"</span>.</p><p class="pilantra">PILANTRA! <button type="button" class="kkk" onClick="{{ kkk.toggle }}" aria-expanded="{{ kkk.on }}">{{ kkk.txt }}</button></p></div></sc-if>
           <sc-if value="{{ si.s1 }}" hint-placeholder-val="{{ false }}"><div class="step"><p class="e">Quem diria...</p></div></sc-if>
@@ -947,14 +1033,12 @@
           <sc-if value="{{ si.s3 }}" hint-placeholder-val="{{ false }}"><div class="step"><p>E daí a conversa fluiu.<br>Ele fazia no fundamental e eu queria fazer no ensino médio, ele não conseguiu dar tanto apoio.</p><p class="e">Corri atrás de muita coisa sozinho.</p></div></sc-if>
           </div>
   <div class="story-ft">
-    <span class="story-count tab">{{ si.count }}</span>
     <button type="button" class="sbtn" onClick="{{ si.toggle }}" aria-label="Ver tudo de uma vez" aria-pressed="{{ si.all }}">
       <sc-if value="{{ si.notAll }}" hint-placeholder-val="{{ true }}"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"></path></svg></sc-if>
       <sc-if value="{{ si.all }}" hint-placeholder-val="{{ false }}"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5h14v14H5z"></path><path d="M9 12h6"></path></svg></sc-if>
     </button>
     <sc-if value="{{ si.stepMode }}" hint-placeholder-val="{{ true }}">
       <div class="story-nav">
-        <button type="button" class="sbtn" onClick="{{ si.prev }}" disabled="{{ si.atStart }}" aria-label="Trecho anterior"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 12H5"></path><path d="M11 5l-7 7 7 7"></path></svg></button>
         <button type="button" class="sbtn main" onClick="{{ si.next }}" aria-label="Próximo trecho">
           <sc-if value="{{ si.notLast }}" hint-placeholder-val="{{ true }}"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15"></path><path d="M13 5l7 7-7 7"></path></svg></sc-if>
           <sc-if value="{{ si.last }}" hint-placeholder-val="{{ false }}"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4.5 12a7.5 7.5 0 1 0 2.2-5.3"></path><path d="M4 3.5V9h5.5"></path></svg></sc-if>
@@ -1002,7 +1086,7 @@
       <div class="proj" id="legiao">
         <h3 class="sub-h d">Legião de Honra</h3>
         <div class="story" id="story-legiao" onPointerDown="{{ sl.down }}" onPointerUp="{{ sl.up }}">
-  <div class="story-top"><sc-for list="{{ sl.bars }}" as="b" hint-placeholder-count="7"><i class="{{ b.cls }}"></i></sc-for></div>
+  <div class="story-top passo-nav"><sc-for list="{{ sl.nums }}" as="b" hint-placeholder-count="7"><button type="button" class="pn {{ b.cls }}" onClick="{{ b.go }}" aria-label="{{ b.aria }}"><span>{{ b.n }}</span></button></sc-for></div>
   <div class="story-body">
           <sc-if value="{{ sl.s0 }}" hint-placeholder-val="{{ true }}"><div class="step"><p>Depois que me converti e melhorei meu comportamento na escola, consegui entrar numa iniciativa que eu queria há muito tempo...</p></div></sc-if>
           <sc-if value="{{ sl.s1 }}" hint-placeholder-val="{{ false }}"><div class="step"><p>a Legião de Honra, que fazia ações sociais, e só aceitava alunos exemplares, tanto em nota (coisa que eu tinha), quanto em comportamento (coisa que eu não tinha nos primeiros anos do colégio militar). E para ser selecionado também era preciso fazer um discurso dizendo o porquê queria entrar, diante de todos que já estavam dentro da legião.</p></div></sc-if>
@@ -1013,14 +1097,12 @@
           <sc-if value="{{ sl.s6 }}" hint-placeholder-val="{{ false }}"><div class="step"><p>Inclusive, eu estava tão desapegado que não lembrei o dia que sairia o resultado. Na noite que anunciaram na internet, eu estava fazendo uma live falando de Jesus no Instagram. Uma amiga que eu nem falava há muito tempo entrou na live só para dizer <span class="fala">"TIAGOOO, VOCÊ ENTROU NA LEGIÃO"</span>. Eu tava orando e quando abri os olhos só vi um monte de comentário, e disse algo do tipo <span class="fala">"sério? obrigado por avisar."</span> sem muita reação. Só depois fui processar a alegria e agradecer ao Papai. Esse é o significado daquela bolacha azul que você vê no peito do meu uniforme.</p></div></sc-if>
           </div>
   <div class="story-ft">
-    <span class="story-count tab">{{ sl.count }}</span>
     <button type="button" class="sbtn" onClick="{{ sl.toggle }}" aria-label="Ver tudo de uma vez" aria-pressed="{{ sl.all }}">
       <sc-if value="{{ sl.notAll }}" hint-placeholder-val="{{ true }}"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"></path></svg></sc-if>
       <sc-if value="{{ sl.all }}" hint-placeholder-val="{{ false }}"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5h14v14H5z"></path><path d="M9 12h6"></path></svg></sc-if>
     </button>
     <sc-if value="{{ sl.stepMode }}" hint-placeholder-val="{{ true }}">
       <div class="story-nav">
-        <button type="button" class="sbtn" onClick="{{ sl.prev }}" disabled="{{ sl.atStart }}" aria-label="Trecho anterior"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 12H5"></path><path d="M11 5l-7 7 7 7"></path></svg></button>
         <button type="button" class="sbtn main" onClick="{{ sl.next }}" aria-label="Próximo trecho">
           <sc-if value="{{ sl.notLast }}" hint-placeholder-val="{{ true }}"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15"></path><path d="M13 5l7 7-7 7"></path></svg></sc-if>
           <sc-if value="{{ sl.last }}" hint-placeholder-val="{{ false }}"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4.5 12a7.5 7.5 0 1 0 2.2-5.3"></path><path d="M4 3.5V9h5.5"></path></svg></sc-if>
@@ -1040,11 +1122,56 @@
 
       <section class="sec p-edu" id="altas">
         <p class="label mk"><span>DIFERENTE</span><span class="seta" aria-hidden="true"><i></i></span></p>
-        <h2 class="h2 l d">Neurodivergente: é isso que me faz um pouco diferente.</h2><h2 class="h2 l d">E foi há mais de uma década. Ainda com&nbsp; 8 anos a professora viu que eu terminava rápido as atividades de matemática e ficava atoa ou conversando na aula.<br>Ao invés de brigar comigo(obrigado professora Sônia), ela comentou com a coordenação e pediu para me levarem ao Nucleo de Atividades de Altas Habilidades e Superdotação do estado, e lá me encaminharam para uma psicóloga externa que me diagnosticou com AHSD.&nbsp;<br>Comecei a frequentar esse núcleo do NAAHS, mas havia pouca estrutura, e basicamente me deixavam desenhando e pintando.&nbsp; Achei chato e logo saí.<br>Com 13 anos, descobri que uma amiga japa do meu grupo de robótica participava desses atendimentos, ela contou que tinha mudado o nome do nucleo de naahs para ceam/ahs, mudado o local, e eu, apesar de não ter mais expectativas, decidi tentar retomar, tive que fazer um novo diagnóstico / teste psicológico, deu a mesma coisa. E todos psicologos e psiquiatras de lá pra cá só confirmam. E isso não me faz melhor. Todo potencial tem seus desafios. Toda vez que</h2><h2 class="h2 l d">No Centro Estadual de Altas Habilidades e Superdotação, em Mato Grosso do Sul, eu desenvolvia projetos de</h2>
-        <p class="txt">Robótica, exatas — a área em que eu tinha sido diagnosticado.</p>
-        <p class="say w e s">Até que, do nada, (após a pandemia rs) os meus interesses mudaram.</p>
-        <p class="txt">Eu simplesmente quis aprender sobre a história da igreja. E fui tremendo até a coordenação pedir pra trocar os meus atendimentos de exatas para história.</p>
+        <h2 class="h2 l d">Neurodivergente: é isso que me faz um pouco diferente.</h2>
+        <p class="txt" style="margin-top: 22px;">Diagnosticado com <b>AHSD</b> (Altas Habilidades/Superdotação) há mais de uma década. Começou assim:</p>
+        <div class="marcos">
+          <div class="marco">
+            <span class="marco-ic" aria-hidden="true"><svg class="ic" viewBox="0 0 24 24"><path d="M9.5 3.5A3 3 0 0 0 6.5 6.4 3 3 0 0 0 4.3 11a3 3 0 0 0 .9 4.9 3 3 0 0 0 3.3 3.6 3 3 0 0 0 3.5.2V5.2A3 3 0 0 0 9.5 3.5z"></path><path d="M14.5 3.5a3 3 0 0 1 3 2.9 3 3 0 0 1 2.2 4.6 3 3 0 0 1-.9 4.9 3 3 0 0 1-3.3 3.6 3 3 0 0 1-3.5.2"></path><path d="M12 9.5h-2M12 14h-2.5M14.5 11.5H17"></path></svg></span>
+            <div>
+              <p class="marco-k px">8 anos · aula de matemática</p>
+              <p class="marco-t">Eu terminava as atividades rápido e ficava à toa, conversando. Em vez de brigar comigo, a <b>professora Sônia</b> (obrigado, professora 🙏) chamou a coordenação e pediu uma avaliação no <b>NAAHS</b>, o núcleo de Altas Habilidades do estado. Uma neuropsicóloga confirmou.</p>
+            </div>
+          </div>
+          <div class="marco">
+            <span class="marco-ic" aria-hidden="true"><svg class="ic" viewBox="0 0 24 24"><path d="M4 20l1-4.5L15.5 5a2.1 2.1 0 0 1 3 3L8 18.5z"></path><path d="M13.5 7l3 3"></path><path d="M14 20h6"></path></svg></span>
+            <div>
+              <p class="marco-k px">no núcleo</p>
+              <p class="marco-t">Pouca estrutura. Basicamente me deixavam desenhando e pintando.</p>
+              <p class="marco-q e">Achei chato. E logo saí.</p>
+            </div>
+          </div>
+          <div class="marco">
+            <span class="marco-ic" aria-hidden="true"><svg class="ic" viewBox="0 0 24 24"><path d="M3 21h11"></path><path d="M5.5 21v-3h6v3"></path><path d="M8.5 18l-2.3-6.5L13 7.5"></path><circle cx="6.2" cy="11.5" r="1.6"></circle><circle cx="14" cy="7" r="1.6"></circle><path d="M15.4 6.1L19 4M15.6 8l3.6 1.4"></path></svg></span>
+            <div>
+              <p class="marco-k px">13 anos · de volta</p>
+              <p class="marco-t">Uma amiga do meu grupo de robótica contou que o núcleo tinha mudado de nome (agora <b>CEAM/AHS</b>) e de lugar. Sem expectativa nenhuma, voltei. Novo teste psicológico: deu de novo. E todos os psicólogos e psiquiatras de lá pra cá só confirmam.</p>
+              <p class="marco-t">No Centro Estadual de Altas Habilidades, em Mato Grosso do Sul, eu desenvolvia projetos de exatas: <b>robótica, matemática, física e programação</b>. A área em que eu tinha sido diagnosticado.</p>
+            </div>
+          </div>
+        </div>
+        <p class="estalo e">Isso não me faz melhor. Só me faz diferente.</p>
+        <p class="txt" style="margin-top: 18px;">Todo mundo tem potenciais a serem explorados e dificuldades a serem tratadas.</p>
+
+        <p class="say w e s">Até que, do nada (após a pandemia rs), os meus interesses mudaram.</p>
+        <p class="txt">Eu já estava saturado das aulas de matemática. E meu tempo era escasso:</p>
+        <div class="agenda" aria-label="O que ocupava meus dias">
+          <span>ensino médio</span><span>Intervalo com Deus</span><span>Legião de Honra</span><span>projetos de ciências</span><span>robótica</span><span>igreja</span><span>esportes</span><span class="full px">agenda cheia</span>
+        </div>
+        <p class="txt">Cada atividade do meu dia tinha que fazer sentido pras minhas prioridades. E ali não estava fazendo.</p>
+        <p class="lead">Eu queria explorar a minha fé. As profundezas do que acredito, de onde veio, e como viviam os homens que viveram intensamente por ela.</p>
+        <div class="herois px" aria-label="Pessoas que eu queria estudar">
+          <span>Elias</span><span>Daniel</span><span>João Batista</span><span>Pedro</span><span>Paulo</span><span>Evan Roberts</span><span>John Wesley</span><span>Paul Yonggi Cho</span><span>David Brainerd</span>
+        </div>
+        <div class="livro">
+          <p class="livro-q e">"...venceram reinos, praticaram a justiça, alcançaram promessas, fecharam a boca de leões, apagaram a força do fogo..."</p>
+          <p class="livro-f">Hebreus 11:33-34</p>
+        </div>
+        <p class="txt" style="margin-top: 26px;">Só que como eu ia explicar isso pra coordenação? Pedir pra sair justo das aulas em que eu tinha mais desenvoltura, pra estudar <b>história da igreja</b>?</p>
+        <div class="tremor" aria-hidden="true"><span>pernas tremendo</span><span>barriga gelada</span><span>coração apertado</span></div>
+        <p class="txt">Mesmo assim, fui.</p>
         <div class="roteiro">
+          <p class="rot-quem eu">eu</p>
+          <p class="rot-fala eu">Eu quero trocar os meus atendimentos de exatas. Já estou saturado e tenho novos interesses nessa fase da minha vida.</p>
           <p class="rot-quem">coordenação</p>
           <p class="rot-fala">Claro, Tiago. E quais seriam os seus novos interesses?</p>
           <p class="rot-quem eu">eu</p>
@@ -1052,9 +1179,13 @@
           <p class="rot-quem">coordenação</p>
           <p class="rot-fala">Nossa, você vai se identificar então com a professora de história.</p>
         </div>
-        <p class="txt" style="margin-top: 26px;">Depois eu descobri que essa professora era pastora.</p>
+        <p class="txt" style="margin-top: 26px;">Foi assim: simples. Na semana seguinte eu já estava lá. E o que eu descobri no primeiro dia?</p>
+        <p class="estalo e">A professora de história era pastora.</p>
+        <p class="txt" style="margin-top: 22px;">E não daquelas de jargão pronto. Amável, sábia, estudiosa. Os livros que eu queria ler? Ela já tinha lido. As histórias de <b>avivamento</b> que eu nunca achei ninguém na igreja pra me contar? Ela já tinha estudado.</p>
+        <p class="txt">E ela me questionava fundo:</p>
+        <blockquote class="dito"><p class="e">O que é avivamento pra você? Define em 3 palavras, sem pensar muito.</p></blockquote>
         <p class="estalo e">Foi a melhor experiência da minha vida.</p>
-        <p class="txt" style="margin-top: 26px;">A gente conversou sobre <b>avivamento</b> — um assunto que eu já vinha estudando, que eu já vinha lendo.</p>
+        <p class="txt" style="margin-top: 22px;">E a melhor decisão: ter me posicionado no que eu queria. Pra descobrir que era um desejo que <b>Ele</b> implantou no meu coração, num caminho que Ele já tinha preparado.</p>
     </section>
 
     <!-- TECNOLOGIA · O SONHO -->
@@ -1097,10 +1228,20 @@
       </svg>
       <p class="say e s">E sim, abri mão de ir para o IME 💀<br>Por quê? Difícil? Também kkk mas eu poderia continuar tentando...<br><br>Acontece que: descobri que não era o único lugar possível de continuar desenvolvendo o que gosto.</p>
       <p class="say e s" style="margin-top: 20px;">Na verdade... comecei a enxergar oportunidades maiores no mundo da robótica.</p>
-      <p class="txt" style="margin-top: 30px;">Uma das coisas que me abriram a visão, por exemplo, foi a residência que fiz no Instituto Federal do Ceará, trabalhando no laboratório deles de <strong>Sistemas Embarcados</strong> (uma área específica da robótica rsrs), desenvolvendo projetos para grandes empresas e startups.</p>
+      <div class="resid">
+        <div class="resid-top">
+          <span class="resid-ic" aria-hidden="true"><svg class="ic" viewBox="0 0 24 24"><path d="M7 7h10v10H7z"></path><path d="M10 10h4v4h-4z"></path><path d="M10 3v4M14 3v4M10 17v4M14 17v4M3 10h4M3 14h4M17 10h4M17 14h4"></path></svg></span>
+          <div><p class="resid-k px">o que me abriu a visão</p><p class="resid-h">Residência no IFCE · Sistemas Embarcados</p></div>
+        </div>
+        <p class="resid-t">Trabalhando no laboratório de <b>Sistemas Embarcados</b> do Instituto Federal do Ceará (uma área específica da robótica rsrs), desenvolvendo projetos para grandes empresas e startups.</p>
+        <div class="ganhos">
+          <div class="ganho"><span class="ganho-ic" aria-hidden="true"><svg class="ic" viewBox="0 0 24 24"><path d="M4 21V5l8-2v18"></path><path d="M12 9l8 2v10"></path><path d="M2 21h20"></path><path d="M7 8h2M7 12h2M7 16h2M15 13h2M15 17h2"></path></svg></span><div><b>Conexão com grandes empresas</b><small>projetos reais, pessoas incríveis</small></div></div>
+          <div class="ganho"><span class="ganho-ic" aria-hidden="true"><svg class="ic" viewBox="0 0 24 24"><path d="M5 15c-1.5 1.3-2 4-2 6 2 0 4.7-.5 6-2"></path><path d="M9 15l-3-3c1.8-4.7 5.8-8.3 13-9-.7 7.2-4.3 11.2-9 13z"></path><circle cx="15" cy="9" r="1.6"></circle></svg></span><div><b>Desenvolvimento de startups</b><small>visão de mercado em robótica</small></div></div>
+          <div class="ganho"><span class="ganho-ic" aria-hidden="true"><svg class="ic" viewBox="0 0 24 24"><path d="M14.7 6.3a4 4 0 0 0-5.4 5.2L3 17.8V21h3.2l6.3-6.3a4 4 0 0 0 5.2-5.4l-2.4 2.4-2.8-.6-.6-2.8z"></path></svg></span><div><b>Direito de errar</b><small>do mais jovem (eu rsrs) ao mais velho, todos tratados como estagiários</small></div></div>
+        </div>
+      </div>
       <p class="lead">Foi uma experiência enriquecedora em todos os sentidos:</p>
-      <p class="txt">Aprendi muita coisa profunda de eletrônica, expandi minha visão de mercado de trabalho em robótica, fiz conexões com pessoas incríveis, e no sentido financeiro também éramos valorizados.</p>
-      <p class="txt">Do mais jovem (eu rsrs) ao mais velho, todos éramos tratados como estagiários: tendo <b>direito de errar</b>, espaço pra aprender e investimento em capacitação constante.</p><div class="ficha"><b class="tab" style="font-size: 21px">Conexão com grandes empresas</b></div><div class="ficha"><b class="tab">Desenvolvimento de StartUps</b></div>
+      <p class="txt">Aprendi muita coisa profunda de eletrônica, tive espaço pra aprender, investimento em capacitação constante. E no sentido financeiro também éramos valorizados:</p>
       <div class="fichas" aria-hidden="true">
         <div class="ficha"><b class="tab">+3 mil</b><span>por mês</span></div>
         <div class="ficha"><b class="tab">4h</b><span>por dia</span></div>
@@ -1109,22 +1250,41 @@
       <div class="bento" aria-label="Fotos e vídeo da residência em Sistemas Embarcados no IFCE">
         <div class="b-wide"><img class="ph" src="residencia-ifce-1.svg" alt="Residência no laboratório de Sistemas Embarcados do IFCE" style="object-position: 50% 50%;"></div>
         <div class="b-tall"><div class="slot"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4l13 8-13 8z"></path></svg><span>[VÍDEO] residencia ifce video 1</span></div></div>
-        <div class="b-sq"><img class="ph" src="residencia-ifce-2.svg" alt="Residência no IFCE, projeto" style="object-position: 50% 50%;"></div><div class="ficha"><b class="tab">Conexão com grandes empresas</b><span>por mês</span></div>
+        <div class="b-sq"><img class="ph" src="residencia-ifce-2.svg" alt="Residência no IFCE, projeto" style="object-position: 50% 50%;"></div>
         <div class="b-sq"><img class="ph" src="residencia-ifce-3.svg" alt="Residência no IFCE, equipe" style="object-position: 50% 50%;"></div>
       </div>
     </section>
 
     <!-- EMPREENDEDORISMO · MUDANÇA, DE NOVO! --><section id="ensino" class="sec p-edu">
       <p class="label mk"><span>Capítulo 05 — professor</span><span class="seta" aria-hidden="true"><i></i></span></p>
-      <h2 class="h2 l d">Comecei a trabalhar dando aulas. <br>Minhas experiências ensinando passaram por escolas de referência como: <span class="tag">CódigoKid</span>, <span class="tag">Farias Brito</span>, <span class="tag">Colégio Militar de Fortaleza</span> e <span class="tag">Instituto Federal do Ceará</span>.</h2>
+      <h2 class="h2 l d">Comecei a trabalhar dando aulas.</h2>
+      <p class="txt">Minhas experiências ensinando passaram por escolas de referência como:</p>
+      <div class="escolas"><span>CódigoKid</span><span>Farias Brito</span><span>Colégio Militar de Fortaleza</span><span>Instituto Federal do Ceará</span></div>
       <p class="cena-l">Num canto escuro do prédio do cursinho</p>
-      <p class="txt">Tudo começou quando eu estava deitado num banco. Naquele dia tava matando uma aula de inglês (fácil) enquanto orava e refletia: o quanto eu queria que meus amigos do cursinho conhecessem Jesus (e muitas orações foram respondidas, tá?), e como eu tava tendo pouca evolução nos simulados pro IME.</p>
-      <p class="txt">Então decidi abrir o YouTube num canal que sempre me ajudou desde a minha conversão: <b>JesusCopy</b>.</p>
-      <p class="txt">Sim: ouvindo o Douglas Gonçalves entrevistando o pastor,</p>
-      <p class="estalo e">me ofereci para dar aula de forma voluntária.</p>
-      <p class="say w e s">Acredita?</p>
-      <p class="txt">Logo gostaram do meu trabalho, me contrataram e até ressarciram o tempo como voluntário. Depois fui pra outra escola. E outra. E outra. E história para outra hora<span style="font-size: 15px">.</span></p>
-      
+      <div class="story" id="story-aulas" onPointerDown="{{ sa.down }}" onPointerUp="{{ sa.up }}">
+        <div class="story-top passo-nav"><sc-for list="{{ sa.nums }}" as="b" hint-placeholder-count="4"><button type="button" class="pn {{ b.cls }}" onClick="{{ b.go }}" aria-label="{{ b.aria }}"><span>{{ b.n }}</span></button></sc-for></div>
+        <div class="story-body">
+          <sc-if value="{{ sa.s0 }}" hint-placeholder-val="{{ true }}"><div class="step"><p>Tudo começou comigo deitado num banco. Matando uma aula de inglês (fácil), enquanto orava e refletia: o quanto eu queria que meus amigos do cursinho conhecessem Jesus <span class="fala">(e muitas orações foram respondidas, tá?)</span></p><p class="e">E como eu tava evoluindo pouco nos simulados pro IME.</p></div></sc-if>
+          <sc-if value="{{ sa.s1 }}" hint-placeholder-val="{{ false }}"><div class="step"><p>Então abri o YouTube num canal que sempre me ajudou desde a minha conversão: <b>JesusCopy</b>.</p><p>Ouvindo o Douglas Gonçalves entrevistando o pastor...</p></div></sc-if>
+          <sc-if value="{{ sa.s2 }}" hint-placeholder-val="{{ false }}"><div class="step"><p class="e">me ofereci para dar aula de forma voluntária.</p><p class="pilantra">Acredita?</p></div></sc-if>
+          <sc-if value="{{ sa.s3 }}" hint-placeholder-val="{{ false }}"><div class="step"><p>Logo gostaram do meu trabalho, me contrataram e até <b>ressarciram o tempo como voluntário</b>.</p><p>Depois fui pra outra escola. E outra. E outra.</p><p class="e">Mas essa é história pra outra hora.</p></div></sc-if>
+        </div>
+        <div class="story-ft">
+          <button type="button" class="sbtn" onClick="{{ sa.toggle }}" aria-label="Ver tudo de uma vez" aria-pressed="{{ sa.all }}">
+            <sc-if value="{{ sa.notAll }}" hint-placeholder-val="{{ true }}"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"></path></svg></sc-if>
+            <sc-if value="{{ sa.all }}" hint-placeholder-val="{{ false }}"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5h14v14H5z"></path><path d="M9 12h6"></path></svg></sc-if>
+          </button>
+          <sc-if value="{{ sa.stepMode }}" hint-placeholder-val="{{ true }}">
+            <div class="story-nav">
+              <button type="button" class="sbtn main" onClick="{{ sa.next }}" aria-label="Próximo trecho">
+                <sc-if value="{{ sa.notLast }}" hint-placeholder-val="{{ true }}"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15"></path><path d="M13 5l7 7-7 7"></path></svg></sc-if>
+                <sc-if value="{{ sa.last }}" hint-placeholder-val="{{ false }}"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4.5 12a7.5 7.5 0 1 0 2.2-5.3"></path><path d="M4 3.5V9h5.5"></path></svg></sc-if>
+              </button>
+            </div>
+          </sc-if>
+        </div>
+      </div>
+
       <div class="licao"><p>Mas o principal aprendizado é: você encontra seu caminho <b>servindo pessoas com as habilidades que tem</b>, e com aquilo que tem em mãos.</p></div><p class="txt">Dava aula e estudava, ensinar enquanto estou aprendendo... te lembra algum instagram por aí (olhinhos arregalados)?</p>
       <div class="videos" aria-label="Vídeos das aulas">
         <div class="slot"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4l13 8-13 8z"></path></svg><span>[VÍDEO] video 1 aula codigokid</span></div>
@@ -1243,7 +1403,7 @@
       <p class="txt">Aquela faculdade ensinava mais sobre programar sites e aplicativos. E eu já sabia o que queria programar.</p>
 
       <div class="story" id="story-viagem" onPointerDown="{{ sg.down }}" onPointerUp="{{ sg.up }}">
-        <div class="story-top"><sc-for list="{{ sg.bars }}" as="b" hint-placeholder-count="6"><i class="{{ b.cls }}"></i></sc-for></div>
+        <div class="story-top passo-nav"><sc-for list="{{ sg.nums }}" as="b" hint-placeholder-count="6"><button type="button" class="pn {{ b.cls }}" onClick="{{ b.go }}" aria-label="{{ b.aria }}"><span>{{ b.n }}</span></button></sc-for></div>
         <div class="story-body">
           <sc-if value="{{ sg.s0 }}" hint-placeholder-val="{{ true }}"><div class="step"><p class="e">Tranquei a faculdade e decidi viajar vendendo.</p></div></sc-if>
           <sc-if value="{{ sg.s1 }}" hint-placeholder-val="{{ false }}"><div class="step"><p>Fiz um rolê pelo Nordeste: Olinda, Recife, Natal.</p></div></sc-if>
@@ -1253,14 +1413,12 @@
           <sc-if value="{{ sg.s5 }}" hint-placeholder-val="{{ false }}"><div class="step"><p>Eles me deram uma mentoria sobre o meu modelo de negócio: a ideia de criar uma escola de robótica online era válida, mas levaria tempo.</p><p>Enquanto isso, eu poderia continuar vendendo os doces e criar um robô para vender junto comigo: aumentar a conexão com o cliente, o número de conversões e o dinheiro que entra — pra investir na estruturação da escola.</p></div></sc-if>
         </div>
         <div class="story-ft">
-          <span class="story-count tab">{{ sg.count }}</span>
           <button type="button" class="sbtn" onClick="{{ sg.toggle }}" aria-label="Ver tudo de uma vez" aria-pressed="{{ sg.all }}">
             <sc-if value="{{ sg.notAll }}" hint-placeholder-val="{{ true }}"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"></path></svg></sc-if>
             <sc-if value="{{ sg.all }}" hint-placeholder-val="{{ false }}"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5h14v14H5z"></path><path d="M9 12h6"></path></svg></sc-if>
           </button>
           <sc-if value="{{ sg.stepMode }}" hint-placeholder-val="{{ true }}">
             <div class="story-nav">
-              <button type="button" class="sbtn" onClick="{{ sg.prev }}" disabled="{{ sg.atStart }}" aria-label="Trecho anterior"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 12H5"></path><path d="M11 5l-7 7 7 7"></path></svg></button>
               <button type="button" class="sbtn main" onClick="{{ sg.next }}" aria-label="Próximo trecho">
                 <sc-if value="{{ sg.notLast }}" hint-placeholder-val="{{ true }}"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15"></path><path d="M13 5l7 7-7 7"></path></svg></sc-if>
                 <sc-if value="{{ sg.last }}" hint-placeholder-val="{{ false }}"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4.5 12a7.5 7.5 0 1 0 2.2-5.3"></path><path d="M4 3.5V9h5.5"></path></svg></sc-if>
@@ -1309,14 +1467,26 @@
         </div>
         <div class="gaveta">
           <button type="button" class="gav-b" onClick="{{ gav.t1 }}" aria-expanded="{{ gav.p1 }}"><span>Mas ainda quero fazer porque quero passar pelo processo que todo mundo passa e sentir como é.</span><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg></button>
-          <sc-if value="{{ gav.p1 }}" hint-placeholder-val="{{ false }}"><p class="gav-t">E quero aprender os assuntos básicos — cálculo diferencial, principalmente 2 e 3 — pra expandir minha mente, o meu raciocínio matemático e físico, a forma como enxergo o mundo porque sei que ele é desenhado pelas leis matemáticas e físicas. Quero fazer pela prazer de aprender. Porque...</p></sc-if>
+          <sc-if value="{{ gav.p1 }}" hint-placeholder-val="{{ false }}"><p class="gav-t">E quero aprender os assuntos básicos — cálculo diferencial, principalmente 2 e 3 — pra expandir minha mente, o meu raciocínio matemático e físico, a forma como enxergo o mundo porque sei que ele é desenhado pelas leis matemáticas e físicas. Quero fazer pelo prazer de aprender.</p></sc-if>
         </div>
       </div>
 <p class="say w e">Diferente de muitos, eu não espero que a faculdade me dê um bom emprego.</p>
       <p class="txt" style="margin-top: 24px;">No laboratório eu trabalhei ao lado de pessoas com mestrado e doutorado. De igual pra igual, ganhando a mesma coisa — e vendo que elas passavam os mesmos sufocos pra se manter financeiramente.</p>
       <p class="txt">Tudo bem que, enquanto eu fazia faculdade, elas trabalhavam em outro emprego e somavam os salários. Mas poucos saem dessa linha de formação tradicional com abundância de recursos. E quando ganham bem, é à custa de dedicação exclusiva.</p>
       <p class="estalo e">Eu quero fazer o dinheiro trabalhar pra mim.</p>
-      <p class="txt" style="margin-top: 26px;">Ter recursos pra, primeiramente, viver com liberdade. E usar essa liberdade pra pensar em ideias inovadoras e gerar impacto. (O que já faço no meu tempo livre, isso é intrínsico a mim)</p><p class="txt" style="margin-top: 26px;">E por que gosto de pensar em formas de resolver problemas da sociedade? Porque os meus problemas já estão todos resolvidos. Eu sinceramente tenho tudo que eu preciso e que eu quero desde que conheci Jesus. Ele pregou todos meus problemas na cruz. Eu sinceramente olho no espelho, sorrio e me encontro plenamente satisfeito, com minha vida. Só às vezes me olho indignado, por ter tanto quanto eu tenho e fazer tão pouco. Mas quanto a estar satisfeito, ele não tem deixado faltar nada para essa fase da vida(essa é a promessa dEle para quem busca os interesses do seu Reino, e ele têm de fato cumprido a promessa). Eu tenho tudo que eu quero e preciso, e o que não tenho vejo que nem precisava e ou nem queria de verdade, ou que atrapalharia outra coisa que quero mais intensamente.</p><h2 class="h2 l d">Voltando ao assunto da faculdade. Eu pensei em retomar Análise e Desenvolvimento de Sistemas. De fato gosto de construir sistemas, mas que ultrapassem a tela de um computador.</h2>
+      <ol class="passos">
+        <li class="passo"><span class="passo-n px">1</span><p>Ter recursos pra, primeiramente, <b>viver com liberdade</b>.</p></li>
+        <li class="passo"><span class="passo-n px">2</span><p>Usar essa liberdade pra <b>pensar em ideias inovadoras e gerar impacto</b>. (O que já faço no meu tempo livre: isso é intrínseco a mim.)</p></li>
+      </ol>
+      <p class="lead" style="margin-top: 34px;">E por que eu gosto de pensar em formas de resolver problemas da sociedade?</p>
+      <div class="cruz">
+        <p class="cruz-q e">Porque os meus problemas já estão todos resolvidos.</p>
+        <p class="cruz-t">Desde que conheci Jesus, tenho tudo que preciso e que quero. Ele pregou todos os meus problemas na cruz. Olho no espelho, sorrio e me encontro plenamente satisfeito.</p>
+        <p class="cruz-t">Ele não tem deixado faltar nada pra essa fase da vida (é a promessa dEle pra quem busca os interesses do Reino, e Ele tem cumprido). O que não tenho, vejo que nem precisava, nem queria de verdade, ou que atrapalharia outra coisa que quero mais intensamente.</p>
+      </div>
+      <p class="estalo e">Só às vezes me olho indignado: por ter tanto e fazer tão pouco.</p>
+      <p class="lead" style="margin-top: 44px;">Voltando ao assunto da faculdade.</p>
+      <p class="txt">Eu pensei em retomar Análise e Desenvolvimento de Sistemas. De fato gosto de construir sistemas, mas que ultrapassem a tela de um computador.</p>
       <p class="note">(ainda bem que aprendi a fazer o básico de sites, como esse aqui)</p>
       <p class="txt" style="margin-top: 22px;">Gosto de ver as coisas funcionando na vida real. Quero construir máquinas.</p>
       <p class="estalo e">E a melhor faculdade que integra hardware e software é a Engenharia Mecatrônica.</p>
@@ -1445,9 +1615,10 @@
 
   <!-- MAPA HORIZONTAL DA HISTÓRIA: a linha atravessa os capítulos e sai pela direita -->
   <section class="mapa-sec" id="mapa-final" aria-label="Linha do tempo da história">
-    <div class="mapa" onPointerDown="{{ tri.down }}" onPointerMove="{{ tri.move }}" onPointerUp="{{ tri.up }}" onPointerLeave="{{ tri.up }}">
-      <div class="mapa-in" style="width: {{ mapa.w }}px;">
-        <svg width="{{ mapa.w }}" height="340" aria-hidden="true"><path d="{{ mapa.s0.d }}" style="stroke: {{ mapa.s0.c }};"></path><path d="{{ mapa.s1.d }}" style="stroke: {{ mapa.s1.c }};"></path><path d="{{ mapa.s2.d }}" style="stroke: {{ mapa.s2.c }};"></path><path d="{{ mapa.s3.d }}" style="stroke: {{ mapa.s3.c }};"></path><path d="{{ mapa.s4.d }}" style="stroke: {{ mapa.s4.c }};"></path><path d="{{ mapa.s5.d }}" style="stroke: {{ mapa.s5.c }};"></path><path d="{{ mapa.s6.d }}" style="stroke: {{ mapa.s6.c }};"></path><path d="{{ mapa.s7.d }}" style="stroke: {{ mapa.s7.c }};"></path><path d="{{ mapa.s8.d }}" style="stroke: {{ mapa.s8.c }};"></path><path d="{{ mapa.s9.d }}" style="stroke: {{ mapa.s9.c }};"></path><path d="{{ mapa.s10.d }}" style="stroke: {{ mapa.s10.c }};"></path><path class="volta" d="{{ mapa.entrada }}"></path><path class="volta" d="{{ mapa.volta }}"></path></svg>
+    <p class="mapa-dica px {{ mapa.fimCls }}" aria-hidden="true">arraste até o 12 <span>→</span></p>
+    <div class="mapa" id="mapa-trilha" onScroll="{{ tri.scroll }}" onPointerDown="{{ tri.down }}" onPointerMove="{{ tri.move }}" onPointerUp="{{ tri.up }}" onPointerLeave="{{ tri.up }}">
+      <div class="mapa-in" style="width: {{ mapa.w }}px; height: {{ mapa.h }}px;">
+        <svg width="{{ mapa.w }}" height="{{ mapa.h }}" aria-hidden="true"><path d="{{ mapa.s0.d }}" style="stroke: {{ mapa.s0.c }};"></path><path d="{{ mapa.s1.d }}" style="stroke: {{ mapa.s1.c }};"></path><path d="{{ mapa.s2.d }}" style="stroke: {{ mapa.s2.c }};"></path><path d="{{ mapa.s3.d }}" style="stroke: {{ mapa.s3.c }};"></path><path d="{{ mapa.s4.d }}" style="stroke: {{ mapa.s4.c }};"></path><path d="{{ mapa.s5.d }}" style="stroke: {{ mapa.s5.c }};"></path><path d="{{ mapa.s6.d }}" style="stroke: {{ mapa.s6.c }};"></path><path d="{{ mapa.s7.d }}" style="stroke: {{ mapa.s7.c }};"></path><path d="{{ mapa.s8.d }}" style="stroke: {{ mapa.s8.c }};"></path><path d="{{ mapa.s9.d }}" style="stroke: {{ mapa.s9.c }};"></path><path d="{{ mapa.s10.d }}" style="stroke: {{ mapa.s10.c }};"></path><path class="volta" d="{{ mapa.entrada }}"></path><path class="volta volta-12 {{ mapa.fimCls }}" pathLength="1" d="{{ mapa.volta }}"></path></svg>
         <sc-for list="{{ mapa.pontos }}" as="p" hint-placeholder-count="12">
           <div style="display: contents;">
             <div role="button" class="no px {{ p.cls }}" aria-label="{{ p.aria }}" onClick="{{ p.ir }}" style="left: {{ p.x }}px; top: {{ p.y }}px; --c: {{ p.c }}; --ink: {{ p.ink }};">{{ p.n }}</div>
@@ -1456,20 +1627,10 @@
         </sc-for>
       </div>
     </div>
-    <svg class="liga" viewBox="0 0 390 104" aria-hidden="true">
-      <defs>
-        <linearGradient id="ligaSai" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff"></stop><stop offset=".72" stop-color="#000"></stop></linearGradient>
-        <linearGradient id="ligaEntra" x1="0" y1="0" x2="0" y2="1"><stop offset=".28" stop-color="#000"></stop><stop offset="1" stop-color="#fff"></stop></linearGradient>
-        <mask id="ligaM1"><rect width="390" height="104" fill="url(#ligaSai)"></rect></mask>
-        <mask id="ligaM2"><rect width="390" height="104" fill="url(#ligaEntra)"></rect></mask>
-      </defs>
-      <path class="liga-tracejada" mask="url(#ligaM1)" d="M378 0 C378 30 348 38 348 58 C348 80 378 84 378 104"></path>
-      <path class="liga-cheia" mask="url(#ligaM2)" d="M378 0 C378 30 348 38 348 58 C348 80 378 84 378 104"></path>
-    </svg>
   </section>
 
   <!-- VOCÊ ESTÁ NESSA PARTE DA HISTÓRIA: a rolagem desce e a página anda para o lado (Design 3 · Mudança de rota) -->
-  <section class="vira-b" id="voce-esta">
+  <section class="vira-b {{ mapa.fimCls }}" id="voce-esta">
     <div class="stick">
       <div class="track" style="transform: translate3d(-{{ vb.x }}%, 0, 0);">
         <div class="pan">
@@ -1538,12 +1699,12 @@ class Component extends DCLogic {
     super(...args);
     this.state = {
       cur: -1, prog: 0, vira: 0, viraB: 0, kkkOn: false, amigoOn: false, respOn: false, resp: '',
-      step: { vivo: 0, legiao: 0, viagem: 0, intervalo: 0 },
-      all: { vivo: false, legiao: false, viagem: false, intervalo: false },
+      step: { vivo: 0, legiao: 0, viagem: 0, intervalo: 0, aulas: 0 },
+      all: { vivo: false, legiao: false, viagem: false, intervalo: false, aulas: false },
       tech: [false, false, false],
       disc: [false, false, false, false],
       trail: [false, false, false, false, false, false, false, false],
-      pilar: -1, roloVolta: 0, gav: [true, false, false], mostrar: { reuni: false, motivos: false }, mode: 'aula', glitch: 'g0', counts: {}, active: {}
+      pilar: -1, mapaFim: false, roloVolta: 0, gav: [true, false, false], mostrar: { reuni: false, motivos: false }, mode: 'aula', glitch: 'g0', counts: {}, active: {}
     };
   }
 
@@ -1638,8 +1799,36 @@ class Component extends DCLogic {
       const span = r.height - window.innerHeight;
       viraB = span > 0 ? Math.round(Math.min(1, Math.max(0, -r.top / span)) * 200) / 200 : 1;
     }
+    this.mapaDesliza();
     const s = this.state;
     if (cur !== s.cur || prog !== s.prog || vira !== s.vira || viraB !== s.viraB) this.setState({ cur: cur, prog: prog, vira: vira, viraB: viraB });
+  }
+
+  // o mapa chegou no 12? só então a linha roxa aparece
+  mapaFim(el) {
+    const fim = el.scrollLeft + el.clientWidth >= el.scrollWidth - 30;
+    if (fim !== this.state.mapaFim) this.setState({ mapaFim: fim });
+  }
+
+  // quando o mapa entra na tela, ele desliza sozinho do 01 até o 12 (uma vez só; se a pessoa tocar, para)
+  mapaDesliza() {
+    if (this._mapaFoi) return;
+    const el = document.getElementById('mapa-trilha');
+    if (!el) return;
+    const r = el.getBoundingClientRect();
+    if (r.top > window.innerHeight * 0.55 || r.bottom < 0) return;
+    this._mapaFoi = true;
+    const fim = el.scrollWidth - el.clientWidth;
+    if (this.reduce || this._mapaUser) { if (!this._mapaUser) el.scrollLeft = fim; this.mapaFim(el); return; }
+    const ini = el.scrollLeft, dur = 2600, t0 = performance.now();
+    const ease = (x) => (x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2);
+    const passo = (t) => {
+      if (this._mapaUser) return;
+      const k = Math.min(1, (t - t0) / dur);
+      el.scrollLeft = ini + (fim - ini) * ease(k);
+      if (k < 1) requestAnimationFrame(passo); else this.mapaFim(el);
+    };
+    requestAnimationFrame(passo);
   }
 
   go(id) {
@@ -1653,6 +1842,8 @@ class Component extends DCLogic {
     this._st = setTimeout(() => {
       const box = document.getElementById('story-' + key);
       if (!box) return;
+      const nav = box.querySelector('.passo-nav'), cur = box.querySelector('.pn.cur');
+      if (nav && cur) nav.scrollTo({ left: cur.offsetLeft - nav.clientWidth / 2 + cur.offsetWidth / 2, behavior: this.reduce ? 'auto' : 'smooth' });
       const top = box.getBoundingClientRect().top;
       if (top < 56) window.scrollBy({ top: top - 64, behavior: this.reduce ? 'auto' : 'smooth' });
     }, 30);
@@ -1704,7 +1895,7 @@ class Component extends DCLogic {
     const vals = {};
 
     const aqui = s.cur >= 0 ? ps[s.cur] : null;
-    vals.nav = { label: aqui ? (aqui.n ? 'Capítulo ' + aqui.n + ' · ' + aqui.rot : aqui.rot) : '@otiagoarantes', scale: s.prog.toFixed(3) };
+    vals.nav = { label: aqui ? (aqui.n ? 'Capítulo ' + aqui.n + ' · ' + aqui.rot : aqui.rot) : '@otiagoarantes', scale: s.prog.toFixed(3), color: aqui ? C[aqui.p][1] : '#eef4ff' };
     vals.kkk = {
       on: s.kkkOn,
       txt: s.kkkOn ? 'K'.repeat(66) + '...' : 'KKKKKKKK...',
@@ -1737,6 +1928,11 @@ class Component extends DCLogic {
       const o = {
         count: all ? n + '/' + n : (i + 1) + '/' + n,
         bars: Array.from({ length: n }, (_, k) => ({ cls: all || k <= i ? 'on' : '' })),
+        nums: Array.from({ length: n }, (_, k) => ({
+          n: k + 1, aria: 'Trecho ' + (k + 1) + ' de ' + n,
+          cls: (all || k <= i ? 'on' : '') + (!all && k === i ? ' cur' : ''),
+          go: () => { if (this.state.all[key]) this.setState({ all: Object.assign({}, this.state.all, { [key]: false }) }); this.stepTo(key, k); }
+        })),
         stepMode: !all, all: all, notAll: !all,
         atStart: i === 0, last: i === n - 1, notLast: i !== n - 1,
         prev: () => this.stepTo(key, Math.max(0, this.state.step[key] - 1)),
@@ -1761,6 +1957,7 @@ class Component extends DCLogic {
     vals.sl = story('legiao', 7);
     vals.sg = story('viagem', 6);
     vals.si = story('intervalo', 4);
+    vals.sa = story('aulas', 4);
 
     // Dito e feito: cresce e o laranja-chama se espalha ao entrar na tela
     const grow = cl((s.vira - 0.25) / 0.5);
@@ -1779,27 +1976,32 @@ class Component extends DCLogic {
       d1: risca(0.66, 0.90), a1: risca(0.88, 0.96)
     };
 
-    // linha do tempo gamificada: quadrados numerados ligados por curvas tracejadas
-    const X = (i) => 78 + i * 128, Y = (i) => (i % 2 ? 212 : 120);
+    // linha do tempo gamificada: quadrados mais juntos, zigue-zague mais alto
+    const X = (i) => 62 + i * 86, Y = (i) => (i % 2 ? 206 : 82);
     const last = ps.filter((p) => p.n).length - 1;
+    const MH = 290, MW = X(last) + 80;
     const mapa = {
-      w: X(last) + 150,
-      entrada: `M12 0 V${Y(0) - 44} Q12 ${Y(0)} ${X(0) - 30} ${Y(0)}`,
-      volta: `M${X(last)} ${Y(last) + 30} C${X(last)} ${Y(last) + 86} ${X(last) + 138} ${Y(last) + 42} ${X(last) + 138} ${Y(last) + 60} V260`,
+      w: MW, h: MH,
+      fimCls: s.mapaFim ? 'on' : '',
+      entrada: `M12 0 V${Y(0) - 30} Q12 ${Y(0)} ${X(0) - 21} ${Y(0)}`,
+      // a linha roxa só existe depois do 12: sai dele pela direita e desce pela margem
+      volta: `M${X(last) + 21} ${Y(last)} H${MW - 40} Q${MW - 12} ${Y(last)} ${MW - 12} ${Y(last) + 28} V${MH}`,
       pontos: ps.filter((p) => p.n).map((p, i) => ({
         x: X(i), y: Y(i), n: p.n, rot: p.rot, c: C[p.p][0], ink: C[p.p][1],
         cls: i === last ? 'now' : '',
-        lcls: i % 2 ? '' : 'cima', ly: i % 2 ? Y(i) + 38 : Y(i) - 38,
+        lcls: i % 2 ? '' : 'cima', ly: i % 2 ? Y(i) + 32 : Y(i) - 32,
         aria: 'Capítulo ' + p.n + ': ' + p.rot, ir: guard(p.id)
       }))
     };
     const nums = ps.filter((p) => p.n);
     nums.slice(1).forEach((p, k) => {
-      mapa['s' + k] = { d: `M${X(k)} ${Y(k)} C${X(k) + 64} ${Y(k)} ${X(k + 1) - 64} ${Y(k + 1)} ${X(k + 1)} ${Y(k + 1)}`, c: C[p.p][1] };
+      mapa['s' + k] = { d: `M${X(k)} ${Y(k)} C${X(k) + 46} ${Y(k)} ${X(k + 1) - 46} ${Y(k + 1)} ${X(k + 1)} ${Y(k + 1)}`, c: C[p.p][1] };
     });
     vals.mapa = mapa;
     vals.tri = {
+      scroll: (e) => this.mapaFim(e.currentTarget),
       down: (e) => {
+        this._mapaUser = true;
         if (e.pointerType === 'touch') return;
         this._td = { x: e.clientX, l: e.currentTarget.scrollLeft };
         this._dragMoved = false;
