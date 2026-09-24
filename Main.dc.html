@@ -1,0 +1,1924 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./vendor/react.js"></script>
+<script src="./vendor/react-dom.js"></script>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@400;500;600;700;800;900&amp;family=Fraunces:opsz,wght@9..144,500;9..144,600&amp;family=Silkscreen&amp;display=swap">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+    html { background: #090b18; -webkit-text-size-adjust: 100%; scrollbar-color: #2b3154 #090b18; }
+    body { margin: 0; background: #090b18; color: #eef4ff; font-family: "Libre Franklin", "Helvetica Neue", Arial, sans-serif; font-size: 17px; line-height: 1.6; -webkit-font-smoothing: antialiased; overflow-x: hidden;
+      background-image: linear-gradient(rgba(255,255,255,.025) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.025) 1px, transparent 1px); background-size: 34px 34px; }
+    h1, h2, h3, p, figure, blockquote, ul { margin: 0; }
+    ul { padding: 0; list-style: none; }
+    p { text-wrap: pretty; }
+    button { font: inherit; color: inherit; background: none; border: 0; padding: 0; cursor: pointer; text-align: inherit; }
+    a { color: #b8ff38; } a:hover { color: #eef4ff; }
+    [role="button"] { cursor: pointer; }
+    ::selection { background: #b8ff38; color: #090b18; }
+    :focus-visible { outline: 3px solid #eef4ff; outline-offset: 3px; }
+    button[disabled] { opacity: .35; cursor: default; }
+    ::-webkit-scrollbar { width: 8px; height: 8px; } ::-webkit-scrollbar-track { background: #090b18; } ::-webkit-scrollbar-thumb { background: #2b3154; }
+
+    /* 4 pilares: --c preenche e contorna, --ink é o texto sobre o fundo escuro */
+    .p-tec { --c: #b8ff38; --rgb: 184, 255, 56; --ink: #b8ff38; }
+    .p-esp { --c: #e2572a; --rgb: 255, 128, 73; --ink: #ff8049; }
+    .p-edu { --c: #a56cff; --rgb: 165, 108, 255; --ink: #a56cff; }
+    .p-emp { --c: #31a7ff; --rgb: 49, 167, 255; --ink: #31a7ff; }
+    .p-neu { --c: #eef4ff; --rgb: 238, 244, 255; --ink: #eef4ff; }
+
+    /* tipografia do Design 1 (Layout Canva) */
+    .d { font-weight: 800; letter-spacing: -0.04em; line-height: 0.98; text-wrap: balance; }
+    .e { font-family: "Fraunces", Georgia, "Times New Roman", serif; font-weight: 500; letter-spacing: -0.035em; line-height: 1.14; text-wrap: balance; }
+    .mk { font-size: 12px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; line-height: 1.3; }
+    .tab { font-variant-numeric: tabular-nums; }
+    .ic { fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+
+    .page { width: 100%; max-width: 480px; margin: 0 auto; overflow: clip; }
+    .sec { position: relative; padding: 104px 24px 0; scroll-margin-top: 50px; }
+    .sec.last { padding-bottom: 104px; }
+    /* linha de rota na lateral da página inteira, na cor do capítulo (a linha do Dito e feito do Mudança de rota) */
+    main .sec::before { content: ""; position: absolute; left: 11px; top: 0; bottom: 0; width: 2.5px; background: var(--ink); opacity: .8; pointer-events: none; }
+    main .sec.faith::before, main .sec.dark-edu::before, main .sec.conn::before { top: -104px; }
+    main .sec:first-child::before { top: 96px; }
+    main .sec:first-child::after { content: ""; position: absolute; left: 5px; top: 82px; width: 15px; height: 15px; border-radius: 50%; border: 2.5px solid var(--ink); background: #090b18; }
+    /* residência: mosaico de fotos e vídeo, diferente dos carrosséis */
+    .bento { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; margin-top: 28px; }
+    .bento .ph { height: auto; border: 1px solid #2b3154; }
+    .b-wide { grid-column: 1 / -1; }
+    .b-wide .ph { aspect-ratio: 16 / 10; }
+    .b-tall { grid-row: span 2; }
+    .b-tall .slot { height: 100%; aspect-ratio: auto; }
+    .b-sq .ph { aspect-ratio: 4 / 5; }
+    .label { display: flex; align-items: flex-end; gap: 14px; color: var(--ink); }
+    .label > span:first-child { flex: none; max-width: 78%; }
+    /* seta de rota do Design 3 (Mudança de rota) na frente do rótulo */
+    .seta { position: relative; flex-grow: 1; min-width: 36px; height: 12px; margin-bottom: 6px; border-left: 2px solid var(--ink); border-bottom: 2px solid var(--ink); border-bottom-left-radius: 12px; }
+    .seta i { position: absolute; right: 1px; bottom: -6px; width: 10px; height: 10px; border-top: 2px solid var(--ink); border-right: 2px solid var(--ink); transform: rotate(45deg); }
+    .h2 { margin-top: 20px; color: #eef4ff; font-size: 44px; }
+    .h2.m { font-size: 36px; line-height: 1.02; }
+    .h2.l { font-size: 30px; line-height: 1.04; }
+    .txt { margin-top: 18px; color: #a6b0d1; font-size: 17px; line-height: 1.6; }
+    .txt strong { color: #eef4ff; font-weight: 700; }
+    .say { margin-top: 32px; color: var(--ink); font-size: 30px; }
+    .say.w { color: #eef4ff; }
+    .say.s { font-size: 24px; line-height: 1.2; }
+    .lead { margin-top: 18px; color: #eef4ff; font-size: 20px; font-weight: 700; line-height: 1.34; letter-spacing: -.01em; text-wrap: pretty; }
+    .note { margin-top: 10px; color: #a6b0d1; font-size: 15px; line-height: 1.55; }
+    .sub-h { padding-top: 20px; border-top: 2px solid var(--ink); color: #eef4ff; font-size: 30px; line-height: 1.04; }
+    .bar { width: 52px; height: 3px; margin: 40px 0; background: var(--ink); box-shadow: 0 0 16px rgba(var(--rgb), .6); }
+    .mark { background: var(--c); color: #090b18; padding: 0 5px; }
+    .tag { background: rgba(var(--rgb), .16); color: var(--ink); padding: 0 5px; -webkit-box-decoration-break: clone; box-decoration-break: clone; }
+    .sub { margin-top: 88px; scroll-margin-top: 60px; }
+    .quote { margin-top: 36px; padding: 24px 20px 22px; border: 1px solid rgba(var(--rgb), .55); background: rgba(var(--rgb), .07); }
+    .quote p { color: var(--ink); font-size: 26px; }
+    .faith { background: #120c12; padding-bottom: 104px; }
+    .dark-edu { background: #0f0d22; padding-bottom: 104px; margin-top: 104px; }
+    .conn { background: #0d1124; padding-bottom: 104px; margin-top: 104px; }
+
+    /* barra fixa */
+    .nav { position: sticky; top: 0; z-index: 40; background: rgba(9, 11, 24, .94); border-bottom: 1px solid #1d2240; }
+    .nav-in { max-width: 480px; margin: 0 auto; height: 50px; padding: 0 24px; display: flex; align-items: center; gap: 12px; }
+    .nav-av { width: 28px; height: 28px; padding: 2px; border-radius: 50%; background: conic-gradient(#b8ff38, #31a7ff, #a56cff, #ff8049, #b8ff38); flex: none; }
+    .nav-av span { display: block; width: 100%; height: 100%; border-radius: 50%; background: #11152a; border: 2px solid #090b18; }
+    .nav-now { flex: 1; min-width: 0; color: #eef4ff; opacity: .85; font-size: 12px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .nav-bar { position: relative; height: 3px; background: #161a33; }
+    .nav-bar i { position: absolute; inset: 0; background: #eef4ff; transform-origin: left center; transition: transform .2s linear; }
+
+    /* abertura */
+    .hero { position: relative; padding: 36px 24px 24px; }
+    .hero-top { display: flex; align-items: center; gap: 22px; }
+    .orbit { position: relative; width: 148px; height: 148px; padding: 7px; border-radius: 50%; background: conic-gradient(#b8ff38, #31a7ff, #a56cff, #e2572a, #b8ff38); flex: none; }
+    .orbit .ph { border-radius: 50%; border: 5px solid #090b18; }
+    .handle { color: #b8ff38; font-size: 16px; font-weight: 800; }
+    .strike { margin-top: 8px; color: #a6b0d1; font-size: 15px; line-height: 1.4; text-decoration: line-through; text-decoration-color: #e2572a; text-decoration-thickness: 2px; }
+    .h1 { margin-top: 28px; color: #eef4ff; font-size: 46px; font-weight: 900; line-height: .98; letter-spacing: -.04em; }
+    .h1 .hi { color: #b8ff38; text-shadow: 0 0 22px rgba(184,255,56,.34); }
+    .bubbles { display: flex; flex-direction: column; align-items: flex-start; gap: 10px; margin-top: 26px; }
+    .bubble { max-width: 94%; padding: 13px 15px; background: #11152a; border: 1px solid #2b3154; border-radius: 4px 18px 18px 18px; color: #d5dcf3; font-size: 16px; line-height: 1.5; animation: pop .6s cubic-bezier(.16,1,.3,1) both; }
+    .bubble:nth-child(2) { animation-delay: .25s; } .bubble:nth-child(3) { animation-delay: .5s; }
+    @keyframes pop { from { opacity: .3; transform: translateY(10px); } }
+    .pillars { margin-top: 32px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+    .pillar { display: flex; align-items: center; gap: 10px; padding: 14px 12px; border: 1px solid rgba(var(--rgb), .55); color: var(--ink); font-size: 11px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; }
+    .pillar svg { width: 20px; height: 20px; flex: none; }
+    .btn-go { margin-top: 34px; display: inline-flex; align-items: center; gap: 12px; padding: 17px 20px 16px; background: #b8ff38; color: #090b18; font-weight: 800; font-size: 15px; letter-spacing: .05em; text-transform: uppercase; box-shadow: 5px 5px 0 #a56cff; transition: transform .15s cubic-bezier(.16,1,.3,1), box-shadow .15s cubic-bezier(.16,1,.3,1); }
+    .btn-go:hover { transform: translate(2px, 2px); box-shadow: 3px 3px 0 #a56cff; }
+    .btn-go:active { transform: translate(5px, 5px); box-shadow: 0 0 0 #a56cff; }
+    .btn-go svg { width: 18px; height: 18px; }
+
+    /* fotos */
+    .ph { display: block; width: 100%; height: 100%; object-fit: cover; background: #11152a; }
+    .fig { margin-top: 30px; position: relative; }
+    .fig .ph { height: auto; aspect-ratio: 4 / 3; border: 1px solid #2b3154; }
+    .fig .ph.tall { aspect-ratio: 4 / 5; }
+    .figcap { margin-top: 12px; color: #a6b0d1; font-size: 15px; line-height: 1.5; }
+    .year { display: inline-block; margin-right: 8px; padding: 3px 7px; background: var(--c); color: #090b18; font-size: 12px; font-weight: 800; letter-spacing: .04em; line-height: 1.3; vertical-align: 1px; }
+    .p-esp .year, .year.w { color: #ffffff; }
+    .over { position: absolute; left: 12px; bottom: 12px; margin: 0; }
+    .photos2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; margin-top: 28px; }
+    .photos2 .ph { height: auto; aspect-ratio: 3 / 4; border: 1px solid #2b3154; }
+    .slot { aspect-ratio: 9 / 16; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; padding: 14px; text-align: center; border: 1px solid #2b3154; background: #11152a; color: #a6b0d1; font-size: 13px; }
+    .slot svg { width: 26px; height: 26px; color: var(--ink); }
+
+    /* galerias: legenda embaixo, tracinhos */
+    .gal { display: flex; gap: 14px; overflow-x: auto; scroll-snap-type: x mandatory; scroll-padding: 0 24px; margin: 28px -24px 0; padding: 4px 24px 14px; scrollbar-width: none; overscroll-behavior-x: contain; }
+    .gal::-webkit-scrollbar { display: none; }
+    .card { position: relative; flex: 0 0 84%; aspect-ratio: 4 / 5; scroll-snap-align: start; border: 1px solid #2b3154; background: #11152a; overflow: hidden; }
+    .card-ph { position: absolute; inset: 0; }
+    .card-cap { position: absolute; left: 0; right: 0; bottom: 0; display: flex; flex-direction: column; gap: 10px; padding: 64px 18px 18px; background: linear-gradient(rgba(9,11,24,0), rgba(9,11,24,.96) 46%); }
+    .card-n { color: var(--ink); font-size: 11px; font-weight: 800; letter-spacing: .08em; }
+    .card-t { color: #eef4ff; font-size: 15px; font-weight: 700; line-height: 1.4; }
+    .dots { display: flex; align-items: center; gap: 12px; }
+    .dots-list { display: flex; flex-wrap: wrap; gap: 2px; flex: 1; }
+    .dots-list button { width: 34px; height: 24px; background: linear-gradient(#2b3154, #2b3154) center / 26px 3px no-repeat; transition: background .2s; }
+    .dots-list button.on { background: linear-gradient(var(--ink), var(--ink)) center / 26px 3px no-repeat; }
+    .gcount { font-size: 12px; font-weight: 700; color: var(--ink); }
+
+    /* caixa de história */
+    .story { margin-top: 30px; border: 1px solid var(--ink); background: #0c0f22; scroll-margin-top: 60px; touch-action: pan-y; user-select: none; -webkit-user-select: none; }
+    .story-top { display: flex; gap: 4px; padding: 12px 14px 0; }
+    .story-top i { flex: 1; height: 3px; background: #2b3154; transition: background-color .25s; }
+    .story-top i.on { background: var(--ink); }
+    .story-body { display: flex; flex-direction: column; gap: 16px; padding: 20px 18px 6px; min-height: 220px; }
+    .story-body p { font-size: 17px; line-height: 1.72; color: #dfe6fb; }
+    .story-body p.e { font-size: 24px; line-height: 1.2; color: var(--ink); }
+    .step { display: flex; flex-direction: column; gap: 14px; animation: slide .45s cubic-bezier(.16,1,.3,1); }
+    @keyframes slide { from { opacity: .2; transform: translateX(14px); } }
+    .story-ft { display: flex; align-items: center; gap: 8px; margin-top: 14px; padding: 10px 10px 10px 16px; border-top: 1px solid #1d2240; }
+    .story-count { flex: 1; font-size: 13px; font-weight: 700; color: var(--ink); }
+    .story-nav { display: flex; gap: 8px; }
+    .sbtn { width: 46px; height: 46px; display: flex; align-items: center; justify-content: center; border: 1px solid #2b3154; color: #eef4ff; transition: border-color .2s, transform .15s; }
+    .sbtn:hover:not([disabled]) { border-color: var(--ink); }
+    .sbtn.main { width: 64px; background: var(--c); border-color: var(--c); color: #090b18; }
+    .p-esp .sbtn.main { color: #ffffff; }
+    .sbtn.main:active { transform: scale(.96); }
+    .sbtn svg { width: 20px; height: 20px; }
+
+    /* Dito e feito (Design 2, menor, sem quadriculado) */
+    /* Dito e feito (meio da página): bloco centralizado que aparece crescendo, laranja se espalhando */
+    .vira { position: relative; overflow: hidden; display: grid; place-items: center; min-height: 220px; margin: 64px -24px 0; }
+    .vira-fill { position: absolute; inset: 0; background: #c4460f; }
+    .vira-t { position: relative; font-size: 60px; text-align: center; transform-origin: center; will-change: transform; transition: color .25s; }
+
+    /* Você está nessa parte da história: a rolagem desce e a página anda para o lado (Design 3 · Mudança de rota) */
+    .vira-b { position: relative; height: 320vh; }
+    .vira-b .stick { position: sticky; top: 0; height: 100vh; overflow: hidden; }
+    .vira-b .track { display: flex; width: 300%; height: 100%; will-change: transform; }
+    .vira-b .pan { position: relative; flex: 0 0 33.3333%; height: 100%; display: grid; place-items: center; padding: 0 24px; }
+    .vira-b .route { position: absolute; inset: 0; width: 100%; height: 100%; }
+    .vira-b .route path { fill: none; stroke: #a56cff; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
+    .vira-b .t { position: relative; padding: 14px 0; background: #090b18; color: #a56cff; font-size: clamp(44px, 13vw, 62px); line-height: .95; text-align: center; }
+    .vira-b .s { position: relative; padding: 14px 0; background: #090b18; color: #eef4ff; font-size: 40px; line-height: 1.08; text-align: center; }
+    .vira-b .s em { font-style: normal; color: #a56cff; }
+    .vira-b .rail { position: absolute; left: 24px; right: 24px; bottom: 44px; height: 3px; background: #2b3154; }
+    .vira-b .rail i { position: absolute; right: 0; top: 0; bottom: 0; background: #a56cff; }
+    .vira-b .rail b { position: absolute; top: -5px; width: 13px; height: 13px; margin-right: -6px; border-radius: 50%; background: #a56cff; }
+    @media (prefers-reduced-motion: reduce) {
+      .vira-b { height: auto; }
+      .vira-b .stick { position: relative; height: auto; }
+      .vira-b .track { flex-direction: column; width: 100%; transform: none !important; }
+      .vira-b .pan { flex: none; height: auto; padding: 48px 24px; }
+      .vira-b .pan:first-child, .vira-b .route, .vira-b .rail { display: none; }
+    }
+
+    /* mensagens */
+    .msgs { display: flex; flex-direction: column; gap: 8px; margin-top: 24px; }
+    .msg { display: flex; gap: 8px; align-items: flex-end; animation: pop .6s cubic-bezier(.16,1,.3,1) both; }
+    .msg:nth-child(2) { animation-delay: .2s; } .msg:nth-child(3) { animation-delay: .4s; }
+    .msg-av { width: 28px; height: 28px; flex: none; border-radius: 50%; background: #1d2240; display: grid; place-items: center; color: #a6b0d1; }
+    .msg-av svg { width: 15px; height: 15px; }
+    .msg-b { max-width: 82%; padding: 8px 12px 9px; background: #1a2040; border-radius: 16px 16px 16px 4px; color: #eef4ff; font-size: 16px; line-height: 1.45; }
+    .msg-b b { display: block; margin-bottom: 1px; color: var(--ink); font-size: 12px; font-weight: 800; letter-spacing: .02em; }
+    .msg.eu { justify-content: flex-end; }
+    .msg.eu .msg-b { background: var(--c); color: #090b18; border-radius: 16px 16px 4px 16px; }
+    .msg.eu .msg-b b { color: inherit; opacity: .75; }
+    .p-esp .msg.eu .msg-b { color: #ffffff; }
+    .nar { margin-top: 18px; color: #a6b0d1; font-size: 16px; font-style: italic; }
+
+    /* mudança, de novo */
+    .meters { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; margin-top: 22px; }
+    .meter { padding: 14px 14px 16px; border: 1px solid #2b3154; background: #0c0f22; }
+    .meter-l { display: flex; justify-content: space-between; align-items: center; color: #eef4ff; font-size: 12px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; }
+    .meter-l svg { width: 20px; height: 20px; color: var(--ink); }
+    .meter-track { position: relative; margin-top: 14px; height: 12px; background: #161a33; overflow: hidden; }
+    .meter-fill { position: absolute; left: 0; top: 0; bottom: 0; width: 7%; background: #ff4d6d; animation: blink 1.6s steps(2, jump-none) infinite; }
+    @keyframes blink { 50% { opacity: .45; } }
+    @supports (animation-timeline: view()) {
+      .meter-fill { animation: drain linear both, blink 1.6s steps(2, jump-none) infinite; animation-timeline: view(), auto; animation-range: entry 20% cover 50%, normal; }
+    }
+    @keyframes drain { from { width: 70%; background: var(--c); } to { width: 7%; background: #ff4d6d; } }
+    .cal { width: 116px; margin: 30px auto 0; background: #eef4ff; color: #10152b; text-align: center; box-shadow: 0 14px 30px rgba(0,0,0,.45); transform: rotate(-3deg); }
+    .cal-top { padding: 7px 0 6px; background: var(--c); color: #090b18; font-size: 12px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; }
+    .cal-day { font-size: 60px; font-weight: 800; line-height: 1; letter-spacing: -.04em; padding: 8px 0 12px; }
+    .compare { margin-top: 28px; display: flex; flex-direction: column; gap: 14px; }
+    .cmp-row { display: grid; grid-template-columns: 92px minmax(0, 1fr); gap: 12px; align-items: center; }
+    .cmp-l { color: #eef4ff; font-size: 12px; font-weight: 800; line-height: 1.25; letter-spacing: .06em; text-transform: uppercase; }
+    .cmp-l b { display: block; color: var(--ink); font-size: 28px; letter-spacing: -.03em; }
+    .cmp-l small { display: block; margin-top: 2px; color: #a6b0d1; font-size: 11px; font-weight: 600; letter-spacing: 0; text-transform: none; }
+    .cmp-blocks { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 4px; }
+    .cmp-blocks i { height: 30px; background: var(--c); }
+    .cmp-blocks i.off { background: transparent; border: 1px dashed #2b3154; }
+    .cmp-row.muted .cmp-blocks i { background: #3a4270; }
+    .cmp-row.muted .cmp-l b { color: #a6b0d1; }
+
+    /* avião e bifurcação */
+    .flight { position: relative; width: 320px; max-width: 100%; height: 96px; margin: 22px auto 0; }
+    .flight svg.path { width: 100%; height: 100%; }
+    .plane { position: absolute; top: 0; left: 0; width: 30px; height: 30px; color: #b8ff38; offset-path: path("M16 80 C 110 -10, 210 120, 304 22"); offset-rotate: auto 90deg; offset-distance: 70%; }
+    @supports (animation-timeline: view()) { .plane { animation: fly linear both; animation-timeline: view(); animation-range: entry 30% cover 60%; } }
+    @keyframes fly { from { offset-distance: 0%; } to { offset-distance: 100%; } }
+    .fork { width: 100%; max-width: 340px; height: 120px; margin-top: 26px; }
+    .fork .go { stroke-dasharray: 10 8; animation: march 1.2s linear infinite; }
+    @keyframes march { to { stroke-dashoffset: -36; } }
+
+    /* linha de rota que dobra */
+    .curva { display: block; width: 100%; height: 130px; margin-top: 30px; overflow: visible; }
+    .curva path { fill: none; stroke: var(--ink); stroke-width: 3; stroke-linecap: round; }
+    @supports (animation-timeline: view()) {
+      .curva path { stroke-dasharray: 1; stroke-dashoffset: 0; animation: draw linear both; animation-timeline: view(); animation-range: entry 10% cover 45%; }
+    }
+    @keyframes draw { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
+
+    /* Floripa */
+    .why { display: grid; grid-template-columns: minmax(0, 1fr); gap: 10px; margin-top: 18px; }
+    .why-card { display: grid; grid-template-columns: 40px minmax(0, 1fr); align-items: start; gap: 14px; padding: 16px 16px 18px 14px; border: 1px solid rgba(var(--rgb), .45); background: #0c0f22; }
+    .why-ic { width: 40px; height: 40px; display: grid; place-items: center; background: var(--c); color: #090b18; }
+    .why-ic svg { width: 22px; height: 22px; }
+    .why-t { color: #dfe6fb; font-size: 15px; font-weight: 600; line-height: 1.45; }
+
+    /* blocos interativos */
+    .tiles { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; margin-top: 28px; }
+    .tile { height: 112px; display: flex; flex-direction: column; justify-content: space-between; align-items: flex-start; padding: 14px 12px; border: 1px solid; font-size: 14px; font-weight: 800; transition: background-color .2s, color .2s, transform .15s; }
+    .tile:active { transform: scale(.97); }
+    .tile svg { width: 24px; height: 24px; }
+    .burst { animation: burst .6s cubic-bezier(.16,1,.3,1); }
+    @keyframes burst { 40% { transform: scale(1.03); } }
+    .streak { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 4px; margin-top: 30px; }
+    .streak i { height: 6px; transition: background-color .25s; }
+    .disc { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; margin-top: 10px; }
+    .disc button { min-height: 92px; display: flex; align-items: flex-end; padding: 16px 14px; border: 1px solid; font-size: 15px; font-weight: 700; line-height: 1.3; transition: background-color .2s, color .2s, transform .15s; }
+    .disc button:active { transform: scale(.97); }
+    .glitch { display: inline; }
+    .glitch.g1 { animation: glitchA .45s steps(3) 2; } .glitch.g2 { animation: glitchB .45s steps(3) 2; }
+    @keyframes glitchA { 0% { text-shadow: 3px 0 #e2572a, -3px 0 #31a7ff; } 50% { text-shadow: -3px 0 #b8ff38, 3px 0 #a56cff; } 100% { text-shadow: none; } }
+    @keyframes glitchB { 0% { text-shadow: -3px 0 #a56cff, 3px 0 #b8ff38; } 50% { text-shadow: 3px 0 #31a7ff, -3px 0 #e2572a; } 100% { text-shadow: none; } }
+    .chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 24px; }
+    .chip { padding: 7px 10px; border: 1px solid rgba(var(--rgb), .55); color: var(--ink); font-size: 13px; transition: background-color .2s, color .2s; }
+    .motto { margin-top: 24px; font-size: 36px; transition: color .4s, text-shadow .4s; }
+    .proj-nav { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 24px; }
+    .proj { margin-top: 64px; scroll-margin-top: 60px; }
+    .pending { margin-top: 20px; padding: 24px 20px; border: 1px dashed rgba(var(--rgb), .7); color: #a6b0d1; font-size: 15px; line-height: 1.5; }
+    .vs { display: grid; grid-template-columns: minmax(0, 1fr); gap: 1px; margin-top: 36px; background: #2b3154; border: 1px solid #2b3154; }
+    .vs-card { display: block; width: 100%; padding: 22px 24px; transition: background-color .2s; }
+    .vs-card h3 { font-size: 22px; font-weight: 700; }
+    .vs-card p { margin-top: 8px; color: #a6b0d1; font-size: 16px; line-height: 1.55; }
+    .videos { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; margin-top: 24px; }
+
+    /* mapa horizontal (Design 4 deitado) */
+    .mapa-sec { position: relative; padding: 104px 0 0; }
+    .mapa-sec::before { content: ""; position: absolute; left: 11px; top: 0; height: 104px; width: 2.5px; background: rgba(238,244,255,.45); }
+    .mapa { overflow-x: auto; scrollbar-width: none; overscroll-behavior-x: contain; touch-action: pan-x pan-y; cursor: grab; }
+    .mapa::-webkit-scrollbar { display: none; }
+    .mapa-in { position: relative; height: 320px; }
+    .mapa-in svg { position: absolute; left: 0; top: 0; overflow: visible; }
+    .mapa-in path { fill: none; stroke-width: 4; stroke-linecap: round; }
+    .mapa-in path.volta { stroke: rgba(238,244,255,.45); stroke-width: 3; }
+    .no { position: absolute; width: 44px; height: 44px; margin: -22px 0 0 -22px; display: grid; place-items: center; border: 3px solid var(--c); background: var(--c); color: #090b18; font-size: 14px; font-weight: 800; transition: transform .15s; }
+    .no.esp { color: #ffffff; }
+    .no.now { background: #090b18; color: var(--ink); }
+    .no:hover { transform: translate(-2px, -2px); }
+    .no-rot { position: absolute; width: 116px; margin-left: -58px; text-align: center; color: var(--ink); font-size: 12px; font-weight: 700; line-height: 1.25; pointer-events: none; }
+    .no-rot.cima { transform: translateY(-100%); }
+
+    /* você está aqui + convites */
+    /* a linha que sai do mapa desce pela margem e liga cada convite */
+    .part { position: relative; padding: 40px 24px 8px 44px; scroll-margin-top: 50px; }
+    .part::before { content: ""; position: absolute; left: 11px; top: 0; bottom: 48px; width: 2.5px; background: rgba(238,244,255,.45); }
+    .here { position: relative; }
+    .here-dot { position: absolute; left: -44px; top: 4px; width: 24px; height: 24px; border-radius: 50%; border: 2px solid #eef4ff; background: #090b18; }
+    .here .d { font-size: 30px; line-height: 1.06; }
+    .ctas { margin-top: 32px; display: flex; flex-direction: column; gap: 20px; }
+    .cta { display: flex; flex-direction: column; gap: 8px; }
+    .part .cta { position: relative; }
+    .part .cta::before { content: ""; position: absolute; left: -32px; top: 26px; width: 28px; height: 2.5px; background: rgba(238,244,255,.45); }
+    .btn { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 17px 20px 16px; background: var(--bg); color: #090b18; font-size: 15px; font-weight: 800; line-height: 1.25; letter-spacing: .05em; text-transform: uppercase; box-shadow: 5px 5px 0 var(--sh); transition: transform .15s cubic-bezier(.16,1,.3,1), box-shadow .15s cubic-bezier(.16,1,.3,1); }
+    .btn:hover { transform: translate(2px, 2px); box-shadow: 3px 3px 0 var(--sh); }
+    .btn:active { transform: translate(5px, 5px); box-shadow: 0 0 0 var(--sh); }
+    .btn svg { width: 18px; height: 18px; flex: none; }
+    .todo { align-self: flex-start; padding: 2px 8px; border: 1px dashed #6f7a9e; color: #8f9ac0; font-size: 11px; letter-spacing: .02em; }
+
+    /* fechamento */
+    .final { padding: 96px 24px 40px; margin-top: 96px; border-top: 1px solid #2b3154; }
+    .insta { margin-top: 28px; display: inline-flex; align-items: center; gap: 8px; min-height: 44px; color: #eef4ff; font-size: 15px; font-weight: 700; text-decoration: underline; text-decoration-color: #a56cff; text-underline-offset: 5px; text-decoration-thickness: 2px; }
+    .future { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 40px; }
+    .future span { padding: 7px 10px; border: 1px solid #2b3154; color: #a6b0d1; font-size: 13px; }
+    .foot { margin-top: 56px; padding-top: 18px; border-top: 1px solid #2b3154; color: #7883a5; font-size: 13px; }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation: none !important; transition: none !important; }
+      .plane { offset-distance: 70% !important; }
+      .meter-fill { width: 7% !important; }
+    }
+
+
+    /* ===== linha do tempo gamificada (pixel) ===== */
+    .px { font-family: "Silkscreen", "Courier New", monospace; font-weight: 400; letter-spacing: .02em; text-transform: uppercase; }
+    .mapa-in { height: 340px; }
+    .mapa-in path { stroke-width: 3; stroke-dasharray: 8 8; stroke-linecap: butt; }
+    .mapa-in path.volta { stroke: rgba(238,244,255,.4); }
+    .no { width: 52px; height: 52px; margin: -26px 0 0 -26px; display: grid; place-items: center; border: 3px solid var(--c); background: #090b18; color: var(--ink); font-size: 15px; box-shadow: 0 0 16px -4px var(--c); }
+    .no.now { background: rgba(238,244,255,.05); }
+    .no:hover { transform: translate(-2px, -2px); }
+    .no-rot { width: 152px; margin-left: -76px; font-size: 11px; line-height: 1.45; }
+    /* caixinhas das áreas, abaixo dos convites */
+    .areas { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 36px; }
+    .area { padding: 9px 11px 7px; border: 2px solid var(--c); color: var(--ink); font-size: 11px; line-height: 1; box-shadow: 0 0 14px -6px var(--c); }
+
+    /* citação de livro */
+    .livro { position: relative; margin-top: 28px; padding: 22px 20px 18px 26px; border: 1px solid rgba(var(--rgb), .45); background: #0c0f22; }
+    .livro::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 7px; background: var(--c); }
+    .livro-q { color: #eef4ff; font-size: 24px; line-height: 1.26; }
+    .livro-f { margin-top: 12px; color: #a6b0d1; font-size: 14px; }
+    .livro-f em { color: var(--ink); font-style: italic; font-weight: 700; }
+    /* linha de raciocínio: cada passo acende quando entra na tela */
+    .passos { margin-top: 28px; display: flex; flex-direction: column; gap: 20px; padding: 0; list-style: none; }
+    .passo { position: relative; display: grid; grid-template-columns: 34px minmax(0, 1fr); gap: 14px; align-items: start; }
+    .passo::before { content: ""; position: absolute; left: 16px; top: 38px; bottom: -24px; width: 2px; background: rgba(var(--rgb), .3); }
+    .passo:last-child::before { display: none; }
+    .passo-n { width: 34px; height: 34px; display: grid; place-items: center; border: 2px solid var(--c); color: var(--ink); font-size: 12px; }
+    .passo p { color: #dfe6fb; font-size: 17px; line-height: 1.62; }
+    .passo p b { color: #eef4ff; }
+    @supports (animation-timeline: view()) {
+      .passo { opacity: .38; animation: acende linear both; animation-timeline: view(); animation-range: entry 10% cover 32%; }
+    }
+    @keyframes acende { to { opacity: 1; } }
+    /* NSDR: descanso profundo sem sono, no capítulo da disciplina */
+    .nsdr { display: flex; flex-direction: column; align-items: center; gap: 12px; margin-top: 44px; padding: 34px 20px 28px; border: 1px solid #1d2240; background: radial-gradient(120% 90% at 50% 0%, rgba(49,167,255,.10), transparent 70%), #0b0e1f; }
+    .nsdr-k { color: #7883a5; font-size: 12px; font-weight: 700; letter-spacing: .18em; }
+    .resp-btn { display: flex; flex-direction: column; align-items: center; gap: 18px; padding: 10px 18px 4px; }
+    .resp-circulo { position: relative; width: 132px; height: 132px; border-radius: 50%; border: 1px solid rgba(49,167,255,.45); background: radial-gradient(circle, rgba(49,167,255,.18), transparent 72%); transform: scale(.82); transition: transform 1.2s ease; }
+    .resp-circulo i { position: absolute; inset: 24px; border-radius: 50%; background: radial-gradient(circle, rgba(238,244,255,.13), transparent 72%); }
+    .resp-circulo.on { animation: respirar 16s cubic-bezier(.37, 0, .63, 1) infinite; }
+    @keyframes respirar { 0%, 100% { transform: scale(.82); } 25%, 50% { transform: scale(1.12); } 75% { transform: scale(.82); } }
+    .resp-txt { color: #a6b0d1; font-size: 13px; letter-spacing: .14em; }
+    @media (prefers-reduced-motion: reduce) {
+      .passo { opacity: 1 !important; }
+      .resp-circulo.on { animation: none; }
+    }
+
+    /* risada que abre, chama e texto revelado */
+    .pilantra { margin-top: 16px; color: var(--ink); font-size: 22px; font-weight: 800; letter-spacing: -.01em; }
+    .kkk { color: #8f9ac0; font-size: 15px; font-weight: 700; word-break: break-all; }
+    .kkk:hover { color: var(--ink); }
+    .fogueira { display: grid; grid-template-columns: 44px minmax(0, 1fr); gap: 16px; align-items: center; margin-top: 30px; padding: 22px 18px; border: 1px solid rgba(var(--rgb), .4); background: radial-gradient(90% 130% at 10% 100%, rgba(226,87,42,.20), transparent 70%), #0c0f22; }
+    .fogueira p { color: #eef4ff; font-size: 22px; line-height: 1.26; }
+    .chama { width: 44px; height: 56px; }
+    .chama path { transform-origin: 50% 92%; }
+    .chama .fogo { fill: #c4460f; animation: tremer 2.6s ease-in-out infinite; }
+    .chama .fogo-in { fill: #ffb26b; animation: tremer 1.7s ease-in-out infinite reverse; }
+    @keyframes tremer { 0%, 100% { transform: scale(1, 1); } 50% { transform: scale(.93, 1.09); } }
+    .palavra { color: var(--ink); font-weight: 700; border-bottom: 1px dashed currentColor; }
+    .revelado { margin-top: 14px; padding: 16px 18px; background: rgba(var(--rgb), .10); color: #dfe6fb; font-size: 16px; line-height: 1.6; animation: abrir .45s cubic-bezier(.16, 1, .3, 1); }
+    @keyframes abrir { from { opacity: 0; transform: translateY(-6px); } }
+    /* a linha do final passa a descer pela direita, rumo aos convites */
+    .part { padding: 40px 44px 8px 24px; }
+    .part::before { left: auto; right: 11px; }
+    .here-dot { left: auto; right: -44px; }
+    .part .cta::before { left: auto; right: -32px; }
+
+    /* caixa de texto solta */
+    .caixa { margin-top: 16px; padding: 16px 18px; border: 1px solid #2b3154; background: #0c0f22; color: #a6b0d1; font-size: 15px; line-height: 1.55; }
+    /* treinos: cada palavra com a sua foto */
+    .treinos { display: flex; flex-direction: column; gap: 30px; margin-top: 30px; }
+    .treino-k { color: var(--ink); font-size: 12px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; }
+    .treino > .ph { margin-top: 12px; height: auto; aspect-ratio: 4 / 3; border: 1px solid #2b3154; }
+    .treino .gal { margin-top: 12px; }
+    .treino .card { flex: 0 0 74%; aspect-ratio: 3 / 4; }
+    .treino .figcap { margin-top: 12px; }
+    /* a palavra que abre, com setinha */
+    .palavra { display: inline-flex; align-items: baseline; gap: 6px; color: var(--ink); font-weight: 700; border-bottom: 1px dashed currentColor; }
+    .palavra svg { width: 12px; height: 12px; transition: transform .25s; }
+    .palavra[aria-expanded="true"] svg { transform: rotate(180deg); }
+    /* a linha do final volta a descer pela esquerda */
+    .part { padding: 40px 24px 8px 44px; }
+    .part::before { left: 11px; right: auto; }
+    .here-dot { left: -44px; right: auto; }
+    .part .cta::before { left: -32px; right: auto; }
+    .cal-top { position: relative; }
+    .cal-top::before, .cal-top::after { content: ""; position: absolute; top: -8px; width: 10px; height: 18px; border-radius: 5px; background: #2b3154; }
+    .cal-top::before { left: 30px; }
+    .cal-top::after { right: 30px; }
+    /* --- lapidação: cor garantida mesmo fora do contexto da seção --- */
+    .cal-top { background: var(--c, #31a7ff); }
+    .cmp-blocks i { background: var(--c, #31a7ff); }
+    .cmp-blocks i.off { background: transparent; border: 1px dashed #2b3154; }
+
+    /* treinos: quatro quadros, dois em cima, dois embaixo, com a linha azul em volta */
+    .treinos { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px 12px; margin-top: 26px; }
+    .treino { min-width: 0; }
+    .treino-k { font-size: 11px; letter-spacing: .12em; }
+    .treino > .ph { margin-top: 8px; width: 100%; height: auto; aspect-ratio: 1 / 1; object-fit: cover; border: 1.5px solid var(--c, #31a7ff); }
+
+    /* a palavra que abre, e o que ela revela */
+    .palavra { display: inline-flex; align-items: center; gap: 6px; color: var(--ink); font-weight: 700; border-bottom: 1px dashed currentColor; }
+    .palavra svg { width: 13px; height: 13px; transition: transform .25s; }
+    .palavra[aria-expanded="true"] svg { transform: rotate(180deg); }
+    .revelado { margin-top: 16px; padding: 18px 18px 20px; border-left: 3px solid var(--ink); background: rgba(var(--rgb), .08); animation: abrir .45s cubic-bezier(.16, 1, .3, 1); }
+    .revelado p { color: #dfe6fb; font-size: 16px; line-height: 1.55; }
+    .revelado p + p { margin-top: 14px; }
+    .revelado b { color: #eef4ff; }
+    .revelado .rev-q { color: var(--ink); font-size: 21px; line-height: 1.16; }
+
+    /* mecanismo 3 do manual: a fala encarnada */
+    .fala { color: var(--ink); font-weight: 600; }
+
+    /* a frase que fecha com estalo */
+    .estalo { margin-top: 28px; color: #eef4ff; font-size: 27px; line-height: 1.12; letter-spacing: -.03em; }
+    .estalo::after { content: ""; display: inline-block; width: 11px; height: 11px; margin-left: 10px; background: var(--c, #eef4ff); }
+
+    /* a tensão subindo de passo em passo */
+    .passo + .passo::before { content: ""; position: absolute; left: 16px; top: -20px; width: 2px; height: 20px; background: rgba(var(--rgb), .45); }
+
+    /* o laboratório secreto */
+    .caixa { border: 1px dashed rgba(238, 244, 255, .30); background: repeating-linear-gradient(135deg, rgba(238,244,255,.04) 0 10px, transparent 10px 22px), #0c0f22; }
+
+    /* ritmo: cada bloco entra quando chega a vez dele */
+    @supports (animation-timeline: view()) {
+      @media (prefers-reduced-motion: no-preference) {
+        .say, .lead, .quote, .livro, .msgs, .passos, .compare, .estalo, .fogueira, .meters {
+          animation: chegar linear both; animation-timeline: view(); animation-range: entry 6% cover 30%;
+        }
+      }
+    }
+    @keyframes chegar { from { opacity: 0; transform: translateY(16px); } }
+    /* --- abertura: o anel gira e os quatro pilares acendem --- */
+    .orbit { box-shadow: 6px 6px 0 rgba(165, 108, 255, .4); }
+    .orbit::before { content: ""; position: absolute; inset: -11px; border-radius: 50%; border: 2px dashed rgba(184, 255, 56, .45); animation: girar 22s linear infinite; }
+    @keyframes girar { to { transform: rotate(360deg); } }
+
+    .pilares { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; margin-top: 30px; }
+    .pilar { display: flex; flex-direction: column; align-items: flex-start; gap: 13px; padding: 15px 10px 13px; border: 2px solid rgba(var(--rgb), .55); color: var(--ink); text-align: left; transition: background-color .2s, box-shadow .2s, transform .15s; }
+    .pilar svg { width: 26px; height: 26px; }
+    .pilar span { font-size: 10px; letter-spacing: .04em; line-height: 1.3; overflow-wrap: anywhere; }
+    .pilar[aria-pressed="true"] { box-shadow: 4px 4px 0 var(--c); transform: translate(-1px, -1px); }
+
+    /* os balões da abertura conversam: um de cada lado */
+    .bubble { position: relative; border: 1px solid #2b3154; }
+    .bubble::before { content: ""; position: absolute; top: -8px; left: 20px; width: 13px; height: 13px; background: #11152a; border-left: 1px solid #2b3154; border-top: 1px solid #2b3154; transform: rotate(45deg); }
+    .bubble.alt { align-self: flex-end; border-radius: 18px 4px 18px 18px; background: #151b36; }
+    .bubble.alt::before { left: auto; right: 20px; background: #151b36; border-left: 0; border-top: 1px solid #2b3154; border-right: 1px solid #2b3154; }
+
+    /* a reação do pai é um grito, não um recado */
+    .msg-b.forte { font-size: 30px; font-weight: 800; letter-spacing: -.03em; line-height: 1.05; padding: 10px 16px 13px; }
+    .msg.dir { flex-direction: row-reverse; }
+    .msg.dir .msg-b { border-radius: 16px 16px 4px 16px; }
+
+    /* o que foi dito olho no olho, não por mensagem */
+    .dito { position: relative; margin-top: 26px; padding: 4px 0 4px 26px; border-left: 3px solid rgba(var(--rgb), .55); }
+    .dito p { color: #eef4ff; font-size: 26px; line-height: 1.14; }
+    .dito::before { content: "\201C"; position: absolute; left: 8px; top: 6px; color: var(--ink); font-family: "Fraunces", Georgia, serif; font-size: 40px; line-height: 1; opacity: .5; }
+    /* a linha não se esconde mais atrás da frase: ela passa por dentro,
+       e o halo escuro em volta das letras é que abre caminho pra ela */
+    .vira-b .route path { stroke-dasharray: 1; }
+    .vira-b .t, .vira-b .s { background: transparent; text-shadow: 0 0 18px #090b18, 0 0 18px #090b18, 0 0 9px #090b18, 0 0 4px #090b18; }
+    /* a caixa de história agora vira a página como um livro */
+    .story-body { position: relative; perspective: 1400px; perspective-origin: 0% 50%; }
+    .story-body::before { content: ""; position: absolute; left: 0; top: 16px; bottom: 4px; width: 3px; background: linear-gradient(180deg, transparent, rgba(var(--rgb), .55), transparent); }
+    .step { transform-origin: left center; backface-visibility: hidden; animation: virar-pagina .55s cubic-bezier(.22, 1, .36, 1) both; }
+    @keyframes virar-pagina {
+      from { opacity: 0; transform: rotateY(-46deg); filter: brightness(.45); }
+      to { opacity: 1; transform: none; filter: none; }
+    }
+
+    /* o convite para abrir uma história longa */
+    .abrir { display: inline-flex; align-items: center; gap: 10px; margin-top: 22px; padding: 13px 16px 12px; border: 2px solid rgba(var(--rgb), .55); color: var(--ink); font-size: 13px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; transition: background-color .2s, box-shadow .2s, transform .15s; }
+    .abrir:hover { background: rgba(var(--rgb), .12); }
+    .abrir svg { width: 15px; height: 15px; transition: transform .25s; }
+    .abrir[aria-expanded="true"] { box-shadow: 4px 4px 0 rgba(var(--rgb), .35); }
+    .abrir[aria-expanded="true"] svg { transform: rotate(180deg); }
+
+    @media (prefers-reduced-motion: reduce) {
+      .step { animation: none; }
+    }
+    /* ===== o cilindro dos motivos =====
+       6 faces presas na parede interna de um rolo. O raio tem que ser
+       pelo menos altura / (2 * tan(30°)) = altura / 1,1547, senão elas
+       se atravessam na curva. Altura 172 -> raio mínimo 149. */
+    .rolo { --rolo-h: 172px; --rolo-raio: 152px; margin-top: 26px; }
+    .rolo-palco { position: relative; height: calc(var(--rolo-h) * 2.15); perspective: 800px; }
+    .rolo-palco::before { content: ""; position: absolute; inset: 16% -12%; z-index: 0; pointer-events: none; background: radial-gradient(ellipse at 50% 50%, rgba(var(--rgb), .16), rgba(var(--rgb), 0) 72%); }
+    .rolo-cilindro { position: absolute; inset: 0; z-index: 1; transform-style: preserve-3d; transition: transform .62s cubic-bezier(.16, 1, .3, 1); }
+    .rolo-item { position: absolute; left: 0; right: 0; top: 50%; height: var(--rolo-h); margin-top: calc(var(--rolo-h) / -2); pointer-events: none; }
+    .rolo-face { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: center; gap: 10px; padding: 16px 18px; border: 1px solid rgba(var(--rgb), .26); background: linear-gradient(180deg, rgba(var(--rgb), .05), rgba(9, 11, 24, .94)); filter: blur(var(--rolo-bl, 0px)); transition: opacity .42s linear, filter .42s linear, border-color .3s, box-shadow .3s; }
+    .rolo-face::before { content: ""; position: absolute; left: -1px; top: -1px; bottom: -1px; width: 3px; background: var(--c); opacity: .22; transition: opacity .3s; }
+    .rolo-item.on .rolo-face { filter: none; border-color: var(--c); background: linear-gradient(180deg, rgba(var(--rgb), .15), rgba(9, 11, 24, .96)); box-shadow: 0 18px 44px rgba(0, 0, 0, .55), inset 0 0 26px rgba(var(--rgb), .09); }
+    .rolo-item.on .rolo-face::before { opacity: 1; }
+    .rolo-n { font-size: 11px; color: var(--ink); }
+    .rolo-txt { font-size: 15px; line-height: 1.42; color: #dfe6fb; }
+    /* a luz: o topo e a base derretem no fundo, então o motivo escurece ao sair e acende ao chegar */
+    .rolo-luz { position: absolute; inset: -2px 0; z-index: 2; pointer-events: none; background: linear-gradient(180deg, #090b18 0%, rgba(9,11,24,.62) 9%, rgba(9,11,24,0) 30%, rgba(9,11,24,0) 70%, rgba(9,11,24,.62) 91%, #090b18 100%); }
+    .rolo-tap { position: absolute; inset: 0; z-index: 3; cursor: pointer; }
+    .rolo-barra { display: flex; align-items: center; gap: 14px; margin-top: 16px; }
+    .rolo-btn { display: inline-flex; align-items: center; gap: 10px; padding: 13px 17px 12px; border: 1px solid rgba(var(--rgb), .55); color: var(--ink); font-size: 12px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; transition: background-color .2s, transform .15s, border-color .2s; }
+    .rolo-btn:hover { background: rgba(var(--rgb), .10); border-color: var(--c); }
+    .rolo-btn:active { transform: translateY(2px); }
+    .rolo-seta { width: 17px; height: 17px; transition: transform .2s; }
+    .rolo-btn:active .rolo-seta { transform: translateY(3px); }
+    .rolo-conta { margin-left: auto; font-size: 13px; color: var(--ink); }
+    @media (max-width: 359px) { .rolo { --rolo-h: 196px; --rolo-raio: 172px; } }
+    @media (prefers-reduced-motion: reduce) {
+      .rolo-palco { height: var(--rolo-h); perspective: none; }
+      .rolo-palco::before, .rolo-luz { display: none; }
+      .rolo-cilindro { transform: none !important; transition: none; }
+      .rolo-item { transform: none !important; opacity: 0; }
+      .rolo-item.on { opacity: 1; }
+      .rolo-face { filter: none !important; opacity: 1 !important; }
+    }
+
+    /* a ligação entre o mapa e a frase: a linha atravessa para a direita */
+    .liga { display: block; width: 100%; height: auto; margin-top: -6px; }
+    .liga path { fill: none; stroke: rgba(238, 244, 255, .45); stroke-width: 3; stroke-dasharray: 8 8; stroke-linecap: butt; }
+
+    /* o verbete: a palavra e a origem dela */
+    .verbete { margin-top: 30px; padding: 18px 20px; border: 1px solid rgba(var(--rgb), .4); background: #0c0f22; }
+    .verbete-p { display: block; color: var(--ink); font-size: 26px; font-weight: 800; letter-spacing: -.03em; }
+    .verbete-d { display: block; margin-top: 6px; color: #a6b0d1; font-size: 16px; line-height: 1.5; }
+    .verbete-d em { color: #eef4ff; font-style: italic; }
+    /* a linha que liga o mapa a frase vem correndo */
+    @media (prefers-reduced-motion: no-preference) {
+      .liga path { animation: correndo 1.1s linear infinite; }
+    }
+    @keyframes correndo { to { stroke-dashoffset: -16; } }
+    /* --- os balões conversam: o rabinho vem da lateral, alternando --- */
+    .bubble { border-radius: 4px 18px 18px 18px; }
+    .bubble::before { top: 15px; left: -8px; width: 14px; height: 14px; border-left: 1px solid #2b3154; border-top: 1px solid #2b3154; border-right: 0; border-bottom: 0; transform: rotate(-45deg); }
+    .bubble.alt { border-radius: 18px 4px 18px 18px; }
+    .bubble.alt::before { left: auto; right: -8px; border-left: 0; border-top: 1px solid #2b3154; border-right: 1px solid #2b3154; transform: rotate(45deg); }
+
+    /* a derrota que abre o capítulo da fé */
+    .perdi { margin-top: 18px; padding: 18px 20px; border-left: 4px solid var(--ink); background: rgba(var(--rgb), .10); color: #eef4ff; font-size: 27px; line-height: 1.08; }
+
+    /* a fé como lente */
+    .lente { display: grid; grid-template-columns: 76px minmax(0, 1fr); gap: 16px; align-items: center; margin-top: 26px; padding: 20px 18px; border: 1px solid rgba(var(--rgb), .45); background: radial-gradient(120% 140% at 8% 50%, rgba(var(--rgb), .18), transparent 62%), #0c0f22; }
+    .lente-ic { width: 76px; height: 42px; fill: none; stroke: var(--ink); stroke-width: 2; }
+    .lente-ic circle { fill: rgba(var(--rgb), .12); }
+    .lente-t { color: #dfe6fb; font-size: 19px; line-height: 1.3; }
+    .lente-t b { color: #eef4ff; }
+
+    /* o amigo autêntico, sem setinha */
+    .palavra-fixa { color: var(--ink); font-weight: 700; border-bottom: 1px dashed currentColor; }
+
+    /* as condições da residência, em fichas */
+    .fichas { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; margin-top: 20px; }
+    .ficha { padding: 12px 10px 11px; border: 1px solid rgba(var(--rgb), .4); background: #0c0f22; text-align: center; }
+    .ficha b { display: block; color: var(--ink); font-size: 21px; font-weight: 800; letter-spacing: -.03em; }
+    .ficha span { display: block; margin-top: 2px; color: #a6b0d1; font-size: 11px; text-transform: uppercase; letter-spacing: .08em; }
+
+    /* o vestibular mais difícil do Brasil */
+    .dificil { color: var(--ink); font-weight: 800; }
+    .caveira { font-size: 20px; vertical-align: -2px; filter: drop-shadow(0 0 10px rgba(var(--rgb), .55)); }
+
+    /* três medidores agora */
+    .meters { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+    .meter { padding: 12px 10px 14px; }
+    .meter-l { gap: 6px; font-size: 10px; letter-spacing: .06em; line-height: 1.2; }
+    .meter-l svg { width: 17px; height: 17px; flex: none; }
+
+    /* a troca: o que eu dava e o que eu recebia */
+    .troca { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; margin-top: 26px; }
+    .troca-col { padding: 14px 12px 16px; border: 1px solid #2b3154; background: #0c0f22; }
+    .troca-col.agora { border-color: var(--c); box-shadow: inset 0 0 26px rgba(var(--rgb), .10); }
+    .troca-h { color: #a6b0d1; font-size: 11px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; }
+    .troca-col.agora .troca-h { color: var(--ink); }
+    .troca-m { display: grid; grid-template-columns: 1fr 34px; grid-template-areas: "k bar" "v bar" "s bar"; align-items: center; column-gap: 10px; margin-top: 14px; padding-top: 12px; border-top: 1px solid #1d2240; }
+    .troca-k { grid-area: k; color: #7883a5; font-size: 10px; letter-spacing: .1em; text-transform: uppercase; }
+    .troca-m b { grid-area: v; color: #eef4ff; font-size: 24px; font-weight: 800; letter-spacing: -.03em; line-height: 1.1; }
+    .troca-col.agora .troca-m b { color: var(--ink); }
+    .troca-m small { grid-area: s; color: #a6b0d1; font-size: 11px; line-height: 1.3; }
+    .troca-bar { grid-area: bar; position: relative; width: 14px; height: 64px; align-self: center; background: #161a33; }
+    .troca-bar i { position: absolute; left: 0; right: 0; bottom: 0; background: #3a4270; }
+    .troca-col.agora .troca-bar i { background: var(--c); }
+
+    /* o quadro da planta da obra */
+    .planta { position: relative; margin-top: 22px; padding: 26px 18px 22px; border: 1px solid rgba(var(--rgb), .5); }
+    .planta::before { content: ""; position: absolute; inset: 6px; border: 1px dashed rgba(var(--rgb), .22); pointer-events: none; }
+    .planta-badge { position: absolute; top: -1px; right: -1px; width: 40px; height: 40px; display: grid; place-items: center; background: var(--c); color: #090b18; }
+    .planta-badge svg { width: 21px; height: 21px; }
+    .planta > .say { margin-top: 0; }
+    .why-ic { background: var(--c); color: #090b18; }
+
+    /* online x presencial */
+    .vs { align-items: stretch; }
+    .vs-card { display: flex; flex-direction: column; gap: 12px; text-align: left; }
+    .vs-list { display: flex; flex-direction: column; gap: 9px; margin: 0; padding: 0; list-style: none; }
+    .vs-list li { display: grid; grid-template-columns: 17px minmax(0, 1fr); gap: 9px; align-items: start; color: #dfe6fb; font-size: 13px; line-height: 1.35; }
+    .vs-list svg { width: 17px; height: 17px; margin-top: 1px; }
+    .vs-list li.sim svg { color: var(--ink); }
+    .vs-list li.nao { color: #8f9ac0; }
+    .vs-list li.nao svg { color: #6b7396; }
+
+    /* por que contar essa história */
+    .porque { padding: 90px 24px 0; }
+
+    /* a ligação com o bloco final: curta, do mesmo lado */
+    .liga { display: block; width: 100%; height: auto; margin-top: -4px; }
+    .liga path { fill: none; stroke: rgba(238, 244, 255, .45); stroke-width: 3; stroke-dasharray: 8 8; stroke-linecap: butt; animation: none; }
+    .mapa-sec { padding-top: 76px; }
+    .mapa-sec::before { height: 76px; }
+
+    /* os convites no mesmo neon do rolo dos motivos */
+    .part .btn { background: transparent; border: 2px solid var(--bg); color: var(--bg); box-shadow: 6px 6px 0 rgba(var(--rgb), .40); }
+    .part .btn:hover { background: rgba(var(--rgb), .12); box-shadow: 3px 3px 0 rgba(var(--rgb), .40); }
+    .part .btn:active { box-shadow: 0 0 0 rgba(var(--rgb), .40); }
+    .part .btn svg { color: var(--bg); }
+    /* --- a linha sai roxa e tracejada do quadradinho 12 e só depois vira cheia --- */
+    .mapa-in path.volta, .liga path { stroke: #a56cff; stroke-width: 3; stroke-dasharray: 9 9; }
+    .mapa-sec::before { background: #a56cff; width: 3px; }
+    .liga { margin-top: -6px; }
+    .vira-b { margin-top: -8px; }
+
+    /* --- o rolo com 8 faces precisa de mais raio pra não se atravessar --- */
+    .rolo { --rolo-h: 176px; --rolo-raio: 214px; }
+    @media (max-width: 359px) { .rolo { --rolo-h: 200px; --rolo-raio: 244px; } }
+
+    /* --- a etiqueta de cena: onde e quando aquilo aconteceu --- */
+    .cena-l { margin-top: 30px; color: var(--ink); font-size: 11px; font-weight: 800; letter-spacing: .16em; text-transform: uppercase; }
+    .cena-l::before { content: ""; display: inline-block; width: 22px; height: 2px; margin: 0 10px 4px 0; background: var(--c); vertical-align: middle; }
+    .cena { margin-top: 44px; padding: 26px 18px 24px; border: 1px solid rgba(var(--rgb), .40); background: radial-gradient(120% 90% at 50% 0%, rgba(var(--rgb), .10), transparent 65%), #0a0d1e; }
+    .cena .cena-l { margin-top: 0; }
+
+    /* a fala que ficou marcada */
+    .dito.grande p { font-size: 22px; }
+    .dito.grande { padding-left: 30px; border-left-width: 4px; }
+
+    /* a lição que sobra da história */
+    .licao { margin-top: 26px; padding: 18px 20px; border-left: 4px solid var(--c); background: rgba(var(--rgb), .10); }
+    .licao p { color: #eef4ff; font-size: 18px; line-height: 1.45; }
+
+    /* espaço reservado alto, pro robô */
+    .slot-alto { aspect-ratio: 4 / 3; }
+
+    /* --- o Intervalo com Deus em quadrinhos --- */
+    .hq { display: flex; flex-direction: column; gap: 14px; margin-top: 26px; }
+    .hq-q { position: relative; padding: 18px 16px 16px; border: 2px solid #eef4ff; background: linear-gradient(180deg, #11152a, #0a0d1e); box-shadow: 5px 5px 0 rgba(var(--rgb), .35); }
+    .hq-q.vira { border-color: var(--ink); }
+    .hq-cap { display: inline-block; margin: -26px 0 12px -8px; padding: 5px 10px 4px; background: #eef4ff; color: #090b18; font-size: 11px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; }
+    .hq-q.vira .hq-cap { background: var(--c); }
+    .hq-t { color: #dfe6fb; font-size: 16px; line-height: 1.55; }
+    .hq-t + .hq-t { margin-top: 10px; }
+    .hq-t b { color: #eef4ff; }
+    .hq-grito { margin-top: 14px; color: var(--ink); font-size: 26px; font-weight: 800; letter-spacing: -.02em; line-height: 1.05; }
+    .hq-grito.pequeno { font-size: 21px; }
+    .hq-fala { position: relative; margin-top: 14px; padding: 12px 15px; border: 2px solid var(--ink); border-radius: 18px; color: #eef4ff; font-family: "Fraunces", Georgia, serif; font-size: 19px; line-height: 1.2; }
+    .hq-fala::after { content: ""; position: absolute; left: 26px; bottom: -11px; width: 12px; height: 12px; background: #0a0d1e; border-left: 2px solid var(--ink); border-bottom: 2px solid var(--ink); transform: rotate(-45deg); }
+
+    /* --- a escola: botõezinhos azuis e o VS no meio --- */
+    #escola .chips { gap: 8px; }
+    #escola .chip { border-radius: 999px; border: 1px solid rgba(49, 167, 255, .55); color: #31a7ff; font-size: 12px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; padding: 8px 13px; }
+    #escola .vs { position: relative; }
+    .vs-selo { position: absolute; left: 50%; top: 50%; z-index: 2; width: 38px; height: 38px; margin: -19px 0 0 -19px; display: grid; place-items: center; border: 2px solid #31a7ff; border-radius: 50%; background: #090b18; color: #31a7ff; font-size: 12px; font-weight: 800; letter-spacing: .04em; }
+    .vs-card { border: 1px solid rgba(49, 167, 255, .45); }
+    .vs-card[aria-pressed="true"] { border-color: #31a7ff; box-shadow: inset 0 0 26px rgba(49, 167, 255, .12); }
+    /* os dois quadros lado a lado, com o VS no meio */
+    #escola .vs { display: grid; grid-template-columns: 1fr 1fr; gap: 0; align-items: stretch; }
+    #escola .vs-card { padding: 16px 11px 18px; gap: 10px; }
+    #escola .vs-card h3 { font-size: 19px; }
+    #escola .vs-list { gap: 8px; }
+    #escola .vs-list li { grid-template-columns: 14px minmax(0, 1fr); gap: 7px; font-size: 11.5px; line-height: 1.32; }
+    #escola .vs-list svg { width: 14px; height: 14px; }
+    #escola .vs-card:first-child { border-right: 0; }
+    /* abre uma calha no meio pro selo VS nao cobrir texto */
+    #escola .vs-card:first-child { padding-right: 28px; }
+    #escola .vs-card:last-child { padding-left: 28px; }
+    /* o quadradinho do mapa não deixa a linha passar por dentro */
+    .no.now { background: #090b18; }
+
+    /* a ligação: ondulada, saindo tracejada e virando cheia */
+    .liga path { fill: none; stroke: #a56cff; stroke-linecap: round; }
+    .liga-tracejada { stroke-width: 3; stroke-dasharray: 9 9; }
+    .liga-cheia { stroke-width: 3; stroke-dasharray: none; }
+
+    /* roteiro: a conversa que foi olho no olho, não por mensagem */
+    .roteiro { margin-top: 26px; padding-left: 16px; border-left: 2px solid rgba(var(--rgb), .45); }
+    .rot-quem { margin-top: 16px; color: var(--ink); font-size: 10px; font-weight: 800; letter-spacing: .18em; text-transform: uppercase; }
+    .rot-quem:first-child { margin-top: 0; }
+    .rot-quem.eu { color: #eef4ff; }
+    .rot-fala { margin-top: 5px; color: #dfe6fb; font-family: "Fraunces", Georgia, serif; font-size: 19px; line-height: 1.26; }
+    .rot-fala.eu { color: #eef4ff; }
+    .rot-fala::before { content: "— "; opacity: .55; }
+
+    /* terminal: a pergunta que todo mundo fazia */
+    .term { margin-top: 24px; border: 1px solid rgba(var(--rgb), .45); background: #0a0d1e; }
+    .term-bar { display: flex; align-items: center; gap: 6px; padding: 9px 12px; border-bottom: 1px solid rgba(var(--rgb), .28); }
+    .term-bar i { width: 8px; height: 8px; border-radius: 50%; background: #2b3154; }
+    .term-bar span { margin-left: 8px; color: #7883a5; font-family: "Silkscreen", monospace; font-size: 9px; letter-spacing: .06em; }
+    .term-l { padding: 16px 14px 18px; color: #eef4ff; font-family: "Silkscreen", "Courier New", monospace; font-size: 13px; line-height: 1.7; }
+    .term-p { color: var(--ink); margin-right: 8px; }
+    .term-c { display: inline-block; width: 9px; height: 15px; margin-left: 5px; background: var(--c); vertical-align: -3px; animation: piscar 1s steps(2, jump-none) infinite; }
+    @keyframes piscar { 50% { opacity: 0; } }
+
+    /* gavetas: o argumento abre quando a pessoa quer */
+    .gavetas { display: flex; flex-direction: column; gap: 8px; margin-top: 24px; }
+    .gaveta { border: 1px solid #2b3154; background: #0c0f22; }
+    .gav-b { display: grid; grid-template-columns: minmax(0, 1fr) 18px; gap: 12px; align-items: start; width: 100%; padding: 15px 15px 14px; color: #eef4ff; font-size: 16px; line-height: 1.4; text-align: left; }
+    .gav-b svg { width: 18px; height: 18px; margin-top: 3px; color: var(--ink); transition: transform .25s; }
+    .gav-b[aria-expanded="true"] svg { transform: rotate(180deg); }
+    .gav-t { padding: 0 15px 16px; color: #a6b0d1; font-size: 15px; line-height: 1.6; animation: abrir .35s cubic-bezier(.16, 1, .3, 1); }
+  </style>
+</helmet>
+<div class="nav">
+  <div class="nav-in"><span class="nav-av"><span></span></span><p class="nav-now">{{ nav.label }}</p></div>
+  <div class="nav-bar"><i style="transform: scaleX({{ nav.scale }});"></i></div>
+</div>
+
+<div class="page">
+
+  <!-- ABERTURA -->
+  <header class="hero" id="topo">
+    <div class="hero-top">
+      <div class="orbit"><img class="ph" src="tiago-uniforme-medalhas.jpg" alt="Tiago com uniforme e medalhas" style="object-position: 50% 25%;"></div>
+      <div>
+        <p class="handle">@otiagoarantes</p>
+        <p class="strike">Antes era só @tiagodarobotica.</p>
+      </div>
+    </div>
+    <h1 class="h1 d">Agora é muito mais que <span class="hi">robótica.</span></h1>
+    <div class="bubbles">
+      <p class="bubble">Criei esse Instagram para perder o medo de ser autêntico (ou estranho, como alguns dizem🤣) Ter coragem de postar conteúdo: sem filtro, sem ter que parecer profissional, e sem julgamento de conhecidos.</p>
+      <p class="bubble alt">Pelo visto, pessoas que eu não conhecia acharam interessante.</p>
+      <p class="bubble">Esse se tornou um espaço para mostrar o que estou construindo, aprendendo e buscando.</p>
+    </div>
+    <div class="pilares" aria-label="As quatro áreas da trajetória">
+        <button type="button" class="pilar p-tec" onClick="{{ pil.t0 }}" aria-pressed="{{ pil.p0 }}" style="background: {{ pil.b0 }}; color: {{ pil.f0 }}; border-color: {{ pil.d0 }};">
+          <svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 7h10v10H7z"></path><path d="M10 3v4M14 3v4M10 17v4M14 17v4M3 10h4M3 14h4M17 10h4M17 14h4"></path></svg>
+          <span class="px">TECNOLOGIA</span>
+        </button>
+        <button type="button" class="pilar p-esp" onClick="{{ pil.t1 }}" aria-pressed="{{ pil.p1 }}" style="background: {{ pil.b1 }}; color: {{ pil.f1 }}; border-color: {{ pil.d1 }};">
+          <svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3c.6 3.6 5 5.6 5 10.5a5 5 0 0 1-10 0c0-2.6 1.6-3.8 2.6-5.3.6 2 1.4 3 2.4 3.5-.6-3-.2-5.9 0-8.7z"></path></svg>
+          <span class="px">ESPIRITUALIDADE</span>
+        </button>
+        <button type="button" class="pilar p-edu" onClick="{{ pil.t2 }}" aria-pressed="{{ pil.p2 }}" style="background: {{ pil.b2 }}; color: {{ pil.f2 }}; border-color: {{ pil.d2 }};">
+          <svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 5h6.5A2.5 2.5 0 0 1 12 7.5V20a2.5 2.5 0 0 0-2.5-2.5H3z"></path><path d="M21 5h-6.5A2.5 2.5 0 0 0 12 7.5V20a2.5 2.5 0 0 1 2.5-2.5H21z"></path></svg>
+          <span class="px">EDUCAÇÃO</span>
+        </button>
+        <button type="button" class="pilar p-emp" onClick="{{ pil.t3 }}" aria-pressed="{{ pil.p3 }}" style="background: {{ pil.b3 }}; color: {{ pil.f3 }}; border-color: {{ pil.d3 }};">
+          <svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 17l6-6 4 4 8-8"></path><path d="M15 7h6v6"></path></svg>
+          <span class="px">EMPREENDEDORISMO</span>
+        </button>
+    </div>
+
+    <div>
+      <button type="button" class="btn-go" onClick="{{ to.robotica }}">
+        <span>Conheça minha trajetória</span>
+        <svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v15"></path><path d="M5 12l7 7 7-7"></path></svg>
+      </button>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- TECNOLOGIA · ORIGEM -->
+    <section id="robotica" class="sec p-tec">
+      <p class="label mk"><span>Capítulo 01 — origem</span></p>
+      <h2 class="h2 d">Tudo começou com a robótica.</h2>
+      <p class="mk" style="margin-top: 28px; color: var(--ink);">Uma história em construção</p>
+      <p class="txt" style="margin-top: 8px; font-size: 15px;">Arraste para atravessar alguns momentos que mudaram tudo.</p>
+      <div class="gal" data-gallery="gA" onScroll="{{ gA.onScroll }}" aria-label="Momentos da trajetória em robótica">
+  <figure class="card"><div class="card-ph"><img class="ph" src="2018-entrevista-tv-robotica-1.jpg" alt="Entrevista para a TV em evento de robótica, 2018" style="object-position: 50% 50%;"></div><figcaption class="card-cap"><span class="card-n tab">2018</span></figcaption></figure>
+  <figure class="card"><div class="card-ph"><img class="ph" src="2018-entrevista-tv-robotica-2.jpg" alt="Entrevista para a TV em evento de robótica, 2018" style="object-position: 50% 50%;"></div><figcaption class="card-cap"><span class="card-n tab">2018</span></figcaption></figure>
+  <figure class="card"><div class="card-ph"><img class="ph" src="2018-premiacao-no-palco.jpg" alt="Premiação de robótica no palco, 2018" style="object-position: 50% 50%;"></div><figcaption class="card-cap"><span class="card-n tab">2018</span><span class="card-t">Competições, medalhas e anos construindo, programando e competindo.</span></figcaption></figure>
+  <figure class="card"><div class="card-ph"><img class="ph" src="2019-arena-de-competicao.jpg" alt="Arena de competição de robótica, 2019" style="object-position: 50% 50%;"></div><figcaption class="card-cap"><span class="card-n tab">2019</span></figcaption></figure>
+  <figure class="card"><div class="card-ph"><img class="ph" src="2019-equipe-testando-robo.jpg" alt="Equipe testando robô na arena, 2019" style="object-position: 50% 50%;"></div><figcaption class="card-cap"><span class="card-n tab">2019</span></figcaption></figure>
+  <figure class="card"><div class="card-ph"><img class="ph" src="2019-entrega-de-certificados-1.jpg" alt="Entrega de certificados, 2019" style="object-position: 50% 50%;"></div><figcaption class="card-cap"><span class="card-n tab">2019</span></figcaption></figure>
+  <figure class="card"><div class="card-ph"><img class="ph" src="2019-entrega-de-certificados-2.jpg" alt="Entrega de certificados, 2019" style="object-position: 50% 50%;"></div><figcaption class="card-cap"><span class="card-n tab">2019</span></figcaption></figure>
+  <figure class="card"><div class="card-ph"><img class="ph" src="2022-colegio-militar-campo-grande.jpg" alt="Equipe no Colégio Militar de Campo Grande, 2022" style="object-position: 50% 50%;"></div><figcaption class="card-cap"><span class="card-n tab">2022</span></figcaption></figure>
+  <figure class="card"><div class="card-ph"><img class="ph" src="2022-competicao-1.jpg" alt="Competição de robótica, 2022" style="object-position: 50% 50%;"></div><figcaption class="card-cap"><span class="card-n tab">2022</span></figcaption></figure>
+  <figure class="card"><div class="card-ph"><img class="ph" src="2022-competicao-2.jpg" alt="Competição de robótica, 2022" style="object-position: 50% 50%;"></div><figcaption class="card-cap"><span class="card-n tab">2022</span></figcaption></figure>
+  <figure class="card"><div class="card-ph"><img class="ph" src="2022-competicao-3.jpg" alt="Competição de robótica, 2022" style="object-position: 50% 50%;"></div><figcaption class="card-cap"><span class="card-n tab">2022</span></figcaption></figure>
+  <figure class="card"><div class="card-ph"><img class="ph" src="2022-competicao-4.jpg" alt="Competição de robótica, 2022" style="object-position: 50% 50%;"></div><figcaption class="card-cap"><span class="card-n tab">2022</span></figcaption></figure>
+  <figure class="card"><div class="card-ph"><img class="ph" src="2022-apresentacao-em-auditorio.jpg" alt="Apresentação em auditório, 2022" style="object-position: 50% 50%;"></div><figcaption class="card-cap"><span class="card-n tab">2022</span></figcaption></figure>
+  <figure class="card"><div class="card-ph"><img class="ph" src="2022-cerimonia-de-premiacao.jpg" alt="Cerimônia de premiação, 2022" style="object-position: 50% 50%;"></div><figcaption class="card-cap"><span class="card-n tab">2022</span></figcaption></figure>
+  <figure class="card"><div class="card-ph"><img class="ph" src="2023-ensinando-estudantes.jpg" alt="Tiago apresentando uma atividade para estudantes" style="object-position: 50% 50%;"></div><figcaption class="card-cap"><span class="card-n tab">2023</span><span class="card-t">Depois, comecei a ensinar aquilo que eu havia aprendido.</span></figcaption></figure>
+  <figure class="card"><div class="card-ph"><img class="ph" src="2018-evento-robotica-1.jpg" alt="Evento de robótica, 2018" style="object-position: 50% 50%;"></div><figcaption class="card-cap"><span class="card-n tab">2018</span></figcaption></figure>
+  <figure class="card"><div class="card-ph"><img class="ph" src="2018-evento-robotica-2.jpg" alt="Evento de robótica, 2018" style="object-position: 50% 50%;"></div><figcaption class="card-cap"><span class="card-n tab">2018</span></figcaption></figure>
+  <figure class="card"><div class="card-ph"><img class="ph" src="equipe-robotica-prototipos.jpg" alt="A equipe e os protótipos" style="object-position: 50% 50%;"></div><figcaption class="card-cap"><span class="card-n tab">2022</span></figcaption></figure>
+  <figure class="card"><div class="card-ph"><img class="ph" src="2022-delegacao-com-bandeira.jpg" alt="A delegação com a bandeira, a caminho da competição" style="object-position: 50% 50%;"></div><figcaption class="card-cap"><span class="card-n tab">2022</span></figcaption></figure>
+  <figure class="card"><div class="card-ph"><img class="ph" src="2023-sala-de-estudos.jpg" alt="Tiago e colegas em uma sala de estudos" style="object-position: 50% 50%;"></div><figcaption class="card-cap"><span class="card-n tab">2023</span><span class="card-t">Uma trajetória que também passou por muito estudo, disciplina e decisão.</span></figcaption></figure>
+</div>
+<div class="dots"><div class="dots-list"><sc-for list="{{ gA.dots }}" as="d" hint-placeholder-count="20"><button type="button" class="{{ d.cls }}" aria-label="{{ d.label }}" onClick="{{ d.go }}"></button></sc-for></div><span class="gcount tab">{{ gA.count }}</span></div>
+
+
+    </section>
+
+    <!-- ESPIRITUALIDADE · FÉ, ME SENTINDO VIVO, DITO E FEITO, REUNI 3 -->
+    <section id="fe" class="sec p-esp faith" style="margin-top: 104px;">
+      <p class="label mk"><span>Capítulo 02 — fé</span><span class="seta" aria-hidden="true"><i></i></span></p>
+      <h2 class="h2 m d">Antes de construir qualquer coisa, preciso de uma base</h2>
+      
+      
+      
+      <p class="perdi d">Perdemos uma competição de robótica para a qual estava com muita expectativa!<br></p><p class="txt" style="margin-top: 22px; font-size: 20px; font-family: Arial; font-weight: 700">Estávamos bem!</p><p class="say w e">Mas, na hora H... aconteceram <b>TODOS</b> os tipos de imprevistos.<br>Fiquei sem base.</p><p class="txt">Me levaram pra casa pós-competição e, naquele dia, por algum motivo, tive o privilégio de ficar sozinho em casa... e pude ir pro quarto orar, ou me derramar... Entre lágrimas, soluços e gritos, fiz uma oração mais ousada:</p>
+      <blockquote class="quote"><p class="e">“Pode me conduzir pelos processos mais difíceis, porque sei que eles produzirão os melhores frutos.”</p></blockquote>
+      
+      <p class="txt" style="margin-top: 30px;">Eu tinha 12 anos quando falei isso para Deus. Naquela idade percebi que a <b>frustração</b> era necessária para me amadurecer, e que isso estava me forjando uma pessoa melhor.</p><p class="txt">Também pude aconselhar um amigo da equipe que ficou bem triste e, <b>pela primeira vez, tive coragem</b> de falar para alguém sobre minha fé e esperança.</p>
+      <div class="bar"></div>
+      <p class="e" style="color: #eef4ff; font-size: 30px;">Minha fé em Jesus faz parte de tudo que estou construindo.</p>
+      <div class="lente">
+        <svg class="lente-ic" viewBox="0 0 72 40" aria-hidden="true">
+          <circle cx="21" cy="20" r="14"></circle><circle cx="51" cy="20" r="14"></circle>
+          <path d="M35 20h2"></path><path d="M7 20H2"></path><path d="M65 20h5"></path>
+        </svg>
+        <p class="lente-t e">Fé não é uma parte do meu conteúdo.<br><b>É a lente através da qual eu enxergo todas as partes.</b></p>
+      </div>
+
+      <div class="sub" id="vivo">
+        <p class="label mk"><span>Me sentindo vivo</span><span class="seta" aria-hidden="true"><i></i></span></p>
+        <h2 class="h2 l d">Meu coração começou a ficar aquecido de amor.</h2>
+        <p class="say w e s">Um amor maior do que robótica, conquistas acadêmicas e qualquer coisa.</p>
+        <div class="story" id="story-vivo" onPointerDown="{{ sv.down }}" onPointerUp="{{ sv.up }}">
+  <div class="story-top"><sc-for list="{{ sv.bars }}" as="b" hint-placeholder-count="14"><i class="{{ b.cls }}"></i></sc-for></div>
+  <div class="story-body">
+          <sc-if value="{{ sv.s0 }}" hint-placeholder-val="{{ true }}"><div class="step"><p>Quando eu li as palavras de Jesus (embora já tivesse ouvido muito pela boca dos outros, agora tinha parado para ler a Bíblia e buscar na fonte!) minha reação era: Uau! QUANTAS PALAVRAS DESSE HOMEM FAZIAM SENTIDO!</p></div></sc-if>
+          <sc-if value="{{ sv.s1 }}" hint-placeholder-val="{{ false }}"><div class="step"><p>Na verdade, geralmente minha reação lendo a Bíblia era ficar estático por horas refletindo, porque elas pegavam profundo e eu nem sabia o que dizer.</p></div></sc-if>
+          <sc-if value="{{ sv.s2 }}" hint-placeholder-val="{{ false }}"><div class="step"><p>Mas vamos focar nos dias que eu entrava em êxtase, porque traz mais emoção pra história kkk</p></div></sc-if>
+          <sc-if value="{{ sv.s3 }}" hint-placeholder-val="{{ false }}"><div class="step"><p>As palavras de Jesus me confrontavam, e logo consolavam. Na verdade... ele expunha minha ferida, e vinha com o remédio.</p><p class="e">Oh! Médico dos médicos.</p></div></sc-if>
+          <sc-if value="{{ sv.s4 }}" hint-placeholder-val="{{ false }}"><div class="step"><p>Eu comecei a me aprofundar. Não nas regras de uma religião, mas num relacionamento com uma pessoa: a pessoa de Jesus Cristo.</p><p class="e">Sabe quando você mergulha tão fundo em um livro que sente que conhece o autor?</p><p>É assim que eu comecei a desenvolver o meu relacionamento com Jesus, lendo a Bíblia.</p></div></sc-if>
+          <sc-if value="{{ sv.s5 }}" hint-placeholder-val="{{ false }}"><div class="step"><p>Comecei a falar desse amor com mais ousadia na pandemia, através de reuniões online com os amigos: eu tinha voz na escola! <br>Isso talvez porque era destaque de nota e o mais conversador/bagunceiro da turma, então muitos se achegavam pra ouvir.</p></div></sc-if>
+          <sc-if value="{{ sv.s6 }}" hint-placeholder-val="{{ false }}"><div class="step"><p>Com o tempo, aqueles que eram meus amigos já não queriam mais ouvir (ou não queria praticar o que ouviam na mesma intensidade que eu), e nos afastamos... até que fiquei sozinho e distante do meu grupo "popular"</p></div></sc-if>
+          <sc-if value="{{ sv.s7 }}" hint-placeholder-val="{{ false }}"><div class="step"><p>Quando acabou o lockdown do Covid, voltamos pra escola e eu me sentia só, mas estava em paz com a minha decisão. Todos falavam que eu estava super "zen" se comparado ao Tiago de antes.</p></div></sc-if>
+          <sc-if value="{{ sv.s8 }}" hint-placeholder-val="{{ false }}"><div class="step"><p>Mal sabiam que... sim, estava em paz quanto a tudo que antes me preocupava, mas agora uma nova angústia surgiu aqui dentro: ver meus amigos distantes da fonte do amor que eu recebi.</p></div></sc-if>
+          <sc-if value="{{ sv.s9 }}" hint-placeholder-val="{{ false }}"><div class="step"><p>Claro, ninguém precisa ter a fé que eu tenho, mas... eu não quero exigir fé de ninguém, eu só quero amá-los como fui amado, e quem sabe eles sejam constrangidos por esse amor como eu fui.</p></div></sc-if>
+          <sc-if value="{{ sv.s10 }}" hint-placeholder-val="{{ false }}"><div class="step"><p>Chegamos no ensino médio e comecei a ver eles buscando em outras fontes: festas, bebidas (ok, eu no fundamental eu também ia nas festas com bebidas),</p></div></sc-if>
+          <sc-if value="{{ sv.s11 }}" hint-placeholder-val="{{ false }}"><div class="step"><p>mas agora as histórias ficavam mais pesadas: beber até perder noção de tudo, amiga ser estuprada bêbada, drogas a ponto de viciar, conversas sobre pornografia durante toda a aula...</p></div></sc-if>
+          <sc-if value="{{ sv.s12 }}" hint-placeholder-val="{{ false }}"><div class="step"><p>eu comecei a lembrar de como eu era triste no vício da pornografia, como eu voltava das festas e chorava por não ver sentido naquilo, de como buscar aprovação das pessoas nunca me preencheu, e via amigos claramente fazendo coisas que não fariam só para ter aprovação social.</p></div></sc-if>
+          <sc-if value="{{ sv.s13 }}" hint-placeholder-val="{{ false }}"><div class="step"><p>Começou a despertar uma compaixão dentro de mim e eu não pude mais conter!</p><p class="e">Talvez precisassem do que eu tinha:</p></div></sc-if>
+          </div>
+  <div class="story-ft">
+    <span class="story-count tab">{{ sv.count }}</span>
+    <button type="button" class="sbtn" onClick="{{ sv.toggle }}" aria-label="Ver tudo de uma vez" aria-pressed="{{ sv.all }}">
+      <sc-if value="{{ sv.notAll }}" hint-placeholder-val="{{ true }}"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"></path></svg></sc-if>
+      <sc-if value="{{ sv.all }}" hint-placeholder-val="{{ false }}"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5h14v14H5z"></path><path d="M9 12h6"></path></svg></sc-if>
+    </button>
+    <sc-if value="{{ sv.stepMode }}" hint-placeholder-val="{{ true }}">
+      <div class="story-nav">
+        <button type="button" class="sbtn" onClick="{{ sv.prev }}" disabled="{{ sv.atStart }}" aria-label="Trecho anterior"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 12H5"></path><path d="M11 5l-7 7 7 7"></path></svg></button>
+        <button type="button" class="sbtn main" onClick="{{ sv.next }}" aria-label="Próximo trecho">
+          <sc-if value="{{ sv.notLast }}" hint-placeholder-val="{{ true }}"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15"></path><path d="M13 5l7 7-7 7"></path></svg></sc-if>
+          <sc-if value="{{ sv.last }}" hint-placeholder-val="{{ false }}"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4.5 12a7.5 7.5 0 1 0 2.2-5.3"></path><path d="M4 3.5V9h5.5"></path></svg></sc-if>
+        </button>
+      </div>
+    </sc-if>
+  </div>
+</div>
+
+        <div class="vira" id="virada">
+          <div class="vira-fill" style="clip-path: circle({{ va.r }}% at 50% 50%);"></div>
+          <p class="vira-t d" style="color: {{ va.fg }}; transform: scale({{ va.s }});">Dito e feito!</p>
+        </div>
+        <p class="say w e s">Comecei a falar com ousadia (ok, às vezes tremendo as pernas, na verdade).</p>
+      </div>
+
+      <div class="sub" id="reuni" style="margin-top: 64px;">
+        <p class="lead" style="margin-top: 0;">Primeiro, reuni 3 na minha casa.</p>
+        <figure class="fig">
+          <img class="ph" src="2020-amigos.jpg" alt="Os três primeiros, reunidos na minha casa" style="object-position: 50% 40%;">
+        </figure>
+        <button type="button" class="abrir" onClick="{{ mais.reuni }}" aria-expanded="{{ mais.reuniOn }}"><span>{{ mais.reuniTxt }}</span><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg></button>
+        <sc-if value="{{ mais.reuniOn }}" hint-placeholder-val="{{ true }}">
+        <p class="lead" style="margin-top: 26px;">Começando pela colega de turma:</p>
+        <p class="txt"><b>Ela era da minha sala, a gente era amigo, mas tinha uma disputa: </b>todo trimestre o colégio atualizava um ranking de notas no sistema escolar. Os primeiros colocados entre todas as turmas, ao final do ano, ganhavam medalha pra usar no uniforme pra sempre. Um dia ela me perguntou:</p><div class="msgs">
+          <div class="msg"><span class="msg-av" aria-hidden="true"><svg class="ic" viewBox="0 0 24 24"><path d="M12 12a4 4 0 1 0 0-8a4 4 0 0 0 0 8z"></path><path d="M4 21a8 8 0 0 1 16 0"></path></svg></span><p class="msg-b"><b>Colega de turma</b>Tiago, como você parece tão tranquilo e tira notas melhores que eu? E ainda faz robótica, esporte, um monte de coisa...</p></div>
+        </div>
+        <p class="nar">eu respondi, e lembro que até com certo frio na barriga,</p>
+        <div class="msgs">
+          <div class="msg eu"><p class="msg-b"><b>Tiago</b>Não sei explicar... eu já fui ansioso por nota como você, mas desde que coloquei Jesus em primeiro na minha vida... estudo até menos, e os resultados melhoraram</p></div>
+        </div>
+        
+        
+        <p class="txt">A partir daí ela quis ir na minha igreja e decidiu colocar Cristo como prioridade. Ela sentiu uma paz inexplicável e anda no amor de Jesus até hoje.&nbsp;</p>
+        <p class="txt">Ela era tímida, e aos poucos foi se soltando.</p>
+        <figure class="fig">
+          <img class="ph" src="pregando-na-praca.jpg" alt="A menina da turma pregando na minha igreja" style="object-position: 50% 50%;">
+          <figcaption class="figcap">A menina da turma pregando na minha igreja</figcaption>
+        </figure><p class="txt">Nesse mesmo ano, no final, empatamos a média de nota <b>nos milésimos</b>, e nós dois ganhamos a mesma medalha no uniforme (coisa que o colégio nunca tinha feito)</p>
+        <figure class="fig">
+          <img class="ph" src="2020-oracao-na-varanda.jpg" alt="Oração na varanda de casa com amigos, 2020" style="object-position: 50% 50%;">
+          <figcaption class="figcap"><span class="year tab">2020</span>Oração na varanda da minha casa, com "a menina que eu disputava nota" e com um <b class="palavra-fixa">amigo autêntico</b></figcaption>
+        </figure>
+          <div class="revelado">
+            <p>Ele me <b>procurou DO NADA</b>, dizendo que queria ir na minha igreja, e um tempo depois me contou que parecia sempre feliz, sorria na escola, mas em casa a cabeça pesava quando encostava no travesseiro.</p>
+            <p class="rev-q e">Mas por que autêntico? Ele não usava máscara na escola?</p>
+            <p>Por conta dessa confissão. Por isso chamei de autêntico. Parando pra pensar, eu também usei máscara antes, e admitir isso me fez ser autêntico. Ele virou um amigão e mais pra frente liderou comigo um movimento no colégio.</p>
+          </div>
+          <figure class="fig" style="margin-top: 30px;">
+            <img class="ph" src="2021-grupo-ao-ar-livre.jpg" alt="O grupo crescendo, ao ar livre" style="object-position: 50% 50%;">
+          </figure>
+        </sc-if>
+      </div>
+    </section>
+
+    <!-- ESPIRITUALIDADE · VOLUNTÁRIO -->
+    <section id="voluntario" class="sec p-esp">
+      
+      <h2 class="h2 d">Voluntário</h2><div class="proj-nav" aria-label="Projetos">
+        <button type="button" class="chip" onClick="{{ to.intervalo }}">Intervalo com Deus</button>
+        <button type="button" class="chip" onClick="{{ to.legiao }}">Legião de Honra</button>
+      </div>
+
+      <div class="proj" id="intervalo">
+        <h3 class="sub-h d">Intervalo com Deus</h3>
+        <div class="story" id="story-intervalo" onPointerDown="{{ si.down }}" onPointerUp="{{ si.up }}">
+  <div class="story-top"><sc-for list="{{ si.bars }}" as="b" hint-placeholder-count="4"><i class="{{ b.cls }}"></i></sc-for></div>
+  <div class="story-body">
+          <sc-if value="{{ si.s0 }}" hint-placeholder-val="{{ true }}"><div class="step"><p>Quando entrei no Colégio Militar no 6º ano, e era serelepe, sempre fugia de um Tenente que me chamava para ir numa reunião na cantina <span class="fala">"pra falar de Deus"</span>.</p><p class="pilantra">PILANTRA! <button type="button" class="kkk" onClick="{{ kkk.toggle }}" aria-expanded="{{ kkk.on }}">{{ kkk.txt }}</button></p></div></sc-if>
+          <sc-if value="{{ si.s1 }}" hint-placeholder-val="{{ false }}"><div class="step"><p class="e">Quem diria...</p></div></sc-if>
+          <sc-if value="{{ si.s2 }}" hint-placeholder-val="{{ false }}"><div class="step"><p>Na volta pós pandemia, já no ensino médio, quando vi esse Tenente, a primeira coisa que perguntei foi:</p><blockquote class="dito"><p class="e">era o sr que fazia as reuniões cristãs na cantina?</p></blockquote></div></sc-if>
+          <sc-if value="{{ si.s3 }}" hint-placeholder-val="{{ false }}"><div class="step"><p>E daí a conversa fluiu.<br>Ele fazia no fundamental e eu queria fazer no ensino médio, ele não conseguiu dar tanto apoio.</p><p class="e">Corri atrás de muita coisa sozinho.</p></div></sc-if>
+          </div>
+  <div class="story-ft">
+    <span class="story-count tab">{{ si.count }}</span>
+    <button type="button" class="sbtn" onClick="{{ si.toggle }}" aria-label="Ver tudo de uma vez" aria-pressed="{{ si.all }}">
+      <sc-if value="{{ si.notAll }}" hint-placeholder-val="{{ true }}"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"></path></svg></sc-if>
+      <sc-if value="{{ si.all }}" hint-placeholder-val="{{ false }}"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5h14v14H5z"></path><path d="M9 12h6"></path></svg></sc-if>
+    </button>
+    <sc-if value="{{ si.stepMode }}" hint-placeholder-val="{{ true }}">
+      <div class="story-nav">
+        <button type="button" class="sbtn" onClick="{{ si.prev }}" disabled="{{ si.atStart }}" aria-label="Trecho anterior"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 12H5"></path><path d="M11 5l-7 7 7 7"></path></svg></button>
+        <button type="button" class="sbtn main" onClick="{{ si.next }}" aria-label="Próximo trecho">
+          <sc-if value="{{ si.notLast }}" hint-placeholder-val="{{ true }}"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15"></path><path d="M13 5l7 7-7 7"></path></svg></sc-if>
+          <sc-if value="{{ si.last }}" hint-placeholder-val="{{ false }}"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4.5 12a7.5 7.5 0 1 0 2.2-5.3"></path><path d="M4 3.5V9h5.5"></path></svg></sc-if>
+        </button>
+      </div>
+    </sc-if>
+  </div>
+</div>
+        <p class="note">Só o encontro com esse Tenente tem tantos detalhes inacreditáveis que não dá para contar tudo aqui. O desenrolar do intervalo com Deus então... nem se fala, tem tantas histórias INCRÍVEIS para contar.</p>
+        <p class="lead" style="margin-top: 30px;">Mas vou contar apenas uma coisa boba, mas é uma curiosidade que poucos sabem:</p>
+        <p class="txt">Começamos os encontros sem nenhum nome.</p>
+        <p class="txt">Um dia, olhando papéis pra jogar fora em casa, vi um folheto muito antigo... um convite para o <b>"Intervalo com Deus"</b>. Fiquei maravilhado, porque provavelmente meu pai pegou e guardou (meu pai trabalhou nesse colégio anos antes).</p>
+        <p class="estalo e">Então descobri que não estava começando algo novo, mas só continuando algo que existia antes.</p>
+        <p class="txt" style="margin-top: 26px;">Busquei contato com ex alunos, descobri como faziam, e que tinha um instagram inativo de antes da pandemia, me passaram a senha e continuamos o legado dali, usando o mesmo nome. Depois que saí, ficou uma equipe que continuou após mim, e continua até hoje...</p>
+        <div class="fogueira">
+          <svg class="chama" viewBox="0 0 40 56" aria-hidden="true">
+            <path class="fogo" d="M20 2c6 11 15 15 15 26a15 15 0 0 1-30 0C5 17 14 13 20 2z"></path>
+            <path class="fogo-in" d="M20 22c3.4 5.6 6.5 7.6 6.5 13a6.5 6.5 0 0 1-13 0c0-5.4 3.1-7.4 6.5-13z"></path>
+          </svg>
+          <p class="e">Vi que Deus não só "mexeu os pauzinhos"... ele ajeitou os pauzinhos, riscou o fósforo e acendeu a fogueira ele mesmo.</p>
+        </div>
+        <p class="say w e s">Poderia dizer que comecei sozinho, mas chega a ser errado...</p>
+        <p class="txt">Eu, <b>sozinho</b>, fugia... lembra?</p>
+        <p class="txt">Mas, com Ele, <b>aprendi</b>&nbsp;a ser ousado. <b>Desenvolvi </b>coragem arriscando, e só assumi riscos por paixão ardente.</p>
+        <p class="lead">No final, ficou óbvio não estar sozinho. Aconteceu o quê você vê nas fotos abaixo:</p>
+        
+        <div class="gal" data-gallery="gI" onScroll="{{ gI.onScroll }}" aria-label="Fotos do Intervalo com Deus">
+          <figure class="card"><div class="card-ph"><img class="ph" src="2023-intervalo-com-deus-1.jpg" alt="Intervalo com Deus no Colégio Militar" style="object-position: 50% 50%;"></div><figcaption class="card-cap"><span class="card-n tab">2023</span><span class="card-t">Sala com todas cadeiras cheias. E pessoas em pé em todo redor</span></figcaption></figure>
+          <figure class="card"><div class="card-ph"><img class="ph" src="2023-sala-de-aula.jpg" alt="Reunião do Intervalo com Deus na sala" style="object-position: 50% 50%;"></div><figcaption class="card-cap"><span class="card-n tab">2023</span></figcaption></figure>
+          <figure class="card"><div class="card-ph"><img class="ph" src="2023-colegas-1.jpg" alt="Intervalo com Deus: o lanche e a conversa" style="object-position: 50% 50%;"></div><figcaption class="card-cap"><span class="card-n tab">2023</span></figcaption></figure>
+          <figure class="card"><div class="card-ph"><img class="ph" src="2023-colegas-2.jpg" alt="Intervalo com Deus: o lanche e a conversa" style="object-position: 50% 50%;"></div><figcaption class="card-cap"><span class="card-n tab">2023</span></figcaption></figure>
+          <figure class="card"><div class="card-ph"><img class="ph" src="2023-intervalo-com-deus-2.jpg" alt="Intervalo com Deus no Colégio Militar" style="object-position: 50% 50%;"></div><figcaption class="card-cap"><span class="card-n tab">2023</span><span class="card-t">[LEGENDA DE UMA LINHA: Tiago]</span></figcaption></figure>
+                  <figure class="card"><div class="card-ph"><img class="ph" src="2023-intervalo-com-deus-3.jpg" alt="Intervalo com Deus no Colégio Militar" style="object-position: 50% 50%;"></div><figcaption class="card-cap"><span class="card-n tab">2023</span></figcaption></figure>
+          <figure class="card"><div class="card-ph"><img class="ph" src="2023-intervalo-com-deus-4.jpg" alt="Intervalo com Deus no Colégio Militar" style="object-position: 50% 50%;"></div><figcaption class="card-cap"><span class="card-n tab">2023</span></figcaption></figure>
+          <figure class="card"><div class="card-ph"><img class="ph" src="2023-intervalo-com-deus-5.jpg" alt="Intervalo com Deus no Colégio Militar" style="object-position: 50% 50%;"></div><figcaption class="card-cap"><span class="card-n tab">2023</span></figcaption></figure>
+          <figure class="card"><div class="card-ph"><img class="ph" src="2023-intervalo-com-deus-6.jpg" alt="Intervalo com Deus no Colégio Militar" style="object-position: 50% 50%;"></div><figcaption class="card-cap"><span class="card-n tab">2023</span></figcaption></figure>
+          <figure class="card"><div class="card-ph"><img class="ph" src="2023-intervalo-com-deus-7.jpg" alt="Intervalo com Deus no Colégio Militar" style="object-position: 50% 50%;"></div><figcaption class="card-cap"><span class="card-n tab">2023</span></figcaption></figure>
+          <figure class="card"><div class="card-ph"><img class="ph" src="2023-intervalo-com-deus-8.jpg" alt="Intervalo com Deus no Colégio Militar" style="object-position: 50% 50%;"></div><figcaption class="card-cap"><span class="card-n tab">2023</span></figcaption></figure>
+          <figure class="card"><div class="card-ph"><img class="ph" src="2023-intervalo-com-deus-9.jpg" alt="Intervalo com Deus no Colégio Militar" style="object-position: 50% 50%;"></div><figcaption class="card-cap"><span class="card-n tab">2023</span></figcaption></figure>
+        </div>
+        <div class="dots"><div class="dots-list"><sc-for list="{{ gI.dots }}" as="d" hint-placeholder-count="12"><button type="button" class="{{ d.cls }}" aria-label="{{ d.label }}" onClick="{{ d.go }}"></button></sc-for></div><span class="gcount tab">{{ gI.count }}</span></div>
+        
+      </div>
+
+      <div class="proj" id="legiao">
+        <h3 class="sub-h d">Legião de Honra</h3>
+        <div class="story" id="story-legiao" onPointerDown="{{ sl.down }}" onPointerUp="{{ sl.up }}">
+  <div class="story-top"><sc-for list="{{ sl.bars }}" as="b" hint-placeholder-count="7"><i class="{{ b.cls }}"></i></sc-for></div>
+  <div class="story-body">
+          <sc-if value="{{ sl.s0 }}" hint-placeholder-val="{{ true }}"><div class="step"><p>Depois que me converti e melhorei meu comportamento na escola, consegui entrar numa iniciativa que eu queria há muito tempo...</p></div></sc-if>
+          <sc-if value="{{ sl.s1 }}" hint-placeholder-val="{{ false }}"><div class="step"><p>a Legião de Honra, que fazia ações sociais, e só aceitava alunos exemplares, tanto em nota (coisa que eu tinha), quanto em comportamento (coisa que eu não tinha nos primeiros anos do colégio militar). E para ser selecionado também era preciso fazer um discurso dizendo o porquê queria entrar, diante de todos que já estavam dentro da legião.</p></div></sc-if>
+          <sc-if value="{{ sl.s2 }}" hint-placeholder-val="{{ false }}"><div class="step"><p>Na primeira tentativa... fiz um bom discurso, mas me tiraram (obviamente pelas minhas atitudes: entrar no banheiro feminino, usar o uniforme de forma incorreta, atrapalhar a aula, zuar com os amigos que participavam da legião chamando de panelinha), na segunda tentativa me cortaram da lista antes de eu fazer o discurso.</p></div></sc-if>
+          <sc-if value="{{ sl.s3 }}" hint-placeholder-val="{{ false }}"><div class="step"><p>Quase desisti disso...<br>Mas após pandemia vi aberta a inscrição, "falei: ah, vou tentar ", fiz o discurso de novo (dessa vez com verdade).<br>E não esperava entrar, porque é difícil apagar uma má fama diante das pessoas.<br>Você pode ser perdoado por Deus e ainda sofrer as consequências.<br>Mas... se você ta no time dele, ele vai transformar até o mau em benção</p></div></sc-if>
+          <sc-if value="{{ sl.s4 }}" hint-placeholder-val="{{ false }}"><div class="step"><p>Havia aluno mais antigo dentro desse grupo da Legião, um veterano que eu sempre incomodava zuando com ele, e um dia ficamos na formatura como guarda bandeira um do lado do outro e fiquei quieto a formatura toda, mais que todos ao redor. Lembro até hoje do olhar dele admirado pra mim e com cara de aprovação fazendo "sim" com a cabeça, eu olhei pra ele profundamente uma vez e vi a reação e senti a afirmação.</p></div></sc-if>
+          <sc-if value="{{ sl.s5 }}" hint-placeholder-val="{{ false }}"><div class="step"><p>Depois ignorei-o (eu ficava orando, mexendo bem pouco os lábios ou dentro da cabeça - era o certo ficar em silêncio nas formaturas) mas tinha hora que davam toque de relaxa posição e a maioria conversava (com certeza o eu de antes). Esse rapaz com certeza contou dentro da assembleia da legião que viu minha melhora (é uma suspeita até hoje, as assembleias são secretas, mas ele era relevante lá) e dessa vez... me aprovaram!</p></div></sc-if>
+          <sc-if value="{{ sl.s6 }}" hint-placeholder-val="{{ false }}"><div class="step"><p>Inclusive, eu estava tão desapegado que não lembrei o dia que sairia o resultado. Na noite que anunciaram na internet, eu estava fazendo uma live falando de Jesus no Instagram. Uma amiga que eu nem falava há muito tempo entrou na live só para dizer <span class="fala">"TIAGOOO, VOCÊ ENTROU NA LEGIÃO"</span>. Eu tava orando e quando abri os olhos só vi um monte de comentário, e disse algo do tipo <span class="fala">"sério? obrigado por avisar."</span> sem muita reação. Só depois fui processar a alegria e agradecer ao Papai. Esse é o significado daquela bolacha azul que você vê no peito do meu uniforme.</p></div></sc-if>
+          </div>
+  <div class="story-ft">
+    <span class="story-count tab">{{ sl.count }}</span>
+    <button type="button" class="sbtn" onClick="{{ sl.toggle }}" aria-label="Ver tudo de uma vez" aria-pressed="{{ sl.all }}">
+      <sc-if value="{{ sl.notAll }}" hint-placeholder-val="{{ true }}"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"></path></svg></sc-if>
+      <sc-if value="{{ sl.all }}" hint-placeholder-val="{{ false }}"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5h14v14H5z"></path><path d="M9 12h6"></path></svg></sc-if>
+    </button>
+    <sc-if value="{{ sl.stepMode }}" hint-placeholder-val="{{ true }}">
+      <div class="story-nav">
+        <button type="button" class="sbtn" onClick="{{ sl.prev }}" disabled="{{ sl.atStart }}" aria-label="Trecho anterior"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 12H5"></path><path d="M11 5l-7 7 7 7"></path></svg></button>
+        <button type="button" class="sbtn main" onClick="{{ sl.next }}" aria-label="Próximo trecho">
+          <sc-if value="{{ sl.notLast }}" hint-placeholder-val="{{ true }}"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15"></path><path d="M13 5l7 7-7 7"></path></svg></sc-if>
+          <sc-if value="{{ sl.last }}" hint-placeholder-val="{{ false }}"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4.5 12a7.5 7.5 0 1 0 2.2-5.3"></path><path d="M4 3.5V9h5.5"></path></svg></sc-if>
+        </button>
+      </div>
+    </sc-if>
+  </div>
+</div>
+        <div class="gal" data-gallery="gB" onScroll="{{ gB.onScroll }}" aria-label="Visita ao orfanato com a Legião de Honra">
+  <figure class="card"><div class="card-ph"><img class="ph" src="2022-orfanato-legiao-de-honra-1.jpg" alt="Tiago com um aluno em evento, 2022" style="object-position: 50% 50%;"></div><figcaption class="card-cap"><span class="card-n tab">2022</span></figcaption></figure>
+  <figure class="card"><div class="card-ph"><img class="ph" src="2022-orfanato-legiao-de-honra-2.jpg" alt="Tiago com um aluno em evento, 2022" style="object-position: 50% 50%;"></div><figcaption class="card-cap"><span class="card-n tab">2022</span></figcaption></figure>
+</div>
+<div class="dots"><div class="dots-list"><sc-for list="{{ gB.dots }}" as="d" hint-placeholder-count="2"><button type="button" class="{{ d.cls }}" aria-label="{{ d.label }}" onClick="{{ d.go }}"></button></sc-for></div><span class="gcount tab">{{ gB.count }}</span></div>
+      </div>
+        <p class="figcap" style="margin-top: 16px;"><span class="year tab"></span>Nessa visita a um orfanato que fizemos no Dia das Crianças com a Legião de Honra, uma criança me desenhou e, tímido, entregou para uma amiga, que me contou e entregou.&nbsp; olha a alegria dele de ter seu desenho reconhecido, e minha alegria de ser desenhado</p>
+      </section>
+
+      <section class="sec p-edu" id="altas">
+        <p class="label mk"><span>DIFERENTE</span><span class="seta" aria-hidden="true"><i></i></span></p>
+        <h2 class="h2 l d">Neurodivergente: é isso que me faz um pouco diferente.</h2><h2 class="h2 l d">E foi há mais de uma década. Ainda com&nbsp; 8 anos a professora viu que eu terminava rápido as atividades de matemática e ficava atoa ou conversando na aula.<br>Ao invés de brigar comigo(obrigado professora Sônia), ela comentou com a coordenação e pediu para me levarem ao Nucleo de Atividades de Altas Habilidades e Superdotação do estado, e lá me encaminharam para uma psicóloga externa que me diagnosticou com AHSD.&nbsp;<br>Comecei a frequentar esse núcleo do NAAHS, mas havia pouca estrutura, e basicamente me deixavam desenhando e pintando.&nbsp; Achei chato e logo saí.<br>Com 13 anos, descobri que uma amiga japa do meu grupo de robótica participava desses atendimentos, ela contou que tinha mudado o nome do nucleo de naahs para ceam/ahs, mudado o local, e eu, apesar de não ter mais expectativas, decidi tentar retomar, tive que fazer um novo diagnóstico / teste psicológico, deu a mesma coisa. E todos psicologos e psiquiatras de lá pra cá só confirmam. E isso não me faz melhor. Todo potencial tem seus desafios. Toda vez que</h2><h2 class="h2 l d">No Centro Estadual de Altas Habilidades e Superdotação, em Mato Grosso do Sul, eu desenvolvia projetos de</h2>
+        <p class="txt">Robótica, exatas — a área em que eu tinha sido diagnosticado.</p>
+        <p class="say w e s">Até que, do nada, (após a pandemia rs) os meus interesses mudaram.</p>
+        <p class="txt">Eu simplesmente quis aprender sobre a história da igreja. E fui tremendo até a coordenação pedir pra trocar os meus atendimentos de exatas para história.</p>
+        <div class="roteiro">
+          <p class="rot-quem">coordenação</p>
+          <p class="rot-fala">Claro, Tiago. E quais seriam os seus novos interesses?</p>
+          <p class="rot-quem eu">eu</p>
+          <p class="rot-fala eu">Eu quero aprender a história da igreja.</p>
+          <p class="rot-quem">coordenação</p>
+          <p class="rot-fala">Nossa, você vai se identificar então com a professora de história.</p>
+        </div>
+        <p class="txt" style="margin-top: 26px;">Depois eu descobri que essa professora era pastora.</p>
+        <p class="estalo e">Foi a melhor experiência da minha vida.</p>
+        <p class="txt" style="margin-top: 26px;">A gente conversou sobre <b>avivamento</b> — um assunto que eu já vinha estudando, que eu já vinha lendo.</p>
+    </section>
+
+    <!-- TECNOLOGIA · O SONHO -->
+    <section id="sonho" class="sec p-tec">
+      <p class="label mk"><span>Capítulo 03 — o sonho do vestibular</span><span class="seta" aria-hidden="true"><i></i></span></p>
+      <h2 class="h2 d">Meu sonho era o IME.</h2>
+      <figure class="fig">
+        <img class="ph" src="palacio-da-alvorada-equipe-do-ime.jpg" alt="Tiago com colegas no Palácio da Alvorada com a equipe de robótica do IME" style="object-position: 50% 50%;">
+        <figcaption class="figcap" style="text-align: center">Na foto, Palácio da Alvorada, e nossa equipe campeã de robótica com a equipe de Robótica do IME, em passeio&nbsp; por Brasília</figcaption>
+      </figure>
+      <p class="txt" style="margin-top: 28px;">Após uma competição de robótica que ficamos em primeiro lugar em Brasília, os alunos do IME nos disseram que tínhamos um currículo forte o suficiente para pedir uma bolsa no melhor curso preparatório do Brasil, que fica em Fortaleza...</p>
+      <p class="txt">Disseram também que essa era a melhor forma de termos chances para passar na prova deles: <strong class="dificil"><span>O VESTIBULAR MAIS DIFÍCIL DO BRASIL</span> <span class="caveira" aria-label="difícil">💀</span></strong><br>(é esperado que se faça alguns anos de cursinho)</p>
+      <h3 class="h2 m d" style="margin-top: 44px; color: var(--ink);">Mais uma vez, dito e feito!</h3>
+      <p class="lead">Mandamos nosso currículo, e ganhamos <span class="mark">bolsa 100%</span> no cursinho mais caro do Brasil.</p>
+      <p class="lead">Pegamos o avião para Fortaleza para fazer uma "conexão" com o nosso sonho haha</p>
+      <div class="flight" aria-hidden="true">
+        <svg class="path" viewBox="0 0 320 96"><path d="M16 80 C 110 -10, 210 120, 304 22" style="fill: none; stroke: rgba(184,255,56,.45); stroke-width: 2.5; stroke-dasharray: 3 9;"></path><path d="M300 14h8v8h-8z" style="fill: #b8ff38;"></path><path d="M12 76h8v8h-8z" style="fill: #2b3154;"></path></svg>
+        <svg class="plane" viewBox="0 0 24 24" aria-hidden="true" style="fill: currentColor;"><path d="M21 15.5v-2l-7.5-4.7V3.6a1.5 1.5 0 0 0-3 0v5.2L3 13.5v2l7.5-2.3v4.9l-2 1.5V21l3.5-1 3.5 1v-1.4l-2-1.5v-4.9z"></path></svg>
+      </div>
+      <figure class="fig">
+        <img class="ph" src="cursinho-farias-brito-ime-ita.jpg" alt="Aula no preparatório para IME e ITA em Fortaleza" style="object-position: 50% 50%;">
+        <span class="year over">Tempo de preparação</span>
+      </figure>
+      <p class="note" style="margin-top: 20px; text-align: center; width: 330px; height: 65px">Eu, e meu amigo da equipe de robótica sentado logo na minha frente no cursinho em Fortaleza</p>
+      <p class="note" style="text-align: center">Esse amigo agora está na faculdade mais inovadora da América Latina, a Inteli</p>
+      <p class="note" style="color: #b8ff38; font-weight: 700; text-align: center">O cara é bom, @paulo_rbto</p>
+    </section>
+
+    <!-- TECNOLOGIA · MUDANÇA DE ROTA -->
+    <section id="rota" class="sec p-tec">
+      <p class="label mk"><span>Capítulo 04 — mudança de rota</span><span class="seta" aria-hidden="true"><i></i></span></p>
+      <h2 class="h2 l d">Mas Fortaleza me mostrou um mundo de possibilidades que eu ainda não conhecia.</h2>
+      <svg class="fork" viewBox="0 0 340 120" aria-hidden="true">
+        <path d="M8 60 H128" style="fill: none; stroke: #b8ff38; stroke-width: 4;"></path>
+        <path d="M128 60 C 168 60, 176 20, 222 20 H 292" style="fill: none; stroke: #2b3154; stroke-width: 4; stroke-dasharray: 6 8;"></path>
+        <path d="M296 12 l14 14 M310 12 l-14 14" style="fill: none; stroke: #2b3154; stroke-width: 4;"></path>
+        <path class="go" d="M128 60 C 168 60, 176 100, 222 100 H 312" style="fill: none; stroke: #b8ff38; stroke-width: 4;"></path>
+        <path d="M120 52h16v16h-16z" style="fill: #090b18; stroke: #b8ff38; stroke-width: 3;"></path>
+        <path d="M314 92h16v16h-16z" style="fill: #b8ff38;"></path>
+      </svg>
+      <p class="say e s">E sim, abri mão de ir para o IME 💀<br>Por quê? Difícil? Também kkk mas eu poderia continuar tentando...<br><br>Acontece que: descobri que não era o único lugar possível de continuar desenvolvendo o que gosto.</p>
+      <p class="say e s" style="margin-top: 20px;">Na verdade... comecei a enxergar oportunidades maiores no mundo da robótica.</p>
+      <p class="txt" style="margin-top: 30px;">Uma das coisas que me abriram a visão, por exemplo, foi a residência que fiz no Instituto Federal do Ceará, trabalhando no laboratório deles de <strong>Sistemas Embarcados</strong> (uma área específica da robótica rsrs), desenvolvendo projetos para grandes empresas e startups.</p>
+      <p class="lead">Foi uma experiência enriquecedora em todos os sentidos:</p>
+      <p class="txt">Aprendi muita coisa profunda de eletrônica, expandi minha visão de mercado de trabalho em robótica, fiz conexões com pessoas incríveis, e no sentido financeiro também éramos valorizados.</p>
+      <p class="txt">Do mais jovem (eu rsrs) ao mais velho, todos éramos tratados como estagiários: tendo <b>direito de errar</b>, espaço pra aprender e investimento em capacitação constante.</p><div class="ficha"><b class="tab" style="font-size: 21px">Conexão com grandes empresas</b></div><div class="ficha"><b class="tab">Desenvolvimento de StartUps</b></div>
+      <div class="fichas" aria-hidden="true">
+        <div class="ficha"><b class="tab">+3 mil</b><span>por mês</span></div>
+        <div class="ficha"><b class="tab">4h</b><span>por dia</span></div>
+        <div class="ficha"><b class="tab">5x2</b><span>escala</span></div>
+      </div>
+      <div class="bento" aria-label="Fotos e vídeo da residência em Sistemas Embarcados no IFCE">
+        <div class="b-wide"><img class="ph" src="residencia-ifce-1.svg" alt="Residência no laboratório de Sistemas Embarcados do IFCE" style="object-position: 50% 50%;"></div>
+        <div class="b-tall"><div class="slot"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4l13 8-13 8z"></path></svg><span>[VÍDEO] residencia ifce video 1</span></div></div>
+        <div class="b-sq"><img class="ph" src="residencia-ifce-2.svg" alt="Residência no IFCE, projeto" style="object-position: 50% 50%;"></div><div class="ficha"><b class="tab">Conexão com grandes empresas</b><span>por mês</span></div>
+        <div class="b-sq"><img class="ph" src="residencia-ifce-3.svg" alt="Residência no IFCE, equipe" style="object-position: 50% 50%;"></div>
+      </div>
+    </section>
+
+    <!-- EMPREENDEDORISMO · MUDANÇA, DE NOVO! --><section id="ensino" class="sec p-edu">
+      <p class="label mk"><span>Capítulo 05 — professor</span><span class="seta" aria-hidden="true"><i></i></span></p>
+      <h2 class="h2 l d">Comecei a trabalhar dando aulas. <br>Minhas experiências ensinando passaram por escolas de referência como: <span class="tag">CódigoKid</span>, <span class="tag">Farias Brito</span>, <span class="tag">Colégio Militar de Fortaleza</span> e <span class="tag">Instituto Federal do Ceará</span>.</h2>
+      <p class="cena-l">Num canto escuro do prédio do cursinho</p>
+      <p class="txt">Tudo começou quando eu estava deitado num banco. Naquele dia tava matando uma aula de inglês (fácil) enquanto orava e refletia: o quanto eu queria que meus amigos do cursinho conhecessem Jesus (e muitas orações foram respondidas, tá?), e como eu tava tendo pouca evolução nos simulados pro IME.</p>
+      <p class="txt">Então decidi abrir o YouTube num canal que sempre me ajudou desde a minha conversão: <b>JesusCopy</b>.</p>
+      <p class="txt">Sim: ouvindo o Douglas Gonçalves entrevistando o pastor,</p>
+      <p class="estalo e">me ofereci para dar aula de forma voluntária.</p>
+      <p class="say w e s">Acredita?</p>
+      <p class="txt">Logo gostaram do meu trabalho, me contrataram e até ressarciram o tempo como voluntário. Depois fui pra outra escola. E outra. E outra. E história para outra hora<span style="font-size: 15px">.</span></p>
+      
+      <div class="licao"><p>Mas o principal aprendizado é: você encontra seu caminho <b>servindo pessoas com as habilidades que tem</b>, e com aquilo que tem em mãos.</p></div><p class="txt">Dava aula e estudava, ensinar enquanto estou aprendendo... te lembra algum instagram por aí (olhinhos arregalados)?</p>
+      <div class="videos" aria-label="Vídeos das aulas">
+        <div class="slot"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4l13 8-13 8z"></path></svg><span>[VÍDEO] video 1 aula codigokid</span></div>
+        <div class="slot"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4l13 8-13 8z"></path></svg><span>[VÍDEO] video 2 aula codigokid</span></div>
+      </div>
+    </section>
+
+    <!-- TECNOLOGIA · PROGRAMAÇÃO -->
+    <section id="programacao" class="sec p-tec">
+      <p class="label mk"><span>Capítulo 06 — faculdade</span><span class="seta" aria-hidden="true"><i></i></span></p>
+      <h2 class="h2 l d">Ao mesmo tempo, fazia faculdade de Análise e Desenvolvimento de Sistemas.</h2>
+      <p class="txt">Eu gostava de programação. Mas não queria programar apenas sites e aplicativos.</p>
+      <p class="txt">Sempre fui o programador das minhas equipes de robótica. Só que o que eu gosto de programar tem corpo:</p>
+      <p class="estalo e">eu gosto de programar robôs.</p>
+      <div class="tiles {{ tk.fullCls }}" aria-label="Áreas de tecnologia">
+        <button type="button" class="tile" onClick="{{ tk.t0 }}" aria-pressed="{{ tk.p0 }}" style="background: {{ tk.b0 }}; color: {{ tk.f0 }}; border-color: {{ tk.d0 }};"><svg class="ic" viewBox="0 0 24 24"><path d="M8 7l-5 5 5 5"></path><path d="M16 7l5 5-5 5"></path><path d="M14 4l-4 16"></path></svg><span>Software</span></button>
+        <button type="button" class="tile" onClick="{{ tk.t1 }}" aria-pressed="{{ tk.p1 }}" style="background: {{ tk.b1 }}; color: {{ tk.f1 }}; border-color: {{ tk.d1 }};"><svg class="ic" viewBox="0 0 24 24"><path d="M4 12h4l2-5 4 10 2-5h4"></path></svg><span>Eletrônica</span></button>
+        <button type="button" class="tile" onClick="{{ tk.t2 }}" aria-pressed="{{ tk.p2 }}" style="background: {{ tk.b2 }}; color: {{ tk.f2 }}; border-color: {{ tk.d2 }};"><svg class="ic" viewBox="0 0 24 24"><path d="M12 8a4 4 0 1 0 0 8a4 4 0 0 0 0-8z"></path><path d="M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M19 5l-2 2M7 17l-2 2"></path></svg><span>Máquinas</span></button>
+      </div>
+      <figure class="fig"><img class="ph" src="2019-tela-programacao-do-robo.jpg" alt="Tela de programação de robô, 2019" style="object-position: 50% 50%;"></figure>
+    </section>
+<!-- EDUCAÇÃO · ENSINO EM MOVIMENTO -->
+    <section id="denovo" class="sec p-emp">
+      <p class="label mk"><span>Capítulo 07 — vendas</span><span class="seta" aria-hidden="true"><i></i></span></p>
+      
+      
+      <p class="lead">Decidi sair do emprego no Instituto Federal!</p>
+      <div class="msgs">
+        <div class="msg"><span class="msg-av" aria-hidden="true"><svg class="ic" viewBox="0 0 24 24"><path d="M12 12a4 4 0 1 0 0-8a4 4 0 0 0 0 8z"></path><path d="M4 21a8 8 0 0 1 16 0"></path></svg></span><p class="msg-b forte"><b>Pai</b>O QUÊ!?</p></div>
+        <div class="msg dir"><span class="msg-av" aria-hidden="true"><svg class="ic" viewBox="0 0 24 24"><path d="M12 12a4 4 0 1 0 0-8a4 4 0 0 0 0 8z"></path><path d="M4 21a8 8 0 0 1 16 0"></path></svg></span><p class="msg-b"><b>Chefe</b>Por quê?</p></div>
+        <div class="msg"><span class="msg-av" aria-hidden="true"><svg class="ic" viewBox="0 0 24 24"><path d="M12 12a4 4 0 1 0 0-8a4 4 0 0 0 0 8z"></path><path d="M4 21a8 8 0 0 1 16 0"></path></svg></span><p class="msg-b"><b>Amigo</b>Como assim??</p></div>
+      </div>
+      
+
+      <p class="txt" style="margin-top: 22px;">Sim, todos me questionaram, garantindo que estava certo da minha decisão, e saí! Em paz... porque eu tinha algo claro em mente:</p>
+
+      <figure class="livro">
+        <blockquote class="livro-q e">“Não trabalhe para ganhar dinheiro, trabalhe para aprender”</blockquote>
+        <figcaption class="livro-f">Aprendi no livro best-seller <em>Pai Rico, Pai Pobre</em></figcaption>
+      </figure>
+      <p class="txt">Aprenda as habilidades necessárias para fazer o dinheiro trabalhar pra você.<br></p><p class="txt">Foi uma experiência incrível enquanto durou em todos os sentidos. Mas os motivos eram claros na minha mente:</p>
+
+      <div class="rolo">
+        <div class="rolo-palco">
+          <div class="rolo-cilindro" style="transform: translateZ(calc(var(--rolo-raio) * -1)) rotateX({{ rolo.giro }});">
+            <sc-for list="{{ rolo.itens }}" as="m" hint-placeholder-count="8">
+              <div class="{{ m.cls }}" style="transform: rotateX({{ m.rot }}) translateZ(var(--rolo-raio));">
+                <div class="rolo-face" style="opacity: {{ m.op }}; --rolo-bl: {{ m.blur }};">
+                  <span class="rolo-n px">{{ m.n }}</span>
+                  <p class="rolo-txt">{{ m.txt }}</p>
+                </div>
+              </div>
+            </sc-for>
+          </div>
+          <div class="rolo-luz" aria-hidden="true"></div>
+          <button type="button" class="rolo-tap" tabindex="-1" aria-hidden="true" onClick="{{ rolo.girar }}"></button>
+        </div>
+        <div class="rolo-barra">
+          <button type="button" class="rolo-btn" onClick="{{ rolo.girar }}" aria-label="Ver o próximo motivo">
+            <span>girar</span>
+            <svg class="ic rolo-seta" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v15"></path><path d="M5 12l7 7 7-7"></path></svg>
+          </button>
+          <span class="rolo-conta px">{{ rolo.conta }}</span>
+        </div>
+      </div>
+      <p class="txt" style="margin-top: 26px;">Sou jovem e quero usar minha energia para construir algo de valor para a sociedade. <br>Quero que muitos vivam a robótica e sejam transformados por meio dela como eu fui. Quero expandir isso com um método escalável.<br><br></p>
+      <p class="estalo e">Chegou a hora de abrir a minha StartUp!</p>
+      <p class="lead" style="margin-top: 26px;">Mas pra isso eu vi que precisava de tempo e dinheiro</p>
+
+
+      <div class="msgs" style="margin-top: 34px;">
+        <div class="msg"><span class="msg-av" aria-hidden="true"><svg class="ic" viewBox="0 0 24 24"><path d="M12 12a4 4 0 1 0 0-8a4 4 0 0 0 0 8z"></path><path d="M4 21a8 8 0 0 1 16 0"></path></svg></span><p class="msg-b">"Ah, Tiago, mas tu trabalhava 4h por dia e ganhava mais que metade da população brasileira, vai me dizer que faltava tempo e dinheiro!?"</p></div>
+      </div>
+      <p class="lead" style="margin-top: 24px;">Sim, exatamente.</p>
+      <p class="txt" style="margin-top: 8px;">O esgotamento mental era grande. Nunca vai entrar na minha cabeça admitir que as pessoas trabalham 8h por dia para ganhar um salário mínimo.</p>
+      <p class="txt">Dinheiro eu gastava tudo para sobreviver. <strong>(Descobri que no Brasil 3 mil é sobrevivência)</strong><br>Pagando meu aluguel, minhas refeições, deslocamentos, tudo da vida de quem mora sozinho...</p>
+      <p class="txt">E tempo... bom, apesar de estar apenas 4h no trabalho, eu fazia faculdade né, e também academia, e também igreja.</p>
+      <div class="meters" aria-hidden="true">
+        <div class="meter"><p class="meter-l"><span>tempo</span><svg class="ic" viewBox="0 0 24 24"><path d="M12 3a9 9 0 1 0 0 18a9 9 0 0 0 0-18z"></path><path d="M12 7v5l3 2"></path></svg></p><div class="meter-track"><i class="meter-fill"></i></div></div>
+        <div class="meter"><p class="meter-l"><span>dinheiro</span><svg class="ic" viewBox="0 0 24 24"><path d="M3 7h18v10H3z"></path><path d="M12 9.5a2.5 2.5 0 1 0 0 5a2.5 2.5 0 0 0 0-5z"></path></svg></p><div class="meter-track"><i class="meter-fill"></i></div></div>
+        <div class="meter"><p class="meter-l"><span>energia mental</span><svg class="ic" viewBox="0 0 24 24"><path d="M12 5.5a3 3 0 0 0-5.6 1.3A2.8 2.8 0 0 0 4.8 11a2.8 2.8 0 0 0 1.5 3.4A2.8 2.8 0 0 0 9 19h3z"></path><path d="M12 5.5a3 3 0 0 1 5.6 1.3A2.8 2.8 0 0 1 19.2 11a2.8 2.8 0 0 1-1.5 3.4A2.8 2.8 0 0 1 15 19h-3z"></path><path d="M12 5.5V19"></path></svg></p><div class="meter-track"><i class="meter-fill"></i></div></div>
+      </div>
+      <p class="say w e s">Onde ia arranjar tempo pra pensar no meu negócio próprio?</p>
+      <p class="txt">Tivemos férias final do ano, pensei bastante, e no primeiro dia do retorno anunciei minha saída.</p>
+
+      <div class="cal" aria-hidden="true"><div class="cal-top">janeiro</div><div class="cal-day tab">6</div></div>
+      <p class="lead" style="margin-top: 28px;">No dia 6 de janeiro (meu aniversário inclusive), foi meu último dia, algo simbólico pra mim. Decidi: a partir de hoje iria trabalhar pra mim, assumiria as rédeas da minha vida.</p>
+
+      <figure class="fig">
+        <img class="ph" src="despedida-do-laboratorio.jpg" alt="Despedida do laboratório, com bolo de aniversário" style="object-position: 50% 50%;">
+        <figcaption class="figcap">Despedida do laboratório e comemoração do aniversário&nbsp;</figcaption>
+      </figure>
+      <p class="caixa">Era um laboratório secreto, assinei um termo de confidencialidade por 2 anos, então não posso falar muitas coisas.</p>
+
+      <p class="txt" style="margin-top: 28px;">Comecei a vender 4 horas por dia, dia sim dia não, na praia de Fortaleza. Mas eu contava o deslocamento dentro das 4h, e no trabalho, se contasse deslocamento dava 6h.</p>
+      <div class="troca" aria-hidden="true">
+        <div class="troca-col">
+          <p class="troca-h">LABORATÓRIO</p>
+          <div class="troca-m"><span class="troca-k">tempo</span><b class="tab">6h</b><div class="troca-bar"><i style="height: 100%;"></i></div><small>todo dia</small></div>
+          <div class="troca-m"><span class="troca-k">dinheiro</span><b class="tab">3 mil</b><div class="troca-bar"><i style="height: 75%;"></i></div><small>por mês</small></div>
+        </div>
+        <div class="troca-col agora">
+          <p class="troca-h">praia</p>
+          <div class="troca-m"><span class="troca-k">tempo</span><b class="tab">4h</b><div class="troca-bar"><i style="height: 66%;"></i></div><small>dia sim, dia não</small></div>
+          <div class="troca-m"><span class="troca-k">dinheiro</span><b class="tab">4 mil</b><div class="troca-bar"><i style="height: 100%;"></i></div><small>por mês</small></div>
+        </div>
+      </div>
+      <p class="estalo e">Ganhei tempo, dinheiro, tudo que eu precisava.</p>
+
+      <figure class="fig">
+        <img class="ph tall" src="primeira-vez-vendendo-na-praia.jpg" alt="Primeira vez vendendo na praia" style="object-position: 50% 50%;">
+        <figcaption class="figcap">Primeira vez vendendo na praia e os meus próprios produtos. Eu não comecei vendendo na praia, e não vendia os meus produtos. E foi aí que vi que vender dava mais certo que vender a hora, mas fica pra outra hora essa história... ela é muito engraçada</figcaption>
+      </figure>
+      <p class="say e s">Em fevereiro, tranquei a faculdade.</p>
+      <p class="txt" style="margin-top: 26px;">Ela também me sugava tempo e energia, e não estava me dando o <b>ROI</b> necessário — o retorno sobre o investimento. Eu gastava energia e tempo ali sem ver que aquilo iria, de fato, me ajudar a concretizar o meu sonho.</p>
+      <p class="txt">Aquela faculdade ensinava mais sobre programar sites e aplicativos. E eu já sabia o que queria programar.</p>
+
+      <div class="story" id="story-viagem" onPointerDown="{{ sg.down }}" onPointerUp="{{ sg.up }}">
+        <div class="story-top"><sc-for list="{{ sg.bars }}" as="b" hint-placeholder-count="6"><i class="{{ b.cls }}"></i></sc-for></div>
+        <div class="story-body">
+          <sc-if value="{{ sg.s0 }}" hint-placeholder-val="{{ true }}"><div class="step"><p class="e">Tranquei a faculdade e decidi viajar vendendo.</p></div></sc-if>
+          <sc-if value="{{ sg.s1 }}" hint-placeholder-val="{{ false }}"><div class="step"><p>Fiz um rolê pelo Nordeste: Olinda, Recife, Natal.</p></div></sc-if>
+          <sc-if value="{{ sg.s2 }}" hint-placeholder-val="{{ false }}"><div class="step"><p>Depois fui para São Paulo, e voltei para a minha cidade natal para ver os meus pais.<br>Lá continuei vendendo... <br>Inclusive, sem ter o apoio do meu pai pra isso (ele achava estranho e perigoso)</p></div></sc-if>
+          <sc-if value="{{ sg.s3 }}" hint-placeholder-val="{{ false }}"><div class="step"><p>Um dia estava no posto de gasolina, à noite, frio, mas as vendas estavam saindo aos poucos, e decidi continuar. Depois de muitos "nãos" seguidos... (parece que as bençãos sempre vêm assim né?)&nbsp;<br>Encontrei um japonês. Vendi pra ele.<br>Japonês você sabe como é:<br>Inteligentes, práticos, desenrolados.<br>Quando falei que estava levantando recurso pra abrir a minha empresa de robótica. Ele já meteu um "AH, ENTÃO VOCÊ TRABALHA NA MESMA ÀREA QUE EU? Conhece o laboratório do Sebrae?"<br></p></div></sc-if>
+          <sc-if value="{{ sg.s4 }}" hint-placeholder-val="{{ false }}"><div class="step"><p>Ele me indicou pro Sebrae numa noite. No dia seguinte eu já estava lá, falando com os consultores.</p></div></sc-if>
+          <sc-if value="{{ sg.s5 }}" hint-placeholder-val="{{ false }}"><div class="step"><p>Eles me deram uma mentoria sobre o meu modelo de negócio: a ideia de criar uma escola de robótica online era válida, mas levaria tempo.</p><p>Enquanto isso, eu poderia continuar vendendo os doces e criar um robô para vender junto comigo: aumentar a conexão com o cliente, o número de conversões e o dinheiro que entra — pra investir na estruturação da escola.</p></div></sc-if>
+        </div>
+        <div class="story-ft">
+          <span class="story-count tab">{{ sg.count }}</span>
+          <button type="button" class="sbtn" onClick="{{ sg.toggle }}" aria-label="Ver tudo de uma vez" aria-pressed="{{ sg.all }}">
+            <sc-if value="{{ sg.notAll }}" hint-placeholder-val="{{ true }}"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"></path></svg></sc-if>
+            <sc-if value="{{ sg.all }}" hint-placeholder-val="{{ false }}"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5h14v14H5z"></path><path d="M9 12h6"></path></svg></sc-if>
+          </button>
+          <sc-if value="{{ sg.stepMode }}" hint-placeholder-val="{{ true }}">
+            <div class="story-nav">
+              <button type="button" class="sbtn" onClick="{{ sg.prev }}" disabled="{{ sg.atStart }}" aria-label="Trecho anterior"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 12H5"></path><path d="M11 5l-7 7 7 7"></path></svg></button>
+              <button type="button" class="sbtn main" onClick="{{ sg.next }}" aria-label="Próximo trecho">
+                <sc-if value="{{ sg.notLast }}" hint-placeholder-val="{{ true }}"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15"></path><path d="M13 5l7 7-7 7"></path></svg></sc-if>
+                <sc-if value="{{ sg.last }}" hint-placeholder-val="{{ false }}"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4.5 12a7.5 7.5 0 1 0 2.2-5.3"></path><path d="M4 3.5V9h5.5"></path></svg></sc-if>
+              </button>
+            </div>
+          </sc-if>
+        </div>
+      </div>
+      <figure class="fig" style="margin-top: 26px;">
+        <div class="slot slot-alto"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 8h10a2 2 0 0 1 2 2v6a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-6a2 2 0 0 1 2-2z"></path><path d="M12 4v4"></path><path d="M9 13h.01M15 13h.01"></path><path d="M3 12H1M23 12h-2"></path></svg><span>[FOTO OU RENDER: o robô que vende comigo]</span></div>
+      </figure>
+      <p class="estalo e">Um robô vendendo comigo, pra pagar a escola que eu quero construir.</p>
+
+      <div class="cena" id="a-mae">
+        <p class="cena-l">Um dia, numa praça de alimentação em Fortaleza</p>
+        <p class="txt">Meus pais não apoiavam. Achavam perigoso. Já tinham me ligado pra falar disso.</p>
+        <p class="txt">Aí uma mãe parou na minha frente, olhou pra mim e disse:</p>
+        <blockquote class="dito grande"><p class="e">Olha, eu tenho um filho de um ano. Se o meu filho tiver a sua idade fazendo exatamente o que você está fazendo, eu vou ser a mãe mais orgulhosa do mundo.</p></blockquote>
+        <p class="txt">Era um casal fitness. Compraram de mim só porque gostaram de mim e da minha abordagem — o produto em si nem fazia tanto sentido pra eles.</p>
+        <p class="txt">Quando um mendigo chegou pedindo o resto do que tinha sobrado na mesa, eles deram o doce. Deram tudo.</p>
+        <p class="txt">Eu segurei enquanto ela estava ali.</p>
+        <p class="say w e s">Na hora que ela foi embora, eu tive que sair.</p>
+        <p class="txt">Naquele dia eu chorei muito. E não era por ela ter comprado.</p>
+        <p class="txt">Era porque outras pessoas entendiam o que eu estava fazendo. E, mais do que isso, admiravam.</p>
+        <p class="lead">Eu só queria que os meus pais vissem isso.</p>
+        <p class="txt">Mesmo que eles não vejam. Mesmo que eles não entendam. Mesmo que eles não apoiem.</p>
+        <p class="estalo e">Aquilo me trouxe muito mais convicção do que eu tô fazendo, do porquê eu tô fazendo — e ânimo pra continuar.</p>
+      </div>
+    
+
+    </section>
+
+    <!-- TECNOLOGIA · DUAS COISAS EM UMA -->
+    <section id="floripa" class="sec p-tec">
+      <p class="label mk"><span>Capítulo 08 — mudança, de novo!</span><span class="seta" aria-hidden="true"><i></i></span></p>
+      <h2 class="h2 d" style="text-transform: uppercase;">Mudança, de novo!</h2>
+      <p class="lead" style="margin-top: 34px;">Nessa época vendendo, muita gente me perguntava da faculdade.</p>
+      <div class="term" aria-label="A pergunta que todo mundo fazia">
+        <div class="term-bar" aria-hidden="true"><i></i><i></i><i></i><span>pergunta_recorrente.txt</span></div>
+        <p class="term-l"><span class="term-p">&gt;</span> E a faculdade, Tiago?<span class="term-c" aria-hidden="true"></span></p>
+      </div>
+      <div class="gavetas">
+        <div class="gaveta">
+          <button type="button" class="gav-b" onClick="{{ gav.t0 }}" aria-expanded="{{ gav.p0 }}"><span>Vi o quanto ainda valorizam isso.</span><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg></button>
+          <sc-if value="{{ gav.p0 }}" hint-placeholder-val="{{ true }}"><p class="gav-t">Eu, sinceramente, acredito que o sistema de ensino das faculdades está ultrapassado.</p></sc-if>
+        </div>
+        <div class="gaveta">
+          <button type="button" class="gav-b" onClick="{{ gav.t1 }}" aria-expanded="{{ gav.p1 }}"><span>Mas ainda quero fazer porque quero passar pelo processo que todo mundo passa e sentir como é.</span><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg></button>
+          <sc-if value="{{ gav.p1 }}" hint-placeholder-val="{{ false }}"><p class="gav-t">E quero aprender os assuntos básicos — cálculo diferencial, principalmente 2 e 3 — pra expandir minha mente, o meu raciocínio matemático e físico, a forma como enxergo o mundo porque sei que ele é desenhado pelas leis matemáticas e físicas. Quero fazer pela prazer de aprender. Porque...</p></sc-if>
+        </div>
+      </div>
+<p class="say w e">Diferente de muitos, eu não espero que a faculdade me dê um bom emprego.</p>
+      <p class="txt" style="margin-top: 24px;">No laboratório eu trabalhei ao lado de pessoas com mestrado e doutorado. De igual pra igual, ganhando a mesma coisa — e vendo que elas passavam os mesmos sufocos pra se manter financeiramente.</p>
+      <p class="txt">Tudo bem que, enquanto eu fazia faculdade, elas trabalhavam em outro emprego e somavam os salários. Mas poucos saem dessa linha de formação tradicional com abundância de recursos. E quando ganham bem, é à custa de dedicação exclusiva.</p>
+      <p class="estalo e">Eu quero fazer o dinheiro trabalhar pra mim.</p>
+      <p class="txt" style="margin-top: 26px;">Ter recursos pra, primeiramente, viver com liberdade. E usar essa liberdade pra pensar em ideias inovadoras e gerar impacto. (O que já faço no meu tempo livre, isso é intrínsico a mim)</p><p class="txt" style="margin-top: 26px;">E por que gosto de pensar em formas de resolver problemas da sociedade? Porque os meus problemas já estão todos resolvidos. Eu sinceramente tenho tudo que eu preciso e que eu quero desde que conheci Jesus. Ele pregou todos meus problemas na cruz. Eu sinceramente olho no espelho, sorrio e me encontro plenamente satisfeito, com minha vida. Só às vezes me olho indignado, por ter tanto quanto eu tenho e fazer tão pouco. Mas quanto a estar satisfeito, ele não tem deixado faltar nada para essa fase da vida(essa é a promessa dEle para quem busca os interesses do seu Reino, e ele têm de fato cumprido a promessa). Eu tenho tudo que eu quero e preciso, e o que não tenho vejo que nem precisava e ou nem queria de verdade, ou que atrapalharia outra coisa que quero mais intensamente.</p><h2 class="h2 l d">Voltando ao assunto da faculdade. Eu pensei em retomar Análise e Desenvolvimento de Sistemas. De fato gosto de construir sistemas, mas que ultrapassem a tela de um computador.</h2>
+      <p class="note">(ainda bem que aprendi a fazer o básico de sites, como esse aqui)</p>
+      <p class="txt" style="margin-top: 22px;">Gosto de ver as coisas funcionando na vida real. Quero construir máquinas.</p>
+      <p class="estalo e">E a melhor faculdade que integra hardware e software é a Engenharia Mecatrônica.</p>
+      <svg class="curva" viewBox="0 0 350 130" preserveAspectRatio="none" aria-hidden="true"><path pathLength="1" vector-effect="non-scaling-stroke" d="M2 0 C2 80, 330 45, 330 126"></path></svg>
+      <div class="planta">
+        <span class="planta-badge" aria-hidden="true"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s6.5-6.2 6.5-11.5a6.5 6.5 0 0 0-13 0C5.5 14.8 12 21 12 21z"></path><path d="M12 7.5a2 2 0 1 0 0 4a2 2 0 0 0 0-4z"></path></svg></span>
+      <p class="say e" style="margin-top: 18px; display: flex; gap: 12px; align-items: flex-start;">
+        <svg class="ic" viewBox="0 0 24 24" aria-hidden="true" style="width: 30px; height: 30px; flex: none; margin-top: 4px;"><path d="M12 21s6.5-6.2 6.5-11.5a6.5 6.5 0 0 0-13 0C5.5 14.8 12 21 12 21z"></path><path d="M12 7.5a2 2 0 1 0 0 4a2 2 0 0 0 0-4z"></path></svg>
+        <span>E foi assim que vim parar em Florianópolis.</span>
+      </p>
+      <p class="lead" style="margin-top: 30px;">E por que Floripa?</p>
+      <div class="why">
+        <div class="why-card"><span class="why-ic" aria-hidden="true"><svg class="ic" viewBox="0 0 24 24"><path d="M2 9l10-5 10 5-10 5z"></path><path d="M6 11v5c3 2.5 9 2.5 12 0v-5"></path><path d="M22 9v6"></path></svg></span><p class="why-t">Passei numa faculdade federal de alto conceito daqui</p></div>
+        <div class="why-card"><span class="why-ic" aria-hidden="true"><svg class="ic" viewBox="0 0 24 24"><path d="M20 12a8 8 0 1 1-2.3-5.7"></path><path d="M20 4v4.5h-4.5"></path></svg></span><p class="why-t">Foi o primeiro processo seletivo que tentei, para retomar a faculdade o quanto antes, e deu certo. (tranquei Análise de Sistemas no 1º semestre de 2026, retomei Engenharia no segundo semestre).</p></div>
+        <div class="why-card"><span class="why-ic" aria-hidden="true"><svg class="ic" viewBox="0 0 24 24"><path d="M12 8.5a3.5 3.5 0 1 0 0 7a3.5 3.5 0 0 0 0-7z"></path><path d="M12 2.5v2.5M12 19v2.5M2.5 12H5M19 12h2.5M5.3 5.3l1.8 1.8M16.9 16.9l1.8 1.8M18.7 5.3l-1.8 1.8M7.1 16.9l-1.8 1.8"></path></svg></span><p class="why-t">Cidade segura, rica, bonita e com praia!</p></div>
+        <div class="why-card"><span class="why-ic" aria-hidden="true"><svg class="ic" viewBox="0 0 24 24"><path d="M12 21s6.5-6.2 6.5-11.5a6.5 6.5 0 0 0-13 0C5.5 14.8 12 21 12 21z"></path><path d="M12 7.5a2 2 0 1 0 0 4a2 2 0 0 0 0-4z"></path></svg></span><p class="why-t">Polo de inovação, maiores eventos de tecnologia e empreendedorismo do Brasil acontecem aqui!</p></div>
+      </div>
+      </div>
+    </section>
+
+    <!-- EDUCAÇÃO · NÃO PAREI DE ENSINAR (fundo escuro) -->
+    <section id="ensinar" class="sec p-edu dark-edu">
+      <p class="label mk"><span>Capítulo 09 — educação</span><span class="seta" aria-hidden="true"><i></i></span></p>
+      <h2 class="h2 d">Mas eu não parei de ensinar.</h2>
+      <div class="bar"></div>
+      <p class="e" style="color: #eef4ff; font-size: 28px;">A robótica me ensinou a usar tecnologia para construir robôs.</p><p class="d" style="margin-top: 16px; color: var(--ink); font-size: 34px; line-height: 1.02;">A educação me ensinou a construir pessoas através da tecnologia</p><p class="e" style="color: #eef4ff; font-size: 28px;">Decidi ensinar por aqui o que estou aprendendo, usando as redes sociais: uma tecnologia que tem sido usada para distrair muitos, mas pode ser usada para construir</p>
+      
+    </section>
+
+    <!-- EMPREENDEDORISMO · EMPREENDER -->
+    <section id="empreender" class="sec p-emp">
+      <p class="label mk"><span>Capítulo 10 — empreender</span><span class="seta" aria-hidden="true"><i></i></span></p>
+      <h2 class="h2 d" style="font-size: 40px;">O que significa empreender?</h2>
+      
+      <p class="verbete"><b class="verbete-p">empreender</b><span class="verbete-d">Do latim,&nbsp;<b>imprehendere</b>&nbsp;(ou <i data-path-to-node="0" data-index-in-node="58">inprehendere</i>), significa "tentar", "tomar para si" ou "apoderar-se"<br>O sentido original e literal da palavra remete à ideia de colocar algo em execução.</span></p>
+      <p class="txt">O empreendedorismo nasce nesse momento exato em que você decide capturar uma ideia, assumindo para si a responsabilidade de tirá-la do campo da imaginação.<br></p>
+      <p class="estalo e">Empreendedor não necessariamente é quem inicia uma empresa. Isso é ser empresário.</p>
+      <p class="txt" style="margin-top: 26px;">Eu quero ser os dois, porque acredito que empresas são capazes de gerar muito valor e impacto na sociedade.</p>
+      <p class="txt"></p>
+      <p class="txt">No livro <em>Originais: Como os Inconformistas Mudam o Mundo</em> (Adam Grant), ele mostra que a atitude de questionar o status quo e propor novas soluções (o cerne do <em>imprehendere</em>) não pertence apenas a empresários, mas a qualquer pessoa que deseja inovar em sua comunidade, família ou trabalho.</p>
+      <p class="txt">Eu quero servir as pessoas usando a habilidade que tenho, principalmente em robótica e educação, e inovar na forma de ensinar robótica.</p>
+      <p class="txt">Já tive várias ideias e tentei botar elas pra frente. Muitas ideias minhas deram certo como podem ver na minha história, mas... nem todas.</p>
+      <p class="say w e s">Talvez seja exatamente esse o ponto...</p>
+      <p class="txt">Por tentar tanto que conquistei o que conquistei até aqui. Isso só me motiva a continuar tentando tirar minhas ideias do papel.</p>
+      <p class="estalo e">E, na real, cada fracasso até aqui tem a função de me gerar uma aprendizagem validada.</p>
+      <p class="txt"></p><figure class="livro">
+        <blockquote class="livro-q e">“Aprendizado validado”</blockquote>
+        <figcaption class="livro-f">É assim que Eric Ries chama, em <em>A Startup Enxuta</em>, o que sobra de informação de um teste que deu errado.</figcaption>
+      </figure>
+    </section>
+
+    <!-- EMPREENDEDORISMO · DISCIPLINA, O CORPO -->
+<section id="disciplina" class="sec p-emp">
+      <p class="label mk"><span>Capítulo 11 — disciplina</span><span class="seta" aria-hidden="true"><i></i></span></p>
+      <h2 class="h2 d" style="font-size: 40px;">O corpo também faz parte da construção.</h2>
+      <p class="say w e">Por isso vou falar de treinos, esportes, meditação, respiração.</p>
+      <p class="txt" style="margin-top: 26px;">Eu falo isso porque, pelo pouco que entendo de máquinas, sei que todas elas precisam de manutenção ou prevenção.</p>
+      <p class="lead">Imagina a máquina mais complexa do mundo:</p>
+      <p class="estalo e">o nosso corpo.</p>
+      <div class="treinos">
+        <div class="treino">
+          <p class="treino-k">Intensidade</p>
+          <img class="ph" src="corrida-orientacao.jpg" alt="Tiago numa prova de corrida de orientação" style="object-position: 50% 40%;">
+        </div>
+        <div class="treino">
+          <p class="treino-k">Resistência</p>
+          <img class="ph" src="kung-fu-1.jpg" alt="Treino de kung fu" style="object-position: 50% 50%;">
+        </div>
+        <div class="treino">
+          <p class="treino-k">Constância</p>
+          <img class="ph" src="supino.jpg" alt="Tiago no supino" style="object-position: 90% 50%; object-fit: cover">
+        </div>
+        <div class="treino">
+          <p class="treino-k">RESULTADOS</p>
+          <img class="ph" src="medalhas-esporte.jpg" alt="Medalhas de esporte" style="object-position: 50% 50%;">
+        </div>
+      </div>
+      <p class="say w e s">Aqui não tem de robótica, nem matemática, só esporte</p>
+      <p class="estalo e">Mas a disciplina para superar desafios é a mesma</p>
+  </section>
+
+    <!-- EMPREENDEDORISMO · A ESCOLA, O QUE ESTOU CONSTRUINDO AGORA -->
+        <section id="escola" class="sec p-emp">
+      <p class="label mk"><span>Capítulo 12 — o que estou construindo agora</span><span class="seta" aria-hidden="true"><i></i></span></p>
+      <h2 class="h2 d" style="font-size: 40px;">Uma escola de robótica online.</h2>
+      <p class="txt">Uma forma acessível e personalizada de ensinar robótica.</p>
+      <div class="vs">
+        <button type="button" class="vs-card" onClick="{{ vs.pickAula }}" aria-pressed="{{ vs.aulaOn }}" style="background: {{ vs.aulaBg }};">
+          <h3 style="color: {{ vs.aulaH }};">Online</h3>
+          <ul class="vs-list">
+            <li class="sim"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 13l4 4 10-10"></path></svg><span>Evita deslocamentos</span></li>
+            <li class="sim"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 13l4 4 10-10"></path></svg><span>O laboratório é a sua mesa</span></li>
+            <li class="sim"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 13l4 4 10-10"></path></svg><span>O kit chega na sua casa</span></li>
+            <li class="sim"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 13l4 4 10-10"></path></svg><span>Flexibilidade de horário</span></li>
+            <li class="sim"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 13l4 4 10-10"></path></svg><span>Aulas ao vivo pra tirar dúvidas</span></li>
+          </ul>
+        </button>
+        <span class="vs-selo" aria-hidden="true">VS</span>
+        <button type="button" class="vs-card" onClick="{{ vs.pickMent }}" aria-pressed="{{ vs.mentOn }}" style="background: {{ vs.mentBg }};">
+          <h3 style="color: {{ vs.mentH }};">Presencial</h3>
+          <ul class="vs-list">
+            <li class="nao"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"></path></svg><span>O professor faz pelo aluno: quebra de autonomia</span></li>
+            <li class="nao"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"></path></svg><span>Difícil de encaixar na rotina</span></li>
+            <li class="nao"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"></path></svg><span>Preços elevados</span></li>
+            <li class="nao"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"></path></svg><span>O kit fica na escola, limitando a exploração dele</span></li>
+          </ul>
+        </button>
+      </div>
+      <ul class="chips" style="margin-top: 20px;" aria-label="Possibilidades da mentoria">
+        <li class="chip p-tec">competições</li>
+        <li class="chip p-emp">projetos escolares</li>
+        <li class="chip p-esp">feiras de ciências</li>
+        <li class="chip p-edu">projetos pessoais</li><p class="txt">Lembra que robótica não é apenas conteúdo técnico, mas uma ferramenta para desenvolver resolver problemas.</p>
+      </ul>
+    </section>
+
+  </main>
+
+
+  <!-- POR QUE CONTAR -->
+  <section class="porque" id="porque">
+    <p class="txt">Eu levei tanto tempo pra criar esse site que você está lendo. E passei tempo demais sendo mal compreendido.</p>
+    <p class="say w e">Se nem o meu pai entendia o porquê das minhas decisões, imagina quem me acompanhava de longe.</p>
+    <p class="lead">Por isso eu decidi contar essa história.</p>
+  </section>
+
+  <!-- MAPA HORIZONTAL DA HISTÓRIA: a linha atravessa os capítulos e sai pela direita -->
+  <section class="mapa-sec" id="mapa-final" aria-label="Linha do tempo da história">
+    <div class="mapa" onPointerDown="{{ tri.down }}" onPointerMove="{{ tri.move }}" onPointerUp="{{ tri.up }}" onPointerLeave="{{ tri.up }}">
+      <div class="mapa-in" style="width: {{ mapa.w }}px;">
+        <svg width="{{ mapa.w }}" height="340" aria-hidden="true"><path d="{{ mapa.s0.d }}" style="stroke: {{ mapa.s0.c }};"></path><path d="{{ mapa.s1.d }}" style="stroke: {{ mapa.s1.c }};"></path><path d="{{ mapa.s2.d }}" style="stroke: {{ mapa.s2.c }};"></path><path d="{{ mapa.s3.d }}" style="stroke: {{ mapa.s3.c }};"></path><path d="{{ mapa.s4.d }}" style="stroke: {{ mapa.s4.c }};"></path><path d="{{ mapa.s5.d }}" style="stroke: {{ mapa.s5.c }};"></path><path d="{{ mapa.s6.d }}" style="stroke: {{ mapa.s6.c }};"></path><path d="{{ mapa.s7.d }}" style="stroke: {{ mapa.s7.c }};"></path><path d="{{ mapa.s8.d }}" style="stroke: {{ mapa.s8.c }};"></path><path d="{{ mapa.s9.d }}" style="stroke: {{ mapa.s9.c }};"></path><path d="{{ mapa.s10.d }}" style="stroke: {{ mapa.s10.c }};"></path><path class="volta" d="{{ mapa.entrada }}"></path><path class="volta" d="{{ mapa.volta }}"></path></svg>
+        <sc-for list="{{ mapa.pontos }}" as="p" hint-placeholder-count="12">
+          <div style="display: contents;">
+            <div role="button" class="no px {{ p.cls }}" aria-label="{{ p.aria }}" onClick="{{ p.ir }}" style="left: {{ p.x }}px; top: {{ p.y }}px; --c: {{ p.c }}; --ink: {{ p.ink }};">{{ p.n }}</div>
+            <span class="no-rot px {{ p.lcls }}" style="left: {{ p.x }}px; top: {{ p.ly }}px; --ink: {{ p.ink }};">{{ p.rot }}</span>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+    <svg class="liga" viewBox="0 0 390 104" aria-hidden="true">
+      <defs>
+        <linearGradient id="ligaSai" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff"></stop><stop offset=".72" stop-color="#000"></stop></linearGradient>
+        <linearGradient id="ligaEntra" x1="0" y1="0" x2="0" y2="1"><stop offset=".28" stop-color="#000"></stop><stop offset="1" stop-color="#fff"></stop></linearGradient>
+        <mask id="ligaM1"><rect width="390" height="104" fill="url(#ligaSai)"></rect></mask>
+        <mask id="ligaM2"><rect width="390" height="104" fill="url(#ligaEntra)"></rect></mask>
+      </defs>
+      <path class="liga-tracejada" mask="url(#ligaM1)" d="M378 0 C378 30 348 38 348 58 C348 80 378 84 378 104"></path>
+      <path class="liga-cheia" mask="url(#ligaM2)" d="M378 0 C378 30 348 38 348 58 C348 80 378 84 378 104"></path>
+    </svg>
+  </section>
+
+  <!-- VOCÊ ESTÁ NESSA PARTE DA HISTÓRIA: a rolagem desce e a página anda para o lado (Design 3 · Mudança de rota) -->
+  <section class="vira-b" id="voce-esta">
+    <div class="stick">
+      <div class="track" style="transform: translate3d(-{{ vb.x }}%, 0, 0);">
+        <div class="pan">
+          <svg class="route" viewBox="0 0 390 844" preserveAspectRatio="xMinYMid slice" aria-hidden="true"><path pathLength="1" style="stroke-dashoffset: {{ vb.d1 }};" d="M390 430 H64 Q12 430 12 482 V844"></path><path pathLength="1" style="stroke-dashoffset: {{ vb.a1 }};" d="M-14 806 l26 26 26 -26"></path></svg>
+          <p class="s e">...escolha como <em>participar</em> dela.</p>
+        </div>
+        <div class="pan">
+          <svg class="route" viewBox="0 0 390 844" preserveAspectRatio="xMinYMid slice" aria-hidden="true"><path pathLength="1" style="stroke-dashoffset: {{ vb.d2 }};" d="M390 430 H0"></path></svg>
+          <h2 class="t d">Você está nessa parte da história</h2>
+        </div>
+        <div class="pan" aria-hidden="true">
+          <svg class="route" viewBox="0 0 390 844" preserveAspectRatio="xMinYMid slice"><path pathLength="1" style="stroke-dashoffset: {{ vb.d3 }};" d="M378 0 V330 Q378 430 278 430 H0"></path><path pathLength="1" style="stroke-dashoffset: {{ vb.a3 }};" d="M28 404 l-26 26 26 26"></path></svg>
+        </div>
+      </div>
+      <div class="rail" aria-hidden="true"><i style="width: {{ vb.w }}%;"></i><b style="right: {{ vb.w }}%;"></b></div>
+    </div>
+  </section>
+
+  <!-- CONVITES -->
+  <section class="part" id="participar">
+    <div class="ctas">
+      <div class="cta">
+        <span class="btn" role="button" title="Escola de robótica online (link a definir)" style="--bg: #31a7ff; --rgb: 49, 167, 255;"><span>Quero conhecer a escola de robótica online</span><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13"></path><path d="M12 5l7 7-7 7"></path></svg></span>
+        <span class="todo">[LINK: escola de robótica online]</span>
+      </div>
+      <div class="cta">
+        <span class="btn" role="button" title="Grupo de estratégias de vendas (link a definir)" style="--bg: #b8ff38; --rgb: 184, 255, 56;"><span>Quero as estratégias de vendas</span><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13"></path><path d="M12 5l7 7-7 7"></path></svg></span>
+        <span class="todo">[LINK: grupo de estratégias de vendas]</span>
+      </div>
+      <div class="cta">
+        <span class="btn" role="button" title="WhatsApp do Tiago (link a definir)" style="--bg: #ff8049; --rgb: 255, 128, 73;"><span>Quero apoiar essa construção com recursos ou conhecimento</span><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13"></path><path d="M12 5l7 7-7 7"></path></svg></span>
+        <span class="todo">[LINK: WhatsApp do Tiago]</span>
+      </div>
+    </div>
+    
+  </section>
+
+  <!-- FECHAMENTO -->
+  <footer class="final" id="final">
+    <p class="txt" style="margin-top: 0; font-size: 16px;">Antes era @tiagodarobotica.</p>
+    <h2 class="h2 d" style="margin-top: 12px; font-size: 40px;">Agora você está conhecendo o que existe por trás dele.</h2>
+    <div class="areas" aria-label="Áreas da trajetória">
+      <span class="area px p-tec">robótica</span><span class="area px p-esp">fé</span><span class="area px p-edu">educação</span><span class="area px p-emp">esporte</span>
+      
+      
+      <span class="area px p-tec">competição</span>
+      <span class="area px p-tec">tecnologia</span>
+      
+      <span class="area px p-emp">EMPREENDERISMO</span>
+      
+    </div><div class="cta" style="margin-top: 20px;">
+      <span class="insta" role="button" title="instagram.com/otiagoarantes">Acompanhe essa construção no Instagram<svg class="ic" viewBox="0 0 24 24" aria-hidden="true" style="width: 16px; height: 16px;"><path d="M7 17L17 7"></path><path d="M8 7h9v9"></path></svg></span>
+      <span class="todo">[LINK: instagram.com/otiagoarantes]</span>
+    </div>
+    <div class="future"><span>Escola online</span><span>Projetos</span><span>Parcerias</span><span>Aulas e eventos</span></div>
+    <p class="foot">Em construção — com fé, disciplina e curiosidade.</p>
+  </footer>
+  </div>
+
+
+
+</x-dc>
+<script data-dc-script>
+class Component extends DCLogic {
+  constructor(...args) {
+    super(...args);
+    this.state = {
+      cur: -1, prog: 0, vira: 0, viraB: 0, kkkOn: false, amigoOn: false, respOn: false, resp: '',
+      step: { vivo: 0, legiao: 0, viagem: 0, intervalo: 0 },
+      all: { vivo: false, legiao: false, viagem: false, intervalo: false },
+      tech: [false, false, false],
+      disc: [false, false, false, false],
+      trail: [false, false, false, false, false, false, false, false],
+      pilar: -1, roloVolta: 0, gav: [true, false, false], mostrar: { reuni: false, motivos: false }, mode: 'aula', glitch: 'g0', counts: {}, active: {}
+    };
+  }
+
+  // os 6 motivos de sair do emprego, nas palavras do Tiago
+  // 4 motivos, repetidos duas vezes na parede do rolo: com 8 faces o giro
+  // fica de 45 graus e a curva parece redonda, em vez de hexagonal
+  // 4 motivos, repetidos duas vezes na parede do rolo: com 8 faces o giro fica
+  // de 45 graus e a curvatura parece redonda, em vez de hexagonal
+  roloMotivos() {
+    return [
+      { n: '01', txt: "Percebi que extraí o máximo daquela experiência." },
+      { n: '02', txt: "Se tinha conhecimento para desenvolver projetos para outras empresas de robótica e até mesmo ajudar no processo de ideação e lançamento delas. Então poderia fazer o mesmo pra mim e criar a minha empresa." },
+      { n: '03', txt: "Eu sabia sobre robótica, sabia quais falhas existem no sistema de educação e tinha uma ideia de empresa educacional para suprir essas lacunas." },
+      { n: '04', txt: "Decidi sair para desenvolver uma nova habilidade, a mais valorizada do mercado: vendas. Pois iria precisar vender minha solução em robótica." }
+    ];
+  }
+
+  // os capítulos, na ordem do Tiago (barra do topo e mapa do final)
+  partes() {
+    return [
+      { id: 'robotica', n: '01', rot: 'origem', p: 'tec' },
+      { id: 'fe', n: '02', rot: 'fé', p: 'esp' },
+      { id: 'vivo', rot: 'me sentindo vivo', p: 'esp' },
+      { id: 'reuni', rot: 'reuni 3 na minha casa', p: 'esp' },
+      { id: 'voluntario', rot: 'voluntário', p: 'esp' },
+      { id: 'intervalo', rot: 'intervalo com Deus', p: 'esp' },
+      { id: 'legiao', rot: 'legião de honra', p: 'esp' },
+      { id: 'altas', rot: 'diferente', p: 'edu' },
+      { id: 'sonho', n: '03', rot: 'o sonho do vestibular', p: 'tec' },
+      { id: 'rota', n: '04', rot: 'mudança de rota', p: 'tec' },
+      { id: 'ensino', n: '05', rot: 'professor', p: 'edu' },
+      { id: 'programacao', n: '06', rot: 'faculdade', p: 'tec' },
+      { id: 'denovo', n: '07', rot: 'vendas', p: 'emp' },
+      { id: 'floripa', n: '08', rot: 'mudança, de novo!', p: 'tec' },
+      { id: 'ensinar', n: '09', rot: 'educação', p: 'edu' },
+      { id: 'empreender', n: '10', rot: 'empreender', p: 'emp' },
+      { id: 'disciplina', n: '11', rot: 'disciplina', p: 'emp' },
+      { id: 'escola', n: '12', rot: 'o que estou construindo agora', p: 'emp' }
+    ];
+  }
+
+  componentDidMount() {
+    this.reduce = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+    this._onScroll = () => {
+      if (this._raf) return;
+      this._raf = requestAnimationFrame(() => { this._raf = 0; this.track(); });
+    };
+    window.addEventListener('scroll', this._onScroll, { passive: true });
+    window.addEventListener('resize', this._onScroll);
+    this.track();
+    this.recount();
+  }
+
+  componentDidUpdate() { this.recount(); }
+
+  componentWillUnmount() {
+    window.removeEventListener('scroll', this._onScroll);
+    window.removeEventListener('resize', this._onScroll);
+    if (this._raf) cancelAnimationFrame(this._raf);
+    clearTimeout(this._st);
+    clearInterval(this._rp);
+  }
+
+  respira(on) {
+    clearInterval(this._rp);
+    if (!on) { this.setState({ resp: '' }); return; }
+    const fases = ['inspira', 'segura', 'solta', 'segura'];
+    let k = 0;
+    this.setState({ resp: fases[0] });
+    this._rp = setInterval(() => { k = (k + 1) % fases.length; this.setState({ resp: fases[k] }); }, 4000);
+  }
+
+  track() {
+    const line = window.innerHeight * 0.35;
+    let cur = -1;
+    this.partes().forEach((p, i) => {
+      const el = document.getElementById(p.id);
+      if (el && el.getBoundingClientRect().top < line) cur = i;
+    });
+    const max = document.documentElement.scrollHeight - window.innerHeight;
+    const prog = max > 0 ? Math.round(Math.min(1, Math.max(0, window.scrollY / max)) * 400) / 400 : 0;
+    let vira = 1;
+    const v = document.getElementById('virada');
+    if (v && !this.reduce) {
+      const r = v.getBoundingClientRect();
+      vira = Math.round(Math.min(1, Math.max(0, (window.innerHeight - r.top) / (window.innerHeight * 0.7))) * 100) / 100;
+    }
+    let viraB = 1;
+    const vbEl = document.getElementById('voce-esta');
+    if (vbEl && !this.reduce) {
+      const r = vbEl.getBoundingClientRect();
+      const span = r.height - window.innerHeight;
+      viraB = span > 0 ? Math.round(Math.min(1, Math.max(0, -r.top / span)) * 200) / 200 : 1;
+    }
+    const s = this.state;
+    if (cur !== s.cur || prog !== s.prog || vira !== s.vira || viraB !== s.viraB) this.setState({ cur: cur, prog: prog, vira: vira, viraB: viraB });
+  }
+
+  go(id) {
+    const el = document.getElementById(id);
+    if (el) el.scrollIntoView({ behavior: this.reduce ? 'auto' : 'smooth', block: 'start' });
+  }
+
+  stepTo(key, v) {
+    this.setState({ step: Object.assign({}, this.state.step, { [key]: v }) });
+    clearTimeout(this._st);
+    this._st = setTimeout(() => {
+      const box = document.getElementById('story-' + key);
+      if (!box) return;
+      const top = box.getBoundingClientRect().top;
+      if (top < 56) window.scrollBy({ top: top - 64, behavior: this.reduce ? 'auto' : 'smooth' });
+    }, 30);
+  }
+
+  flip(key, i) {
+    const arr = this.state[key].slice();
+    arr[i] = !arr[i];
+    this.setState({ [key]: arr });
+  }
+
+  galleries() { return Array.from(document.querySelectorAll('[data-gallery]')); }
+  cards(g) { return Array.from(g.children).filter((el) => el.classList.contains('card')); }
+
+  recount() {
+    const counts = {};
+    this.galleries().forEach((g) => { counts[g.dataset.gallery] = this.cards(g).length; });
+    const prev = this.state.counts || {};
+    const keys = Object.keys(counts);
+    const same = keys.length === Object.keys(prev).length && keys.every((k) => counts[k] === prev[k]);
+    if (!same) this.setState({ counts: counts });
+  }
+
+  nearest(g) {
+    const box = g.getBoundingClientRect();
+    let best = 0, bestD = Infinity;
+    this.cards(g).forEach((card, i) => {
+      const d = Math.abs(card.getBoundingClientRect().left - box.left - 24);
+      if (d < bestD) { bestD = d; best = i; }
+    });
+    return best;
+  }
+
+  goTo(key, i) {
+    const g = document.querySelector('[data-gallery="' + key + '"]');
+    const card = g && this.cards(g)[i];
+    if (!card) return;
+    g.scrollTo({ left: g.scrollLeft + card.getBoundingClientRect().left - g.getBoundingClientRect().left - 24, behavior: this.reduce ? 'auto' : 'smooth' });
+  }
+
+  renderVals() {
+    const s = this.state;
+    const C = { tec: ['#b8ff38', '#b8ff38', '184,255,56'], esp: ['#e2572a', '#ff8049', '255,128,73'], edu: ['#a56cff', '#a56cff', '165,108,255'], emp: ['#31a7ff', '#31a7ff', '49,167,255'], neu: ['#eef4ff', '#eef4ff', '238,244,255'] };
+    const pad = (v) => (v < 10 ? '0' : '') + v;
+    const cl = (x) => Math.min(1, Math.max(0, x));
+    const out3 = (x) => 1 - Math.pow(1 - x, 3);
+    const guard = (id) => () => { if (this._dragMoved) return; this.go(id); };
+    const ps = this.partes();
+    const vals = {};
+
+    const aqui = s.cur >= 0 ? ps[s.cur] : null;
+    vals.nav = { label: aqui ? (aqui.n ? 'Capítulo ' + aqui.n + ' · ' + aqui.rot : aqui.rot) : '@otiagoarantes', scale: s.prog.toFixed(3) };
+    vals.kkk = {
+      on: s.kkkOn,
+      txt: s.kkkOn ? 'K'.repeat(66) + '...' : 'KKKKKKKK...',
+      toggle: () => this.setState({ kkkOn: !this.state.kkkOn })
+    };
+    vals.amigo = {
+      on: s.amigoOn,
+      toggle: () => this.setState({ amigoOn: !this.state.amigoOn })
+    };
+    vals.resp = {
+      on: s.respOn,
+      cls: s.respOn ? 'on' : '',
+      label: s.respOn ? s.resp : 'respira comigo',
+      toggle: () => { const on = !this.state.respOn; this.setState({ respOn: on }); this.respira(on); }
+    };
+    // histórias longas: só abrem pra quem clica em conhecer
+    vals.mais = {
+      reuniOn: s.mostrar.reuni,
+      reuniTxt: s.mostrar.reuni ? 'fechar essa história' : 'conhecer essa história',
+      reuni: () => this.setState({ mostrar: Object.assign({}, this.state.mostrar, { reuni: !this.state.mostrar.reuni }) }),
+      motivosOn: s.mostrar.motivos,
+      motivosTxt: s.mostrar.motivos ? 'esconder os motivos' : 'ver motivos',
+      motivos: () => this.setState({ mostrar: Object.assign({}, this.state.mostrar, { motivos: !this.state.mostrar.motivos }) })
+    };
+    vals.to = { robotica: guard('robotica'), legiao: guard('legiao'), intervalo: guard('intervalo') };
+
+    // caixas de história: botões, ver tudo e arrastar com o dedo
+    const story = (key, n) => {
+      const i = Math.min(s.step[key], n - 1), all = s.all[key];
+      const o = {
+        count: all ? n + '/' + n : (i + 1) + '/' + n,
+        bars: Array.from({ length: n }, (_, k) => ({ cls: all || k <= i ? 'on' : '' })),
+        stepMode: !all, all: all, notAll: !all,
+        atStart: i === 0, last: i === n - 1, notLast: i !== n - 1,
+        prev: () => this.stepTo(key, Math.max(0, this.state.step[key] - 1)),
+        next: () => this.stepTo(key, this.state.step[key] >= n - 1 ? 0 : this.state.step[key] + 1),
+        toggle: () => this.setState({ all: Object.assign({}, this.state.all, { [key]: !this.state.all[key] }) }),
+        down: (e) => { this._sw = { key: key, x: e.clientX, y: e.clientY }; },
+        up: (e) => {
+          const sw = this._sw;
+          this._sw = null;
+          if (!sw || sw.key !== key || this.state.all[key]) return;
+          const dx = e.clientX - sw.x, dy = e.clientY - sw.y;
+          if (Math.abs(dx) < 44 || Math.abs(dx) < Math.abs(dy) * 1.3) return;
+          const at = this.state.step[key];
+          if (dx < 0 && at < n - 1) this.stepTo(key, at + 1);
+          if (dx > 0 && at > 0) this.stepTo(key, at - 1);
+        }
+      };
+      for (let k = 0; k < n; k++) o['s' + k] = all || k === i;
+      return o;
+    };
+    vals.sv = story('vivo', 14);
+    vals.sl = story('legiao', 7);
+    vals.sg = story('viagem', 6);
+    vals.si = story('intervalo', 4);
+
+    // Dito e feito: cresce e o laranja-chama se espalha ao entrar na tela
+    const grow = cl((s.vira - 0.25) / 0.5);
+    vals.va = { r: (out3(grow) * 150).toFixed(1), s: (0.7 + 0.3 * out3(cl(s.vira / 0.6))).toFixed(3), fg: grow > 0.35 ? '#090b18' : '#e2572a' };
+
+    // Você está nessa parte da história: 3 painéis que andam para o lado enquanto a rolagem desce
+    const inOut = (x) => (x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2);
+    const vB = s.viraB;
+    // a linha se desenha no ritmo da rolagem: cada trecho tem a sua janela
+    const risca = (a, b) => (1 - cl((vB - a) / (b - a))).toFixed(3);
+    vals.vb = {
+      x: (66.6667 - 33.3333 * (inOut(cl((vB - 0.18) / 0.22)) + inOut(cl((vB - 0.58) / 0.22)))).toFixed(2),
+      w: (vB * 100).toFixed(1),
+      d3: risca(-0.42, 0.08), a3: risca(0.06, 0.13),
+      d2: risca(0.30, 0.52),
+      d1: risca(0.66, 0.90), a1: risca(0.88, 0.96)
+    };
+
+    // linha do tempo gamificada: quadrados numerados ligados por curvas tracejadas
+    const X = (i) => 78 + i * 128, Y = (i) => (i % 2 ? 212 : 120);
+    const last = ps.filter((p) => p.n).length - 1;
+    const mapa = {
+      w: X(last) + 150,
+      entrada: `M12 0 V${Y(0) - 44} Q12 ${Y(0)} ${X(0) - 30} ${Y(0)}`,
+      volta: `M${X(last)} ${Y(last) + 30} C${X(last)} ${Y(last) + 86} ${X(last) + 138} ${Y(last) + 42} ${X(last) + 138} ${Y(last) + 104} V334`,
+      pontos: ps.filter((p) => p.n).map((p, i) => ({
+        x: X(i), y: Y(i), n: p.n, rot: p.rot, c: C[p.p][0], ink: C[p.p][1],
+        cls: i === last ? 'now' : '',
+        lcls: i % 2 ? '' : 'cima', ly: i % 2 ? Y(i) + 38 : Y(i) - 38,
+        aria: 'Capítulo ' + p.n + ': ' + p.rot, ir: guard(p.id)
+      }))
+    };
+    const nums = ps.filter((p) => p.n);
+    nums.slice(1).forEach((p, k) => {
+      mapa['s' + k] = { d: `M${X(k)} ${Y(k)} C${X(k) + 64} ${Y(k)} ${X(k + 1) - 64} ${Y(k + 1)} ${X(k + 1)} ${Y(k + 1)}`, c: C[p.p][1] };
+    });
+    vals.mapa = mapa;
+    vals.tri = {
+      down: (e) => {
+        if (e.pointerType === 'touch') return;
+        this._td = { x: e.clientX, l: e.currentTarget.scrollLeft };
+        this._dragMoved = false;
+      },
+      move: (e) => {
+        if (!this._td) return;
+        const dx = e.clientX - this._td.x;
+        if (Math.abs(dx) > 6) this._dragMoved = true;
+        e.currentTarget.scrollLeft = this._td.l - dx;
+      },
+      up: () => {
+        if (!this._td) return;
+        this._td = null;
+        setTimeout(() => { this._dragMoved = false; }, 0);
+      }
+    };
+
+    const lit = (on, k) => ({
+      bg: on ? C[k][0] : 'rgba(' + C[k][2] + ',.05)',
+      fg: on ? (k === 'esp' ? '#ffffff' : '#090b18') : C[k][1],
+      bd: on ? C[k][0] : 'rgba(' + C[k][2] + ',.45)'
+    });
+
+    const tk = {};
+    s.tech.forEach((on, i) => {
+      const L = lit(on, 'tec');
+      tk['b' + i] = L.bg; tk['f' + i] = L.fg; tk['d' + i] = L.bd; tk['p' + i] = on;
+      tk['t' + i] = () => this.flip('tech', i);
+    });
+    tk.fullCls = s.tech.every(Boolean) ? 'burst' : '';
+    vals.tk = tk;
+
+    const ds = {};
+    s.disc.forEach((on, i) => {
+      const L = lit(on, 'emp');
+      ds['b' + i] = L.bg; ds['f' + i] = L.fg; ds['d' + i] = L.bd; ds['p' + i] = on;
+      ds['s' + i] = on ? C.emp[0] : '#1d2240';
+      ds['t' + i] = () => this.flip('disc', i);
+    });
+    vals.ds = ds;
+
+    const trail = [['robótica', 'tec'], ['fé', 'esp'], ['educação', 'edu'], ['competição', 'tec'], ['tecnologia', 'tec'], ['mecatrônica', 'tec'], ['empreender', 'emp'], ['esporte', 'emp']];
+    const allOn = s.trail.every(Boolean);
+    vals.tr = {
+      chips: trail.map(([t, k], i) => {
+        const L = lit(s.trail[i], k);
+        return { t: t, on: s.trail[i], rgb: C[k][2], ink: C[k][1], bg: L.bg, fg: L.fg, flip: () => this.flip('trail', i) };
+      }),
+      mottoColor: allOn ? '#b8ff38' : '#eef4ff',
+      mottoGlow: allOn ? '0 0 22px rgba(184,255,56,.3)' : 'none'
+    };
+
+    const aula = s.mode === 'aula';
+    vals.vs = {
+      aulaOn: aula, mentOn: !aula,
+      aulaBg: aula ? 'rgba(49,167,255,.12)' : '#11152a', aulaH: aula ? '#31a7ff' : '#eef4ff',
+      mentBg: !aula ? 'rgba(49,167,255,.12)' : '#11152a', mentH: !aula ? '#31a7ff' : '#eef4ff',
+      pickAula: () => this.setState({ mode: 'aula' }),
+      pickMent: () => this.setState({ mode: 'mentoria' })
+    };
+
+    // os quatro pilares da abertura acendem um de cada vez
+    const pl = {};
+    ['tec', 'esp', 'edu', 'emp'].forEach((k, i) => {
+      const on = s.pilar === i;
+      const L = lit(on, k);
+      pl['b' + i] = L.bg; pl['f' + i] = L.fg; pl['d' + i] = L.bd; pl['p' + i] = on;
+      pl['t' + i] = () => this.setState({ pilar: this.state.pilar === i ? -1 : i });
+    });
+    vals.pil = pl;
+
+    // o cilindro dos motivos: 6 faces presas na parede de um rolo que gira
+    const mot = this.roloMotivos();
+    const M = mot.length;          // quantos motivos existem
+    const N = M * 2;               // quantas faces tem o rolo (dobro, pra ficar redondo)
+    const PASSO = 360 / N;
+    const frente = ((s.roloVolta % N) + N) % N;
+    const faces = Array.from({ length: N }, (_, k) => mot[k % M]);
+    vals.rolo = {
+      giro: (s.roloVolta * PASSO) + 'deg',
+      conta: pad((frente % M) + 1) + '/' + pad(M),
+      girar: () => this.setState({ roloVolta: this.state.roloVolta + 1 }),
+      itens: faces.map((m, k) => {
+        const d = Math.min((k - frente + N) % N, (frente - k + N) % N);
+        const ativo = d === 0;
+        return {
+          n: m.n, txt: m.txt,
+          rot: -(k * PASSO) + 'deg',
+          op: ativo ? '1' : (d === 1 ? '0.5' : (d === 2 ? '0.16' : '0')),
+          blur: ativo ? '0px' : (d === 1 ? '1.4px' : '3px'),
+          cls: ativo ? 'rolo-item on' : 'rolo-item'
+        };
+      })
+    };
+
+    // as gavetas dos argumentos da faculdade
+    const gv = {};
+    [0, 1, 2].forEach((k) => {
+      gv['p' + k] = !!s.gav[k];
+      gv['t' + k] = () => { const a = this.state.gav.slice(); a[k] = !a[k]; this.setState({ gav: a }); };
+    });
+    vals.gav = gv;
+
+    vals.glitch = s.glitch;
+    vals.doGlitch = () => this.setState({ glitch: this.state.glitch === 'g1' ? 'g2' : 'g1' });
+
+    ['gA', 'gB', 'gI'].forEach((key) => {
+      const total = (s.counts && s.counts[key]) || 0;
+      const at = Math.min((s.active && s.active[key]) || 0, Math.max(0, total - 1));
+      vals[key] = {
+        onScroll: (e) => {
+          const i = this.nearest(e.currentTarget);
+          const now = this.state.active || {};
+          if ((now[key] || 0) !== i) this.setState({ active: Object.assign({}, now, { [key]: i }) });
+        },
+        dots: Array.from({ length: total }, (_, i) => ({ cls: i === at ? 'on' : '', label: 'Foto ' + (i + 1), go: () => this.goTo(key, i) })),
+        count: total ? pad(at + 1) + '/' + pad(total) : ''
+      };
+    });
+
+    return vals;
+  }
+}
+
+</script>
+</body>
+</html>

@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="1000" viewBox="0 0 800 1000">
+<defs><pattern id="h" width="28" height="28" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="14" height="28" fill="#151a35"/></pattern></defs>
+<rect width="800" height="1000" fill="#10142a"/><rect width="800" height="1000" fill="url(#h)"/>
+<g transform="translate(340 380) scale(5)" fill="none" stroke="#6f7a9e" stroke-width="1.6" stroke-linejoin="round"><path d="M3 8h4l2-3h6l2 3h4v12H3z"/><path d="M12 10.5a3.5 3.5 0 1 0 0 7a3.5 3.5 0 0 0 0-7z"/></g>
+<text x="400" y="570" text-anchor="middle" font-family="Arial, sans-serif" font-size="26" fill="#dfe6fb">Residência no IFCE, equipe</text>
+<text x="400" y="615" text-anchor="middle" font-family="Arial, sans-serif" font-size="24" fill="#8f9ac0">residencia-ifce-3.jpg</text>
+</svg>
