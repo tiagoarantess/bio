@@ -773,7 +773,7 @@
     .pn.on::before { border-top-style: solid; border-color: var(--c); }
     .pn.cur > span { background: var(--c); color: #090b18; transform: scale(1.08); box-shadow: 0 0 14px rgba(var(--rgb), .45); }
     .p-esp .pn.cur > span { color: #ffffff; }
-    .story-ft { justify-content: flex-end; }
+    #story-aulas .story-ft { justify-content: flex-end; }
 
     /* diferente: marcos com ícone, em vez de parede de texto */
     .marcos { display: flex; flex-direction: column; gap: 0; margin-top: 30px; }
@@ -823,10 +823,99 @@
     .cruz-q { color: #eef4ff; font-size: 24px; line-height: 1.16; }
     .cruz-t { margin-top: 12px; color: #dfe6fb; font-size: 16px; font-weight: 500; line-height: 1.58; }
     .cruz-t + .cruz-t { margin-top: 10px; }
+
+    /* ===== ajustes 25/set ===== */
+
+    /* barra do topo: sem a bolinha, com o botão do mapa à direita */
+    .nav-in { gap: 10px; }
+    .nav-av { display: none; }
+    .nav-mapa { display: inline-flex; align-items: center; gap: 6px; flex: none; padding: 6px 10px 5px; border: 1px solid #2b3154; background: #11152a; color: #eef4ff; font-size: 10px; letter-spacing: .08em; transition: border-color .2s, transform .15s; }
+    .nav-mapa:hover { border-color: #a56cff; }
+    .nav-mapa:active { transform: scale(.96); }
+    .nav-mapa svg { width: 14px; height: 14px; color: #a56cff; }
+
+    /* links do YouTube no meio da história */
+    .yt-links { display: flex; flex-wrap: wrap; gap: 8px; }
+    .yt-pill { display: inline-flex; align-items: center; gap: 8px; padding: 9px 13px 8px; border: 1px solid rgba(var(--rgb), .55); background: rgba(var(--rgb), .10); color: #eef4ff; font-size: 13px; font-weight: 700; text-decoration: none; transition: background-color .2s; }
+    .yt-pill:hover { background: rgba(var(--rgb), .22); color: #ffffff; }
+    .yt-pill svg { width: 14px; height: 14px; color: var(--ink); fill: currentColor; flex: none; }
+
+    /* a lente começa tremendo e embaçada; quando a base firma, ela para e fica nítida */
+    .lente { cursor: pointer; border-bottom: 4px solid transparent; transition: border-color .4s; }
+    .lente .lente-ic, .lente .lente-t { filter: blur(5px); opacity: .5; transition: filter .9s ease .55s, opacity .9s ease .55s; }
+    .lente:not(.firme) { animation: bamba .5s ease-in-out infinite; }
+    .lente.firme { border-bottom-color: var(--c); }
+    .lente.firme .lente-ic, .lente.firme .lente-t { filter: none; opacity: 1; }
+    @keyframes bamba { 0%, 100% { transform: none; } 25% { transform: translateX(-2px) rotate(-.4deg); } 75% { transform: translateX(2px) rotate(.4deg); } }
+    @media (prefers-reduced-motion: reduce) { .lente:not(.firme) { animation: none; } .lente .lente-ic, .lente .lente-t { filter: none; opacity: 1; } }
+
+    /* a revista: os que viveram pela fé */
+    .rv { margin-top: 22px; touch-action: pan-y; user-select: none; -webkit-user-select: none; }
+    .rv-folha { position: relative; min-height: 300px; padding: 22px 20px 20px 28px; border-radius: 3px 10px 10px 3px; background: linear-gradient(90deg, rgba(60, 40, 20, .22), rgba(60, 40, 20, 0) 7%), #efe6d1; color: #231d33; box-shadow: 0 16px 34px rgba(0, 0, 0, .5), inset -3px 0 0 #d9ccb0, inset -6px 0 0 #e6dbc2; perspective: 1400px; perspective-origin: 0% 50%; }
+    .rv-folha::before { content: ""; position: absolute; left: 12px; top: 18px; bottom: 18px; width: 1px; background: rgba(120, 60, 200, .35); }
+    .rv-pg { transform-origin: left center; backface-visibility: hidden; animation: virar-pagina .55s cubic-bezier(.22, 1, .36, 1) both; }
+    .rv-k { color: #7a3fe0; font-size: 10px; letter-spacing: .1em; }
+    .rv-titulo { margin-top: 8px; color: #231d33; font-size: 30px; line-height: 1.05; }
+    .rv-nome { margin: 8px 0 0; color: #231d33; font-size: 34px; line-height: 1; }
+    .rv-nome::after { content: ""; display: block; width: 44px; height: 3px; margin-top: 12px; background: #7a3fe0; }
+    .rv-t { margin-top: 14px; color: #3a3350; font-size: 16px; font-weight: 500; line-height: 1.6; }
+    .rv-ref { margin-top: 14px; color: #7a6f8a; font-family: "Fraunces", Georgia, serif; font-size: 14px; font-style: italic; }
+    .rv-sum { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 2px 12px; margin: 16px 0 0; padding: 0; list-style: none; }
+    .rv-sum button { display: flex; align-items: baseline; gap: 8px; width: 100%; padding: 7px 0; border-bottom: 1px dotted rgba(35, 29, 51, .25); color: #231d33; font-size: 14px; font-weight: 600; text-align: left; }
+    .rv-sum button:hover { color: #7a3fe0; }
+    .rv-sn { color: #7a3fe0; font-size: 10px; }
+    .rv-ft { display: flex; align-items: center; gap: 10px; margin-top: 12px; }
+    .rv-n { flex: 1; color: var(--ink); font-size: 11px; text-align: center; }
+    .rv-b { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-width: 46px; height: 46px; padding: 0 12px; border: 1px solid #2b3154; color: #eef4ff; font-size: 12px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; }
+    .rv-b.main { padding: 0 16px; background: var(--c); border-color: var(--c); color: #090b18; }
+    .rv-b svg { width: 18px; height: 18px; }
+
+    /* empreender: 3 chaves */
+    .emp-tabs { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; margin-top: 10px; }
+    .emp-tab { display: flex; flex-direction: column; gap: 6px; padding: 12px 10px 11px; border: 1.5px solid rgba(var(--rgb), .45); background: #0c0f22; color: #a6b0d1; font-size: 11px; letter-spacing: .04em; text-align: left; transition: background-color .2s, color .2s, box-shadow .2s, transform .15s; }
+    .emp-tab b { color: var(--ink); font-size: 16px; font-weight: 400; }
+    .emp-tab.on { border-color: var(--c); background: rgba(var(--rgb), .14); color: #eef4ff; box-shadow: 4px 4px 0 rgba(var(--rgb), .35); transform: translate(-1px, -1px); }
+    .emp-painel { margin-top: 12px; padding: 20px 18px; border: 1px solid rgba(var(--rgb), .45); background: #0c0f22; animation: abrir .35s cubic-bezier(.16, 1, .3, 1); }
+
+    /* escola: um confronto por vez */
+    .duelo { margin-top: 28px; }
+    .duelo-par { position: relative; display: grid; grid-template-columns: 1fr 1fr; min-height: 190px; border: 1px solid rgba(49, 167, 255, .45); cursor: pointer; }
+    .duelo-lado { display: flex; flex-direction: column; gap: 10px; padding: 18px 26px 18px 14px; }
+    .duelo-lado.on { background: rgba(49, 167, 255, .10); }
+    .duelo-lado.off { padding: 18px 14px 18px 26px; background: #0a0d1e; border-left: 1px solid rgba(49, 167, 255, .3); }
+    .duelo-tag { font-size: 10px; letter-spacing: .1em; }
+    .duelo-lado.on .duelo-tag { color: #31a7ff; }
+    .duelo-lado.off .duelo-tag { color: #7883a5; }
+    .duelo-in { animation: abrir .45s cubic-bezier(.16, 1, .3, 1); }
+    .duelo-t { color: #eef4ff; font-size: 17px; font-weight: 800; line-height: 1.25; letter-spacing: -.01em; }
+    .duelo-lado.off .duelo-t { color: #a6b0d1; font-weight: 600; }
+    .duelo-s { margin-top: 8px; font-size: 13px; line-height: 1.4; }
+    .duelo-lado.on .duelo-s { color: #b8ff38; }
+    .duelo-lado.on .duelo-s::before { content: "✓ "; }
+    .duelo-lado.off .duelo-s { color: #ff8a9e; }
+    .duelo-lado.off .duelo-s::before { content: "✕ "; }
+    .duelo-ft { display: flex; align-items: center; gap: 12px; margin-top: 12px; }
+    .duelo-dots { display: flex; gap: 4px; }
+    .duelo-dots button { width: 18px; height: 22px; background: linear-gradient(#2b3154, #2b3154) center / 14px 3px no-repeat; }
+    .duelo-dots button.on { background: linear-gradient(#31a7ff, #31a7ff) center / 14px 3px no-repeat; }
+    .duelo-ft .rolo-conta { margin-left: auto; }
+    .chip-btn { cursor: pointer; transition: background-color .2s, box-shadow .2s, transform .15s; }
+    .chip-btn.on { background: rgba(var(--rgb), .2); color: #eef4ff; box-shadow: 3px 3px 0 var(--c); transform: translate(-1px, -1px); }
+    .chip-rev { border-left-color: #31a7ff; --rgb: 49, 167, 255; --ink: #31a7ff; }
+
+    /* por que contar: minimalista */
+    .porque .say { margin-top: 30px; }
+    .convite { margin: 40px 0 8px; padding-left: 20px; border-left: 2px solid #a56cff; }
+    .convite p { color: #eef4ff; font-size: 24px; line-height: 1.3; }
+    .convite p + p { margin-top: 6px; }
+    .convite p:last-child { color: #b8ff38; }
+
+    /* os convites agora são links */
+    a.btn { text-decoration: none; }
   </style>
 </helmet>
 <div class="nav">
-  <div class="nav-in"><span class="nav-av"><span></span></span><p class="nav-now" style="color: {{ nav.color }};">{{ nav.label }}</p></div>
+  <div class="nav-in"><p class="nav-now" style="color: {{ nav.color }};">{{ nav.label }}</p><button type="button" class="nav-mapa px" onClick="{{ to.mapa }}" aria-label="Ir para o mapa da história e os convites"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6l6-3 6 3 6-3v15l-6 3-6-3-6 3z"></path><path d="M9 3v15M15 6v15"></path></svg><span>mapa</span></button></div>
   <div class="nav-bar"><i style="transform: scaleX({{ nav.scale }}); background: {{ nav.color }}; box-shadow: 0 0 10px {{ nav.color }};"></i></div>
 </div>
 
@@ -883,25 +972,25 @@
       <p class="mk" style="margin-top: 28px; color: var(--ink);">Uma história em construção</p>
       <p class="txt" style="margin-top: 8px; font-size: 15px;">Arraste para atravessar alguns momentos que mudaram tudo.</p>
       <div class="gal" data-gallery="gA" onScroll="{{ gA.onScroll }}" aria-label="Momentos da trajetória em robótica">
-  <figure class="card"><div class="card-ph"><img class="ph" src="2018-entrevista-tv-robotica-1.jpg" alt="Entrevista para a TV em evento de robótica, 2018" style="object-position: 50% 50%;"></div><figcaption class="card-cap"><span class="card-n tab">2018</span></figcaption></figure>
-  <figure class="card"><div class="card-ph"><img class="ph" src="2018-entrevista-tv-robotica-2.jpg" alt="Entrevista para a TV em evento de robótica, 2018" style="object-position: 50% 50%;"></div><figcaption class="card-cap"><span class="card-n tab">2018</span></figcaption></figure>
+  <figure class="card"><div class="card-ph"><img class="ph" src="2018-entrevista-tv-robotica-1.jpg" alt="Entrevista para a TV em evento de robótica, 2018" style="object-position: 50% 50%;"></div><figcaption class="card-cap"><span class="card-n tab">2018</span><span class="card-t">[FOTO 1 - LEGENDA DE UMA LINHA: Tiago]</span></figcaption></figure>
+  <figure class="card"><div class="card-ph"><img class="ph" src="2018-entrevista-tv-robotica-2.jpg" alt="Entrevista para a TV em evento de robótica, 2018" style="object-position: 50% 50%;"></div><figcaption class="card-cap"><span class="card-n tab">2018</span><span class="card-t">[FOTO 2 - LEGENDA DE UMA LINHA: Tiago]</span></figcaption></figure>
   <figure class="card"><div class="card-ph"><img class="ph" src="2018-premiacao-no-palco.jpg" alt="Premiação de robótica no palco, 2018" style="object-position: 50% 50%;"></div><figcaption class="card-cap"><span class="card-n tab">2018</span><span class="card-t">Competições, medalhas e anos construindo, programando e competindo.</span></figcaption></figure>
-  <figure class="card"><div class="card-ph"><img class="ph" src="2019-arena-de-competicao.jpg" alt="Arena de competição de robótica, 2019" style="object-position: 50% 50%;"></div><figcaption class="card-cap"><span class="card-n tab">2019</span></figcaption></figure>
-  <figure class="card"><div class="card-ph"><img class="ph" src="2019-equipe-testando-robo.jpg" alt="Equipe testando robô na arena, 2019" style="object-position: 50% 50%;"></div><figcaption class="card-cap"><span class="card-n tab">2019</span></figcaption></figure>
-  <figure class="card"><div class="card-ph"><img class="ph" src="2019-entrega-de-certificados-1.jpg" alt="Entrega de certificados, 2019" style="object-position: 50% 50%;"></div><figcaption class="card-cap"><span class="card-n tab">2019</span></figcaption></figure>
-  <figure class="card"><div class="card-ph"><img class="ph" src="2019-entrega-de-certificados-2.jpg" alt="Entrega de certificados, 2019" style="object-position: 50% 50%;"></div><figcaption class="card-cap"><span class="card-n tab">2019</span></figcaption></figure>
-  <figure class="card"><div class="card-ph"><img class="ph" src="2022-colegio-militar-campo-grande.jpg" alt="Equipe no Colégio Militar de Campo Grande, 2022" style="object-position: 50% 50%;"></div><figcaption class="card-cap"><span class="card-n tab">2022</span></figcaption></figure>
-  <figure class="card"><div class="card-ph"><img class="ph" src="2022-competicao-1.jpg" alt="Competição de robótica, 2022" style="object-position: 50% 50%;"></div><figcaption class="card-cap"><span class="card-n tab">2022</span></figcaption></figure>
-  <figure class="card"><div class="card-ph"><img class="ph" src="2022-competicao-2.jpg" alt="Competição de robótica, 2022" style="object-position: 50% 50%;"></div><figcaption class="card-cap"><span class="card-n tab">2022</span></figcaption></figure>
-  <figure class="card"><div class="card-ph"><img class="ph" src="2022-competicao-3.jpg" alt="Competição de robótica, 2022" style="object-position: 50% 50%;"></div><figcaption class="card-cap"><span class="card-n tab">2022</span></figcaption></figure>
-  <figure class="card"><div class="card-ph"><img class="ph" src="2022-competicao-4.jpg" alt="Competição de robótica, 2022" style="object-position: 50% 50%;"></div><figcaption class="card-cap"><span class="card-n tab">2022</span></figcaption></figure>
-  <figure class="card"><div class="card-ph"><img class="ph" src="2022-apresentacao-em-auditorio.jpg" alt="Apresentação em auditório, 2022" style="object-position: 50% 50%;"></div><figcaption class="card-cap"><span class="card-n tab">2022</span></figcaption></figure>
-  <figure class="card"><div class="card-ph"><img class="ph" src="2022-cerimonia-de-premiacao.jpg" alt="Cerimônia de premiação, 2022" style="object-position: 50% 50%;"></div><figcaption class="card-cap"><span class="card-n tab">2022</span></figcaption></figure>
+  <figure class="card"><div class="card-ph"><img class="ph" src="2019-arena-de-competicao.jpg" alt="Arena de competição de robótica, 2019" style="object-position: 50% 50%;"></div><figcaption class="card-cap"><span class="card-n tab">2019</span><span class="card-t">[FOTO 4 - LEGENDA DE UMA LINHA: Tiago]</span></figcaption></figure>
+  <figure class="card"><div class="card-ph"><img class="ph" src="2019-equipe-testando-robo.jpg" alt="Equipe testando robô na arena, 2019" style="object-position: 50% 50%;"></div><figcaption class="card-cap"><span class="card-n tab">2019</span><span class="card-t">[FOTO 5 - LEGENDA DE UMA LINHA: Tiago]</span></figcaption></figure>
+  <figure class="card"><div class="card-ph"><img class="ph" src="2019-entrega-de-certificados-1.jpg" alt="Entrega de certificados, 2019" style="object-position: 50% 50%;"></div><figcaption class="card-cap"><span class="card-n tab">2019</span><span class="card-t">[FOTO 6 - LEGENDA DE UMA LINHA: Tiago]</span></figcaption></figure>
+  <figure class="card"><div class="card-ph"><img class="ph" src="2019-entrega-de-certificados-2.jpg" alt="Entrega de certificados, 2019" style="object-position: 50% 50%;"></div><figcaption class="card-cap"><span class="card-n tab">2019</span><span class="card-t">[FOTO 7 - LEGENDA DE UMA LINHA: Tiago]</span></figcaption></figure>
+  <figure class="card"><div class="card-ph"><img class="ph" src="2022-colegio-militar-campo-grande.jpg" alt="Equipe no Colégio Militar de Campo Grande, 2022" style="object-position: 50% 50%;"></div><figcaption class="card-cap"><span class="card-n tab">2022</span><span class="card-t">[FOTO 8 - LEGENDA DE UMA LINHA: Tiago]</span></figcaption></figure>
+  <figure class="card"><div class="card-ph"><img class="ph" src="2022-competicao-1.jpg" alt="Competição de robótica, 2022" style="object-position: 50% 50%;"></div><figcaption class="card-cap"><span class="card-n tab">2022</span><span class="card-t">[FOTO 9 - LEGENDA DE UMA LINHA: Tiago]</span></figcaption></figure>
+  <figure class="card"><div class="card-ph"><img class="ph" src="2022-competicao-2.jpg" alt="Competição de robótica, 2022" style="object-position: 50% 50%;"></div><figcaption class="card-cap"><span class="card-n tab">2022</span><span class="card-t">[FOTO 10 - LEGENDA DE UMA LINHA: Tiago]</span></figcaption></figure>
+  <figure class="card"><div class="card-ph"><img class="ph" src="2022-competicao-3.jpg" alt="Competição de robótica, 2022" style="object-position: 50% 50%;"></div><figcaption class="card-cap"><span class="card-n tab">2022</span><span class="card-t">[FOTO 11 - LEGENDA DE UMA LINHA: Tiago]</span></figcaption></figure>
+  <figure class="card"><div class="card-ph"><img class="ph" src="2022-competicao-4.jpg" alt="Competição de robótica, 2022" style="object-position: 50% 50%;"></div><figcaption class="card-cap"><span class="card-n tab">2022</span><span class="card-t">[FOTO 12 - LEGENDA DE UMA LINHA: Tiago]</span></figcaption></figure>
+  <figure class="card"><div class="card-ph"><img class="ph" src="2022-apresentacao-em-auditorio.jpg" alt="Apresentação em auditório, 2022" style="object-position: 50% 50%;"></div><figcaption class="card-cap"><span class="card-n tab">2022</span><span class="card-t">[FOTO 13 - LEGENDA DE UMA LINHA: Tiago]</span></figcaption></figure>
+  <figure class="card"><div class="card-ph"><img class="ph" src="2022-cerimonia-de-premiacao.jpg" alt="Cerimônia de premiação, 2022" style="object-position: 50% 50%;"></div><figcaption class="card-cap"><span class="card-n tab">2022</span><span class="card-t">[FOTO 14 - LEGENDA DE UMA LINHA: Tiago]</span></figcaption></figure>
   <figure class="card"><div class="card-ph"><img class="ph" src="2023-ensinando-estudantes.jpg" alt="Tiago apresentando uma atividade para estudantes" style="object-position: 50% 50%;"></div><figcaption class="card-cap"><span class="card-n tab">2023</span><span class="card-t">Depois, comecei a ensinar aquilo que eu havia aprendido.</span></figcaption></figure>
-  <figure class="card"><div class="card-ph"><img class="ph" src="2018-evento-robotica-1.jpg" alt="Evento de robótica, 2018" style="object-position: 50% 50%;"></div><figcaption class="card-cap"><span class="card-n tab">2018</span></figcaption></figure>
-  <figure class="card"><div class="card-ph"><img class="ph" src="2018-evento-robotica-2.jpg" alt="Evento de robótica, 2018" style="object-position: 50% 50%;"></div><figcaption class="card-cap"><span class="card-n tab">2018</span></figcaption></figure>
-  <figure class="card"><div class="card-ph"><img class="ph" src="equipe-robotica-prototipos.jpg" alt="A equipe e os protótipos" style="object-position: 50% 50%;"></div><figcaption class="card-cap"><span class="card-n tab">2022</span></figcaption></figure>
-  <figure class="card"><div class="card-ph"><img class="ph" src="2022-delegacao-com-bandeira.jpg" alt="A delegação com a bandeira, a caminho da competição" style="object-position: 50% 50%;"></div><figcaption class="card-cap"><span class="card-n tab">2022</span></figcaption></figure>
+  <figure class="card"><div class="card-ph"><img class="ph" src="2018-evento-robotica-1.jpg" alt="Evento de robótica, 2018" style="object-position: 50% 50%;"></div><figcaption class="card-cap"><span class="card-n tab">2018</span><span class="card-t">[FOTO 16 - LEGENDA DE UMA LINHA: Tiago]</span></figcaption></figure>
+  <figure class="card"><div class="card-ph"><img class="ph" src="2018-evento-robotica-2.jpg" alt="Evento de robótica, 2018" style="object-position: 50% 50%;"></div><figcaption class="card-cap"><span class="card-n tab">2018</span><span class="card-t">[FOTO 17 - LEGENDA DE UMA LINHA: Tiago]</span></figcaption></figure>
+  <figure class="card"><div class="card-ph"><img class="ph" src="equipe-robotica-prototipos.jpg" alt="A equipe e os protótipos" style="object-position: 50% 50%;"></div><figcaption class="card-cap"><span class="card-n tab">2022</span><span class="card-t">[FOTO 18 - LEGENDA DE UMA LINHA: Tiago]</span></figcaption></figure>
+  <figure class="card"><div class="card-ph"><img class="ph" src="2022-delegacao-com-bandeira.jpg" alt="A delegação com a bandeira, a caminho da competição" style="object-position: 50% 50%;"></div><figcaption class="card-cap"><span class="card-n tab">2022</span><span class="card-t">[FOTO 19 - LEGENDA DE UMA LINHA: Tiago]</span></figcaption></figure>
   <figure class="card"><div class="card-ph"><img class="ph" src="2023-sala-de-estudos.jpg" alt="Tiago e colegas em uma sala de estudos" style="object-position: 50% 50%;"></div><figcaption class="card-cap"><span class="card-n tab">2023</span><span class="card-t">Uma trajetória que também passou por muito estudo, disciplina e decisão.</span></figcaption></figure>
 </div>
 <div class="dots"><div class="dots-list"><sc-for list="{{ gA.dots }}" as="d" hint-placeholder-count="20"><button type="button" class="{{ d.cls }}" aria-label="{{ d.label }}" onClick="{{ d.go }}"></button></sc-for></div><span class="gcount tab">{{ gA.count }}</span></div>
@@ -916,13 +1005,40 @@
       
       
       
-      <p class="perdi d">Perdemos uma competição de robótica para a qual estava com muita expectativa!<br></p><p class="txt" style="margin-top: 22px; font-size: 20px; font-family: Arial; font-weight: 700">Estávamos bem!</p><p class="say w e">Mas, na hora H... aconteceram <b>TODOS</b> os tipos de imprevistos.<br>Fiquei sem base.</p><p class="txt">Me levaram pra casa pós-competição e, naquele dia, por algum motivo, tive o privilégio de ficar sozinho em casa... e pude ir pro quarto orar, ou me derramar... Entre lágrimas, soluços e gritos, fiz uma oração mais ousada:</p>
+      <p class="perdi d">Meses de preparo. O robô pronto, a expectativa lá no teto e a certeza de que aquele era o nosso ano.</p><p class="txt" style="margin-top: 22px; font-size: 20px; font-family: Arial; font-weight: 700">Estávamos bem!</p><p class="say w e">Mas, na hora H... aconteceram <b>TODOS</b> os tipos de imprevistos. O título foi embora.<br>Fiquei sem base.</p><p class="txt">Me levaram pra casa pós-competição e, naquele dia, por algum motivo, tive o privilégio de ficar sozinho em casa... e pude ir pro quarto orar, ou me derramar... Entre lágrimas, soluços e gritos, fiz uma oração mais ousada:</p>
       <blockquote class="quote"><p class="e">“Pode me conduzir pelos processos mais difíceis, porque sei que eles produzirão os melhores frutos.”</p></blockquote>
-      
-      <p class="txt" style="margin-top: 30px;">Eu tinha 12 anos quando falei isso para Deus. Naquela idade percebi que a <b>frustração</b> era necessária para me amadurecer, e que isso estava me forjando uma pessoa melhor.</p><p class="txt">Também pude aconselhar um amigo da equipe que ficou bem triste e, <b>pela primeira vez, tive coragem</b> de falar para alguém sobre minha fé e esperança.</p>
+      <p class="lead" style="margin-top: 30px;">Eu tinha 12 anos quando falei isso para Deus. Entrei naquele quarto completamente abalado.</p>
+      <div class="story" id="story-base" onPointerDown="{{ sb.down }}" onPointerUp="{{ sb.up }}">
+  <div class="story-top"><sc-for list="{{ sb.bars }}" as="b" hint-placeholder-count="7"><i class="{{ b.cls }}"></i></sc-for></div>
+  <div class="story-body">
+          <sc-if value="{{ sb.s0 }}" hint-placeholder-val="{{ true }}"><div class="step"><p>Eu entrei naquele quarto achando que o problema era a competição perdida.</p><p class="e">Mas o problema era outro: a minha base era frágil.</p></div></sc-if>
+          <sc-if value="{{ sb.s1 }}" hint-placeholder-val="{{ false }}"><div class="step"><p>A base é onde ficam apoiados a sua <b>segurança</b>, o seu <b>valor</b> e a sua <b>identidade</b>.</p><p>A minha estava apoiada nos resultados: se o robô ganhava, eu tava bem. Se perdia, o chão sumia.</p></div></sc-if>
+          <sc-if value="{{ sb.s2 }}" hint-placeholder-val="{{ false }}"><div class="step"><p>E com o chão tremendo, eu enxergava o mundo trêmulo.</p><p class="e">Só olhava pros meus próprios pés, com medo de cair.</p></div></sc-if>
+          <sc-if value="{{ sb.s3 }}" hint-placeholder-val="{{ false }}"><div class="step"><p>Me senti igual a um robô com a base bamba: a imagem da câmera fica borrada, o sensor faz leituras erradas.</p></div></sc-if>
+          <sc-if value="{{ sb.s4 }}" hint-placeholder-val="{{ false }}"><div class="step"><p>Naquele quarto, a minha base se firmou. Meu valor deixou de depender de um troféu.</p><p>Mas na robótica tem uma pegadinha: você trava o robô num chão firme... e a câmera continua ofuscada. O sensor continua lendo errado. Aí você precisa ajustar o sensor.</p></div></sc-if>
+          <sc-if value="{{ sb.s5 }}" hint-placeholder-val="{{ false }}"><div class="step"><p class="e">Foi aí que eu vi: a minha lente, a minha forma de enxergar o mundo, também estava embaçada.</p><p>E Deus me deu novas lentes.</p><p>(Esse meu amigo da equipe usava um grau de óculos altíssimo. Eu nem usava óculos na época. Mas acho que a minha visão era mais embaçada que a dele.)</p></div></sc-if>
+          <sc-if value="{{ sb.s6 }}" hint-placeholder-val="{{ false }}"><div class="step"><p>Com a base firme e a lente nova, percebi que a <b>frustração</b> era necessária para me amadurecer, e que isso estava me forjando uma pessoa melhor.</p><p>Peguei o celular e mandei mensagem pra esse amigo, que também tinha ficado abalado. E falei pra ele da minha fé e esperança.</p></div></sc-if>
+  </div>
+  <div class="story-ft">
+    <span class="story-count tab">{{ sb.count }}</span>
+    <button type="button" class="sbtn" onClick="{{ sb.toggle }}" aria-label="Ver tudo de uma vez" aria-pressed="{{ sb.all }}">
+      <sc-if value="{{ sb.notAll }}" hint-placeholder-val="{{ true }}"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"></path></svg></sc-if>
+      <sc-if value="{{ sb.all }}" hint-placeholder-val="{{ false }}"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5h14v14H5z"></path><path d="M9 12h6"></path></svg></sc-if>
+    </button>
+    <sc-if value="{{ sb.stepMode }}" hint-placeholder-val="{{ true }}">
+      <div class="story-nav">
+        <button type="button" class="sbtn" onClick="{{ sb.prev }}" disabled="{{ sb.atStart }}" aria-label="Trecho anterior"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 12H5"></path><path d="M11 5l-7 7 7 7"></path></svg></button>
+        <button type="button" class="sbtn main" onClick="{{ sb.next }}" aria-label="Próximo trecho">
+          <sc-if value="{{ sb.notLast }}" hint-placeholder-val="{{ true }}"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15"></path><path d="M13 5l7 7-7 7"></path></svg></sc-if>
+          <sc-if value="{{ sb.last }}" hint-placeholder-val="{{ false }}"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4.5 12a7.5 7.5 0 1 0 2.2-5.3"></path><path d="M4 3.5V9h5.5"></path></svg></sc-if>
+        </button>
+      </div>
+    </sc-if>
+  </div>
+</div>
       <div class="bar"></div>
       <p class="e" style="color: #eef4ff; font-size: 30px;">Minha fé em Jesus faz parte de tudo que estou construindo.</p>
-      <div class="lente">
+      <div class="lente {{ lente.cls }}" onClick="{{ lente.firma }}">
         <svg class="lente-ic" viewBox="0 0 72 40" aria-hidden="true">
           <circle cx="21" cy="20" r="14"></circle><circle cx="51" cy="20" r="14"></circle>
           <path d="M35 20h2"></path><path d="M7 20H2"></path><path d="M65 20h5"></path>
@@ -935,7 +1051,7 @@
         <h2 class="h2 l d">Meu coração começou a ficar aquecido de amor.</h2>
         <p class="say w e s">Um amor maior do que robótica, conquistas acadêmicas e qualquer coisa.</p>
         <div class="story" id="story-vivo" onPointerDown="{{ sv.down }}" onPointerUp="{{ sv.up }}">
-  <div class="story-top passo-nav"><sc-for list="{{ sv.nums }}" as="b" hint-placeholder-count="14"><button type="button" class="pn {{ b.cls }}" onClick="{{ b.go }}" aria-label="{{ b.aria }}"><span>{{ b.n }}</span></button></sc-for></div>
+  <div class="story-top"><sc-for list="{{ sv.bars }}" as="b" hint-placeholder-count="14"><i class="{{ b.cls }}"></i></sc-for></div>
   <div class="story-body">
           <sc-if value="{{ sv.s0 }}" hint-placeholder-val="{{ true }}"><div class="step"><p>Quando eu li as palavras de Jesus (embora já tivesse ouvido muito pela boca dos outros, agora tinha parado para ler a Bíblia e buscar na fonte!) minha reação era: Uau! QUANTAS PALAVRAS DESSE HOMEM FAZIAM SENTIDO!</p></div></sc-if>
           <sc-if value="{{ sv.s1 }}" hint-placeholder-val="{{ false }}"><div class="step"><p>Na verdade, geralmente minha reação lendo a Bíblia era ficar estático por horas refletindo, porque elas pegavam profundo e eu nem sabia o que dizer.</p></div></sc-if>
@@ -953,12 +1069,14 @@
           <sc-if value="{{ sv.s13 }}" hint-placeholder-val="{{ false }}"><div class="step"><p>Começou a despertar uma compaixão dentro de mim e eu não pude mais conter!</p><p class="e">Talvez precisassem do que eu tinha:</p></div></sc-if>
           </div>
   <div class="story-ft">
+    <span class="story-count tab">{{ sv.count }}</span>
     <button type="button" class="sbtn" onClick="{{ sv.toggle }}" aria-label="Ver tudo de uma vez" aria-pressed="{{ sv.all }}">
       <sc-if value="{{ sv.notAll }}" hint-placeholder-val="{{ true }}"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"></path></svg></sc-if>
       <sc-if value="{{ sv.all }}" hint-placeholder-val="{{ false }}"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5h14v14H5z"></path><path d="M9 12h6"></path></svg></sc-if>
     </button>
     <sc-if value="{{ sv.stepMode }}" hint-placeholder-val="{{ true }}">
       <div class="story-nav">
+        <button type="button" class="sbtn" onClick="{{ sv.prev }}" disabled="{{ sv.atStart }}" aria-label="Trecho anterior"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 12H5"></path><path d="M11 5l-7 7 7 7"></path></svg></button>
         <button type="button" class="sbtn main" onClick="{{ sv.next }}" aria-label="Próximo trecho">
           <sc-if value="{{ sv.notLast }}" hint-placeholder-val="{{ true }}"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15"></path><path d="M13 5l7 7-7 7"></path></svg></sc-if>
           <sc-if value="{{ sv.last }}" hint-placeholder-val="{{ false }}"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4.5 12a7.5 7.5 0 1 0 2.2-5.3"></path><path d="M4 3.5V9h5.5"></path></svg></sc-if>
@@ -979,7 +1097,7 @@
         <p class="lead" style="margin-top: 0;">Primeiro, reuni 3 na minha casa.</p>
         <figure class="fig">
           <img class="ph" src="2020-amigos.jpg" alt="Os três primeiros, reunidos na minha casa" style="object-position: 50% 40%;">
-        </figure>
+        <figcaption class="figcap">[FOTO - LEGENDA DE UMA LINHA: Tiago]</figcaption></figure>
         <button type="button" class="abrir" onClick="{{ mais.reuni }}" aria-expanded="{{ mais.reuniOn }}"><span>{{ mais.reuniTxt }}</span><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg></button>
         <sc-if value="{{ mais.reuniOn }}" hint-placeholder-val="{{ true }}">
         <p class="lead" style="margin-top: 26px;">Começando pela colega de turma:</p>
@@ -1009,7 +1127,7 @@
           </div>
           <figure class="fig" style="margin-top: 30px;">
             <img class="ph" src="2021-grupo-ao-ar-livre.jpg" alt="O grupo crescendo, ao ar livre" style="object-position: 50% 50%;">
-          </figure>
+          <figcaption class="figcap">[FOTO - LEGENDA DE UMA LINHA: Tiago]</figcaption></figure>
         </sc-if>
       </div>
     </section>
@@ -1025,7 +1143,7 @@
       <div class="proj" id="intervalo">
         <h3 class="sub-h d">Intervalo com Deus</h3>
         <div class="story" id="story-intervalo" onPointerDown="{{ si.down }}" onPointerUp="{{ si.up }}">
-  <div class="story-top passo-nav"><sc-for list="{{ si.nums }}" as="b" hint-placeholder-count="4"><button type="button" class="pn {{ b.cls }}" onClick="{{ b.go }}" aria-label="{{ b.aria }}"><span>{{ b.n }}</span></button></sc-for></div>
+  <div class="story-top"><sc-for list="{{ si.bars }}" as="b" hint-placeholder-count="4"><i class="{{ b.cls }}"></i></sc-for></div>
   <div class="story-body">
           <sc-if value="{{ si.s0 }}" hint-placeholder-val="{{ true }}"><div class="step"><p>Quando entrei no Colégio Militar no 6º ano, e era serelepe, sempre fugia de um Tenente que me chamava para ir numa reunião na cantina <span class="fala">"pra falar de Deus"</span>.</p><p class="pilantra">PILANTRA! <button type="button" class="kkk" onClick="{{ kkk.toggle }}" aria-expanded="{{ kkk.on }}">{{ kkk.txt }}</button></p></div></sc-if>
           <sc-if value="{{ si.s1 }}" hint-placeholder-val="{{ false }}"><div class="step"><p class="e">Quem diria...</p></div></sc-if>
@@ -1033,12 +1151,14 @@
           <sc-if value="{{ si.s3 }}" hint-placeholder-val="{{ false }}"><div class="step"><p>E daí a conversa fluiu.<br>Ele fazia no fundamental e eu queria fazer no ensino médio, ele não conseguiu dar tanto apoio.</p><p class="e">Corri atrás de muita coisa sozinho.</p></div></sc-if>
           </div>
   <div class="story-ft">
+    <span class="story-count tab">{{ si.count }}</span>
     <button type="button" class="sbtn" onClick="{{ si.toggle }}" aria-label="Ver tudo de uma vez" aria-pressed="{{ si.all }}">
       <sc-if value="{{ si.notAll }}" hint-placeholder-val="{{ true }}"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"></path></svg></sc-if>
       <sc-if value="{{ si.all }}" hint-placeholder-val="{{ false }}"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5h14v14H5z"></path><path d="M9 12h6"></path></svg></sc-if>
     </button>
     <sc-if value="{{ si.stepMode }}" hint-placeholder-val="{{ true }}">
       <div class="story-nav">
+        <button type="button" class="sbtn" onClick="{{ si.prev }}" disabled="{{ si.atStart }}" aria-label="Trecho anterior"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 12H5"></path><path d="M11 5l-7 7 7 7"></path></svg></button>
         <button type="button" class="sbtn main" onClick="{{ si.next }}" aria-label="Próximo trecho">
           <sc-if value="{{ si.notLast }}" hint-placeholder-val="{{ true }}"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15"></path><path d="M13 5l7 7-7 7"></path></svg></sc-if>
           <sc-if value="{{ si.last }}" hint-placeholder-val="{{ false }}"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4.5 12a7.5 7.5 0 1 0 2.2-5.3"></path><path d="M4 3.5V9h5.5"></path></svg></sc-if>
@@ -1067,17 +1187,17 @@
         
         <div class="gal" data-gallery="gI" onScroll="{{ gI.onScroll }}" aria-label="Fotos do Intervalo com Deus">
           <figure class="card"><div class="card-ph"><img class="ph" src="2023-intervalo-com-deus-1.jpg" alt="Intervalo com Deus no Colégio Militar" style="object-position: 50% 50%;"></div><figcaption class="card-cap"><span class="card-n tab">2023</span><span class="card-t">Sala com todas cadeiras cheias. E pessoas em pé em todo redor</span></figcaption></figure>
-          <figure class="card"><div class="card-ph"><img class="ph" src="2023-sala-de-aula.jpg" alt="Reunião do Intervalo com Deus na sala" style="object-position: 50% 50%;"></div><figcaption class="card-cap"><span class="card-n tab">2023</span></figcaption></figure>
-          <figure class="card"><div class="card-ph"><img class="ph" src="2023-colegas-1.jpg" alt="Intervalo com Deus: o lanche e a conversa" style="object-position: 50% 50%;"></div><figcaption class="card-cap"><span class="card-n tab">2023</span></figcaption></figure>
-          <figure class="card"><div class="card-ph"><img class="ph" src="2023-colegas-2.jpg" alt="Intervalo com Deus: o lanche e a conversa" style="object-position: 50% 50%;"></div><figcaption class="card-cap"><span class="card-n tab">2023</span></figcaption></figure>
-          <figure class="card"><div class="card-ph"><img class="ph" src="2023-intervalo-com-deus-2.jpg" alt="Intervalo com Deus no Colégio Militar" style="object-position: 50% 50%;"></div><figcaption class="card-cap"><span class="card-n tab">2023</span><span class="card-t">[LEGENDA DE UMA LINHA: Tiago]</span></figcaption></figure>
-                  <figure class="card"><div class="card-ph"><img class="ph" src="2023-intervalo-com-deus-3.jpg" alt="Intervalo com Deus no Colégio Militar" style="object-position: 50% 50%;"></div><figcaption class="card-cap"><span class="card-n tab">2023</span></figcaption></figure>
-          <figure class="card"><div class="card-ph"><img class="ph" src="2023-intervalo-com-deus-4.jpg" alt="Intervalo com Deus no Colégio Militar" style="object-position: 50% 50%;"></div><figcaption class="card-cap"><span class="card-n tab">2023</span></figcaption></figure>
-          <figure class="card"><div class="card-ph"><img class="ph" src="2023-intervalo-com-deus-5.jpg" alt="Intervalo com Deus no Colégio Militar" style="object-position: 50% 50%;"></div><figcaption class="card-cap"><span class="card-n tab">2023</span></figcaption></figure>
-          <figure class="card"><div class="card-ph"><img class="ph" src="2023-intervalo-com-deus-6.jpg" alt="Intervalo com Deus no Colégio Militar" style="object-position: 50% 50%;"></div><figcaption class="card-cap"><span class="card-n tab">2023</span></figcaption></figure>
-          <figure class="card"><div class="card-ph"><img class="ph" src="2023-intervalo-com-deus-7.jpg" alt="Intervalo com Deus no Colégio Militar" style="object-position: 50% 50%;"></div><figcaption class="card-cap"><span class="card-n tab">2023</span></figcaption></figure>
-          <figure class="card"><div class="card-ph"><img class="ph" src="2023-intervalo-com-deus-8.jpg" alt="Intervalo com Deus no Colégio Militar" style="object-position: 50% 50%;"></div><figcaption class="card-cap"><span class="card-n tab">2023</span></figcaption></figure>
-          <figure class="card"><div class="card-ph"><img class="ph" src="2023-intervalo-com-deus-9.jpg" alt="Intervalo com Deus no Colégio Militar" style="object-position: 50% 50%;"></div><figcaption class="card-cap"><span class="card-n tab">2023</span></figcaption></figure>
+          <figure class="card"><div class="card-ph"><img class="ph" src="2023-sala-de-aula.jpg" alt="Reunião do Intervalo com Deus na sala" style="object-position: 50% 50%;"></div><figcaption class="card-cap"><span class="card-n tab">2023</span><span class="card-t">[FOTO 2 - LEGENDA DE UMA LINHA: Tiago]</span></figcaption></figure>
+          <figure class="card"><div class="card-ph"><img class="ph" src="2023-colegas-1.jpg" alt="Intervalo com Deus: o lanche e a conversa" style="object-position: 50% 50%;"></div><figcaption class="card-cap"><span class="card-n tab">2023</span><span class="card-t">[FOTO 3 - LEGENDA DE UMA LINHA: Tiago]</span></figcaption></figure>
+          <figure class="card"><div class="card-ph"><img class="ph" src="2023-colegas-2.jpg" alt="Intervalo com Deus: o lanche e a conversa" style="object-position: 50% 50%;"></div><figcaption class="card-cap"><span class="card-n tab">2023</span><span class="card-t">[FOTO 4 - LEGENDA DE UMA LINHA: Tiago]</span></figcaption></figure>
+          <figure class="card"><div class="card-ph"><img class="ph" src="2023-intervalo-com-deus-2.jpg" alt="Intervalo com Deus no Colégio Militar" style="object-position: 50% 50%;"></div><figcaption class="card-cap"><span class="card-n tab">2023</span><span class="card-t">[FOTO 5 - LEGENDA DE UMA LINHA: Tiago]</span></figcaption></figure>
+                  <figure class="card"><div class="card-ph"><img class="ph" src="2023-intervalo-com-deus-3.jpg" alt="Intervalo com Deus no Colégio Militar" style="object-position: 50% 50%;"></div><figcaption class="card-cap"><span class="card-n tab">2023</span><span class="card-t">[FOTO 6 - LEGENDA DE UMA LINHA: Tiago]</span></figcaption></figure>
+          <figure class="card"><div class="card-ph"><img class="ph" src="2023-intervalo-com-deus-4.jpg" alt="Intervalo com Deus no Colégio Militar" style="object-position: 50% 50%;"></div><figcaption class="card-cap"><span class="card-n tab">2023</span><span class="card-t">[FOTO 7 - LEGENDA DE UMA LINHA: Tiago]</span></figcaption></figure>
+          <figure class="card"><div class="card-ph"><img class="ph" src="2023-intervalo-com-deus-5.jpg" alt="Intervalo com Deus no Colégio Militar" style="object-position: 50% 50%;"></div><figcaption class="card-cap"><span class="card-n tab">2023</span><span class="card-t">[FOTO 8 - LEGENDA DE UMA LINHA: Tiago]</span></figcaption></figure>
+          <figure class="card"><div class="card-ph"><img class="ph" src="2023-intervalo-com-deus-6.jpg" alt="Intervalo com Deus no Colégio Militar" style="object-position: 50% 50%;"></div><figcaption class="card-cap"><span class="card-n tab">2023</span><span class="card-t">[FOTO 9 - LEGENDA DE UMA LINHA: Tiago]</span></figcaption></figure>
+          <figure class="card"><div class="card-ph"><img class="ph" src="2023-intervalo-com-deus-7.jpg" alt="Intervalo com Deus no Colégio Militar" style="object-position: 50% 50%;"></div><figcaption class="card-cap"><span class="card-n tab">2023</span><span class="card-t">[FOTO 10 - LEGENDA DE UMA LINHA: Tiago]</span></figcaption></figure>
+          <figure class="card"><div class="card-ph"><img class="ph" src="2023-intervalo-com-deus-8.jpg" alt="Intervalo com Deus no Colégio Militar" style="object-position: 50% 50%;"></div><figcaption class="card-cap"><span class="card-n tab">2023</span><span class="card-t">[FOTO 11 - LEGENDA DE UMA LINHA: Tiago]</span></figcaption></figure>
+          <figure class="card"><div class="card-ph"><img class="ph" src="2023-intervalo-com-deus-9.jpg" alt="Intervalo com Deus no Colégio Militar" style="object-position: 50% 50%;"></div><figcaption class="card-cap"><span class="card-n tab">2023</span><span class="card-t">[FOTO 12 - LEGENDA DE UMA LINHA: Tiago]</span></figcaption></figure>
         </div>
         <div class="dots"><div class="dots-list"><sc-for list="{{ gI.dots }}" as="d" hint-placeholder-count="12"><button type="button" class="{{ d.cls }}" aria-label="{{ d.label }}" onClick="{{ d.go }}"></button></sc-for></div><span class="gcount tab">{{ gI.count }}</span></div>
         
@@ -1086,7 +1206,7 @@
       <div class="proj" id="legiao">
         <h3 class="sub-h d">Legião de Honra</h3>
         <div class="story" id="story-legiao" onPointerDown="{{ sl.down }}" onPointerUp="{{ sl.up }}">
-  <div class="story-top passo-nav"><sc-for list="{{ sl.nums }}" as="b" hint-placeholder-count="7"><button type="button" class="pn {{ b.cls }}" onClick="{{ b.go }}" aria-label="{{ b.aria }}"><span>{{ b.n }}</span></button></sc-for></div>
+  <div class="story-top"><sc-for list="{{ sl.bars }}" as="b" hint-placeholder-count="7"><i class="{{ b.cls }}"></i></sc-for></div>
   <div class="story-body">
           <sc-if value="{{ sl.s0 }}" hint-placeholder-val="{{ true }}"><div class="step"><p>Depois que me converti e melhorei meu comportamento na escola, consegui entrar numa iniciativa que eu queria há muito tempo...</p></div></sc-if>
           <sc-if value="{{ sl.s1 }}" hint-placeholder-val="{{ false }}"><div class="step"><p>a Legião de Honra, que fazia ações sociais, e só aceitava alunos exemplares, tanto em nota (coisa que eu tinha), quanto em comportamento (coisa que eu não tinha nos primeiros anos do colégio militar). E para ser selecionado também era preciso fazer um discurso dizendo o porquê queria entrar, diante de todos que já estavam dentro da legião.</p></div></sc-if>
@@ -1097,12 +1217,14 @@
           <sc-if value="{{ sl.s6 }}" hint-placeholder-val="{{ false }}"><div class="step"><p>Inclusive, eu estava tão desapegado que não lembrei o dia que sairia o resultado. Na noite que anunciaram na internet, eu estava fazendo uma live falando de Jesus no Instagram. Uma amiga que eu nem falava há muito tempo entrou na live só para dizer <span class="fala">"TIAGOOO, VOCÊ ENTROU NA LEGIÃO"</span>. Eu tava orando e quando abri os olhos só vi um monte de comentário, e disse algo do tipo <span class="fala">"sério? obrigado por avisar."</span> sem muita reação. Só depois fui processar a alegria e agradecer ao Papai. Esse é o significado daquela bolacha azul que você vê no peito do meu uniforme.</p></div></sc-if>
           </div>
   <div class="story-ft">
+    <span class="story-count tab">{{ sl.count }}</span>
     <button type="button" class="sbtn" onClick="{{ sl.toggle }}" aria-label="Ver tudo de uma vez" aria-pressed="{{ sl.all }}">
       <sc-if value="{{ sl.notAll }}" hint-placeholder-val="{{ true }}"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"></path></svg></sc-if>
       <sc-if value="{{ sl.all }}" hint-placeholder-val="{{ false }}"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5h14v14H5z"></path><path d="M9 12h6"></path></svg></sc-if>
     </button>
     <sc-if value="{{ sl.stepMode }}" hint-placeholder-val="{{ true }}">
       <div class="story-nav">
+        <button type="button" class="sbtn" onClick="{{ sl.prev }}" disabled="{{ sl.atStart }}" aria-label="Trecho anterior"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 12H5"></path><path d="M11 5l-7 7 7 7"></path></svg></button>
         <button type="button" class="sbtn main" onClick="{{ sl.next }}" aria-label="Próximo trecho">
           <sc-if value="{{ sl.notLast }}" hint-placeholder-val="{{ true }}"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15"></path><path d="M13 5l7 7-7 7"></path></svg></sc-if>
           <sc-if value="{{ sl.last }}" hint-placeholder-val="{{ false }}"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4.5 12a7.5 7.5 0 1 0 2.2-5.3"></path><path d="M4 3.5V9h5.5"></path></svg></sc-if>
@@ -1112,8 +1234,8 @@
   </div>
 </div>
         <div class="gal" data-gallery="gB" onScroll="{{ gB.onScroll }}" aria-label="Visita ao orfanato com a Legião de Honra">
-  <figure class="card"><div class="card-ph"><img class="ph" src="2022-orfanato-legiao-de-honra-1.jpg" alt="Tiago com um aluno em evento, 2022" style="object-position: 50% 50%;"></div><figcaption class="card-cap"><span class="card-n tab">2022</span></figcaption></figure>
-  <figure class="card"><div class="card-ph"><img class="ph" src="2022-orfanato-legiao-de-honra-2.jpg" alt="Tiago com um aluno em evento, 2022" style="object-position: 50% 50%;"></div><figcaption class="card-cap"><span class="card-n tab">2022</span></figcaption></figure>
+  <figure class="card"><div class="card-ph"><img class="ph" src="2022-orfanato-legiao-de-honra-1.jpg" alt="Tiago com um aluno em evento, 2022" style="object-position: 50% 50%;"></div><figcaption class="card-cap"><span class="card-n tab">2022</span><span class="card-t">[FOTO 1 - LEGENDA DE UMA LINHA: Tiago]</span></figcaption></figure>
+  <figure class="card"><div class="card-ph"><img class="ph" src="2022-orfanato-legiao-de-honra-2.jpg" alt="Tiago com um aluno em evento, 2022" style="object-position: 50% 50%;"></div><figcaption class="card-cap"><span class="card-n tab">2022</span><span class="card-t">[FOTO 2 - LEGENDA DE UMA LINHA: Tiago]</span></figcaption></figure>
 </div>
 <div class="dots"><div class="dots-list"><sc-for list="{{ gB.dots }}" as="d" hint-placeholder-count="2"><button type="button" class="{{ d.cls }}" aria-label="{{ d.label }}" onClick="{{ d.go }}"></button></sc-for></div><span class="gcount tab">{{ gB.count }}</span></div>
       </div>
@@ -1159,8 +1281,25 @@
         </div>
         <p class="txt">Cada atividade do meu dia tinha que fazer sentido pras minhas prioridades. E ali não estava fazendo.</p>
         <p class="lead">Eu queria explorar a minha fé. As profundezas do que acredito, de onde veio, e como viviam os homens que viveram intensamente por ela.</p>
-        <div class="herois px" aria-label="Pessoas que eu queria estudar">
-          <span>Elias</span><span>Daniel</span><span>João Batista</span><span>Pedro</span><span>Paulo</span><span>Evan Roberts</span><span>John Wesley</span><span>Paul Yonggi Cho</span><span>David Brainerd</span>
+        <div class="rv" id="revista" onPointerDown="{{ rv.down }}" onPointerUp="{{ rv.up }}" aria-label="Revista: os que viveram pela fé">
+          <div class="rv-folha">
+            <sc-if value="{{ rv.p0 }}" hint-placeholder-val="{{ true }}"><div class="rv-pg rv-capa"><p class="rv-k px">edição especial · 10 histórias</p><h4 class="rv-titulo e">Os que viveram pela fé</h4><p class="rv-t">Homens que eu queria estudar. Toque num nome ou vire a página.</p><ol class="rv-sum"><li><button type="button" onClick="{{ rv.g1 }}"><span class="rv-sn px">01</span><span>Elias</span></button></li><li><button type="button" onClick="{{ rv.g2 }}"><span class="rv-sn px">02</span><span>Daniel</span></button></li><li><button type="button" onClick="{{ rv.g3 }}"><span class="rv-sn px">03</span><span>João Batista</span></button></li><li><button type="button" onClick="{{ rv.g4 }}"><span class="rv-sn px">04</span><span>Jesus</span></button></li><li><button type="button" onClick="{{ rv.g5 }}"><span class="rv-sn px">05</span><span>Pedro</span></button></li><li><button type="button" onClick="{{ rv.g6 }}"><span class="rv-sn px">06</span><span>Paulo</span></button></li><li><button type="button" onClick="{{ rv.g7 }}"><span class="rv-sn px">07</span><span>John Wesley</span></button></li><li><button type="button" onClick="{{ rv.g8 }}"><span class="rv-sn px">08</span><span>David Brainerd</span></button></li><li><button type="button" onClick="{{ rv.g9 }}"><span class="rv-sn px">09</span><span>Evan Roberts</span></button></li><li><button type="button" onClick="{{ rv.g10 }}"><span class="rv-sn px">10</span><span>Paul Yonggi Cho</span></button></li></ol></div></sc-if>
+            <sc-if value="{{ rv.p1 }}" hint-placeholder-val="{{ false }}"><div class="rv-pg"><p class="rv-k px">Israel · séc. IX a.C.</p><h4 class="rv-nome e">Elias</h4><p class="rv-t">Um homem só, diante de uma nação inteira que tinha virado as costas pra Deus. Ele orou, e desestabilizou a nação: fogo caiu do céu no monte Carmelo.</p><p class="rv-ref">1 Reis 18</p></div></sc-if>
+            <sc-if value="{{ rv.p2 }}" hint-placeholder-val="{{ false }}"><div class="rv-pg"><p class="rv-k px">Babilônia · séc. VI a.C.</p><h4 class="rv-nome e">Daniel</h4><p class="rv-t">Um jovem estrangeiro com uma fé tão prática que fez o rei da Babilônia se constranger. Os amigos dele foram livrados da fornalha. Ele, da boca dos leões.</p><p class="rv-ref">Daniel 3 e 6</p></div></sc-if>
+            <sc-if value="{{ rv.p3 }}" hint-placeholder-val="{{ false }}"><div class="rv-pg"><p class="rv-k px">Deserto da Judeia</p><h4 class="rv-nome e">João Batista</h4><p class="rv-t">Sem templo, sem palco. Só uma voz clamando no deserto. E multidões saíam das cidades pra ouvi-lo e se arrepender.</p><p class="rv-ref">Mateus 3</p></div></sc-if>
+            <sc-if value="{{ rv.p4 }}" hint-placeholder-val="{{ false }}"><div class="rv-pg"><p class="rv-k px">Galileia</p><h4 class="rv-nome e">Jesus</h4><p class="rv-t">O próprio Cristo. Todos os outros nestas páginas só apontaram pra Ele.</p><p class="rv-ref">Hebreus 12:2</p></div></sc-if>
+            <sc-if value="{{ rv.p5 }}" hint-placeholder-val="{{ false }}"><div class="rv-pg"><p class="rv-k px">Jerusalém</p><h4 class="rv-nome e">Pedro</h4><p class="rv-t">O pescador que negou Jesus três vezes. Semanas depois, pregou em Jerusalém, e quase três mil pessoas se converteram num só dia.</p><p class="rv-ref">Atos 2</p></div></sc-if>
+            <sc-if value="{{ rv.p6 }}" hint-placeholder-val="{{ false }}"><div class="rv-pg"><p class="rv-k px">Império Romano</p><h4 class="rv-nome e">Paulo</h4><p class="rv-t">Perseguia os cristãos. Depois de encontrar Jesus no caminho, virou o apóstolo que levou a mensagem pelo Império Romano.</p><p class="rv-ref">Atos 9</p></div></sc-if>
+            <sc-if value="{{ rv.p7 }}" hint-placeholder-val="{{ false }}"><div class="rv-pg"><p class="rv-k px">Inglaterra · séc. XVIII</p><h4 class="rv-nome e">John Wesley</h4><p class="rv-t">Abalou a Inglaterra. Expulso dos templos, foi pregar nas praças. E milhares se reuniam ao ar livre pra ouvir e se arrepender.</p></div></sc-if>
+            <sc-if value="{{ rv.p8 }}" hint-placeholder-val="{{ false }}"><div class="rv-pg"><p class="rv-k px">América do Norte · séc. XVIII</p><h4 class="rv-nome e">David Brainerd</h4><p class="rv-t">Viveu entre os povos indígenas, pregando com a saúde frágil. Morreu com 29 anos, e o diário dele inspirou gerações de missionários.</p></div></sc-if>
+            <sc-if value="{{ rv.p9 }}" hint-placeholder-val="{{ false }}"><div class="rv-pg"><p class="rv-k px">País de Gales · 1904</p><h4 class="rv-nome e">Evan Roberts</h4><p class="rv-t">Um jovem no centro de um avivamento em que o país se arrependeu. Bares fechavam sozinhos. Os donos de cavalo pararam de xingar e bater no bicho pra ele correr. E a polícia, sem crime pra resolver, ia pra igreja adorar junto.</p></div></sc-if>
+            <sc-if value="{{ rv.p10 }}" hint-placeholder-val="{{ false }}"><div class="rv-pg"><p class="rv-k px">Coreia do Sul · 1958</p><h4 class="rv-nome e">Paul Yonggi Cho</h4><p class="rv-t">Começou numa tenda em Seul. A igreja que nasceu ali virou uma das maiores do mundo.</p></div></sc-if>
+          </div>
+          <div class="rv-ft">
+            <button type="button" class="rv-b" onClick="{{ rv.prev }}" disabled="{{ rv.atStart }}" aria-label="Página anterior"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"></path></svg></button>
+            <span class="rv-n px">{{ rv.conta }}</span>
+            <button type="button" class="rv-b main" onClick="{{ rv.next }}" aria-label="Virar página"><span>{{ rv.nextTxt }}</span><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"></path></svg></button>
+          </div>
         </div>
         <div class="livro">
           <p class="livro-q e">"...venceram reinos, praticaram a justiça, alcançaram promessas, fecharam a boca de leões, apagaram a força do fogo..."</p>
@@ -1265,7 +1404,7 @@
         <div class="story-top passo-nav"><sc-for list="{{ sa.nums }}" as="b" hint-placeholder-count="4"><button type="button" class="pn {{ b.cls }}" onClick="{{ b.go }}" aria-label="{{ b.aria }}"><span>{{ b.n }}</span></button></sc-for></div>
         <div class="story-body">
           <sc-if value="{{ sa.s0 }}" hint-placeholder-val="{{ true }}"><div class="step"><p>Eu deitado num banco. Matando uma aula de inglês (fácil) do cursinho pro IME, enquanto orava e refletia sobre: 1. o quanto eu queria que meus amigos do cursinho conhecessem Jesus <span class="fala">(e muitas orações foram respondidas, tá?)</span></p><p class="e">2. Como eu tava evoluindo pouco nos simulados pro IME.</p></div></sc-if>
-          <sc-if value="{{ sa.s1 }}" hint-placeholder-val="{{ false }}"><div class="step"><p>Então abri o YouTube num canal que sempre me ajudou desde a minha conversão: <b>JesusCopy</b>.</p><p>Ouvindo o Douglas Gonçalves entrevistando o pastor Paulo Borges Júnior.  Gostei tanto que depois ouvi ele numa entrevista com o Vilela do Inteligencia(inclusive achei os links no histórico do YouTube: https://youtu.be/1_nqRmyLlFY?is=V3HEeUJIXVsnIP-q(corte JesusCopy), https://youtu.be/6zkZq6cbObg?si=rY5z3aJ4AYPEYneg(corte do Inteligência)  </p></div></sc-if>
+          <sc-if value="{{ sa.s1 }}" hint-placeholder-val="{{ false }}"><div class="step"><p>Então abri o YouTube num canal que sempre me ajudou desde a minha conversão: <b>JesusCopy</b>.</p><p>Ouvindo o Douglas Gonçalves entrevistando o pastor Paulo Borges Júnior. Gostei tanto que depois ouvi ele numa entrevista com o Vilela do Inteligência (inclusive achei os links no histórico do YouTube):</p><p class="yt-links"><a class="yt-pill" href="https://youtu.be/1_nqRmyLlFY" target="_blank" rel="noopener noreferrer"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4l13 8-13 8z"></path></svg><span>Corte do JesusCopy</span></a><a class="yt-pill" href="https://youtu.be/6zkZq6cbObg" target="_blank" rel="noopener noreferrer"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4l13 8-13 8z"></path></svg><span>Corte do Inteligência</span></a></p></div></sc-if>
           <sc-if value="{{ sa.s2 }}" hint-placeholder-val="{{ false }}"><div class="step"><p class="e">me ofereci para dar aula de forma voluntária.</p><p class="pilantra">Acredita?</p></div></sc-if>
           <sc-if value="{{ sa.s3 }}" hint-placeholder-val="{{ false }}"><div class="step"><p>Logo gostaram do meu trabalho, me contrataram e até <b>ressarciram o tempo como voluntário</b>.</p><p>Depois fui pra outra escola. E outra ganhando mais. E outra ganhando mais.</p><p class="e">Mas isso é história pra outra hora.</p></div></sc-if>
         </div>
@@ -1276,7 +1415,8 @@
           </button>
           <sc-if value="{{ sa.stepMode }}" hint-placeholder-val="{{ true }}">
             <div class="story-nav">
-              <button type="button" class="sbtn main" onClick="{{ sa.next }}" aria-label="Próximo trecho">
+              <button type="button" class="sbtn" onClick="{{ sa.prev }}" disabled="{{ sa.atStart }}" aria-label="Trecho anterior"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 12H5"></path><path d="M11 5l-7 7 7 7"></path></svg></button>
+        <button type="button" class="sbtn main" onClick="{{ sa.next }}" aria-label="Próximo trecho">
                 <sc-if value="{{ sa.notLast }}" hint-placeholder-val="{{ true }}"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15"></path><path d="M13 5l7 7-7 7"></path></svg></sc-if>
                 <sc-if value="{{ sa.last }}" hint-placeholder-val="{{ false }}"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4.5 12a7.5 7.5 0 1 0 2.2-5.3"></path><path d="M4 3.5V9h5.5"></path></svg></sc-if>
               </button>
@@ -1304,7 +1444,7 @@
         <button type="button" class="tile" onClick="{{ tk.t1 }}" aria-pressed="{{ tk.p1 }}" style="background: {{ tk.b1 }}; color: {{ tk.f1 }}; border-color: {{ tk.d1 }};"><svg class="ic" viewBox="0 0 24 24"><path d="M4 12h4l2-5 4 10 2-5h4"></path></svg><span>Eletrônica</span></button>
         <button type="button" class="tile" onClick="{{ tk.t2 }}" aria-pressed="{{ tk.p2 }}" style="background: {{ tk.b2 }}; color: {{ tk.f2 }}; border-color: {{ tk.d2 }};"><svg class="ic" viewBox="0 0 24 24"><path d="M12 8a4 4 0 1 0 0 8a4 4 0 0 0 0-8z"></path><path d="M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M19 5l-2 2M7 17l-2 2"></path></svg><span>Máquinas</span></button>
       </div>
-      <figure class="fig"><img class="ph" src="2019-tela-programacao-do-robo.jpg" alt="Tela de programação de robô, 2019" style="object-position: 50% 50%;"></figure>
+      <figure class="fig"><img class="ph" src="2019-tela-programacao-do-robo.jpg" alt="Tela de programação de robô, 2019" style="object-position: 50% 50%;"><figcaption class="figcap">[FOTO - LEGENDA DE UMA LINHA: Tiago]</figcaption></figure>
     </section>
 <!-- EDUCAÇÃO · ENSINO EM MOVIMENTO -->
     <section id="denovo" class="sec p-emp">
@@ -1379,7 +1519,9 @@
       </figure>
       <p class="caixa">Era um laboratório secreto, assinei um termo de confidencialidade por 2 anos, então não posso falar muitas coisas.</p>
 
-      <p class="txt" style="margin-top: 28px;">Comecei a vender 4 horas por dia, dia sim dia não, na praia de Fortaleza. Mas eu contava o deslocamento dentro das 4h, e no trabalho, se contasse deslocamento dava 6h.</p>
+      <p class="say w e s" style="margin-top: 28px;">Troquei o ar-condicionado do laboratório secreto pelo sol na cabeça e areia no pé.</p>
+      <p class="txt">Ouvi dezenas de "nãos" até pegar o jeito. Mas descobri que vender um produto na rua me dava mais retorno e liberdade do que vender a minha hora.</p>
+      <p class="txt">Comecei a vender 4 horas por dia, dia sim dia não, na praia de Fortaleza. Mas eu contava o deslocamento dentro das 4h, e no trabalho, se contasse deslocamento dava 6h.</p>
       <div class="troca" aria-hidden="true">
         <div class="troca-col">
           <p class="troca-h">LABORATÓRIO</p>
@@ -1403,7 +1545,7 @@
       <p class="txt">Aquela faculdade ensinava mais sobre programar sites e aplicativos. E eu já sabia o que queria programar.</p>
 
       <div class="story" id="story-viagem" onPointerDown="{{ sg.down }}" onPointerUp="{{ sg.up }}">
-        <div class="story-top passo-nav"><sc-for list="{{ sg.nums }}" as="b" hint-placeholder-count="6"><button type="button" class="pn {{ b.cls }}" onClick="{{ b.go }}" aria-label="{{ b.aria }}"><span>{{ b.n }}</span></button></sc-for></div>
+        <div class="story-top"><sc-for list="{{ sg.bars }}" as="b" hint-placeholder-count="6"><i class="{{ b.cls }}"></i></sc-for></div>
         <div class="story-body">
           <sc-if value="{{ sg.s0 }}" hint-placeholder-val="{{ true }}"><div class="step"><p class="e">Tranquei a faculdade e decidi viajar vendendo.</p></div></sc-if>
           <sc-if value="{{ sg.s1 }}" hint-placeholder-val="{{ false }}"><div class="step"><p>Fiz um rolê pelo Nordeste: Olinda, Recife, Natal.</p></div></sc-if>
@@ -1413,13 +1555,15 @@
           <sc-if value="{{ sg.s5 }}" hint-placeholder-val="{{ false }}"><div class="step"><p>Eles me deram uma mentoria sobre o meu modelo de negócio: a ideia de criar uma escola de robótica online era válida, mas levaria tempo.</p><p>Enquanto isso, eu poderia continuar vendendo os doces e criar um robô para vender junto comigo: aumentar a conexão com o cliente, o número de conversões e o dinheiro que entra — pra investir na estruturação da escola.</p></div></sc-if>
         </div>
         <div class="story-ft">
-          <button type="button" class="sbtn" onClick="{{ sg.toggle }}" aria-label="Ver tudo de uma vez" aria-pressed="{{ sg.all }}">
+          <span class="story-count tab">{{ sg.count }}</span>
+    <button type="button" class="sbtn" onClick="{{ sg.toggle }}" aria-label="Ver tudo de uma vez" aria-pressed="{{ sg.all }}">
             <sc-if value="{{ sg.notAll }}" hint-placeholder-val="{{ true }}"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"></path></svg></sc-if>
             <sc-if value="{{ sg.all }}" hint-placeholder-val="{{ false }}"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5h14v14H5z"></path><path d="M9 12h6"></path></svg></sc-if>
           </button>
           <sc-if value="{{ sg.stepMode }}" hint-placeholder-val="{{ true }}">
             <div class="story-nav">
-              <button type="button" class="sbtn main" onClick="{{ sg.next }}" aria-label="Próximo trecho">
+              <button type="button" class="sbtn" onClick="{{ sg.prev }}" disabled="{{ sg.atStart }}" aria-label="Trecho anterior"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 12H5"></path><path d="M11 5l-7 7 7 7"></path></svg></button>
+        <button type="button" class="sbtn main" onClick="{{ sg.next }}" aria-label="Próximo trecho">
                 <sc-if value="{{ sg.notLast }}" hint-placeholder-val="{{ true }}"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15"></path><path d="M13 5l7 7-7 7"></path></svg></sc-if>
                 <sc-if value="{{ sg.last }}" hint-placeholder-val="{{ false }}"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4.5 12a7.5 7.5 0 1 0 2.2-5.3"></path><path d="M4 3.5V9h5.5"></path></svg></sc-if>
               </button>
@@ -1522,25 +1666,70 @@
       <h2 class="h2 d" style="font-size: 40px;">O que significa empreender?</h2>
       
       <p class="verbete"><b class="verbete-p">empreender</b><span class="verbete-d">Do latim,&nbsp;<b>imprehendere</b>&nbsp;(ou <i data-path-to-node="0" data-index-in-node="58">inprehendere</i>), significa "tentar", "tomar para si" ou "apoderar-se"<br>O sentido original e literal da palavra remete à ideia de colocar algo em execução.</span></p>
-      <p class="txt">O empreendedorismo nasce nesse momento exato em que você decide capturar uma ideia, assumindo para si a responsabilidade de tirá-la do campo da imaginação.<br></p>
-      <p class="estalo e">Empreendedor não necessariamente é quem inicia uma empresa. Isso é ser empresário.</p>
-      <p class="txt" style="margin-top: 26px;">Eu quero ser os dois. Risos, porque acredito que algumas empresas são capazes de gerar muito valor e impacto na sociedade.</p>
-      <p class="txt"></p>
-      <p class="txt">Mas no livro <em>Originais: Como os Inconformistas Mudam o Mundo</em> (de Adam Grant), ele mostra que a atitude de questionar o <em>status quo</em> e propor novas soluções (o cerne do <em>imprehendere</em>) não pertence apenas a empresários, mas a qualquer pessoa que deseja inovar em sua comunidade, família ou trabalho.</p>
-      <p class="txt">Eu quero servir as pessoas usando a habilidade que tenho, principalmente em robótica e educação, e inovar na forma de ensinar robótica.</p>
-      <p class="txt">Já tive várias ideias e tentei botar elas pra frente. Muitas ideias minhas deram certo como podem ver na minha história, mas... nem todas.</p>
-      <p class="say w e s">Talvez seja exatamente esse o ponto...</p>
-      <p class="txt">Por tentar tanto que conquistei o que conquistei até aqui. Isso só me motiva a continuar tentando tirar minhas ideias do papel.</p>
-      <p class="estalo e">E, na real, cada fracasso até aqui tem me gerado uma aprendizagem validada diferente, para redesenhar minha startup.</p>
-      <p class="txt"></p><figure class="livro">
+      <p class="note" style="margin-top: 26px;">Toque nas 3 chaves:</p>
+      <div class="emp-tabs" role="tablist">
+        <button type="button" class="emp-tab px {{ emp.b0 }}" onClick="{{ emp.t0 }}" aria-pressed="{{ emp.s0 }}"><b>01</b>capturar</button>
+        <button type="button" class="emp-tab px {{ emp.b1 }}" onClick="{{ emp.t1 }}" aria-pressed="{{ emp.s1 }}"><b>02</b>inconformar</button>
+        <button type="button" class="emp-tab px {{ emp.b2 }}" onClick="{{ emp.t2 }}" aria-pressed="{{ emp.s2 }}"><b>03</b>tentar</button>
+      </div>
+      <sc-if value="{{ emp.s0 }}" hint-placeholder-val="{{ true }}"><div class="emp-painel">
+        <p class="txt" style="margin-top: 0;">O empreendedorismo nasce nesse momento exato em que você decide capturar uma ideia, assumindo para si a responsabilidade de tirá-la do campo da imaginação.</p>
+        <p class="estalo e" style="font-size: 23px;">Empreendedor não necessariamente é quem inicia uma empresa. Isso é ser empresário.</p>
+        <p class="txt" style="margin-top: 20px;">Eu quero ser os dois. Risos, porque acredito que algumas empresas são capazes de gerar muito valor e impacto na sociedade.</p>
+      </div></sc-if>
+      <sc-if value="{{ emp.s1 }}" hint-placeholder-val="{{ false }}"><div class="emp-painel">
+        <p class="txt" style="margin-top: 0;">Mas no livro <em>Originais: Como os Inconformistas Mudam o Mundo</em> (de Adam Grant), ele mostra que a atitude de questionar o <em>status quo</em> e propor novas soluções (o cerne do <em>imprehendere</em>) não pertence apenas a empresários, mas a qualquer pessoa que deseja inovar em sua comunidade, família ou trabalho.</p>
+        <p class="txt">Eu quero servir as pessoas usando a habilidade que tenho, principalmente em <b>robótica e educação</b>, e inovar na forma de ensinar robótica.</p>
+      </div></sc-if>
+      <sc-if value="{{ emp.s2 }}" hint-placeholder-val="{{ false }}"><div class="emp-painel">
+        <p class="txt" style="margin-top: 0;">Já tive várias ideias e tentei botar elas pra frente. Muitas ideias minhas deram certo como podem ver na minha história, mas... nem todas.</p>
+        <p class="say w e s" style="margin-top: 16px;">Talvez seja exatamente esse o ponto...</p>
+        <p class="txt">Por tentar tanto que conquistei o que conquistei até aqui. Isso só me motiva a continuar tentando tirar minhas ideias do papel.</p>
+        <p class="estalo e" style="font-size: 23px;">E, na real, cada fracasso até aqui tem me gerado uma aprendizagem validada diferente, para redesenhar minha startup.</p>
+      </div></sc-if>
+      <figure class="livro">
         <blockquote class="livro-q e">“Aprendizado validado”</blockquote>
         <figcaption class="livro-f">É assim que Eric Ries chama, em <em>A Startup Enxuta</em>, o que sobra de informação de um teste que deu errado.</figcaption>
       </figure>
     </section>
 
+    <!-- EMPREENDEDORISMO · A ESCOLA, O QUE ESTOU CONSTRUINDO AGORA -->
+    <section id="escola" class="sec p-emp">
+      <p class="label mk"><span>Capítulo 11 — o que estou construindo agora</span><span class="seta" aria-hidden="true"><i></i></span></p>
+      <h2 class="h2 d" style="font-size: 40px;">Uma escola de robótica online.</h2>
+      <p class="txt">Uma forma acessível e personalizada de ensinar robótica.</p>
+      <div class="duelo" aria-live="polite">
+        <div class="duelo-par" onClick="{{ vs.next }}">
+          <div class="duelo-lado on">
+            <p class="duelo-tag px">online</p>
+            <sc-for list="{{ vs.um }}" as="d" hint-placeholder-count="1"><div class="duelo-in"><p class="duelo-t">{{ d.onT }}</p><p class="duelo-s">{{ d.onS }}</p></div></sc-for>
+          </div>
+          <span class="vs-selo" aria-hidden="true">VS</span>
+          <div class="duelo-lado off">
+            <p class="duelo-tag px">presencial</p>
+            <sc-for list="{{ vs.um }}" as="d" hint-placeholder-count="1"><div class="duelo-in"><p class="duelo-t">{{ d.offT }}</p><p class="duelo-s">{{ d.offS }}</p></div></sc-for>
+          </div>
+        </div>
+        <div class="duelo-ft">
+          <div class="duelo-dots"><sc-for list="{{ vs.dots }}" as="d" hint-placeholder-count="6"><button type="button" class="{{ d.cls }}" onClick="{{ d.go }}" aria-label="{{ d.label }}"></button></sc-for></div>
+          <span class="rolo-conta px">{{ vs.conta }}</span>
+          <button type="button" class="rolo-btn" onClick="{{ vs.next }}"><span>próximo</span><svg class="ic rolo-seta" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14"></path><path d="M13 6l6 6-6 6"></path></svg></button>
+        </div>
+      </div>
+      <div class="licao" style="margin-top: 32px;"><p>Não é apenas sobre aprender robótica, um conteúdo técnico. É sobre explorar uma ferramenta: desenvolver <b>raciocínio lógico</b>, a <b>capacidade de resolver problemas</b> e criar algo envolvente com as próprias mãos.</p></div>
+      <p class="note" style="margin-top: 26px;">Toque pra ver onde isso te leva:</p>
+      <div class="chips" style="margin-top: 10px;">
+        <button type="button" class="chip chip-btn p-tec {{ vs.c0 }}" onClick="{{ vs.g0 }}" aria-pressed="{{ vs.p0 }}">competições</button>
+        <button type="button" class="chip chip-btn p-emp {{ vs.c1 }}" onClick="{{ vs.g1 }}" aria-pressed="{{ vs.p1 }}">projetos escolares</button>
+        <button type="button" class="chip chip-btn p-esp {{ vs.c2 }}" onClick="{{ vs.g2 }}" aria-pressed="{{ vs.p2 }}">feiras de ciências</button>
+        <button type="button" class="chip chip-btn p-edu {{ vs.c3 }}" onClick="{{ vs.g3 }}" aria-pressed="{{ vs.p3 }}">projetos pessoais</button>
+      </div>
+      <sc-for list="{{ vs.chip }}" as="c" hint-placeholder-count="1"><div class="revelado chip-rev"><p>{{ c.t }}</p></div></sc-for>
+    </section>
+
     <!-- EMPREENDEDORISMO · DISCIPLINA, O CORPO -->
 <section id="disciplina" class="sec p-emp">
-      <p class="label mk"><span>Capítulo 11 — disciplina</span><span class="seta" aria-hidden="true"><i></i></span></p>
+      <p class="label mk"><span>Capítulo 12 — disciplina</span><span class="seta" aria-hidden="true"><i></i></span></p>
       <h2 class="h2 d" style="font-size: 40px;">O corpo também faz parte da construção.</h2>
       <p class="say w e">Por isso vou falar de treinos, esportes, meditação, respiração.</p>
       <p class="txt" style="margin-top: 26px;">Eu falo isso porque, pelo pouco que entendo de máquinas, sei que todas elas precisam de manutenção ou prevenção.</p>
@@ -1568,48 +1757,23 @@
       <p class="estalo e">Mas a disciplina para superar desafios é a mesma</p>
   </section>
 
-    <!-- EMPREENDEDORISMO · A ESCOLA, O QUE ESTOU CONSTRUINDO AGORA -->
-        <section id="escola" class="sec p-emp">
-      <p class="label mk"><span>Capítulo 12 — o que estou construindo agora</span><span class="seta" aria-hidden="true"><i></i></span></p>
-      <h2 class="h2 d" style="font-size: 40px;">Uma escola de robótica online.</h2>
-      <p class="txt">Uma forma acessível e personalizada de ensinar robótica.</p>
-      <div class="vs">
-        <button type="button" class="vs-card" onClick="{{ vs.pickAula }}" aria-pressed="{{ vs.aulaOn }}" style="background: {{ vs.aulaBg }};">
-          <h3 style="color: {{ vs.aulaH }};">Online</h3>
-          <ul class="vs-list">
-            <li class="sim"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 13l4 4 10-10"></path></svg><span>Evita deslocamentos</span></li>
-            <li class="sim"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 13l4 4 10-10"></path></svg><span>O laboratório é a sua mesa</span></li>
-            <li class="sim"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 13l4 4 10-10"></path></svg><span>O kit chega na sua casa</span></li>
-            <li class="sim"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 13l4 4 10-10"></path></svg><span>Flexibilidade de horário</span></li>
-            <li class="sim"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 13l4 4 10-10"></path></svg><span>Aulas ao vivo pra tirar dúvidas</span></li>
-          </ul>
-        </button>
-        <span class="vs-selo" aria-hidden="true">VS</span>
-        <button type="button" class="vs-card" onClick="{{ vs.pickMent }}" aria-pressed="{{ vs.mentOn }}" style="background: {{ vs.mentBg }};">
-          <h3 style="color: {{ vs.mentH }};">Presencial</h3>
-          <ul class="vs-list">
-            <li class="nao"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"></path></svg><span>O professor faz pelo aluno: quebra de autonomia</span></li>
-            <li class="nao"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"></path></svg><span>Difícil de encaixar na rotina</span></li>
-            <li class="nao"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"></path></svg><span>Preços elevados</span></li>
-            <li class="nao"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"></path></svg><span>O kit fica na escola, limitando a exploração dele</span></li>
-          </ul>
-        </button>
-      </div>
-      <ul class="chips" style="margin-top: 20px;" aria-label="Possibilidades da mentoria">
-        <li class="chip p-tec">competições</li>
-        <li class="chip p-emp">projetos escolares</li>
-        <li class="chip p-esp">feiras de ciências</li>
-        <li class="chip p-edu">projetos pessoais</li><p class="txt">Lembra que robótica não é apenas conteúdo técnico, mas uma ferramenta para desenvolver resolver problemas.</p>
-      </ul>
-    </section>
 
   </main>
 
 
   <!-- POR QUE CONTAR -->
   <section class="porque" id="porque">
-    <p class="txt">Eu levei um tempo pra entender a importância de criar um site como esse que você está lendo. </p>
-    <p class="say w e">Mas vi que talvez seria importante me conhecerem, porque posto coisas meio soltas, do nada tô num lugar, depois em outro. Acho que se nem minha família entendia o porquê das minhas decisões, imagina quem me acompanha de longe. Nesse tempo, fui mal compreendido tantas vezes, que nem ligo mais. Mas não to escrevendo para ser compreendido, to escrevendo para inspirar uma forma de enxerga a vida. Espero que a sua também seja carregada de sentido. Existe uma história linda sendo desenhada. E eu te ajudo a ver. Vamos limpar as lentes comigo. Vamos se livrar do medo. Vamos viver livres.</p>
+    <p class="txt">Eu levei um tempo pra entender a importância de criar um site como esse que você está lendo.</p>
+    <p class="txt">Mas vi que talvez fosse importante me conhecerem. Porque posto coisas meio soltas: do nada tô num lugar, depois em outro.</p>
+    <p class="say w e s">Se nem minha família entendia o porquê das minhas decisões, imagina quem me acompanha de longe.</p>
+    <p class="txt">Nesse tempo, fui mal compreendido tantas vezes que nem ligo mais.</p>
+    <p class="txt">Mas não tô escrevendo pra ser compreendido. Tô escrevendo pra inspirar uma forma de enxergar a vida. Espero que a sua também seja carregada de sentido.</p>
+    <p class="txt">Existe uma história linda sendo desenhada. E eu te ajudo a ver.</p>
+    <div class="convite">
+      <p class="e">Vamos limpar as lentes comigo.</p>
+      <p class="e">Vamos nos livrar do medo.</p>
+      <p class="e">Vamos viver livres.</p>
+    </div>
     <p class="lead">Por isso eu decidi contar essa história.</p>
   </section>
 
@@ -1653,16 +1817,14 @@
   <section class="part" id="participar">
     <div class="ctas">
       <div class="cta">
-        <span class="btn" role="button" title="Escola de robótica online (link a definir)" style="--bg: #31a7ff; --rgb: 49, 167, 255;"><span>Quero conhecer a escola de robótica online</span><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13"></path><path d="M12 5l7 7-7 7"></path></svg></span>
-        <span class="todo">[LINK: escola de robótica online]</span>
+        <a class="btn" href="https://tiagoarantess.github.io/escola-de-robotica-online/" target="_blank" rel="noopener noreferrer" style="--bg: #31a7ff; --rgb: 49, 167, 255;"><span>Quero conhecer a escola de robótica online</span><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17L17 7"></path><path d="M8 7h9v9"></path></svg></a>
       </div>
       <div class="cta">
-        <span class="btn" role="button" title="Grupo de estratégias de vendas (link a definir)" style="--bg: #b8ff38; --rgb: 184, 255, 56;"><span>Quero as estratégias de vendas</span><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13"></path><path d="M12 5l7 7-7 7"></path></svg></span>
-        <span class="todo">[LINK: grupo de estratégias de vendas]</span>
+        <span class="btn" role="button" title="E-book de estratégias de vendas (link a definir)" style="--bg: #b8ff38; --rgb: 184, 255, 56;"><span>Quero as estratégias de vendas</span><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13"></path><path d="M12 5l7 7-7 7"></path></svg></span>
+        <span class="todo">[LINK: e-book de estratégias de vendas]</span>
       </div>
       <div class="cta">
-        <span class="btn" role="button" title="WhatsApp do Tiago (link a definir)" style="--bg: #ff8049; --rgb: 255, 128, 73;"><span>Quero apoiar essa construção com recursos ou conhecimento</span><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13"></path><path d="M12 5l7 7-7 7"></path></svg></span>
-        <span class="todo">[LINK: WhatsApp do Tiago]</span>
+        <a class="btn" href="https://www.instagram.com/otiagoarantes/" target="_blank" rel="noopener noreferrer" style="--bg: #ff8049; --rgb: 255, 128, 73;"><span>Quero acompanhar essa construção no Instagram</span><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17L17 7"></path><path d="M8 7h9v9"></path></svg></a>
       </div>
     </div>
     
@@ -1699,8 +1861,9 @@ class Component extends DCLogic {
     super(...args);
     this.state = {
       cur: -1, prog: 0, vira: 0, viraB: 0, kkkOn: false, amigoOn: false, respOn: false, resp: '',
-      step: { vivo: 0, legiao: 0, viagem: 0, intervalo: 0, aulas: 0 },
-      all: { vivo: false, legiao: false, viagem: false, intervalo: false, aulas: false },
+      step: { vivo: 0, legiao: 0, viagem: 0, intervalo: 0, aulas: 0, base: 0 },
+      all: { vivo: false, legiao: false, viagem: false, intervalo: false, aulas: false, base: false },
+      rv: 0, empTab: 0, vsIdx: 0, chip: -1, lenteOk: false,
       tech: [false, false, false],
       disc: [false, false, false, false],
       trail: [false, false, false, false, false, false, false, false],
@@ -1741,8 +1904,8 @@ class Component extends DCLogic {
       { id: 'floripa', n: '08', rot: 'mudança, de novo!', p: 'tec' },
       { id: 'ensinar', n: '09', rot: 'educação', p: 'edu' },
       { id: 'empreender', n: '10', rot: 'empreender', p: 'emp' },
-      { id: 'disciplina', n: '11', rot: 'disciplina', p: 'emp' },
-      { id: 'escola', n: '12', rot: 'o que estou construindo agora', p: 'emp' }
+      { id: 'escola', n: '11', rot: 'o que estou construindo agora', p: 'emp' },
+      { id: 'disciplina', n: '12', rot: 'disciplina', p: 'emp' }
     ];
   }
 
@@ -1756,6 +1919,14 @@ class Component extends DCLogic {
     window.addEventListener('resize', this._onScroll);
     this.track();
     this.recount();
+    // os confrontos da escola giram sozinhos enquanto ela está na tela (até a pessoa tocar)
+    this._vsT = setInterval(() => {
+      if (this._vsUser || this.reduce) return;
+      const el = document.getElementById('escola');
+      if (!el) return;
+      const r = el.getBoundingClientRect();
+      if (r.top < window.innerHeight * 0.6 && r.bottom > window.innerHeight * 0.4) this.setState({ vsIdx: (this.state.vsIdx + 1) % 6 });
+    }, 4500);
   }
 
   componentDidUpdate() { this.recount(); }
@@ -1766,6 +1937,7 @@ class Component extends DCLogic {
     if (this._raf) cancelAnimationFrame(this._raf);
     clearTimeout(this._st);
     clearInterval(this._rp);
+    clearInterval(this._vsT);
   }
 
   respira(on) {
@@ -1800,6 +1972,8 @@ class Component extends DCLogic {
       viraB = span > 0 ? Math.round(Math.min(1, Math.max(0, -r.top / span)) * 200) / 200 : 1;
     }
     this.mapaDesliza();
+    const le = document.querySelector('.lente');
+    if (le && !this.state.lenteOk && le.getBoundingClientRect().top < window.innerHeight * 0.62) this.setState({ lenteOk: true });
     const s = this.state;
     if (cur !== s.cur || prog !== s.prog || vira !== s.vira || viraB !== s.viraB) this.setState({ cur: cur, prog: prog, vira: vira, viraB: viraB });
   }
@@ -1920,7 +2094,7 @@ class Component extends DCLogic {
       motivosTxt: s.mostrar.motivos ? 'esconder os motivos' : 'ver motivos',
       motivos: () => this.setState({ mostrar: Object.assign({}, this.state.mostrar, { motivos: !this.state.mostrar.motivos }) })
     };
-    vals.to = { robotica: guard('robotica'), legiao: guard('legiao'), intervalo: guard('intervalo') };
+    vals.to = { robotica: guard('robotica'), legiao: guard('legiao'), intervalo: guard('intervalo'), mapa: guard('mapa-final') };
 
     // caixas de história: botões, ver tudo e arrastar com o dedo
     const story = (key, n) => {
@@ -1958,6 +2132,7 @@ class Component extends DCLogic {
     vals.sg = story('viagem', 6);
     vals.si = story('intervalo', 4);
     vals.sa = story('aulas', 4);
+    vals.sb = story('base', 7);
 
     // Dito e feito: cresce e o laranja-chama se espalha ao entrar na tela
     const grow = cl((s.vira - 0.25) / 0.5);
@@ -2054,14 +2229,62 @@ class Component extends DCLogic {
       mottoGlow: allOn ? '0 0 22px rgba(184,255,56,.3)' : 'none'
     };
 
-    const aula = s.mode === 'aula';
-    vals.vs = {
-      aulaOn: aula, mentOn: !aula,
-      aulaBg: aula ? 'rgba(49,167,255,.12)' : '#11152a', aulaH: aula ? '#31a7ff' : '#eef4ff',
-      mentBg: !aula ? 'rgba(49,167,255,.12)' : '#11152a', mentH: !aula ? '#31a7ff' : '#eef4ff',
-      pickAula: () => this.setState({ mode: 'aula' }),
-      pickMent: () => this.setState({ mode: 'mentoria' })
+    // a escola: um confronto por vez, online x presencial
+    const pares = [
+      { onT: 'O laboratório é a sua mesa', onS: 'Autonomia e responsabilidade pra organizar o próprio espaço', offT: 'O professor faz pelo aluno', offS: 'Quebra de autonomia' },
+      { onT: 'O kit chega na sua casa', onS: 'Dá pra continuar explorando no tempo livre', offT: 'O kit fica na escola', offS: 'Limita a exploração do aluno' },
+      { onT: 'Flexibilidade de horário', onS: 'Encaixa no melhor horário da rotina', offT: 'Horário fixo', offS: 'Difícil de encaixar na rotina' },
+      { onT: 'Aulas ao vivo pra tirar dúvidas', onS: 'Mentoria e acompanhamento individual', offT: 'Turma cheia', offS: 'Atenção dividida com vários alunos' },
+      { onT: 'Evita deslocamento', onS: 'O tempo vai pro projeto, não pro caminho', offT: 'Trânsito e deslocamento', offS: 'Tempo perdido toda semana' },
+      { onT: 'Preço que só o online permite', onS: 'Preços acessíveis', offT: 'Estrutura física cara', offS: 'Preços elevados' }
+    ];
+    const vi = ((s.vsIdx % pares.length) + pares.length) % pares.length;
+    const chips = [
+      'Competições: preparação pras competições de robótica. Foi esse caminho que me levou a medalhas, a Brasília e à bolsa no cursinho.',
+      'Projetos escolares: aquele trabalho da escola vira um protótipo que funciona de verdade.',
+      'Feiras de ciências: da ideia à montagem e à apresentação pra banca.',
+      'Projetos pessoais: tirar do papel aquela ideia que é só sua.'
+    ];
+    const vs = {
+      um: [Object.assign({ k: vi }, pares[vi])],
+      conta: pad(vi + 1) + '/' + pad(pares.length),
+      next: () => { this._vsUser = true; this.setState({ vsIdx: (this.state.vsIdx + 1) % pares.length }); },
+      dots: pares.map((_, k) => ({ cls: k === vi ? 'on' : '', label: 'Comparação ' + (k + 1), go: () => { this._vsUser = true; this.setState({ vsIdx: k }); } })),
+      chip: s.chip >= 0 ? [{ t: chips[s.chip] }] : []
     };
+    [0, 1, 2, 3].forEach((k) => {
+      vs['c' + k] = s.chip === k ? 'on' : ''; vs['p' + k] = s.chip === k;
+      vs['g' + k] = () => this.setState({ chip: this.state.chip === k ? -1 : k });
+    });
+    vals.vs = vs;
+
+    // empreender: 3 chaves
+    vals.emp = {};
+    [0, 1, 2].forEach((k) => { vals.emp['s' + k] = s.empTab === k; vals.emp['b' + k] = s.empTab === k ? 'on' : ''; vals.emp['t' + k] = () => this.setState({ empTab: k }); });
+
+    // a revista dos que viveram pela fé: capa + 10 páginas
+    const RV = 11;
+    const rvGo = (k) => this.setState({ rv: Math.max(0, Math.min(RV - 1, k)) });
+    vals.rv = {
+      conta: s.rv === 0 ? 'sumário' : pad(s.rv) + '/' + pad(RV - 1),
+      atStart: s.rv === 0,
+      nextTxt: s.rv === 0 ? 'abrir' : (s.rv === RV - 1 ? 'sumário' : 'virar'),
+      prev: () => rvGo(this.state.rv - 1),
+      next: () => rvGo(this.state.rv >= RV - 1 ? 0 : this.state.rv + 1),
+      down: (e) => { this._rvSw = { x: e.clientX, y: e.clientY }; },
+      up: (e) => {
+        const sw = this._rvSw; this._rvSw = null;
+        if (!sw) return;
+        const dx = e.clientX - sw.x, dy = e.clientY - sw.y;
+        if (Math.abs(dx) < 44 || Math.abs(dx) < Math.abs(dy) * 1.3) return;
+        if (dx < 0 && this.state.rv < RV - 1) rvGo(this.state.rv + 1);
+        if (dx > 0 && this.state.rv > 0) rvGo(this.state.rv - 1);
+      }
+    };
+    for (let k = 0; k < RV; k++) { vals.rv['p' + k] = s.rv === k; vals.rv['g' + k] = () => rvGo(k); }
+
+    // a lente: treme e fica embaçada até a base firmar
+    vals.lente = { cls: s.lenteOk ? 'firme' : '', firma: () => this.setState({ lenteOk: true }) };
 
     // os quatro pilares da abertura acendem um de cada vez
     const pl = {};
