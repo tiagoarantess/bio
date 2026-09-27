@@ -912,6 +912,59 @@
 
     /* os convites agora são links */
     a.btn { text-decoration: none; }
+
+    /* ===== ajustes 27/set ===== */
+
+    /* gavetas: fica claro que é pra tocar */
+    .gaveta { border-color: rgba(var(--rgb), .45); transition: border-color .2s; }
+    .gaveta:hover { border-color: var(--c); }
+    .gav-b span { display: flex; flex-direction: column; align-items: flex-start; gap: 8px; }
+    .gav-hint { display: inline-flex; padding: 4px 8px 3px; border: 1px dashed rgba(var(--rgb), .6); background: rgba(var(--rgb), .08); color: var(--ink); font-size: 9px; letter-spacing: .08em; animation: dica-pulso 2.2s ease-in-out infinite; }
+    .gav-b[aria-expanded="true"] .gav-hint { animation: none; opacity: .7; }
+    @keyframes dica-pulso { 50% { background: rgba(var(--rgb), .2); } }
+
+    /* educação: respiro e o contraste das redes */
+    .edu-frase { margin: 30px 0 0; padding: 18px 20px; border-left: 4px solid var(--c); background: rgba(var(--rgb), .10); color: var(--ink); font-size: 30px; line-height: 1.08; }
+    .redes { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 16px; }
+    .redes-c { padding: 14px 12px; border: 1px solid #2b3154; background: #0c0f22; }
+    .redes-c span { color: #7883a5; font-size: 9px; letter-spacing: .06em; }
+    .redes-c p { margin-top: 8px; color: #a6b0d1; font-size: 15px; font-weight: 600; line-height: 1.35; }
+    .redes-c.on { border-color: var(--c); background: rgba(var(--rgb), .10); }
+    .redes-c.on span { color: var(--ink); }
+    .redes-c.on p { color: #eef4ff; font-weight: 700; }
+
+    /* o livro aberto dos que viveram pela fé */
+    .lv { margin-top: 30px; margin-left: -8px; margin-right: -8px; touch-action: pan-y; user-select: none; -webkit-user-select: none; }
+    .lv-livro { position: relative; perspective: 1600px; }
+    .lv-spread { position: relative; display: grid; grid-template-columns: 1fr 1fr; min-height: 420px; border-radius: 4px; background: #efe6d1; color: #231d33; box-shadow: 0 18px 38px rgba(0, 0, 0, .55), 0 0 0 1px #d8cbae; }
+    .lv-spread::before { content: ""; position: absolute; left: 50%; top: 0; bottom: 0; width: 26px; margin-left: -13px; background: linear-gradient(90deg, rgba(60, 40, 20, 0), rgba(60, 40, 20, .28) 50%, rgba(60, 40, 20, 0)); pointer-events: none; z-index: 1; }
+    .lv-pg { position: relative; display: flex; flex-direction: column; min-width: 0; padding: 16px 12px 30px; }
+    .lv-dir { transform-origin: left center; backface-visibility: hidden; animation: folha .6s cubic-bezier(.22, 1, .36, 1) both; }
+    .lv-esq { animation: abrir .5s ease both; }
+    @keyframes folha { from { transform: rotateY(-75deg); opacity: .2; filter: brightness(.7); } }
+    @media (prefers-reduced-motion: reduce) { .lv-dir, .lv-esq { animation: none; } }
+    .lv-num { position: absolute; bottom: 10px; color: #8a7f6b; font-size: 9px; }
+    .lv-esq .lv-num { left: 12px; }
+    .lv-dir .lv-num { right: 12px; }
+    .lv-abre { color: #3d1f7a; font-size: 20px; line-height: 1.15; }
+    .lv-dir .lv-abre { margin-top: auto; color: #7a3fe0; font-size: 22px; }
+    .lv-t { margin-top: 10px; color: #3a3350; font-size: 13.5px; font-weight: 500; line-height: 1.5; }
+    .lv-t b { color: #231d33; }
+    .lv-agenda { margin-top: 10px; gap: 4px; }
+    .lv-agenda span { padding: 4px 6px; border-color: rgba(122, 63, 224, .45); background: rgba(122, 63, 224, .06); color: #3a3350; font-size: 10px; }
+    .lv-agenda span.full { border-color: #c2334f; color: #c2334f; background: rgba(194, 51, 79, .06); }
+    .lv-nome { margin: 6px 0 0; color: #231d33; font-size: 23px; line-height: 1.02; }
+    .lv-nome::after { content: ""; display: block; width: 32px; height: 3px; margin-top: 9px; background: #7a3fe0; }
+    .lv-fig { margin: 0; display: flex; flex-direction: column; gap: 6px; height: 100%; }
+    .lv-fig img { width: 100%; flex: 1; min-height: 260px; object-fit: cover; border: 6px solid #fbf6ea; box-shadow: 0 2px 8px rgba(0, 0, 0, .25); background: #d8cbae; filter: sepia(.15); }
+    .lv-fig figcaption { color: #8a7f6b; font-size: 9px; line-height: 1.3; }
+    .lv-fim { margin: auto; display: grid; justify-items: center; gap: 10px; color: #7a3fe0; }
+    .lv-fim svg { width: 44px; height: 44px; fill: none; stroke: currentColor; stroke-width: 1.6; }
+    .lv-fim p { font-size: 10px; letter-spacing: .1em; }
+    .lv-hebreus { margin: auto 0; padding: 16px 12px 14px 18px; background: #0c0f22; }
+    .lv-hebreus .livro-q { font-size: 17px; }
+    .lv-hebreus .livro-f { font-size: 12px; }
+    .lv .rv-ft { margin-top: 14px; padding: 0 8px; }
   </style>
 </helmet>
 <div class="nav">
@@ -979,21 +1032,30 @@
   <figure class="card"><div class="card-ph"><img class="ph" src="2019-equipe-testando-robo.jpg" alt="Equipe testando robô na arena, 2019" style="object-position: 50% 50%;"></div><figcaption class="card-cap"><span class="card-n tab">2019</span><span class="card-t">[FOTO 5 - LEGENDA DE UMA LINHA: Tiago]</span></figcaption></figure>
   <figure class="card"><div class="card-ph"><img class="ph" src="2019-entrega-de-certificados-1.jpg" alt="Entrega de certificados, 2019" style="object-position: 50% 50%;"></div><figcaption class="card-cap"><span class="card-n tab">2019</span><span class="card-t">[FOTO 6 - LEGENDA DE UMA LINHA: Tiago]</span></figcaption></figure>
   <figure class="card"><div class="card-ph"><img class="ph" src="2019-entrega-de-certificados-2.jpg" alt="Entrega de certificados, 2019" style="object-position: 50% 50%;"></div><figcaption class="card-cap"><span class="card-n tab">2019</span><span class="card-t">[FOTO 7 - LEGENDA DE UMA LINHA: Tiago]</span></figcaption></figure>
-  <figure class="card"><div class="card-ph"><img class="ph" src="2022-colegio-militar-campo-grande.jpg" alt="Equipe no Colégio Militar de Campo Grande, 2022" style="object-position: 50% 50%;"></div><figcaption class="card-cap"><span class="card-n tab">2022</span><span class="card-t">[FOTO 8 - LEGENDA DE UMA LINHA: Tiago]</span></figcaption></figure>
-  <figure class="card"><div class="card-ph"><img class="ph" src="2022-competicao-1.jpg" alt="Competição de robótica, 2022" style="object-position: 50% 50%;"></div><figcaption class="card-cap"><span class="card-n tab">2022</span><span class="card-t">[FOTO 9 - LEGENDA DE UMA LINHA: Tiago]</span></figcaption></figure>
-  <figure class="card"><div class="card-ph"><img class="ph" src="2022-competicao-2.jpg" alt="Competição de robótica, 2022" style="object-position: 50% 50%;"></div><figcaption class="card-cap"><span class="card-n tab">2022</span><span class="card-t">[FOTO 10 - LEGENDA DE UMA LINHA: Tiago]</span></figcaption></figure>
-  <figure class="card"><div class="card-ph"><img class="ph" src="2022-competicao-3.jpg" alt="Competição de robótica, 2022" style="object-position: 50% 50%;"></div><figcaption class="card-cap"><span class="card-n tab">2022</span><span class="card-t">[FOTO 11 - LEGENDA DE UMA LINHA: Tiago]</span></figcaption></figure>
-  <figure class="card"><div class="card-ph"><img class="ph" src="2022-competicao-4.jpg" alt="Competição de robótica, 2022" style="object-position: 50% 50%;"></div><figcaption class="card-cap"><span class="card-n tab">2022</span><span class="card-t">[FOTO 12 - LEGENDA DE UMA LINHA: Tiago]</span></figcaption></figure>
-  <figure class="card"><div class="card-ph"><img class="ph" src="2022-apresentacao-em-auditorio.jpg" alt="Apresentação em auditório, 2022" style="object-position: 50% 50%;"></div><figcaption class="card-cap"><span class="card-n tab">2022</span><span class="card-t">[FOTO 13 - LEGENDA DE UMA LINHA: Tiago]</span></figcaption></figure>
-  <figure class="card"><div class="card-ph"><img class="ph" src="2022-cerimonia-de-premiacao.jpg" alt="Cerimônia de premiação, 2022" style="object-position: 50% 50%;"></div><figcaption class="card-cap"><span class="card-n tab">2022</span><span class="card-t">[FOTO 14 - LEGENDA DE UMA LINHA: Tiago]</span></figcaption></figure>
+  <figure class="card"><div class="card-ph"><img class="ph" src="2022-competicao-1.jpg" alt="Competição de robótica, 2022" style="object-position: 50% 50%;"></div><figcaption class="card-cap"><span class="card-n tab">2022</span><span class="card-t">[FOTO 8 - LEGENDA DE UMA LINHA: Tiago]</span></figcaption></figure>
+  <figure class="card"><div class="card-ph"><img class="ph" src="2022-competicao-2.jpg" alt="Competição de robótica, 2022" style="object-position: 50% 50%;"></div><figcaption class="card-cap"><span class="card-n tab">2022</span><span class="card-t">[FOTO 9 - LEGENDA DE UMA LINHA: Tiago]</span></figcaption></figure>
+  <figure class="card"><div class="card-ph"><img class="ph" src="2022-competicao-3.jpg" alt="Competição de robótica, 2022" style="object-position: 50% 50%;"></div><figcaption class="card-cap"><span class="card-n tab">2022</span><span class="card-t">[FOTO 10 - LEGENDA DE UMA LINHA: Tiago]</span></figcaption></figure>
+  <figure class="card"><div class="card-ph"><img class="ph" src="2022-competicao-4.jpg" alt="Competição de robótica, 2022" style="object-position: 50% 50%;"></div><figcaption class="card-cap"><span class="card-n tab">2022</span><span class="card-t">[FOTO 11 - LEGENDA DE UMA LINHA: Tiago]</span></figcaption></figure>
+  <figure class="card"><div class="card-ph"><img class="ph" src="2022-apresentacao-em-auditorio.jpg" alt="Apresentação em auditório, 2022" style="object-position: 50% 50%;"></div><figcaption class="card-cap"><span class="card-n tab">2022</span><span class="card-t">[FOTO 12 - LEGENDA DE UMA LINHA: Tiago]</span></figcaption></figure>
   <figure class="card"><div class="card-ph"><img class="ph" src="2023-ensinando-estudantes.jpg" alt="Tiago apresentando uma atividade para estudantes" style="object-position: 50% 50%;"></div><figcaption class="card-cap"><span class="card-n tab">2023</span><span class="card-t">Depois, comecei a ensinar aquilo que eu havia aprendido.</span></figcaption></figure>
-  <figure class="card"><div class="card-ph"><img class="ph" src="2018-evento-robotica-1.jpg" alt="Evento de robótica, 2018" style="object-position: 50% 50%;"></div><figcaption class="card-cap"><span class="card-n tab">2018</span><span class="card-t">[FOTO 16 - LEGENDA DE UMA LINHA: Tiago]</span></figcaption></figure>
-  <figure class="card"><div class="card-ph"><img class="ph" src="2018-evento-robotica-2.jpg" alt="Evento de robótica, 2018" style="object-position: 50% 50%;"></div><figcaption class="card-cap"><span class="card-n tab">2018</span><span class="card-t">[FOTO 17 - LEGENDA DE UMA LINHA: Tiago]</span></figcaption></figure>
-  <figure class="card"><div class="card-ph"><img class="ph" src="equipe-robotica-prototipos.jpg" alt="A equipe e os protótipos" style="object-position: 50% 50%;"></div><figcaption class="card-cap"><span class="card-n tab">2022</span><span class="card-t">[FOTO 18 - LEGENDA DE UMA LINHA: Tiago]</span></figcaption></figure>
-  <figure class="card"><div class="card-ph"><img class="ph" src="2022-delegacao-com-bandeira.jpg" alt="A delegação com a bandeira, a caminho da competição" style="object-position: 50% 50%;"></div><figcaption class="card-cap"><span class="card-n tab">2022</span><span class="card-t">[FOTO 19 - LEGENDA DE UMA LINHA: Tiago]</span></figcaption></figure>
+  <figure class="card"><div class="card-ph"><img class="ph" src="2018-evento-robotica-1.jpg" alt="Evento de robótica, 2018" style="object-position: 50% 50%;"></div><figcaption class="card-cap"><span class="card-n tab">2018</span><span class="card-t">[FOTO 14 - LEGENDA DE UMA LINHA: Tiago]</span></figcaption></figure>
+  <figure class="card"><div class="card-ph"><img class="ph" src="2018-evento-robotica-2.jpg" alt="Evento de robótica, 2018" style="object-position: 50% 50%;"></div><figcaption class="card-cap"><span class="card-n tab">2018</span><span class="card-t">[FOTO 15 - LEGENDA DE UMA LINHA: Tiago]</span></figcaption></figure>
+  <figure class="card"><div class="card-ph"><img class="ph" src="equipe-robotica-prototipos.jpg" alt="A equipe e os protótipos" style="object-position: 50% 50%;"></div><figcaption class="card-cap"><span class="card-n tab">2022</span><span class="card-t">[FOTO 16 - LEGENDA DE UMA LINHA: Tiago]</span></figcaption></figure>
+  <figure class="card"><div class="card-ph"><img class="ph" src="2022-delegacao-com-bandeira.jpg" alt="A delegação com a bandeira, a caminho da competição" style="object-position: 50% 50%;"></div><figcaption class="card-cap"><span class="card-n tab">2022</span><span class="card-t">[FOTO 17 - LEGENDA DE UMA LINHA: Tiago]</span></figcaption></figure>
   <figure class="card"><div class="card-ph"><img class="ph" src="2023-sala-de-estudos.jpg" alt="Tiago e colegas em uma sala de estudos" style="object-position: 50% 50%;"></div><figcaption class="card-cap"><span class="card-n tab">2023</span><span class="card-t">Uma trajetória que também passou por muito estudo, disciplina e decisão.</span></figcaption></figure>
 </div>
-<div class="dots"><div class="dots-list"><sc-for list="{{ gA.dots }}" as="d" hint-placeholder-count="20"><button type="button" class="{{ d.cls }}" aria-label="{{ d.label }}" onClick="{{ d.go }}"></button></sc-for></div><span class="gcount tab">{{ gA.count }}</span></div>
+<div class="dots"><div class="dots-list"><sc-for list="{{ gA.dots }}" as="d" hint-placeholder-count="18"><button type="button" class="{{ d.cls }}" aria-label="{{ d.label }}" onClick="{{ d.go }}"></button></sc-for></div><span class="gcount tab">{{ gA.count }}</span></div>
+      <div class="sub" id="feiras">
+        <p class="label mk"><span>Feiras de ciências</span><span class="seta" aria-hidden="true"><i></i></span></p>
+        <h3 class="sub-h d">E teve feira de ciências também.</h3>
+        <p class="txt">[TEXTO: escreve aqui sobre as feiras de ciências]</p>
+        <div class="gal" data-gallery="gF" onScroll="{{ gF.onScroll }}" aria-label="Feiras de ciências">
+  <figure class="card"><div class="card-ph"><img class="ph" src="2022-colegio-militar-campo-grande.jpg" alt="Equipe no Colégio Militar de Campo Grande, 2022" style="object-position: 50% 50%;"></div><figcaption class="card-cap"><span class="card-n tab">2022</span><span class="card-t">[FOTO 1 - LEGENDA DE UMA LINHA: Tiago]</span></figcaption></figure>
+  <figure class="card"><div class="card-ph"><img class="ph" src="2022-cerimonia-de-premiacao.jpg" alt="Cerimônia de premiação, 2022" style="object-position: 50% 50%;"></div><figcaption class="card-cap"><span class="card-n tab">2022</span><span class="card-t">[FOTO 2 - LEGENDA DE UMA LINHA: Tiago]</span></figcaption></figure>
+</div>
+<div class="dots"><div class="dots-list"><sc-for list="{{ gF.dots }}" as="d" hint-placeholder-count="2"><button type="button" class="{{ d.cls }}" aria-label="{{ d.label }}" onClick="{{ d.go }}"></button></sc-for></div><span class="gcount tab">{{ gF.count }}</span></div>
+      </div>
+
 
 
     </section>
@@ -1011,13 +1073,13 @@
       <div class="story" id="story-base" onPointerDown="{{ sb.down }}" onPointerUp="{{ sb.up }}">
   <div class="story-top"><sc-for list="{{ sb.bars }}" as="b" hint-placeholder-count="7"><i class="{{ b.cls }}"></i></sc-for></div>
   <div class="story-body">
-          <sc-if value="{{ sb.s0 }}" hint-placeholder-val="{{ true }}"><div class="step"><p>A base é onde ficam apoiados a sua <b>segurança</b>, o seu <b>valor</b> e a sua <b>identidade</b>. Até aquele dia, sem perceber, a minha base estava nos meus resultados, na performance: ganhasse, conquistasse, eu estava bem; quando não conseguia, desabava.</p><p class="e"> Por isso, quando o robô falhou na hora H, fiquei sem chão. Firmar a base é tirar o seu valor das coisas que oscilam (notas, troféus, dinheiro, aprovação dos outros) e prender em algo inabalável (o amor e o propósito de Deus).</p></div></sc-if>
-          <sc-if value="{{ sb.s1 }}" hint-placeholder-val="{{ false }}"><div class="step"><p>A minha visão da vida era distorcida, parecia tudo escuro, embaçado.</p><p> De fato, quando a gente pisa com medo num terreno que não conhece, geralmente olha só para os próprios pés, tentando não cair. Mas quando você sabe que o seu terreno é firme, você finalmente consegue levantar a cabeça, olhar ao redor e olhar adiante. </p></div></sc-if>
-          <sc-if value="{{ sb.s2 }}" hint-placeholder-val="{{ false }}"><div class="step"><p>Com o chão tremendo, eu enxergava o mundo trêmulo.</p><p class="e">Só olhava pros meus próprios pés, com medo de cair.</p></div></sc-if>
-          <sc-if value="{{ sb.s3 }}" hint-placeholder-val="{{ false }}"><div class="step"><p>Me senti igual a um robô com o chassi desalinhado, se a base fica bamba, a imagem da câmera fica borrada, o sensor faz leituras erradas.</p></div></sc-if>
-          <sc-if value="{{ sb.s4 }}" hint-placeholder-val="{{ false }}"><div class="step"><p>Mas, na robótica, o chão pode estar firme, a base do robô estar alinhada... e a câmera continuar ofuscada e o sensor continuar lendo errado. O primeiro passo foi feito, mas aí você precisa calibrar o sensor, limpar a câmera. Naquele quarto, a minha base se firmou. E agora a forma como eu enxergo a vida deveria ser a partir daquele novo ponto de vista.</p><p>   </p></div></sc-if>
-          <sc-if value="{{ sb.s5 }}" hint-placeholder-val="{{ false }}"><div class="step"><p class="e">Porque ninguém consegue ajustar o foco enquanto está caindo. Na vida prática, quando uma pessoa não tem base (vive insegura, precisando provar seu valor o tempo todo), ela está em modo de sobrevivência. No modo de sobrevivência, você fica cego e egoísta: só enxerga a própria dor, morre de medo de errar e vê as pessoas como ameaça ou juiz. Não adianta tentar mudar "a forma de enxergar as coisas lá fora", se por dentro estamos apavorados com o medo do fracasso.</p><p>A partir de nosso local seguro, ele começou a limpar minhas lentes</p><p>(Esse meu amigo da equipe usava um grau de óculos altíssimo. Eu nem usava óculos na época. Mas acho que a minha visão era mais embaçada que a dele.</p></div></sc-if>
-          <sc-if value="{{ sb.s6 }}" hint-placeholder-val="{{ false }}"><div class="step"><p>Olhei para a frustração e não vi mais o fim da linha: vi uma ferramenta necessária para me amadurecer e me forjar. Olhei para o lado e parei de ver só o meu umbigo: lembrei de um amigo da equipe que também ficou meio abalado e, pela primeira vez, tive coragem de falar da minha fé e esperança para alguém, mesmo que por mensagem, e ele correspondeu bem. <b>frustração</b> era necessária para me amadurecer, e que isso estava me forjando uma pessoa melhor.</p><p>Peguei o celular e mandei mensagem pra esse amigo, que também tinha ficado meio abalado. E falei pra ele da minha fé e esperança.</p></div></sc-if>
+          <sc-if value="{{ sb.s0 }}" hint-placeholder-val="{{ true }}"><div class="step"><p>A base é onde ficam apoiados a nossa <b>segurança</b>, o nosso <b>valor</b> e a nossa <b>identidade</b>. Até aquele dia, sem perceber, a minha base estava nos meus resultados, na performance: se ganhasse, conquistasse, eu estava bem; quando não conseguia, ficava desesperado. Por isso, quando o robô falhou na hora H, desabei em lágrimas... (E MINHA MÃE TIROU FOTO DE EU CHORANDO KKKK ENQUANTO EU QUERIA ALGUÉM PRA ME ACOLHER). Ela sabia que ia virar testemunho! hahah tentei achar com ela essa foto, mas não conseguimos.</p><p class="e">Enfim, quero refletir com você que firmar a base é tirar o nosso valor das coisas que oscilam (notas, troféus, dinheiro, aprovação dos outros) e prender em Alguém inabalável.</p></div></sc-if>
+          <sc-if value="{{ sb.s1 }}" hint-placeholder-val="{{ false }}"><div class="step"><p>Com a base instável, a visão fica distorcida. Já percebeu que quando a gente pisa com medo num terreno que não conhece, a gente anda olhando só para os próprios pés, tentando não cair? Mas quando sabemos que o terreno é firme, finalmente conseguimos levantar a cabeça, olhar ao redor e adiante.</p><p>Assim sinto que minha visão da vida era distorcida, parecia tudo escuro, embaçado. Mas a Palavra se tornou lâmpada para os meus pés, luz para o meu caminho.</p></div></sc-if>
+          <sc-if value="{{ sb.s2 }}" hint-placeholder-val="{{ false }}"><div class="step"><p class="e">Ninguém consegue ajustar o foco enquanto está balançando.</p><p>Na vida, quando não temos onde nos sustentar, vivemos inseguros, precisando provar nosso valor o tempo todo. Estamos em modo de sobrevivência. E nesse modo ficamos cegos e egoístas: a gente só enxerga a própria dor, morre de medo de errar e vê as pessoas como ameaça ou juiz. Não adianta tentar mudar "a forma de enxergar as coisas lá fora", se por dentro estamos com medo da instabilidade.</p></div></sc-if>
+          <sc-if value="{{ sb.s3 }}" hint-placeholder-val="{{ false }}"><div class="step"><p>Antes, eu me sentia igual a um robô com o chassi desalinhado: se a base fica bamba, a imagem da câmera fica borrada, o sensor faz leituras erradas.</p><p>Mas, na robótica, não basta o chão estar firme e a base do robô estar alinhada... a câmera pode continuar ofuscada mesmo assim, e o sensor continuar lendo errado. O primeiro passo foi feito, mas aí a gente precisa calibrar o sensor, limpar a câmera.</p></div></sc-if>
+          <sc-if value="{{ sb.s4 }}" hint-placeholder-val="{{ false }}"><div class="step"><p>No quarto de oração, fui acolhido por Ele. Tirei a minha dependência da performance e coloquei no amor de um Pai que não muda quando eu perco.</p><p>Naquele nosso local seguro, Ele começou a limpar minhas lentes e redefiniu a forma como enxergo um fracasso, um concorrente, o trabalho e o futuro. Realmente, ter um novo ponto de vista é enxergar a vida a partir de um novo local. Mude sua base e tudo muda.</p></div></sc-if>
+          <sc-if value="{{ sb.s5 }}" hint-placeholder-val="{{ false }}"><div class="step"><p>Talvez por isso peguei o celular e mandei mensagem pra um amigo da equipe, que também tinha ficado meio abalado. Eu só consegui olhar para o meu amigo e me importar com a dor dele porque transbordei o que tinha acabado de receber naquele quarto. Pela primeira vez, tive coragem de falar da minha fé e esperança para alguém, mesmo que por mensagem, e ele correspondeu bem.</p><p>(Curiosidade: esse amigo de equipe usava um grau de óculos bem alto. Eu nem usava óculos nessa época, mas naquele dia quem estava com a visão mais embaçada e míope sobre a vida era eu).</p></div></sc-if>
+          <sc-if value="{{ sb.s6 }}" hint-placeholder-val="{{ false }}"><div class="step"><p>Ali, olhei para a <b>frustração</b> e percebi o quanto era necessária para me amadurecer, e que isso estava me forjando uma pessoa melhor. E por isso orei da forma que falei.</p><p class="e">Na próxima frustração, não pense que veio para te destruir. Talvez ela só esteja cavando o espaço para construir uma fundação.</p></div></sc-if>
   </div>
   <div class="story-ft">
     <span class="story-count tab">{{ sb.count }}</span>
@@ -1111,11 +1173,12 @@
         
         
         <p class="txt">A partir daí ela quis ir na minha igreja e decidiu colocar Cristo como prioridade. Ela sentiu uma paz inexplicável e anda no amor de Jesus até hoje.&nbsp;</p>
+        <p class="txt">Nesse mesmo ano, no final, empatamos a média de nota <b>nos milésimos</b>, e nós dois ganhamos a mesma medalha no uniforme (coisa que o colégio nunca tinha feito)</p>
         <p class="txt">Ela era MUITO tímida na sala, e aos poucos foi se soltando. Olha ela falando na igreja.</p>
         <figure class="fig">
           <img class="ph" src="pregando-na-praca.jpg" alt="A menina da turma pregando na minha igreja" style="object-position: 50% 50%;">
           <figcaption class="figcap">A menina da turma pregando na minha igreja</figcaption>
-        </figure><p class="txt">Nesse mesmo ano, no final, empatamos a média de nota <b>nos milésimos</b>, e nós dois ganhamos a mesma medalha no uniforme (coisa que o colégio nunca tinha feito)</p>
+        </figure>
         <figure class="fig">
           <img class="ph" src="2020-oracao-na-varanda.jpg" alt="Oração na varanda de casa com amigos, 2020" style="object-position: 50% 50%;">
           <figcaption class="figcap"><span class="year tab">2020</span>Oração na varanda da minha casa, com "a menina que eu disputava nota" e com um <b class="palavra-fixa">amigo autêntico</b></figcaption>
@@ -1274,36 +1337,29 @@
         <p class="estalo e">Isso não me faz melhor. Só me faz diferente.</p>
         <p class="txt" style="margin-top: 18px;">Todo mundo tem potenciais a serem explorados e dificuldades a serem tratadas.</p>
 
-        <p class="say w e s">Até que, do nada (após a pandemia rs), os meus interesses mudaram.</p>
-        <p class="txt">Eu já estava saturado das aulas de matemática. E meu tempo era escasso:</p>
-        <div class="agenda" aria-label="O que ocupava meus dias">
-          <span>ensino médio</span><span>Intervalo com Deus</span><span>Legião de Honra</span><span>projetos de ciências</span><span>robótica</span><span>igreja</span><span>esportes</span><span class="full px">agenda cheia</span>
-        </div>
-        <p class="txt">Cada atividade do meu dia tinha que fazer sentido pras minhas prioridades. E ali não estava fazendo.</p>
-        <p class="lead">Eu queria explorar a minha fé. As profundezas do que acredito, de onde veio, e como viviam os homens que viveram intensamente por ela.</p>
-        <div class="rv" id="revista" onPointerDown="{{ rv.down }}" onPointerUp="{{ rv.up }}" aria-label="Revista: os que viveram pela fé">
-          <div class="rv-folha">
-            <sc-if value="{{ rv.p0 }}" hint-placeholder-val="{{ true }}"><div class="rv-pg rv-capa"><p class="rv-k px">edição especial · 10 histórias</p><h4 class="rv-titulo e">Os que viveram pela fé</h4><p class="rv-t">Homens que eu queria estudar. Toque num nome ou vire a página.</p><ol class="rv-sum"><li><button type="button" onClick="{{ rv.g1 }}"><span class="rv-sn px">01</span><span>Elias</span></button></li><li><button type="button" onClick="{{ rv.g2 }}"><span class="rv-sn px">02</span><span>Daniel</span></button></li><li><button type="button" onClick="{{ rv.g3 }}"><span class="rv-sn px">03</span><span>João Batista</span></button></li><li><button type="button" onClick="{{ rv.g4 }}"><span class="rv-sn px">04</span><span>Jesus</span></button></li><li><button type="button" onClick="{{ rv.g5 }}"><span class="rv-sn px">05</span><span>Pedro</span></button></li><li><button type="button" onClick="{{ rv.g6 }}"><span class="rv-sn px">06</span><span>Paulo</span></button></li><li><button type="button" onClick="{{ rv.g7 }}"><span class="rv-sn px">07</span><span>John Wesley</span></button></li><li><button type="button" onClick="{{ rv.g8 }}"><span class="rv-sn px">08</span><span>David Brainerd</span></button></li><li><button type="button" onClick="{{ rv.g9 }}"><span class="rv-sn px">09</span><span>Evan Roberts</span></button></li><li><button type="button" onClick="{{ rv.g10 }}"><span class="rv-sn px">10</span><span>Paul Yonggi Cho</span></button></li></ol></div></sc-if>
-            <sc-if value="{{ rv.p1 }}" hint-placeholder-val="{{ false }}"><div class="rv-pg"><p class="rv-k px">Israel · séc. IX a.C.</p><h4 class="rv-nome e">Elias</h4><p class="rv-t">Um homem só, diante de uma nação inteira que tinha virado as costas pra Deus. Ele orou, e desestabilizou a nação: fogo caiu do céu no monte Carmelo.</p><p class="rv-ref">1 Reis 18</p></div></sc-if>
-            <sc-if value="{{ rv.p2 }}" hint-placeholder-val="{{ false }}"><div class="rv-pg"><p class="rv-k px">Babilônia · séc. VI a.C.</p><h4 class="rv-nome e">Daniel</h4><p class="rv-t">Um jovem estrangeiro com uma fé tão prática que fez o rei da Babilônia se constranger. Os amigos dele foram livrados da fornalha. Ele, da boca dos leões.</p><p class="rv-ref">Daniel 3 e 6</p></div></sc-if>
-            <sc-if value="{{ rv.p3 }}" hint-placeholder-val="{{ false }}"><div class="rv-pg"><p class="rv-k px">Deserto da Judeia</p><h4 class="rv-nome e">João Batista</h4><p class="rv-t">Sem templo, sem palco. Só uma voz clamando no deserto. E multidões saíam das cidades pra ouvi-lo e se arrepender.</p><p class="rv-ref">Mateus 3</p></div></sc-if>
-            <sc-if value="{{ rv.p4 }}" hint-placeholder-val="{{ false }}"><div class="rv-pg"><p class="rv-k px">Galileia</p><h4 class="rv-nome e">Jesus</h4><p class="rv-t">O próprio Cristo. Todos os outros nestas páginas só apontaram pra Ele.</p><p class="rv-ref">Hebreus 12:2</p></div></sc-if>
-            <sc-if value="{{ rv.p5 }}" hint-placeholder-val="{{ false }}"><div class="rv-pg"><p class="rv-k px">Jerusalém</p><h4 class="rv-nome e">Pedro</h4><p class="rv-t">O pescador que negou Jesus três vezes. Semanas depois, pregou em Jerusalém, e quase três mil pessoas se converteram num só dia.</p><p class="rv-ref">Atos 2</p></div></sc-if>
-            <sc-if value="{{ rv.p6 }}" hint-placeholder-val="{{ false }}"><div class="rv-pg"><p class="rv-k px">Império Romano</p><h4 class="rv-nome e">Paulo</h4><p class="rv-t">Perseguia os cristãos. Depois de encontrar Jesus no caminho, virou o apóstolo que levou a mensagem pelo Império Romano.</p><p class="rv-ref">Atos 9</p></div></sc-if>
-            <sc-if value="{{ rv.p7 }}" hint-placeholder-val="{{ false }}"><div class="rv-pg"><p class="rv-k px">Inglaterra · séc. XVIII</p><h4 class="rv-nome e">John Wesley</h4><p class="rv-t">Abalou a Inglaterra. Expulso dos templos, foi pregar nas praças. E milhares se reuniam ao ar livre pra ouvir e se arrepender.</p></div></sc-if>
-            <sc-if value="{{ rv.p8 }}" hint-placeholder-val="{{ false }}"><div class="rv-pg"><p class="rv-k px">América do Norte · séc. XVIII</p><h4 class="rv-nome e">David Brainerd</h4><p class="rv-t">Viveu entre os povos indígenas, pregando com a saúde frágil. Morreu com 29 anos, e o diário dele inspirou gerações de missionários.</p></div></sc-if>
-            <sc-if value="{{ rv.p9 }}" hint-placeholder-val="{{ false }}"><div class="rv-pg"><p class="rv-k px">País de Gales · 1904</p><h4 class="rv-nome e">Evan Roberts</h4><p class="rv-t">Um jovem no centro de um avivamento em que o país se arrependeu. Bares fechavam sozinhos. Os donos de cavalo pararam de xingar e bater no bicho pra ele correr. E a polícia, sem crime pra resolver, ia pra igreja adorar junto.</p></div></sc-if>
-            <sc-if value="{{ rv.p10 }}" hint-placeholder-val="{{ false }}"><div class="rv-pg"><p class="rv-k px">Coreia do Sul · 1958</p><h4 class="rv-nome e">Paul Yonggi Cho</h4><p class="rv-t">Começou numa tenda em Seul. A igreja que nasceu ali virou uma das maiores do mundo.</p></div></sc-if>
+        <div class="lv" id="revista" onPointerDown="{{ rv.down }}" onPointerUp="{{ rv.up }}" aria-label="Livro: os que viveram pela fé">
+          <div class="lv-livro">
+            <sc-if value="{{ rv.p0 }}" hint-placeholder-val="{{ true }}"><div class="lv-spread"><div class="lv-pg lv-esq"><p class="lv-abre e">Até que, do nada (após a pandemia rs), os meus interesses mudaram.</p><p class="lv-t">Eu já estava saturado das aulas de matemática. E meu tempo era escasso:</p><div class="agenda lv-agenda"><span>ensino médio</span><span>Intervalo com Deus</span><span>Legião de Honra</span><span>projetos de ciências</span><span>robótica</span><span>igreja</span><span>esportes</span><span class="full px">agenda cheia</span></div><span class="lv-num px">1</span></div><div class="lv-pg lv-dir"><p class="lv-t">Cada atividade do meu dia tinha que fazer sentido pras minhas prioridades. E ali não estava fazendo.</p><p class="lv-t"><b>Eu queria explorar a minha fé.</b> As profundezas do que acredito, de onde veio, e como viviam os homens que</p><p class="lv-abre e">viveram intensamente por ela:</p><span class="lv-num px">2</span></div></div></sc-if>
+            <sc-if value="{{ rv.p1 }}" hint-placeholder-val="{{ false }}"><div class="lv-spread"><div class="lv-pg lv-esq"><figure class="lv-fig"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Elijah%20challenging%20the%20prophets%20of%20Baal.jpg?width=500" alt="Elias" loading="lazy" referrerpolicy="no-referrer"><figcaption>Elias desafia os profetas de Baal · domínio público</figcaption></figure><span class="lv-num px">3</span></div><div class="lv-pg lv-dir"><p class="rv-k px">Israel · séc. IX a.C.</p><h4 class="lv-nome e">Elias</h4><p class="lv-t">Um homem só, diante de uma nação inteira que tinha virado as costas pra Deus. Ele orou, e desestabilizou a nação: fogo caiu do céu no monte Carmelo.</p><p class="rv-ref">1 Reis 18</p><span class="lv-num px">4</span></div></div></sc-if>
+            <sc-if value="{{ rv.p2 }}" hint-placeholder-val="{{ false }}"><div class="lv-spread"><div class="lv-pg lv-esq"><figure class="lv-fig"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Daniel%20in%20the%20Lions%27%20Den%2C%20by%20Briton%20Rivi%C3%A8re.jpg?width=500" alt="Daniel" loading="lazy" referrerpolicy="no-referrer"><figcaption>Briton Rivière · domínio público</figcaption></figure><span class="lv-num px">5</span></div><div class="lv-pg lv-dir"><p class="rv-k px">Babilônia · séc. VI a.C.</p><h4 class="lv-nome e">Daniel</h4><p class="lv-t">Um jovem estrangeiro com uma fé tão prática que fez o rei da Babilônia se constranger. Os amigos dele foram livrados da fornalha. Ele, da boca dos leões.</p><p class="rv-ref">Daniel 3 e 6</p><span class="lv-num px">6</span></div></div></sc-if>
+            <sc-if value="{{ rv.p3 }}" hint-placeholder-val="{{ false }}"><div class="lv-spread"><div class="lv-pg lv-esq"><figure class="lv-fig"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Saint%20John%20the%20Baptist%20Preaching%20MET%20DP123820.jpg?width=500" alt="João Batista" loading="lazy" referrerpolicy="no-referrer"><figcaption>Mattia Preti · CC0</figcaption></figure><span class="lv-num px">7</span></div><div class="lv-pg lv-dir"><p class="rv-k px">Deserto da Judeia</p><h4 class="lv-nome e">João Batista</h4><p class="lv-t">Sem templo, sem palco. Só uma voz clamando no deserto. E multidões saíam das cidades pra ouvi-lo e se arrepender.</p><p class="rv-ref">Mateus 3</p><span class="lv-num px">8</span></div></div></sc-if>
+            <sc-if value="{{ rv.p4 }}" hint-placeholder-val="{{ false }}"><div class="lv-spread"><div class="lv-pg lv-esq"><figure class="lv-fig"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/St.%20Peter%20Preaching%20at%20Pentecost.jpg?width=500" alt="Pedro" loading="lazy" referrerpolicy="no-referrer"><figcaption>Benjamin West · domínio público</figcaption></figure><span class="lv-num px">9</span></div><div class="lv-pg lv-dir"><p class="rv-k px">Jerusalém</p><h4 class="lv-nome e">Pedro</h4><p class="lv-t">O pescador que negou Jesus três vezes. Semanas depois, pregou em Jerusalém, e quase três mil pessoas se converteram num só dia.</p><p class="rv-ref">Atos 2</p><span class="lv-num px">10</span></div></div></sc-if>
+            <sc-if value="{{ rv.p5 }}" hint-placeholder-val="{{ false }}"><div class="lv-spread"><div class="lv-pg lv-esq"><figure class="lv-fig"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Rembrandt%20-%20Apostle%20Paul%20-%20WGA19120.jpg?width=500" alt="Paulo" loading="lazy" referrerpolicy="no-referrer"><figcaption>Rembrandt · domínio público</figcaption></figure><span class="lv-num px">11</span></div><div class="lv-pg lv-dir"><p class="rv-k px">Império Romano</p><h4 class="lv-nome e">Paulo</h4><p class="lv-t">Perseguia os cristãos. Depois de encontrar Jesus no caminho, virou o apóstolo que levou a mensagem pelo Império Romano.</p><p class="rv-ref">Atos 9</p><span class="lv-num px">12</span></div></div></sc-if>
+            <sc-if value="{{ rv.p6 }}" hint-placeholder-val="{{ false }}"><div class="lv-spread"><div class="lv-pg lv-esq"><figure class="lv-fig"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/John%20Wesley%20by%20George%20Romney.jpg?width=500" alt="John Wesley" loading="lazy" referrerpolicy="no-referrer"><figcaption>a partir de George Romney · domínio público</figcaption></figure><span class="lv-num px">13</span></div><div class="lv-pg lv-dir"><p class="rv-k px">Inglaterra · séc. XVIII</p><h4 class="lv-nome e">John Wesley</h4><p class="lv-t">Abalou a Inglaterra. Expulso dos templos, foi pregar nas praças. E milhares se reuniam ao ar livre pra ouvir e se arrepender.</p><span class="lv-num px">14</span></div></div></sc-if>
+            <sc-if value="{{ rv.p7 }}" hint-placeholder-val="{{ false }}"><div class="lv-spread"><div class="lv-pg lv-esq"><figure class="lv-fig"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/DavidBrainerd.jpg?width=500" alt="David Brainerd" loading="lazy" referrerpolicy="no-referrer"><figcaption>domínio público</figcaption></figure><span class="lv-num px">15</span></div><div class="lv-pg lv-dir"><p class="rv-k px">América do Norte · séc. XVIII</p><h4 class="lv-nome e">David Brainerd</h4><p class="lv-t">Viveu entre os povos indígenas, pregando com a saúde frágil. Morreu com 29 anos, e o diário dele inspirou gerações de missionários.</p><span class="lv-num px">16</span></div></div></sc-if>
+            <sc-if value="{{ rv.p8 }}" hint-placeholder-val="{{ false }}"><div class="lv-spread"><div class="lv-pg lv-esq"><figure class="lv-fig"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Evan%20John%20Roberts.jpg?width=500" alt="Evan Roberts" loading="lazy" referrerpolicy="no-referrer"><figcaption>domínio público</figcaption></figure><span class="lv-num px">17</span></div><div class="lv-pg lv-dir"><p class="rv-k px">País de Gales · 1904</p><h4 class="lv-nome e">Evan Roberts</h4><p class="lv-t">Um jovem no centro de um avivamento em que o país se arrependeu. Bares fechavam sozinhos. Os donos de cavalo pararam de xingar e bater no bicho pra ele correr. E a polícia, sem crime pra resolver, ia pra igreja adorar junto.</p><span class="lv-num px">18</span></div></div></sc-if>
+            <sc-if value="{{ rv.p9 }}" hint-placeholder-val="{{ false }}"><div class="lv-spread"><div class="lv-pg lv-esq"><figure class="lv-fig"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Paul%20yonggi%20cho.jpg?width=500" alt="Paul Yonggi Cho" loading="lazy" referrerpolicy="no-referrer"><figcaption>foto: Lidiya. J · CC BY-SA 4.0</figcaption></figure><span class="lv-num px">19</span></div><div class="lv-pg lv-dir"><p class="rv-k px">Coreia do Sul · 1958</p><h4 class="lv-nome e">Paul Yonggi Cho</h4><p class="lv-t">Ainda adolescente, desenganado pela tuberculose, entregou a vida a Cristo. Em 1958, numa Coreia destruída pela guerra, começou a pregar numa tenda velha num bairro pobre de Seul. Orava por horas e agia crendo no que ainda não via.</p><span class="lv-num px">20</span></div></div></sc-if>
+            <sc-if value="{{ rv.p10 }}" hint-placeholder-val="{{ false }}"><div class="lv-spread"><div class="lv-pg lv-esq"><figure class="lv-fig"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Bloch-SermonOnTheMount.jpg?width=500" alt="Jesus" loading="lazy" referrerpolicy="no-referrer"><figcaption>Carl Bloch · domínio público</figcaption></figure><span class="lv-num px">21</span></div><div class="lv-pg lv-dir"><p class="rv-k px">Galileia</p><h4 class="lv-nome e">Jesus</h4><p class="lv-t">O próprio Cristo. Todos os outros nestas páginas só apontaram pra Ele.</p><p class="rv-ref">Hebreus 12:2</p><span class="lv-num px">22</span></div></div></sc-if>
+            <sc-if value="{{ rv.p11 }}" hint-placeholder-val="{{ false }}"><div class="lv-spread"><div class="lv-pg lv-esq"><div class="lv-fim"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v18M7 8h10"></path></svg><p class="px">pela fé</p></div><span class="lv-num px">23</span></div><div class="lv-pg lv-dir"><div class="livro lv-hebreus">
+          <p class="livro-q e">"...venceram reinos, praticaram a justiça, alcançaram promessas, fecharam a boca de leões, apagaram a força do fogo..."</p>
+          <p class="livro-f">Hebreus 11:33-34</p>
+        </div><span class="lv-num px">24</span></div></div></sc-if>
           </div>
           <div class="rv-ft">
             <button type="button" class="rv-b" onClick="{{ rv.prev }}" disabled="{{ rv.atStart }}" aria-label="Página anterior"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"></path></svg></button>
             <span class="rv-n px">{{ rv.conta }}</span>
             <button type="button" class="rv-b main" onClick="{{ rv.next }}" aria-label="Virar página"><span>{{ rv.nextTxt }}</span><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"></path></svg></button>
           </div>
-        </div>
-        <div class="livro">
-          <p class="livro-q e">"...venceram reinos, praticaram a justiça, alcançaram promessas, fecharam a boca de leões, apagaram a força do fogo..."</p>
-          <p class="livro-f">Hebreus 11:33-34</p>
         </div>
         <p class="txt" style="margin-top: 26px;">Só que como eu ia explicar isso pra coordenação? Pedir pra sair justo das aulas em que eu tinha mais desenvoltura, pra estudar <b>história da igreja</b>?</p>
         <div class="tremor" aria-hidden="true"><span>pernas tremendo</span><span>barriga gelada</span><span>coração apertado</span></div>
@@ -1606,11 +1662,11 @@
       </div>
       <div class="gavetas">
         <div class="gaveta">
-          <button type="button" class="gav-b" onClick="{{ gav.t0 }}" aria-expanded="{{ gav.p0 }}"><span>Vi o quanto ainda valorizam isso.</span><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg></button>
+          <button type="button" class="gav-b" onClick="{{ gav.t0 }}" aria-expanded="{{ gav.p0 }}"><span>Vi o quanto ainda valorizam isso.<small class="gav-hint px">{{ gav.h0 }}</small></span><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg></button>
           <sc-if value="{{ gav.p0 }}" hint-placeholder-val="{{ true }}"><p class="gav-t">Eu, sinceramente, acredito que o sistema de ensino das faculdades está ultrapassado.</p></sc-if>
         </div>
         <div class="gaveta">
-          <button type="button" class="gav-b" onClick="{{ gav.t1 }}" aria-expanded="{{ gav.p1 }}"><span>Mas ainda quero fazer! Porque quero passar pelo processo que todo mundo passa, sentir como é, e vencê-lo!</span><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg></button>
+          <button type="button" class="gav-b" onClick="{{ gav.t1 }}" aria-expanded="{{ gav.p1 }}"><span>Mas ainda quero fazer! Porque quero passar pelo processo que todo mundo passa, sentir como é, e vencê-lo!<small class="gav-hint px">{{ gav.h1 }}</small></span><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg></button>
           <sc-if value="{{ gav.p1 }}" hint-placeholder-val="{{ false }}"><p class="gav-t">E quero aprender os assuntos básicos, como cálculo diferencial, principalmente 2 e 3, física experimental, porque gosto de extas e porque quero expandir minha mente, o meu raciocínio matemático e físico, a forma como enxergo o mundo, porque sei que ele é desenhado pelas leis matemáticas e físicas. Quero fazer pelo prazer de aprender.</p></sc-if>
         </div>
       </div>
@@ -1656,8 +1712,15 @@
       <p class="label mk"><span>Capítulo 09 — educação</span><span class="seta" aria-hidden="true"><i></i></span></p>
       <h2 class="h2 d">Mas eu não parei de ensinar.</h2>
       <div class="bar"></div>
-      <p class="e" style="color: #eef4ff; font-size: 28px;">A robótica me ensinou a usar tecnologia para construir robôs.</p><p class="d" style="margin-top: 16px; color: var(--ink); font-size: 34px; line-height: 1.02;">A educação me ensinou a usar a tecnologia para desenvolver pessoas</p><p class="e" style="color: #eef4ff; font-size: 28px;">Decidi ensinar por aqui o que estou aprendendo, usando as redes sociais: uma tecnologia que tem sido usada por muitos para distrair, mas pode ser usada para construir. Aqui estou empreendendo minhas ideias, e incentivo você a fazer o mesmo. Já temos na mão as melhores ferramentas, só precisamos de pessoas com uma mensagem carregada de verdade. Nossa geração tem olfato aguçado para hipocrisia e incoerência.</p>
-      
+      <p class="e" style="color: #eef4ff; font-size: 26px; line-height: 1.25;">A robótica me ensinou a usar tecnologia para construir robôs.</p>
+      <p class="d edu-frase">A educação me ensinou a usar a tecnologia para desenvolver pessoas</p>
+      <p class="txt" style="margin-top: 30px; font-size: 18px; color: #eef4ff;">Decidi ensinar por aqui o que estou aprendendo, usando as redes sociais:</p>
+      <div class="redes">
+        <div class="redes-c"><span class="px">como muitos usam</span><p>uma tecnologia usada para distrair</p></div>
+        <div class="redes-c on"><span class="px">como escolhi usar</span><p>uma tecnologia que pode ser usada para construir</p></div>
+      </div>
+      <p class="txt" style="margin-top: 26px;">Aqui estou empreendendo minhas ideias, e incentivo você a fazer o mesmo. Já temos na mão as melhores ferramentas, só precisamos de pessoas com uma mensagem carregada de verdade.</p>
+      <p class="estalo e">Nossa geração tem olfato aguçado para hipocrisia e incoerência.</p>
     </section>
 
     <!-- EMPREENDEDORISMO · EMPREENDER -->
@@ -1919,14 +1982,6 @@ class Component extends DCLogic {
     window.addEventListener('resize', this._onScroll);
     this.track();
     this.recount();
-    // os confrontos da escola giram sozinhos enquanto ela está na tela (até a pessoa tocar)
-    this._vsT = setInterval(() => {
-      if (this._vsUser || this.reduce) return;
-      const el = document.getElementById('escola');
-      if (!el) return;
-      const r = el.getBoundingClientRect();
-      if (r.top < window.innerHeight * 0.6 && r.bottom > window.innerHeight * 0.4) this.setState({ vsIdx: (this.state.vsIdx + 1) % 6 });
-    }, 4500);
   }
 
   componentDidUpdate() { this.recount(); }
@@ -1937,7 +1992,6 @@ class Component extends DCLogic {
     if (this._raf) cancelAnimationFrame(this._raf);
     clearTimeout(this._st);
     clearInterval(this._rp);
-    clearInterval(this._vsT);
   }
 
   respira(on) {
@@ -2231,10 +2285,10 @@ class Component extends DCLogic {
 
     // a escola: um confronto por vez, online x presencial
     const pares = [
-      { onT: 'O laboratório é a sua mesa', onS: 'Autonomia e responsabilidade pra organizar o próprio espaço', offT: 'O professor faz pelo aluno', offS: 'Quebra de autonomia' },
       { onT: 'O kit chega na sua casa', onS: 'Dá pra continuar explorando no tempo livre', offT: 'O kit fica na escola', offS: 'Limita a exploração do aluno' },
-      { onT: 'Flexibilidade de horário', onS: 'Encaixa no melhor horário da rotina', offT: 'Horário fixo', offS: 'Difícil de encaixar na rotina' },
+      { onT: 'O laboratório é a sua mesa', onS: 'Autonomia e responsabilidade pra organizar o próprio espaço', offT: 'O professor faz pelo aluno', offS: 'Quebra de autonomia' },
       { onT: 'Aulas ao vivo pra tirar dúvidas', onS: 'Mentoria e acompanhamento individual', offT: 'Turma cheia', offS: 'Atenção dividida com vários alunos' },
+      { onT: 'Flexibilidade de horário', onS: 'Encaixa no melhor horário da rotina', offT: 'Horário fixo', offS: 'Difícil de encaixar na rotina' },
       { onT: 'Evita deslocamento', onS: 'O tempo vai pro projeto, não pro caminho', offT: 'Trânsito e deslocamento', offS: 'Tempo perdido toda semana' },
       { onT: 'Preço que só o online permite', onS: 'Preços acessíveis', offT: 'Estrutura física cara', offS: 'Preços elevados' }
     ];
@@ -2262,13 +2316,13 @@ class Component extends DCLogic {
     vals.emp = {};
     [0, 1, 2].forEach((k) => { vals.emp['s' + k] = s.empTab === k; vals.emp['b' + k] = s.empTab === k ? 'on' : ''; vals.emp['t' + k] = () => this.setState({ empTab: k }); });
 
-    // a revista dos que viveram pela fé: capa + 10 páginas
-    const RV = 11;
+    // o livro aberto dos que viveram pela fé: página por página, sem pular
+    const RV = 12;
     const rvGo = (k) => this.setState({ rv: Math.max(0, Math.min(RV - 1, k)) });
     vals.rv = {
-      conta: s.rv === 0 ? 'sumário' : pad(s.rv) + '/' + pad(RV - 1),
+      conta: 'pág. ' + (2 * s.rv + 1) + '–' + (2 * s.rv + 2) + ' de ' + (2 * RV),
       atStart: s.rv === 0,
-      nextTxt: s.rv === 0 ? 'abrir' : (s.rv === RV - 1 ? 'sumário' : 'virar'),
+      nextTxt: s.rv === RV - 1 ? 'do início' : 'virar',
       prev: () => rvGo(this.state.rv - 1),
       next: () => rvGo(this.state.rv >= RV - 1 ? 0 : this.state.rv + 1),
       down: (e) => { this._rvSw = { x: e.clientX, y: e.clientY }; },
@@ -2281,7 +2335,7 @@ class Component extends DCLogic {
         if (dx > 0 && this.state.rv > 0) rvGo(this.state.rv - 1);
       }
     };
-    for (let k = 0; k < RV; k++) { vals.rv['p' + k] = s.rv === k; vals.rv['g' + k] = () => rvGo(k); }
+    for (let k = 0; k < RV; k++) vals.rv['p' + k] = s.rv === k;
 
     // a lente: treme e fica embaçada até a base firmar
     vals.lente = { cls: s.lenteOk ? 'firme' : '', firma: () => this.setState({ lenteOk: true }) };
@@ -2324,6 +2378,7 @@ class Component extends DCLogic {
     const gv = {};
     [0, 1, 2].forEach((k) => {
       gv['p' + k] = !!s.gav[k];
+      gv['h' + k] = s.gav[k] ? 'toque para fechar' : 'toque para abrir';
       gv['t' + k] = () => { const a = this.state.gav.slice(); a[k] = !a[k]; this.setState({ gav: a }); };
     });
     vals.gav = gv;
@@ -2331,7 +2386,7 @@ class Component extends DCLogic {
     vals.glitch = s.glitch;
     vals.doGlitch = () => this.setState({ glitch: this.state.glitch === 'g1' ? 'g2' : 'g1' });
 
-    ['gA', 'gB', 'gI'].forEach((key) => {
+    ['gA', 'gB', 'gI', 'gF'].forEach((key) => {
       const total = (s.counts && s.counts[key]) || 0;
       const at = Math.min((s.active && s.active[key]) || 0, Math.max(0, total - 1));
       vals[key] = {
