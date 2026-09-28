@@ -712,7 +712,7 @@
     .rot-quem.eu { color: #eef4ff; }
     .rot-fala { margin-top: 5px; color: #dfe6fb; font-family: "Fraunces", Georgia, serif; font-size: 19px; line-height: 1.26; }
     .rot-fala.eu { color: #eef4ff; }
-    .rot-fala::before { content: "— "; opacity: .55; }
+    .rot-fala::before { content: ""; }
 
     /* terminal: a pergunta que todo mundo fazia */
     .term { margin-top: 24px; border: 1px solid rgba(var(--rgb), .45); background: #0a0d1e; }
@@ -965,6 +965,56 @@
     .lv-hebreus .livro-q { font-size: 17px; }
     .lv-hebreus .livro-f { font-size: 12px; }
     .lv .rv-ft { margin-top: 14px; padding: 0 8px; }
+
+    /* ===== ajustes 28/set ===== */
+
+    /* caixinha da fé: destaques pra ninguém pular */
+    .story-body .step p + p, .story-body .step p + div, .story-body .step div + p { margin-top: 12px; }
+    .story-body p.step-laranja { color: var(--ink); font-family: "Fraunces", Georgia, serif; font-size: 20px; font-weight: 500; line-height: 1.3; letter-spacing: -.01em; }
+    .story-body p.step-branco-e { color: #eef4ff; font-family: "Fraunces", Georgia, serif; font-size: 17px; line-height: 1.5; }
+    .step-antes { color: var(--ink); font-weight: 800; }
+    .step-box { padding: 12px 14px; border-left: 3px solid var(--c); background: rgba(var(--rgb), .09); }
+    .step-nota { padding: 12px 14px; border: 1px dashed rgba(var(--rgb), .45); background: #090b18; }
+    .step-nota-tag { display: inline-block; margin-bottom: 6px; color: var(--ink); font-size: 9px; letter-spacing: .08em; }
+    .step-nota p { font-size: 15px !important; line-height: 1.55 !important; }
+
+    /* livro de uma página: capa + foto quadrada alternando o canto */
+    .lv-capa { margin-top: 14px; color: #231d33; font-size: 23px; line-height: 1.22; }
+    .lv-vire { margin-top: 22px; color: #7a3fe0; font-size: 10px; letter-spacing: .08em; }
+    .lv-p { display: flex; flex-direction: column; min-height: 300px; }
+    .lv-foto { width: 118px; margin: 18px 0 0; }
+    .lv-foto.dir { margin-left: auto; }
+    .lv-foto.esq { margin-right: auto; }
+    .lv-foto img { display: block; width: 118px; height: 118px; object-fit: cover; border: 5px solid #fbf6ea; box-shadow: 0 2px 8px rgba(0, 0, 0, .25); background: #d8cbae; }
+    .lv-foto figcaption { margin-top: 4px; color: #8a7f6b; font-size: 9px; line-height: 1.3; }
+    .lv-ult { justify-content: center; }
+    .lv-hebreus { margin: 0; padding: 18px 16px 16px 22px; background: #0c0f22; }
+    .lv-hebreus .livro-q { font-size: 21px; }
+
+    /* observação da praia */
+    .obs { margin-top: 14px; padding: 12px 14px; border-left: 2px solid var(--c); background: rgba(var(--rgb), .06); color: #dfe6fb; font-size: 15px; line-height: 1.55; }
+
+    /* gavetas: abrir / fechar colado na setinha */
+    .gav-b { grid-template-columns: minmax(0, 1fr) auto; align-items: center; }
+    .gav-b > span:first-child { display: block; }
+    .gav-b .gav-dir { display: inline-flex; flex-direction: row; align-items: center; gap: 6px; }
+    .gav-dir svg { margin-top: 0; }
+    .gav-tag { display: inline-flex; align-items: center; padding: 4px 8px 3px; border: 1px dashed rgba(var(--rgb), .65); background: rgba(var(--rgb), .10); color: var(--ink); font-size: 10px; letter-spacing: .06em; animation: dica-pulso 2.2s ease-in-out infinite; }
+    .gav-b[aria-expanded="true"] .gav-tag { animation: none; border-color: #2b3154; background: rgba(255, 255, 255, .03); color: #687396; }
+    .toque-tag { font-size: 10px; padding: 6px 10px 5px; }
+    @media (prefers-reduced-motion: reduce) { .gav-tag { animation: none; } }
+
+    /* educação: capitular de livro */
+    .edu-aqui { margin-top: 28px; padding-top: 20px; border-top: 1px dashed rgba(var(--rgb), .35); }
+    .edu-aqui .cap-drop { margin-top: 0; color: #eef4ff; }
+    .cap-drop::first-letter { float: left; font-family: "Fraunces", Georgia, serif; font-size: 58px; line-height: .8; padding: 6px 10px 0 0; color: var(--ink); font-weight: 600; }
+
+    /* por que contar: a linha roxa do convite desce e emenda na linha do mapa */
+    .porque { padding-bottom: 0; }
+    .porque .convite { margin: 40px 0 0 -13px; padding: 0 0 36px 31px; border-left: 3px solid #a56cff; }
+    .mapa-sec { padding-top: 40px; }
+    .mapa-sec::before { height: 40px; left: 11px; }
+    .mapa-dica { top: 12px; }
   </style>
 </helmet>
 <div class="nav">
@@ -1020,7 +1070,7 @@
 
     <!-- TECNOLOGIA · ORIGEM -->
     <section id="robotica" class="sec p-tec">
-      <p class="label mk"><span>Capítulo 01 — origem</span></p>
+      <p class="label mk"><span>Capítulo 01 · origem</span></p>
       <h2 class="h2 d">Tudo começou com a robótica.</h2>
       <p class="mk" style="margin-top: 28px; color: var(--ink);">Uma história em construção</p>
       <p class="txt" style="margin-top: 8px; font-size: 15px;">Arraste para atravessar alguns momentos que mudaram tudo.</p>
@@ -1062,7 +1112,7 @@
 
     <!-- ESPIRITUALIDADE · FÉ, ME SENTINDO VIVO, DITO E FEITO, REUNI 3 -->
     <section id="fe" class="sec p-esp faith" style="margin-top: 104px;">
-      <p class="label mk"><span>Capítulo 02 — fé</span><span class="seta" aria-hidden="true"><i></i></span></p>
+      <p class="label mk"><span>Capítulo 02 · fé</span><span class="seta" aria-hidden="true"><i></i></span></p>
       <h2 class="h2 m d">A força da construção está na base que ninguém vê</h2>
       
       
@@ -1071,15 +1121,16 @@
       <blockquote class="quote"><p class="e">“Pode me conduzir pelos processos mais difíceis, porque sei que eles produzirão os melhores frutos.”</p></blockquote>
       <p class="lead" style="margin-top: 30px;">Eu tinha 12 anos quando falei isso para Deus. Entrei naquele quarto abalado, mas lá comecei a ver se formar uma rocha firme onde poderia apoiar os meus pés.</p>
       <div class="story" id="story-base" onPointerDown="{{ sb.down }}" onPointerUp="{{ sb.up }}">
-  <div class="story-top"><sc-for list="{{ sb.bars }}" as="b" hint-placeholder-count="7"><i class="{{ b.cls }}"></i></sc-for></div>
+  <div class="story-top"><sc-for list="{{ sb.bars }}" as="b" hint-placeholder-count="8"><i class="{{ b.cls }}"></i></sc-for></div>
   <div class="story-body">
-          <sc-if value="{{ sb.s0 }}" hint-placeholder-val="{{ true }}"><div class="step"><p>A base é onde ficam apoiados a nossa <b>segurança</b>, o nosso <b>valor</b> e a nossa <b>identidade</b>. Até aquele dia, sem perceber, a minha base estava nos meus resultados, na performance: se ganhasse, conquistasse, eu estava bem; quando não conseguia, ficava desesperado. Por isso, quando o robô falhou na hora H, desabei em lágrimas... (E MINHA MÃE TIROU FOTO DE EU CHORANDO KKKK ENQUANTO EU QUERIA ALGUÉM PRA ME ACOLHER). Ela sabia que ia virar testemunho! hahah tentei achar com ela essa foto, mas não conseguimos.</p><p class="e">Enfim, quero refletir com você que firmar a base é tirar o nosso valor das coisas que oscilam (notas, troféus, dinheiro, aprovação dos outros) e prender em Alguém inabalável.</p></div></sc-if>
-          <sc-if value="{{ sb.s1 }}" hint-placeholder-val="{{ false }}"><div class="step"><p>Com a base instável, a visão fica distorcida. Já percebeu que quando a gente pisa com medo num terreno que não conhece, a gente anda olhando só para os próprios pés, tentando não cair? Mas quando sabemos que o terreno é firme, finalmente conseguimos levantar a cabeça, olhar ao redor e adiante.</p><p>Assim sinto que minha visão da vida era distorcida, parecia tudo escuro, embaçado. Mas a Palavra se tornou lâmpada para os meus pés, luz para o meu caminho.</p></div></sc-if>
-          <sc-if value="{{ sb.s2 }}" hint-placeholder-val="{{ false }}"><div class="step"><p class="e">Ninguém consegue ajustar o foco enquanto está balançando.</p><p>Na vida, quando não temos onde nos sustentar, vivemos inseguros, precisando provar nosso valor o tempo todo. Estamos em modo de sobrevivência. E nesse modo ficamos cegos e egoístas: a gente só enxerga a própria dor, morre de medo de errar e vê as pessoas como ameaça ou juiz. Não adianta tentar mudar "a forma de enxergar as coisas lá fora", se por dentro estamos com medo da instabilidade.</p></div></sc-if>
-          <sc-if value="{{ sb.s3 }}" hint-placeholder-val="{{ false }}"><div class="step"><p>Antes, eu me sentia igual a um robô com o chassi desalinhado: se a base fica bamba, a imagem da câmera fica borrada, o sensor faz leituras erradas.</p><p>Mas, na robótica, não basta o chão estar firme e a base do robô estar alinhada... a câmera pode continuar ofuscada mesmo assim, e o sensor continuar lendo errado. O primeiro passo foi feito, mas aí a gente precisa calibrar o sensor, limpar a câmera.</p></div></sc-if>
-          <sc-if value="{{ sb.s4 }}" hint-placeholder-val="{{ false }}"><div class="step"><p>No quarto de oração, fui acolhido por Ele. Tirei a minha dependência da performance e coloquei no amor de um Pai que não muda quando eu perco.</p><p>Naquele nosso local seguro, Ele começou a limpar minhas lentes e redefiniu a forma como enxergo um fracasso, um concorrente, o trabalho e o futuro. Realmente, ter um novo ponto de vista é enxergar a vida a partir de um novo local. Mude sua base e tudo muda.</p></div></sc-if>
-          <sc-if value="{{ sb.s5 }}" hint-placeholder-val="{{ false }}"><div class="step"><p>Talvez por isso peguei o celular e mandei mensagem pra um amigo da equipe, que também tinha ficado meio abalado. Eu só consegui olhar para o meu amigo e me importar com a dor dele porque transbordei o que tinha acabado de receber naquele quarto. Pela primeira vez, tive coragem de falar da minha fé e esperança para alguém, mesmo que por mensagem, e ele correspondeu bem.</p><p>(Curiosidade: esse amigo de equipe usava um grau de óculos bem alto. Eu nem usava óculos nessa época, mas naquele dia quem estava com a visão mais embaçada e míope sobre a vida era eu).</p></div></sc-if>
-          <sc-if value="{{ sb.s6 }}" hint-placeholder-val="{{ false }}"><div class="step"><p>Ali, olhei para a <b>frustração</b> e percebi o quanto era necessária para me amadurecer, e que isso estava me forjando uma pessoa melhor. E por isso orei da forma que falei.</p><p class="e">Na próxima frustração, não pense que veio para te destruir. Talvez ela só esteja cavando o espaço para construir uma fundação.</p></div></sc-if>
+          <sc-if value="{{ sb.s0 }}" hint-placeholder-val="{{ true }}"><div class="step"><p class="step-laranja">A base é onde ficam apoiados a nossa <b>segurança</b>, o nosso <b>valor</b> e a nossa <b>identidade</b>.</p><p>Até aquele dia, sem perceber, a minha base estava nos meus resultados: se conquistasse algo, eu estava bem; quando não conseguia, ficava desesperado.</p></div></sc-if>
+          <sc-if value="{{ sb.s1 }}" hint-placeholder-val="{{ false }}"><div class="step"><p>Por isso, quando o robô falhou <b>na hora H</b>, desabei em lágrimas...</p><p>(E MINHA MÃE TIROU FOTO DE EU CHORANDO KKKK ENQUANTO EU QUERIA ALGUÉM PRA ME ACOLHER)</p><p>Ela sabia que ia virar testemunho! hahah tentei achar com ela essa foto, mas não conseguimos.</p><p class="step-laranja">Enfim, quero refletir com você que firmar a base é tirar o nosso valor das coisas que oscilam (notas, troféus, dinheiro, aprovação dos outros) e prender em Alguém inabalável.</p></div></sc-if>
+          <sc-if value="{{ sb.s2 }}" hint-placeholder-val="{{ false }}"><div class="step"><p class="step-laranja">Com uma base instável, a visão fica distorcida.</p><p>Já percebeu que quando a gente pisa <b>com medo</b> num terreno que não conhece, a gente anda <b>olhando só para os próprios pés</b>, tentando não cair? Mas quando sabemos que o terreno é firme, finalmente conseguimos <b>levantar a cabeça</b>, olhar ao redor e adiante.</p><p class="step-branco-e">Assim sinto que minha visão da vida era distorcida, parecia tudo escuro, embaçado. Mas a Palavra se tornou lâmpada para os meus pés, luz para o meu caminho.</p></div></sc-if>
+          <sc-if value="{{ sb.s3 }}" hint-placeholder-val="{{ false }}"><div class="step"><p class="step-laranja">Ninguém consegue ajustar o foco enquanto está balançando.</p><p>Na vida, quando não temos onde nos sustentar, vivemos inseguros. Estamos em <b>modo de sobrevivência</b>. E nesse modo ficamos cegos e egoístas: a gente só enxerga a própria dor, morre de medo de errar, nos sentimos julgados e vemos as pessoas como ameaça.</p><p>Tentamos sustentar o nosso valor diante do mundo, mas qualquer erro ou aparente falha nos desestabiliza. <b>Perdemos o controle.</b></p><p class="step-branco-e">E quem vive tentando segurar tudo no braço não consegue enxergar um palmo à frente. Não adianta tentar mudar "a forma de ver as coisas lá fora" enquanto a gente não abre mão desse controle e o entrega nas mãos de Quem sustenta tudo por dentro.</p></div></sc-if>
+          <sc-if value="{{ sb.s4 }}" hint-placeholder-val="{{ false }}"><div class="step"><p><span class="step-antes">Antes,</span> <b>eu me sentia igual a um robô</b> com o chassi desalinhado: se a base fica bamba, a imagem da câmera fica borrada e o sensor faz leituras erradas.</p><div class="step-box"><p>Mas, na robótica, não basta o chão estar firme e a base do robô alinhada... <b>a câmera pode continuar ofuscada</b> mesmo assim, e o sensor continuar lendo errado.</p></div><p class="step-branco-e">O primeiro passo foi feito, mas aí a gente precisa calibrar o sensor, limpar a câmera.</p></div></sc-if>
+          <sc-if value="{{ sb.s5 }}" hint-placeholder-val="{{ false }}"><div class="step"><p>No quarto de oração, <b>fui acolhido por Ele</b>. Tirei a minha dependência da performance e coloquei no amor de um Pai que não muda quando eu perco.</p><p class="step-branco-e">Naquele nosso local seguro, Ele começou a limpar minhas lentes e redefiniu a forma como enxergo um fracasso, um concorrente, o trabalho e o futuro.</p><p class="step-laranja">Realmente, ter um novo ponto de vista é enxergar a vida a partir de um novo local. Mude sua base e tudo muda.</p></div></sc-if>
+          <sc-if value="{{ sb.s6 }}" hint-placeholder-val="{{ false }}"><div class="step"><p>Talvez por isso peguei o celular e mandei mensagem pra <b>um amigo da equipe</b>, que também tinha ficado meio abalado.</p><p class="step-branco-e">Eu só consegui olhar para o meu amigo e me importar com a dor dele porque transbordei o que tinha acabado de receber naquele quarto.</p><p>Pela primeira vez, tive coragem de falar da minha fé e esperança para alguém, mesmo que por mensagem, e ele correspondeu bem.</p><div class="step-nota"><span class="step-nota-tag px">curiosidade</span><p>Esse amigo de equipe usava um grau de óculos bem alto. Eu nem usava óculos nessa época, mas naquele dia quem estava com a visão mais embaçada e míope sobre a vida era eu.</p></div></div></sc-if>
+          <sc-if value="{{ sb.s7 }}" hint-placeholder-val="{{ false }}"><div class="step"><p>Ali, olhei para a <b>frustração</b> e percebi o quanto era necessária para me amadurecer, e que isso estava me forjando uma pessoa melhor. E por isso orei da forma que falei.</p><p class="step-laranja">Na próxima frustração, não pense que veio para te destruir. Talvez ela só esteja cavando o espaço para construir uma fundação.</p></div></sc-if>
   </div>
   <div class="story-ft">
     <span class="story-count tab">{{ sb.count }}</span>
@@ -1330,30 +1381,36 @@
             <div>
               <p class="marco-k px">13 anos · de volta</p>
               <p class="marco-t">Uma amiga do meu grupo de robótica contou que o núcleo tinha mudado de nome (agora <b>CEAM/AHS</b>) e de lugar. Sem expectativa nenhuma, voltei. Novo teste psicológico: deu de novo. E todos os psicólogos e psiquiatras de lá pra cá só confirmam.</p>
-              <p class="marco-t">No Centro Estadual de Altas Habilidades, em Mato Grosso do Sul, eu desenvolvia projetos de exatas: <b>robótica, matemática, física e programação</b>. A área em que eu tinha sido diagnosticado.</p>
             </div>
           </div>
         </div>
         <p class="estalo e">Isso não me faz melhor. Só me faz diferente.</p>
         <p class="txt" style="margin-top: 18px;">Todo mundo tem potenciais a serem explorados e dificuldades a serem tratadas.</p>
+        <p class="txt">No Centro Estadual de Altas Habilidades, em Mato Grosso do Sul, eu desenvolvia projetos de exatas: <b>robótica, matemática, física e programação</b>. A área em que eu tinha sido diagnosticado.</p>
 
-        <div class="lv" id="revista" onPointerDown="{{ rv.down }}" onPointerUp="{{ rv.up }}" aria-label="Livro: os que viveram pela fé">
-          <div class="lv-livro">
-            <sc-if value="{{ rv.p0 }}" hint-placeholder-val="{{ true }}"><div class="lv-spread"><div class="lv-pg lv-esq"><p class="lv-abre e">Até que, do nada (após a pandemia rs), os meus interesses mudaram.</p><p class="lv-t">Eu já estava saturado das aulas de matemática. E meu tempo era escasso:</p><div class="agenda lv-agenda"><span>ensino médio</span><span>Intervalo com Deus</span><span>Legião de Honra</span><span>projetos de ciências</span><span>robótica</span><span>igreja</span><span>esportes</span><span class="full px">agenda cheia</span></div><span class="lv-num px">1</span></div><div class="lv-pg lv-dir"><p class="lv-t">Cada atividade do meu dia tinha que fazer sentido pras minhas prioridades. E ali não estava fazendo.</p><p class="lv-t"><b>Eu queria explorar a minha fé.</b> As profundezas do que acredito, de onde veio, e como viviam os homens que</p><p class="lv-abre e">viveram intensamente por ela:</p><span class="lv-num px">2</span></div></div></sc-if>
-            <sc-if value="{{ rv.p1 }}" hint-placeholder-val="{{ false }}"><div class="lv-spread"><div class="lv-pg lv-esq"><figure class="lv-fig"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Elijah%20challenging%20the%20prophets%20of%20Baal.jpg?width=500" alt="Elias" loading="lazy" referrerpolicy="no-referrer"><figcaption>Elias desafia os profetas de Baal · domínio público</figcaption></figure><span class="lv-num px">3</span></div><div class="lv-pg lv-dir"><p class="rv-k px">Israel · séc. IX a.C.</p><h4 class="lv-nome e">Elias</h4><p class="lv-t">Um homem só, diante de uma nação inteira que tinha virado as costas pra Deus. Ele orou, e desestabilizou a nação: fogo caiu do céu no monte Carmelo.</p><p class="rv-ref">1 Reis 18</p><span class="lv-num px">4</span></div></div></sc-if>
-            <sc-if value="{{ rv.p2 }}" hint-placeholder-val="{{ false }}"><div class="lv-spread"><div class="lv-pg lv-esq"><figure class="lv-fig"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Daniel%20in%20the%20Lions%27%20Den%2C%20by%20Briton%20Rivi%C3%A8re.jpg?width=500" alt="Daniel" loading="lazy" referrerpolicy="no-referrer"><figcaption>Briton Rivière · domínio público</figcaption></figure><span class="lv-num px">5</span></div><div class="lv-pg lv-dir"><p class="rv-k px">Babilônia · séc. VI a.C.</p><h4 class="lv-nome e">Daniel</h4><p class="lv-t">Um jovem estrangeiro com uma fé tão prática que fez o rei da Babilônia se constranger. Os amigos dele foram livrados da fornalha. Ele, da boca dos leões.</p><p class="rv-ref">Daniel 3 e 6</p><span class="lv-num px">6</span></div></div></sc-if>
-            <sc-if value="{{ rv.p3 }}" hint-placeholder-val="{{ false }}"><div class="lv-spread"><div class="lv-pg lv-esq"><figure class="lv-fig"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Saint%20John%20the%20Baptist%20Preaching%20MET%20DP123820.jpg?width=500" alt="João Batista" loading="lazy" referrerpolicy="no-referrer"><figcaption>Mattia Preti · CC0</figcaption></figure><span class="lv-num px">7</span></div><div class="lv-pg lv-dir"><p class="rv-k px">Deserto da Judeia</p><h4 class="lv-nome e">João Batista</h4><p class="lv-t">Sem templo, sem palco. Só uma voz clamando no deserto. E multidões saíam das cidades pra ouvi-lo e se arrepender.</p><p class="rv-ref">Mateus 3</p><span class="lv-num px">8</span></div></div></sc-if>
-            <sc-if value="{{ rv.p4 }}" hint-placeholder-val="{{ false }}"><div class="lv-spread"><div class="lv-pg lv-esq"><figure class="lv-fig"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/St.%20Peter%20Preaching%20at%20Pentecost.jpg?width=500" alt="Pedro" loading="lazy" referrerpolicy="no-referrer"><figcaption>Benjamin West · domínio público</figcaption></figure><span class="lv-num px">9</span></div><div class="lv-pg lv-dir"><p class="rv-k px">Jerusalém</p><h4 class="lv-nome e">Pedro</h4><p class="lv-t">O pescador que negou Jesus três vezes. Semanas depois, pregou em Jerusalém, e quase três mil pessoas se converteram num só dia.</p><p class="rv-ref">Atos 2</p><span class="lv-num px">10</span></div></div></sc-if>
-            <sc-if value="{{ rv.p5 }}" hint-placeholder-val="{{ false }}"><div class="lv-spread"><div class="lv-pg lv-esq"><figure class="lv-fig"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Rembrandt%20-%20Apostle%20Paul%20-%20WGA19120.jpg?width=500" alt="Paulo" loading="lazy" referrerpolicy="no-referrer"><figcaption>Rembrandt · domínio público</figcaption></figure><span class="lv-num px">11</span></div><div class="lv-pg lv-dir"><p class="rv-k px">Império Romano</p><h4 class="lv-nome e">Paulo</h4><p class="lv-t">Perseguia os cristãos. Depois de encontrar Jesus no caminho, virou o apóstolo que levou a mensagem pelo Império Romano.</p><p class="rv-ref">Atos 9</p><span class="lv-num px">12</span></div></div></sc-if>
-            <sc-if value="{{ rv.p6 }}" hint-placeholder-val="{{ false }}"><div class="lv-spread"><div class="lv-pg lv-esq"><figure class="lv-fig"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/John%20Wesley%20by%20George%20Romney.jpg?width=500" alt="John Wesley" loading="lazy" referrerpolicy="no-referrer"><figcaption>a partir de George Romney · domínio público</figcaption></figure><span class="lv-num px">13</span></div><div class="lv-pg lv-dir"><p class="rv-k px">Inglaterra · séc. XVIII</p><h4 class="lv-nome e">John Wesley</h4><p class="lv-t">Abalou a Inglaterra. Expulso dos templos, foi pregar nas praças. E milhares se reuniam ao ar livre pra ouvir e se arrepender.</p><span class="lv-num px">14</span></div></div></sc-if>
-            <sc-if value="{{ rv.p7 }}" hint-placeholder-val="{{ false }}"><div class="lv-spread"><div class="lv-pg lv-esq"><figure class="lv-fig"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/DavidBrainerd.jpg?width=500" alt="David Brainerd" loading="lazy" referrerpolicy="no-referrer"><figcaption>domínio público</figcaption></figure><span class="lv-num px">15</span></div><div class="lv-pg lv-dir"><p class="rv-k px">América do Norte · séc. XVIII</p><h4 class="lv-nome e">David Brainerd</h4><p class="lv-t">Viveu entre os povos indígenas, pregando com a saúde frágil. Morreu com 29 anos, e o diário dele inspirou gerações de missionários.</p><span class="lv-num px">16</span></div></div></sc-if>
-            <sc-if value="{{ rv.p8 }}" hint-placeholder-val="{{ false }}"><div class="lv-spread"><div class="lv-pg lv-esq"><figure class="lv-fig"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Evan%20John%20Roberts.jpg?width=500" alt="Evan Roberts" loading="lazy" referrerpolicy="no-referrer"><figcaption>domínio público</figcaption></figure><span class="lv-num px">17</span></div><div class="lv-pg lv-dir"><p class="rv-k px">País de Gales · 1904</p><h4 class="lv-nome e">Evan Roberts</h4><p class="lv-t">Um jovem no centro de um avivamento em que o país se arrependeu. Bares fechavam sozinhos. Os donos de cavalo pararam de xingar e bater no bicho pra ele correr. E a polícia, sem crime pra resolver, ia pra igreja adorar junto.</p><span class="lv-num px">18</span></div></div></sc-if>
-            <sc-if value="{{ rv.p9 }}" hint-placeholder-val="{{ false }}"><div class="lv-spread"><div class="lv-pg lv-esq"><figure class="lv-fig"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Paul%20yonggi%20cho.jpg?width=500" alt="Paul Yonggi Cho" loading="lazy" referrerpolicy="no-referrer"><figcaption>foto: Lidiya. J · CC BY-SA 4.0</figcaption></figure><span class="lv-num px">19</span></div><div class="lv-pg lv-dir"><p class="rv-k px">Coreia do Sul · 1958</p><h4 class="lv-nome e">Paul Yonggi Cho</h4><p class="lv-t">Ainda adolescente, desenganado pela tuberculose, entregou a vida a Cristo. Em 1958, numa Coreia destruída pela guerra, começou a pregar numa tenda velha num bairro pobre de Seul. Orava por horas e agia crendo no que ainda não via.</p><span class="lv-num px">20</span></div></div></sc-if>
-            <sc-if value="{{ rv.p10 }}" hint-placeholder-val="{{ false }}"><div class="lv-spread"><div class="lv-pg lv-esq"><figure class="lv-fig"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Bloch-SermonOnTheMount.jpg?width=500" alt="Jesus" loading="lazy" referrerpolicy="no-referrer"><figcaption>Carl Bloch · domínio público</figcaption></figure><span class="lv-num px">21</span></div><div class="lv-pg lv-dir"><p class="rv-k px">Galileia</p><h4 class="lv-nome e">Jesus</h4><p class="lv-t">O próprio Cristo. Todos os outros nestas páginas só apontaram pra Ele.</p><p class="rv-ref">Hebreus 12:2</p><span class="lv-num px">22</span></div></div></sc-if>
-            <sc-if value="{{ rv.p11 }}" hint-placeholder-val="{{ false }}"><div class="lv-spread"><div class="lv-pg lv-esq"><div class="lv-fim"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v18M7 8h10"></path></svg><p class="px">pela fé</p></div><span class="lv-num px">23</span></div><div class="lv-pg lv-dir"><div class="livro lv-hebreus">
-          <p class="livro-q e">"...venceram reinos, praticaram a justiça, alcançaram promessas, fecharam a boca de leões, apagaram a força do fogo..."</p>
-          <p class="livro-f">Hebreus 11:33-34</p>
-        </div><span class="lv-num px">24</span></div></div></sc-if>
+        <p class="say w e s">Até que, do nada (após a pandemia rs), os meus interesses mudaram.</p>
+        <p class="txt">Eu já estava saturado das aulas de matemática. E meu tempo era escasso:</p>
+        <div class="agenda" aria-label="O que ocupava meus dias">
+          <span>ensino médio</span><span>Intervalo com Deus</span><span>Legião de Honra</span><span>projetos de ciências</span><span>robótica</span><span>igreja</span><span>esportes</span><span class="full px">agenda cheia</span>
+        </div>
+        <p class="txt">Cada atividade do meu dia tinha que fazer sentido pras minhas prioridades. E ali não estava fazendo.</p>
+        <div class="rv" id="revista" onPointerDown="{{ rv.down }}" onPointerUp="{{ rv.up }}" aria-label="Livro: os que viveram pela fé">
+          <div class="rv-folha">
+            <sc-if value="{{ rv.p0 }}" hint-placeholder-val="{{ true }}"><div class="rv-pg rv-capa"><p class="rv-k px">os que viveram pela fé</p><p class="lv-capa e">Eu queria explorar a minha fé, as profundezas do que acredito, de onde ela veio e como caminhavam os homens que viveram intensamente por ela:</p><p class="lv-vire px">vire a página →</p></div></sc-if>
+            <sc-if value="{{ rv.p1 }}" hint-placeholder-val="{{ false }}"><div class="rv-pg lv-p"><p class="rv-k px">Israel · séc. IX a.C.</p><h4 class="rv-nome e">Elias</h4><p class="rv-t">Um homem só, diante de uma nação inteira que tinha virado as costas pra Deus. Ele orou, e desestabilizou a nação: fogo caiu do céu no monte Carmelo.</p><p class="rv-ref">1 Reis 18</p><figure class="lv-foto dir"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Elijah%20challenging%20the%20prophets%20of%20Baal.jpg?width=400" alt="Elias" loading="lazy" referrerpolicy="no-referrer"><figcaption>domínio público</figcaption></figure></div></sc-if>
+            <sc-if value="{{ rv.p2 }}" hint-placeholder-val="{{ false }}"><div class="rv-pg lv-p"><p class="rv-k px">Babilônia · séc. VI a.C.</p><h4 class="rv-nome e">Daniel</h4><p class="rv-t">Um jovem estrangeiro com uma fé tão prática que fez o rei da Babilônia se constranger. Os amigos dele foram livrados da fornalha. Ele, da boca dos leões.</p><p class="rv-ref">Daniel 3 e 6</p><figure class="lv-foto esq"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Daniel%20in%20the%20Lions%27%20Den%2C%20by%20Briton%20Rivi%C3%A8re.jpg?width=400" alt="Daniel" loading="lazy" referrerpolicy="no-referrer"><figcaption>Briton Rivière · domínio público</figcaption></figure></div></sc-if>
+            <sc-if value="{{ rv.p3 }}" hint-placeholder-val="{{ false }}"><div class="rv-pg lv-p"><p class="rv-k px">Deserto da Judeia</p><h4 class="rv-nome e">João Batista</h4><p class="rv-t">Sem templo, sem palco. Só uma voz clamando no deserto. E multidões saíam das cidades pra ouvi-lo e se arrepender.</p><p class="rv-ref">Mateus 3</p><figure class="lv-foto dir"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Saint%20John%20the%20Baptist%20Preaching%20MET%20DP123820.jpg?width=400" alt="João Batista" loading="lazy" referrerpolicy="no-referrer"><figcaption>Mattia Preti · CC0</figcaption></figure></div></sc-if>
+            <sc-if value="{{ rv.p4 }}" hint-placeholder-val="{{ false }}"><div class="rv-pg lv-p"><p class="rv-k px">Jerusalém</p><h4 class="rv-nome e">Pedro</h4><p class="rv-t">O pescador que negou Jesus três vezes. Semanas depois, pregou em Jerusalém, e quase três mil pessoas se converteram num só dia.</p><p class="rv-ref">Atos 2</p><figure class="lv-foto esq"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/St.%20Peter%20Preaching%20at%20Pentecost.jpg?width=400" alt="Pedro" loading="lazy" referrerpolicy="no-referrer"><figcaption>Benjamin West · domínio público</figcaption></figure></div></sc-if>
+            <sc-if value="{{ rv.p5 }}" hint-placeholder-val="{{ false }}"><div class="rv-pg lv-p"><p class="rv-k px">Império Romano</p><h4 class="rv-nome e">Paulo</h4><p class="rv-t">Perseguia os cristãos. Depois de encontrar Jesus no caminho, virou o apóstolo que levou a mensagem pelo Império Romano.</p><p class="rv-ref">Atos 9</p><figure class="lv-foto dir"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Rembrandt%20-%20Apostle%20Paul%20-%20WGA19120.jpg?width=400" alt="Paulo" loading="lazy" referrerpolicy="no-referrer"><figcaption>Rembrandt · domínio público</figcaption></figure></div></sc-if>
+            <sc-if value="{{ rv.p6 }}" hint-placeholder-val="{{ false }}"><div class="rv-pg lv-p"><p class="rv-k px">Inglaterra · séc. XVIII</p><h4 class="rv-nome e">John Wesley</h4><p class="rv-t">Abalou a Inglaterra. Expulso dos templos, foi pregar nas praças. E milhares se reuniam ao ar livre pra ouvir e se arrepender.</p><figure class="lv-foto esq"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/John%20Wesley%20by%20George%20Romney.jpg?width=400" alt="John Wesley" loading="lazy" referrerpolicy="no-referrer"><figcaption>George Romney · domínio público</figcaption></figure></div></sc-if>
+            <sc-if value="{{ rv.p7 }}" hint-placeholder-val="{{ false }}"><div class="rv-pg lv-p"><p class="rv-k px">América do Norte · séc. XVIII</p><h4 class="rv-nome e">David Brainerd</h4><p class="rv-t">Viveu entre os povos indígenas, pregando com a saúde frágil. Morreu com 29 anos, e o diário dele inspirou gerações de missionários.</p><figure class="lv-foto dir"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/DavidBrainerd.jpg?width=400" alt="David Brainerd" loading="lazy" referrerpolicy="no-referrer"><figcaption>domínio público</figcaption></figure></div></sc-if>
+            <sc-if value="{{ rv.p8 }}" hint-placeholder-val="{{ false }}"><div class="rv-pg lv-p"><p class="rv-k px">País de Gales · 1904</p><h4 class="rv-nome e">Evan Roberts</h4><p class="rv-t">Um jovem no centro de um avivamento em que o país se arrependeu. Bares fechavam sozinhos. Os donos de cavalo pararam de xingar e bater no bicho pra ele correr. E a polícia, sem crime pra resolver, ia pra igreja adorar junto.</p><figure class="lv-foto esq"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Evan%20John%20Roberts.jpg?width=400" alt="Evan Roberts" loading="lazy" referrerpolicy="no-referrer"><figcaption>domínio público</figcaption></figure></div></sc-if>
+            <sc-if value="{{ rv.p9 }}" hint-placeholder-val="{{ false }}"><div class="rv-pg lv-p"><p class="rv-k px">Coreia do Sul · 1958</p><h4 class="rv-nome e">Paul Yonggi Cho</h4><p class="rv-t">Ainda adolescente, desenganado pela tuberculose, entregou a vida a Cristo. Em 1958, numa Coreia destruída pela guerra, começou a pregar numa tenda velha num bairro pobre de Seul. Orava por horas e agia crendo no que ainda não via.</p><figure class="lv-foto dir"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Paul%20yonggi%20cho.jpg?width=400" alt="Paul Yonggi Cho" loading="lazy" referrerpolicy="no-referrer"><figcaption>foto: Lidiya. J · CC BY-SA 4.0</figcaption></figure></div></sc-if>
+            <sc-if value="{{ rv.p10 }}" hint-placeholder-val="{{ false }}"><div class="rv-pg lv-p"><p class="rv-k px">Galileia</p><h4 class="rv-nome e">Jesus</h4><p class="rv-t">O próprio Cristo. Todos os outros nestas páginas só apontaram pra Ele.</p><p class="rv-ref">Hebreus 12:2</p><figure class="lv-foto esq"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Bloch-SermonOnTheMount.jpg?width=400" alt="Jesus" loading="lazy" referrerpolicy="no-referrer"><figcaption>Carl Bloch · domínio público</figcaption></figure></div></sc-if>
+            <sc-if value="{{ rv.p11 }}" hint-placeholder-val="{{ false }}"><div class="rv-pg lv-p lv-ult"><div class="livro lv-hebreus">
+            <p class="livro-q e">"...venceram reinos, praticaram a justiça, alcançaram promessas, fecharam a boca de leões, apagaram a força do fogo..."</p>
+            <p class="livro-f">Hebreus 11:33-34</p>
+          </div></div></sc-if>
           </div>
           <div class="rv-ft">
             <button type="button" class="rv-b" onClick="{{ rv.prev }}" disabled="{{ rv.atStart }}" aria-label="Página anterior"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"></path></svg></button>
@@ -1379,13 +1436,14 @@
         <p class="txt" style="margin-top: 22px;">E não daquelas que você encontra em qualquer esquina, com jargão pronto, aleluia glória a Deus. Amável, sábia, estudiosa. Os livros que eu queria ler? Ela já tinha lido. As histórias de <b>avivamento</b> que eu nunca achei ninguém na igreja pra me contar? Ela já tinha estudado.</p>
         <p class="txt">E ela me questionava fundo:</p>
         <blockquote class="dito"><p class="e">O que é avivamento pra você? Define em 3 palavras, sem pensar muito.</p></blockquote>
+        <blockquote class="dito"><p class="e">O que você acha que precisamos? O que nos falta para um avivamento?</p></blockquote>
         <p class="estalo e">Foi a melhor experiência da minha vida.</p>
         <p class="txt" style="margin-top: 22px;">E a melhor decisão: ter me posicionado no que eu queria. Pra descobrir que era um desejo que <b>Ele</b> implantou no meu coração, num caminho que Ele já tinha preparado.</p>
     </section>
 
     <!-- TECNOLOGIA · O SONHO -->
     <section id="sonho" class="sec p-tec">
-      <p class="label mk"><span>Capítulo 03 — o sonho do vestibular</span><span class="seta" aria-hidden="true"><i></i></span></p>
+      <p class="label mk"><span>Capítulo 03 · o sonho do vestibular</span><span class="seta" aria-hidden="true"><i></i></span></p>
       <h2 class="h2 d">Meu sonho era o IME.</h2>
       <figure class="fig">
         <img class="ph" src="palacio-da-alvorada-equipe-do-ime.jpg" alt="Tiago com colegas no Palácio da Alvorada com a equipe de robótica do IME" style="object-position: 50% 50%;">
@@ -1396,9 +1454,8 @@
       <h3 class="h2 m d" style="margin-top: 44px; color: var(--ink);">Mais uma vez, dito e feito!</h3>
       <p class="lead">Mandamos nosso currículo, e ganhamos <span class="mark">bolsa 100%</span> no cursinho mais caro do Brasil.</p>
       <p class="lead">Pegamos o avião para Fortaleza para fazer uma "conexão" com o nosso sonho haha</p>
-      <div class="flight" aria-hidden="true">
-        <svg class="path" viewBox="0 0 320 96"><path d="M16 80 C 110 -10, 210 120, 304 22" style="fill: none; stroke: rgba(184,255,56,.45); stroke-width: 2.5; stroke-dasharray: 3 9;"></path><path d="M300 14h8v8h-8z" style="fill: #b8ff38;"></path><path d="M12 76h8v8h-8z" style="fill: #2b3154;"></path></svg>
-        <svg class="plane" viewBox="0 0 24 24" aria-hidden="true" style="fill: currentColor;"><path d="M21 15.5v-2l-7.5-4.7V3.6a1.5 1.5 0 0 0-3 0v5.2L3 13.5v2l7.5-2.3v4.9l-2 1.5V21l3.5-1 3.5 1v-1.4l-2-1.5v-4.9z"></path></svg>
+      <div class="flight" id="voo" aria-hidden="true">
+        <svg class="path" viewBox="0 0 320 96" style="overflow: visible;"><path id="voo-rota" d="M16 80 C 110 -10, 210 120, 304 22" style="fill: none; stroke: rgba(184,255,56,.45); stroke-width: 2.5; stroke-dasharray: 3 9;"></path><path d="M300 14h8v8h-8z" style="fill: #b8ff38;"></path><path d="M12 76h8v8h-8z" style="fill: #2b3154;"></path><g id="voo-aviao" transform="translate(16 80)"><path transform="translate(-15 -15) scale(1.25)" d="M21 15.5v-2l-7.5-4.7V3.6a1.5 1.5 0 0 0-3 0v5.2L3 13.5v2l7.5-2.3v4.9l-2 1.5V21l3.5-1 3.5 1v-1.4l-2-1.5v-4.9z" style="fill: #b8ff38;"></path></g></svg>
       </div>
       <figure class="fig">
         <img class="ph" src="cursinho-farias-brito-ime-ita.jpg" alt="Aula no preparatório para IME e ITA em Fortaleza" style="object-position: 50% 50%;">
@@ -1411,7 +1468,7 @@
 
     <!-- TECNOLOGIA · MUDANÇA DE ROTA -->
     <section id="rota" class="sec p-tec">
-      <p class="label mk"><span>Capítulo 04 — mudança de rota</span><span class="seta" aria-hidden="true"><i></i></span></p>
+      <p class="label mk"><span>Capítulo 04 · mudança de rota</span><span class="seta" aria-hidden="true"><i></i></span></p>
       <h2 class="h2 l d">Mas Fortaleza me mostrou um mundo de possibilidades que eu ainda não conhecia.</h2>
       <svg class="fork" viewBox="0 0 340 120" aria-hidden="true">
         <path d="M8 60 H128" style="fill: none; stroke: #b8ff38; stroke-width: 4;"></path>
@@ -1451,7 +1508,7 @@
     </section>
 
     <!-- EMPREENDEDORISMO · MUDANÇA, DE NOVO! --><section id="ensino" class="sec p-edu">
-      <p class="label mk"><span>Capítulo 05 — professor</span><span class="seta" aria-hidden="true"><i></i></span></p>
+      <p class="label mk"><span>Capítulo 05 · professor</span><span class="seta" aria-hidden="true"><i></i></span></p>
       <h2 class="h2 l d">Comecei a trabalhar dando aulas.</h2>
       <p class="txt">Minhas experiências ensinando passaram por escolas de referência como:</p>
       <div class="escolas"><span>CódigoKid</span><span>Farias Brito</span><span>Colégio Militar de Fortaleza</span><span>Instituto Federal do Ceará</span></div>
@@ -1490,7 +1547,7 @@
 
     <!-- TECNOLOGIA · PROGRAMAÇÃO -->
     <section id="programacao" class="sec p-tec">
-      <p class="label mk"><span>Capítulo 06 — faculdade</span><span class="seta" aria-hidden="true"><i></i></span></p>
+      <p class="label mk"><span>Capítulo 06 · faculdade</span><span class="seta" aria-hidden="true"><i></i></span></p>
       <h2 class="h2 l d">Ao mesmo tempo, fazia faculdade de Análise e Desenvolvimento de Sistemas.</h2>
       <p class="txt">Eu gostava de programação. Sempre fui o programador das minhas equipes de robótica.</p>
       <p class="txt">Mas com o tempo descobri que essa faculdade focava apenas em sites e aplicativos. Só que o que eu gosto de programar tem corpo:</p>
@@ -1504,7 +1561,7 @@
     </section>
 <!-- EDUCAÇÃO · ENSINO EM MOVIMENTO -->
     <section id="denovo" class="sec p-emp">
-      <p class="label mk"><span>Capítulo 07 — vendas</span><span class="seta" aria-hidden="true"><i></i></span></p>
+      <p class="label mk"><span>Capítulo 07 · vendas</span><span class="seta" aria-hidden="true"><i></i></span></p>
       
       
       <p class="lead">Decidi sair do emprego no Instituto Federal!</p>
@@ -1576,7 +1633,7 @@
       <p class="caixa">Era um laboratório secreto, assinei um termo de confidencialidade por 2 anos, então não posso falar muitas coisas.</p>
 
       <p class="say w e s" style="margin-top: 28px;">Troquei o ar-condicionado do laboratório secreto pelo sol na cabeça e areia no pé.</p>
-      <p class="txt">Ouvi dezenas de "nãos" até pegar o jeito. Mas descobri que vender um produto na rua me dava mais retorno e liberdade do que vender a minha hora.</p>
+      <p class="txt">Ouvi dezenas de "nãos" até pegar o jeito.</p>
       <p class="txt">Comecei a vender 4 horas por dia, dia sim dia não, na praia de Fortaleza. Mas eu contava o deslocamento dentro das 4h, e no trabalho, se contasse deslocamento dava 6h.</p>
       <div class="troca" aria-hidden="true">
         <div class="troca-col">
@@ -1594,10 +1651,11 @@
 
       <figure class="fig">
         <img class="ph tall" src="primeira-vez-vendendo-na-praia.jpg" alt="Primeira vez vendendo na praia" style="object-position: 50% 50%;">
-        <figcaption class="figcap">Primeira vez vendendo na praia e os meus próprios produtos. Eu não comecei vendendo na praia, e não vendia os meus produtos. E foi aí que vi que vender dava mais certo que vender a hora, mas fica pra outra hora essa história... ela é muito engraçada</figcaption>
+        <figcaption class="figcap">Primeira vez vendendo na praia os meus próprios produtos.</figcaption>
       </figure>
+      <p class="obs"><b>Observação:</b> Eu não comecei vendendo na praia, e não vendia meus próprios produtos. Mas a história de como comecei fica para outra hora... Ela é muito engraçada! E foi aí que vi que dava mais certo vender qualquer produto do que vender minha hora.</p>
       <p class="say e s">Em fevereiro, tranquei a faculdade.</p>
-      <p class="txt" style="margin-top: 26px;">Ela também me sugava tempo e energia, e não estava me dando o <b>ROI</b> necessário — o retorno sobre o investimento. Eu gastava energia e tempo ali sem ver que aquilo iria, de fato, me ajudar a concretizar o meu sonho.</p>
+      <p class="txt" style="margin-top: 26px;">Ela também me sugava tempo e energia, e não estava me dando o <b>ROI</b> necessário: o retorno sobre o investimento. Eu gastava energia e tempo ali sem ver que aquilo iria, de fato, me ajudar a concretizar o meu sonho.</p>
       <p class="txt">Além do que já falei, que esse curso ensinava mais sobre programar sites e aplicativos. E eu já sabia o que queria construir máquinas.</p>
 
       <div class="story" id="story-viagem" onPointerDown="{{ sg.down }}" onPointerUp="{{ sg.up }}">
@@ -1653,7 +1711,7 @@
 
     <!-- TECNOLOGIA · DUAS COISAS EM UMA -->
     <section id="floripa" class="sec p-tec">
-      <p class="label mk"><span>Capítulo 08 — mudança, de novo!</span><span class="seta" aria-hidden="true"><i></i></span></p>
+      <p class="label mk"><span>Capítulo 08 · mudança, de novo!</span><span class="seta" aria-hidden="true"><i></i></span></p>
       <h2 class="h2 d" style="text-transform: uppercase;">Mudança, de novo!</h2>
       <p class="lead" style="margin-top: 34px;">Nessa época vendendo, muita gente me perguntava da faculdade.</p>
       <div class="term" aria-label="A pergunta que todo mundo fazia">
@@ -1662,16 +1720,16 @@
       </div>
       <div class="gavetas">
         <div class="gaveta">
-          <button type="button" class="gav-b" onClick="{{ gav.t0 }}" aria-expanded="{{ gav.p0 }}"><span>Vi o quanto ainda valorizam isso.<small class="gav-hint px">{{ gav.h0 }}</small></span><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg></button>
+          <button type="button" class="gav-b" onClick="{{ gav.t0 }}" aria-expanded="{{ gav.p0 }}"><span>Vi o quanto ainda valorizam isso.</span><span class="gav-dir"><small class="gav-tag px">{{ gav.h0 }}</small><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg></span></button>
           <sc-if value="{{ gav.p0 }}" hint-placeholder-val="{{ true }}"><p class="gav-t">Eu, sinceramente, acredito que o sistema de ensino das faculdades está ultrapassado.</p></sc-if>
         </div>
         <div class="gaveta">
-          <button type="button" class="gav-b" onClick="{{ gav.t1 }}" aria-expanded="{{ gav.p1 }}"><span>Mas ainda quero fazer! Porque quero passar pelo processo que todo mundo passa, sentir como é, e vencê-lo!<small class="gav-hint px">{{ gav.h1 }}</small></span><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg></button>
+          <button type="button" class="gav-b" onClick="{{ gav.t1 }}" aria-expanded="{{ gav.p1 }}"><span>Mas ainda quero fazer! Porque quero passar pelo processo que todo mundo passa, sentir como é, e vencê-lo!</span><span class="gav-dir"><small class="gav-tag px">{{ gav.h1 }}</small><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg></span></button>
           <sc-if value="{{ gav.p1 }}" hint-placeholder-val="{{ false }}"><p class="gav-t">E quero aprender os assuntos básicos, como cálculo diferencial, principalmente 2 e 3, física experimental, porque gosto de extas e porque quero expandir minha mente, o meu raciocínio matemático e físico, a forma como enxergo o mundo, porque sei que ele é desenhado pelas leis matemáticas e físicas. Quero fazer pelo prazer de aprender.</p></sc-if>
         </div>
       </div>
 <p class="say w e">Diferente de muitos, eu não espero que a faculdade me dê um bom emprego.</p>
-      <p class="txt" style="margin-top: 24px;">No laboratório eu trabalhei ao lado de pessoas com mestrado e doutorado. De igual pra igual, ganhando a mesma coisa — e vendo que elas passavam os mesmos sufocos pra se manter financeiramente.</p>
+      <p class="txt" style="margin-top: 24px;">No laboratório eu trabalhei ao lado de pessoas com mestrado e doutorado. De igual pra igual, ganhando a mesma coisa, e vendo que elas passavam os mesmos sufocos pra se manter financeiramente.</p>
       <p class="txt">Tudo bem que, enquanto eu fazia faculdade, elas trabalhavam em outro emprego e somavam os salários. Mas poucos saem dessa linha de formação tradicional com abundância de recursos. E quando ganham bem, é à custa de dedicação exclusiva.</p>
       <p class="estalo e">Eu quero fazer o dinheiro trabalhar pra mim.</p>
       <ol class="passos">
@@ -1709,23 +1767,22 @@
 
     <!-- EDUCAÇÃO · NÃO PAREI DE ENSINAR (fundo escuro) -->
     <section id="ensinar" class="sec p-edu dark-edu">
-      <p class="label mk"><span>Capítulo 09 — educação</span><span class="seta" aria-hidden="true"><i></i></span></p>
+      <p class="label mk"><span>Capítulo 09 · educação</span><span class="seta" aria-hidden="true"><i></i></span></p>
       <h2 class="h2 d">Mas eu não parei de ensinar.</h2>
       <div class="bar"></div>
       <p class="e" style="color: #eef4ff; font-size: 26px; line-height: 1.25;">A robótica me ensinou a usar tecnologia para construir robôs.</p>
       <p class="d edu-frase">A educação me ensinou a usar a tecnologia para desenvolver pessoas</p>
-      <p class="txt" style="margin-top: 30px; font-size: 18px; color: #eef4ff;">Decidi ensinar por aqui o que estou aprendendo, usando as redes sociais:</p>
-      <div class="redes">
-        <div class="redes-c"><span class="px">como muitos usam</span><p>uma tecnologia usada para distrair</p></div>
-        <div class="redes-c on"><span class="px">como escolhi usar</span><p>uma tecnologia que pode ser usada para construir</p></div>
+      <p class="txt" style="margin-top: 30px; font-size: 18px; line-height: 1.6; color: #eef4ff;">Decidi ensinar por aqui o que estou aprendendo, usando as redes sociais: <span style="color: #8a94b8;">uma tecnologia usada para distrair,</span> <b>mas que pode ser usada para construir.</b></p>
+      <div class="edu-aqui">
+        <p class="txt cap-drop">Aqui, estou empreendendo minhas ideias e incentivo você a fazer o mesmo.</p>
+        <p class="txt" style="clear: both; margin-top: 14px;">Já temos em mãos as melhores ferramentas, só precisamos de <b>pessoas, mensagem e verdade</b>.</p>
       </div>
-      <p class="txt" style="margin-top: 26px;">Aqui estou empreendendo minhas ideias, e incentivo você a fazer o mesmo. Já temos na mão as melhores ferramentas, só precisamos de pessoas com uma mensagem carregada de verdade.</p>
       <p class="estalo e">Nossa geração tem olfato aguçado para hipocrisia e incoerência.</p>
     </section>
 
     <!-- EMPREENDEDORISMO · EMPREENDER -->
     <section id="empreender" class="sec p-emp">
-      <p class="label mk"><span>Capítulo 10 — empreender</span><span class="seta" aria-hidden="true"><i></i></span></p>
+      <p class="label mk"><span>Capítulo 10 · empreender</span><span class="seta" aria-hidden="true"><i></i></span></p>
       <h2 class="h2 d" style="font-size: 40px;">O que significa empreender?</h2>
       
       <p class="verbete"><b class="verbete-p">empreender</b><span class="verbete-d">Do latim,&nbsp;<b>imprehendere</b>&nbsp;(ou <i data-path-to-node="0" data-index-in-node="58">inprehendere</i>), significa "tentar", "tomar para si" ou "apoderar-se"<br>O sentido original e literal da palavra remete à ideia de colocar algo em execução.</span></p>
@@ -1758,7 +1815,7 @@
 
     <!-- EMPREENDEDORISMO · A ESCOLA, O QUE ESTOU CONSTRUINDO AGORA -->
     <section id="escola" class="sec p-emp">
-      <p class="label mk"><span>Capítulo 11 — o que estou construindo agora</span><span class="seta" aria-hidden="true"><i></i></span></p>
+      <p class="label mk"><span>Capítulo 11 · o que estou construindo agora</span><span class="seta" aria-hidden="true"><i></i></span></p>
       <h2 class="h2 d" style="font-size: 40px;">Uma escola de robótica online.</h2>
       <p class="txt">Uma forma acessível e personalizada de ensinar robótica.</p>
       <div class="duelo" aria-live="polite">
@@ -1779,8 +1836,8 @@
           <button type="button" class="rolo-btn" onClick="{{ vs.next }}"><span>próximo</span><svg class="ic rolo-seta" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14"></path><path d="M13 6l6 6-6 6"></path></svg></button>
         </div>
       </div>
-      <div class="licao" style="margin-top: 32px;"><p>Não é apenas sobre aprender robótica, um conteúdo técnico. É sobre explorar uma ferramenta: desenvolver <b>raciocínio lógico</b>, a <b>capacidade de resolver problemas</b> e criar algo envolvente com as próprias mãos.</p></div>
-      <p class="note" style="margin-top: 26px;">Toque pra ver onde isso te leva:</p>
+      <div class="licao" style="margin-top: 32px;"><p>Não é apenas sobre aprender robótica, um conteúdo técnico. É sobre explorar uma ferramenta capaz de desenvolver <b>raciocínio lógico</b>, <b>mentalidade de resolução de problemas</b> e criar algo envolvente com as próprias mãos.</p></div>
+      <p style="margin-top: 26px;"><span class="gav-tag px toque-tag">toque para ver onde isso te leva ↓</span></p>
       <div class="chips" style="margin-top: 10px;">
         <button type="button" class="chip chip-btn p-tec {{ vs.c0 }}" onClick="{{ vs.g0 }}" aria-pressed="{{ vs.p0 }}">competições</button>
         <button type="button" class="chip chip-btn p-emp {{ vs.c1 }}" onClick="{{ vs.g1 }}" aria-pressed="{{ vs.p1 }}">projetos escolares</button>
@@ -1792,7 +1849,7 @@
 
     <!-- EMPREENDEDORISMO · DISCIPLINA, O CORPO -->
 <section id="disciplina" class="sec p-emp">
-      <p class="label mk"><span>Capítulo 12 — disciplina</span><span class="seta" aria-hidden="true"><i></i></span></p>
+      <p class="label mk"><span>Capítulo 12 · disciplina</span><span class="seta" aria-hidden="true"><i></i></span></p>
       <h2 class="h2 d" style="font-size: 40px;">O corpo também faz parte da construção.</h2>
       <p class="say w e">Por isso vou falar de treinos, esportes, meditação, respiração.</p>
       <p class="txt" style="margin-top: 26px;">Eu falo isso porque, pelo pouco que entendo de máquinas, sei que todas elas precisam de manutenção ou prevenção.</p>
@@ -1826,18 +1883,18 @@
 
   <!-- POR QUE CONTAR -->
   <section class="porque" id="porque">
-    <p class="txt">Eu levei um tempo pra entender a importância de criar um site como esse que você está lendo.</p>
+    <p class="txt">Eu levei tempo para criar um site como esse que você está lendo.</p>
     <p class="txt">Mas vi que talvez fosse importante me conhecerem. Porque posto coisas meio soltas: do nada tô num lugar, depois em outro.</p>
     <p class="say w e s">Se nem minha família entendia o porquê das minhas decisões, imagina quem me acompanha de longe.</p>
-    <p class="txt">Nesse tempo, fui mal compreendido tantas vezes que nem ligo mais.</p>
-    <p class="txt">Mas não tô escrevendo pra ser compreendido. Tô escrevendo pra inspirar uma forma de enxergar a vida. Espero que a sua também seja carregada de sentido.</p>
+    <p class="lead">Por isso eu decidi contar essa história.</p>
+    <p class="txt" style="margin-top: 26px;">Nesse tempo, fui mal compreendido tantas vezes que nem me afeta mais.</p>
+    <p class="txt">Mas não tô escrevendo pra ser compreendido. Tô escrevendo pra inspirar uma forma de enxergar a vida. <b>Espero que a sua também seja carregada de sentido. 💙</b></p>
     <p class="txt">Existe uma história linda sendo desenhada. E eu te ajudo a ver.</p>
     <div class="convite">
       <p class="e">Vamos limpar as lentes comigo.</p>
-      <p class="e">Vamos nos livrar do medo.</p>
+      <p class="e">Vamos nos livrar dos medos.</p>
       <p class="e">Vamos viver livres.</p>
     </div>
-    <p class="lead">Por isso eu decidi contar essa história.</p>
   </section>
 
   <!-- MAPA HORIZONTAL DA HISTÓRIA: a linha atravessa os capítulos e sai pela direita -->
@@ -1911,7 +1968,7 @@
       <span class="todo">[LINK: instagram.com/otiagoarantes]</span>
     </div>
     <div class="future"><span>Escola online</span><span>Projetos</span><span>Parcerias</span><span>Aulas e eventos</span></div>
-    <p class="foot">Em construção — com fé, disciplina e curiosidade.</p>
+    <p class="foot">Em construção, com fé, disciplina e curiosidade.</p>
   </footer>
   </div>
 
@@ -2026,10 +2083,23 @@ class Component extends DCLogic {
       viraB = span > 0 ? Math.round(Math.min(1, Math.max(0, -r.top / span)) * 200) / 200 : 1;
     }
     this.mapaDesliza();
+    this.voa();
     const le = document.querySelector('.lente');
     if (le && !this.state.lenteOk && le.getBoundingClientRect().top < window.innerHeight * 0.62) this.setState({ lenteOk: true });
     const s = this.state;
     if (cur !== s.cur || prog !== s.prog || vira !== s.vira || viraB !== s.viraB) this.setState({ cur: cur, prog: prog, vira: vira, viraB: viraB });
+  }
+
+  // o aviãozinho do IME anda pela linha conforme a rolagem (funciona em qualquer celular)
+  voa() {
+    const box = document.getElementById('voo'), rota = document.getElementById('voo-rota'), av = document.getElementById('voo-aviao');
+    if (!box || !rota || !av || !rota.getTotalLength) return;
+    const r = box.getBoundingClientRect(), vh = window.innerHeight;
+    const k = this.reduce ? 0.7 : Math.max(0, Math.min(1, (vh * 0.85 - r.top) / (vh * 0.5)));
+    const len = rota.getTotalLength();
+    const p = rota.getPointAtLength(k * len), q = rota.getPointAtLength(Math.min(len, k * len + 1));
+    const ang = k >= 1 ? Math.atan2(p.y - rota.getPointAtLength(len - 1).y, p.x - rota.getPointAtLength(len - 1).x) : Math.atan2(q.y - p.y, q.x - p.x);
+    av.setAttribute('transform', 'translate(' + p.x.toFixed(1) + ' ' + p.y.toFixed(1) + ') rotate(' + (ang * 180 / Math.PI + 90).toFixed(1) + ')');
   }
 
   // o mapa chegou no 12? só então a linha roxa aparece
@@ -2186,7 +2256,7 @@ class Component extends DCLogic {
     vals.sg = story('viagem', 6);
     vals.si = story('intervalo', 4);
     vals.sa = story('aulas', 4);
-    vals.sb = story('base', 7);
+    vals.sb = story('base', 8);
 
     // Dito e feito: cresce e o laranja-chama se espalha ao entrar na tela
     const grow = cl((s.vira - 0.25) / 0.5);
@@ -2289,7 +2359,7 @@ class Component extends DCLogic {
       { onT: 'O laboratório é a sua mesa', onS: 'Autonomia e responsabilidade pra organizar o próprio espaço', offT: 'O professor faz pelo aluno', offS: 'Quebra de autonomia' },
       { onT: 'Aulas ao vivo pra tirar dúvidas', onS: 'Mentoria e acompanhamento individual', offT: 'Turma cheia', offS: 'Atenção dividida com vários alunos' },
       { onT: 'Flexibilidade de horário', onS: 'Encaixa no melhor horário da rotina', offT: 'Horário fixo', offS: 'Difícil de encaixar na rotina' },
-      { onT: 'Evita deslocamento', onS: 'O tempo vai pro projeto, não pro caminho', offT: 'Trânsito e deslocamento', offS: 'Tempo perdido toda semana' },
+      { onT: 'Evita deslocamento', onS: 'O tempo é dinheiro.', offT: 'Trânsito e deslocamento', offS: 'Tempo perdido, estresse.' },
       { onT: 'Preço que só o online permite', onS: 'Preços acessíveis', offT: 'Estrutura física cara', offS: 'Preços elevados' }
     ];
     const vi = ((s.vsIdx % pares.length) + pares.length) % pares.length;
@@ -2316,11 +2386,11 @@ class Component extends DCLogic {
     vals.emp = {};
     [0, 1, 2].forEach((k) => { vals.emp['s' + k] = s.empTab === k; vals.emp['b' + k] = s.empTab === k ? 'on' : ''; vals.emp['t' + k] = () => this.setState({ empTab: k }); });
 
-    // o livro aberto dos que viveram pela fé: página por página, sem pular
+    // o livro dos que viveram pela fé, uma página por vez: página por página, sem pular
     const RV = 12;
     const rvGo = (k) => this.setState({ rv: Math.max(0, Math.min(RV - 1, k)) });
     vals.rv = {
-      conta: 'pág. ' + (2 * s.rv + 1) + '–' + (2 * s.rv + 2) + ' de ' + (2 * RV),
+      conta: s.rv === 0 ? 'capa' : 'pág. ' + s.rv + ' de ' + (RV - 1),
       atStart: s.rv === 0,
       nextTxt: s.rv === RV - 1 ? 'do início' : 'virar',
       prev: () => rvGo(this.state.rv - 1),
@@ -2378,7 +2448,7 @@ class Component extends DCLogic {
     const gv = {};
     [0, 1, 2].forEach((k) => {
       gv['p' + k] = !!s.gav[k];
-      gv['h' + k] = s.gav[k] ? 'toque para fechar' : 'toque para abrir';
+      gv['h' + k] = s.gav[k] ? 'fechar' : 'abrir';
       gv['t' + k] = () => { const a = this.state.gav.slice(); a[k] = !a[k]; this.setState({ gav: a }); };
     });
     vals.gav = gv;
