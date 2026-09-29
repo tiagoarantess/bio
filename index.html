@@ -1039,8 +1039,36 @@
     .ganho { border-color: rgba(49, 167, 255, .35); }
     /* arraste até o fim, maior */
     .mapa-dica { font-size: 13px; color: #c7a8ff; }
+    /* vídeos no lugar dos quadros vazios */
+    .vid { display: block; width: 100%; height: 100%; object-fit: cover; background: #000; }
+    .videos .vid { aspect-ratio: 9 / 16; border: 1px solid #2b3154; }
+    .b-tall .vid { height: 100%; min-height: 100%; border: 1px solid #2b3154; }
+    .card-ph video.ph { object-fit: cover; background: #000; }
+    .card-cap-v { top: 0; bottom: auto; padding: 16px 18px 48px; background: linear-gradient(rgba(9,11,24,.92), rgba(9,11,24,0)); pointer-events: none; }
+    /* kung fu: as 3 fotos se revezam */
+    .troca-fotos { position: relative; margin-top: 8px; aspect-ratio: 1 / 1; border: 1.5px solid var(--c, #31a7ff); overflow: hidden; }
+    .troca-fotos .ph { position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; border: 0; aspect-ratio: auto; object-fit: cover; opacity: 0; animation: reveza 9s infinite; }
+    .troca-fotos .ph:nth-child(1) { animation-delay: 0s; } .troca-fotos .ph:nth-child(2) { animation-delay: 3s; } .troca-fotos .ph:nth-child(3) { animation-delay: 6s; }
+    @keyframes reveza { 0% { opacity: 0; } 6%, 33% { opacity: 1; } 40%, 100% { opacity: 0; } }
+    @media (prefers-reduced-motion: reduce) { .troca-fotos .ph { animation: none; } .troca-fotos .ph:first-child { opacity: 1; } }
+    /* trilha sonora por capítulo: botão flutuante logo abaixo da barra */
+    .som { position: fixed; top: 62px; right: max(12px, calc(50% - 228px)); z-index: 59; display: inline-flex; align-items: center; gap: 7px; padding: 7px 11px 6px 9px; border: 1px solid #2b3154; border-radius: 999px; background: rgba(17, 21, 42, .92); color: #eef4ff; font-size: 11px; font-weight: 700; letter-spacing: .04em; box-shadow: 0 6px 16px rgba(0,0,0,.4); transition: opacity .3s, transform .3s, border-color .2s; }
+    .som svg { width: 16px; height: 16px; flex: none; }
+    .som.off { color: #8f9ac0; }
+    .som.on { border-color: rgba(184, 255, 56, .5); }
+    .som.escondido { opacity: 0; transform: translateY(-8px); pointer-events: none; }
+    .som-onda { display: inline-flex; align-items: flex-end; gap: 2px; height: 12px; }
+    .som-onda i { width: 2px; background: #b8ff38; animation: onda 1s ease-in-out infinite; }
+    .som-onda i:nth-child(2) { animation-delay: .2s; } .som-onda i:nth-child(3) { animation-delay: .4s; }
+    @keyframes onda { 0%, 100% { height: 3px; } 50% { height: 12px; } }
   </style>
 </helmet>
+<button type="button" class="som {{ som.cls }}" onClick="{{ som.tap }}" aria-label="{{ som.aria }}" aria-pressed="{{ som.pressed }}">
+  <sc-if value="{{ som.ligado }}" hint-placeholder-val="{{ false }}"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9z"></path><path d="M16.5 8.5a5 5 0 0 1 0 7"></path><path d="M19 6a8.5 8.5 0 0 1 0 12"></path></svg></sc-if>
+  <sc-if value="{{ som.mudo }}" hint-placeholder-val="{{ true }}"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9z"></path><path d="M17 9l5 6M22 9l-5 6"></path></svg></sc-if>
+  <span>{{ som.txt }}</span>
+  <sc-if value="{{ som.onda }}" hint-placeholder-val="{{ false }}"><span class="som-onda" aria-hidden="true"><i></i><i></i><i></i></span></sc-if>
+</button>
 <div class="nav">
   <div class="nav-in"><p class="nav-now" style="color: {{ nav.color }};">{{ nav.label }}</p><button type="button" class="nav-mapa px" onClick="{{ to.mapa }}" aria-label="Ir para o mapa da história e os convites"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6l6-3 6 3 6-3v15l-6 3-6-3-6 3z"></path><path d="M9 3v15M15 6v15"></path></svg><span>mapa</span></button></div>
   <div class="nav-bar"><i style="transform: scaleX({{ nav.scale }}); background: {{ nav.color }}; box-shadow: 0 0 10px {{ nav.color }};"></i></div>
@@ -1051,7 +1079,7 @@
   <!-- ABERTURA -->
   <header class="hero" id="topo">
     <div class="hero-top">
-      <div class="orbit"><img class="ph" src="tiago-uniforme-medalhas.jpg" alt="Tiago com uniforme e medalhas" style="object-position: 50% 25%;"></div>
+      <div class="orbit"><img class="ph" src="fotos/tiago-uniforme-medalhas.jpg" alt="Tiago com uniforme e medalhas" style="object-position: 50% 25%;"></div>
       <div>
         <p class="handle">@otiagoarantes</p>
         <p class="strike">Antes era só @tiagodarobotica.</p>
@@ -1099,35 +1127,33 @@
       <p class="mk" style="margin-top: 28px; color: var(--ink);">Uma história em construção</p>
       <p class="txt" style="margin-top: 8px; font-size: 15px;">Arraste para atravessar alguns momentos que mudaram tudo.</p>
       <div class="gal" data-gallery="gA" onScroll="{{ gA.onScroll }}" aria-label="Momentos da trajetória em robótica">
-  <figure class="card"><div class="card-ph"><img class="ph" src="2018-entrevista-tv-robotica-1.jpg" alt="Entrevista para a TV em evento de robótica, 2018" style="object-position: 50% 50%;"></div><figcaption class="card-cap"><span class="card-n tab">2018</span><span class="card-t">[FOTO 1 - LEGENDA DE UMA LINHA: Tiago]</span></figcaption></figure>
-  <figure class="card"><div class="card-ph"><img class="ph" src="2018-entrevista-tv-robotica-2.jpg" alt="Entrevista para a TV em evento de robótica, 2018" style="object-position: 50% 50%;"></div><figcaption class="card-cap"><span class="card-n tab">2018</span><span class="card-t">[FOTO 2 - LEGENDA DE UMA LINHA: Tiago]</span></figcaption></figure>
-  <figure class="card"><div class="card-ph"><img class="ph" src="2018-premiacao-no-palco.jpg" alt="Premiação de robótica no palco, 2018" style="object-position: 50% 50%;"></div><figcaption class="card-cap"><span class="card-n tab">2018</span><span class="card-t">Competições, medalhas e anos construindo, programando e competindo.</span></figcaption></figure>
-  <figure class="card"><div class="card-ph"><img class="ph" src="2019-arena-de-competicao.jpg" alt="Arena de competição de robótica, 2019" style="object-position: 50% 50%;"></div><figcaption class="card-cap"><span class="card-n tab">2019</span><span class="card-t">[FOTO 4 - LEGENDA DE UMA LINHA: Tiago]</span></figcaption></figure>
-  <figure class="card"><div class="card-ph"><img class="ph" src="2019-equipe-testando-robo.jpg" alt="Equipe testando robô na arena, 2019" style="object-position: 50% 50%;"></div><figcaption class="card-cap"><span class="card-n tab">2019</span><span class="card-t">[FOTO 5 - LEGENDA DE UMA LINHA: Tiago]</span></figcaption></figure>
-  <figure class="card"><div class="card-ph"><img class="ph" src="2019-entrega-de-certificados-1.jpg" alt="Entrega de certificados, 2019" style="object-position: 50% 50%;"></div><figcaption class="card-cap"><span class="card-n tab">2019</span><span class="card-t">[FOTO 6 - LEGENDA DE UMA LINHA: Tiago]</span></figcaption></figure>
-  <figure class="card"><div class="card-ph"><img class="ph" src="2019-entrega-de-certificados-2.jpg" alt="Entrega de certificados, 2019" style="object-position: 50% 50%;"></div><figcaption class="card-cap"><span class="card-n tab">2019</span><span class="card-t">[FOTO 7 - LEGENDA DE UMA LINHA: Tiago]</span></figcaption></figure>
-  <figure class="card"><div class="card-ph"><img class="ph" src="2022-competicao-1.jpg" alt="Competição de robótica, 2022" style="object-position: 50% 50%;"></div><figcaption class="card-cap"><span class="card-n tab">2022</span><span class="card-t">[FOTO 8 - LEGENDA DE UMA LINHA: Tiago]</span></figcaption></figure>
-  <figure class="card"><div class="card-ph"><img class="ph" src="2022-competicao-2.jpg" alt="Competição de robótica, 2022" style="object-position: 50% 50%;"></div><figcaption class="card-cap"><span class="card-n tab">2022</span><span class="card-t">[FOTO 9 - LEGENDA DE UMA LINHA: Tiago]</span></figcaption></figure>
-  <figure class="card"><div class="card-ph"><img class="ph" src="2022-competicao-3.jpg" alt="Competição de robótica, 2022" style="object-position: 50% 50%;"></div><figcaption class="card-cap"><span class="card-n tab">2022</span><span class="card-t">[FOTO 10 - LEGENDA DE UMA LINHA: Tiago]</span></figcaption></figure>
-  <figure class="card"><div class="card-ph"><img class="ph" src="2022-competicao-4.jpg" alt="Competição de robótica, 2022" style="object-position: 50% 50%;"></div><figcaption class="card-cap"><span class="card-n tab">2022</span><span class="card-t">[FOTO 11 - LEGENDA DE UMA LINHA: Tiago]</span></figcaption></figure>
-  <figure class="card"><div class="card-ph"><img class="ph" src="2022-apresentacao-em-auditorio.jpg" alt="Apresentação em auditório, 2022" style="object-position: 50% 50%;"></div><figcaption class="card-cap"><span class="card-n tab">2022</span><span class="card-t">[FOTO 12 - LEGENDA DE UMA LINHA: Tiago]</span></figcaption></figure>
-  <figure class="card"><div class="card-ph"><img class="ph" src="2023-ensinando-estudantes.jpg" alt="Tiago apresentando uma atividade para estudantes" style="object-position: 50% 50%;"></div><figcaption class="card-cap"><span class="card-n tab">2023</span><span class="card-t">Depois, comecei a ensinar aquilo que eu havia aprendido.</span></figcaption></figure>
-  <figure class="card"><div class="card-ph"><img class="ph" src="2018-evento-robotica-1.jpg" alt="Evento de robótica, 2018" style="object-position: 50% 50%;"></div><figcaption class="card-cap"><span class="card-n tab">2018</span><span class="card-t">[FOTO 14 - LEGENDA DE UMA LINHA: Tiago]</span></figcaption></figure>
-  <figure class="card"><div class="card-ph"><img class="ph" src="2018-evento-robotica-2.jpg" alt="Evento de robótica, 2018" style="object-position: 50% 50%;"></div><figcaption class="card-cap"><span class="card-n tab">2018</span><span class="card-t">[FOTO 15 - LEGENDA DE UMA LINHA: Tiago]</span></figcaption></figure>
-  <figure class="card"><div class="card-ph"><img class="ph" src="equipe-robotica-prototipos.jpg" alt="A equipe e os protótipos" style="object-position: 50% 50%;"></div><figcaption class="card-cap"><span class="card-n tab">2022</span><span class="card-t">Organizando competição na faculdade em Fortaleza</span></figcaption></figure>
-  <figure class="card"><div class="card-ph"><img class="ph" src="2022-delegacao-com-bandeira.jpg" alt="A delegação com a bandeira, a caminho da competição" style="object-position: 50% 50%;"></div><figcaption class="card-cap"><span class="card-n tab">2022</span><span class="card-t">[FOTO 17 - LEGENDA DE UMA LINHA: Tiago]</span></figcaption></figure>
-  <figure class="card"><div class="card-ph"><img class="ph" src="2023-sala-de-estudos.jpg" alt="Tiago e colegas em uma sala de estudos" style="object-position: 50% 50%;"></div><figcaption class="card-cap"><span class="card-n tab">2023</span><span class="card-t">Uma trajetória que também passou por muito estudo, disciplina e decisão.</span></figcaption></figure>
+  <figure class="card"><div class="card-ph"><img class="ph" src="fotos/2018-entrevista-tv-robotica-1.jpg" alt="Entrevista para a TV em evento de robótica, 2018" style="object-position: 50% 50%;"></div><figcaption class="card-cap"><span class="card-n tab">2018</span><span class="card-t">[FOTO 1 - LEGENDA DE UMA LINHA: Tiago]</span></figcaption></figure>
+  <figure class="card"><div class="card-ph"><img class="ph" src="fotos/2018-entrevista-tv-robotica-2.jpg" alt="Entrevista para a TV em evento de robótica, 2018" style="object-position: 50% 50%;"></div><figcaption class="card-cap"><span class="card-n tab">2018</span><span class="card-t">[FOTO 2 - LEGENDA DE UMA LINHA: Tiago]</span></figcaption></figure>
+  <figure class="card"><div class="card-ph"><img class="ph" src="fotos/2018-premiacao-no-palco.jpg" alt="Premiação de robótica no palco, 2018" style="object-position: 50% 50%;"></div><figcaption class="card-cap"><span class="card-n tab">2018</span><span class="card-t">Competições, medalhas e anos construindo, programando e competindo.</span></figcaption></figure>
+  <figure class="card"><div class="card-ph"><img class="ph" src="fotos/2019-arena-de-competicao.jpg" alt="Arena de competição de robótica, 2019" style="object-position: 50% 50%;"></div><figcaption class="card-cap"><span class="card-n tab">2019</span><span class="card-t">[FOTO 4 - LEGENDA DE UMA LINHA: Tiago]</span></figcaption></figure>
+  <figure class="card"><div class="card-ph"><img class="ph" src="fotos/2019-equipe-testando-robo.jpg" alt="Equipe testando robô na arena, 2019" style="object-position: 50% 50%;"></div><figcaption class="card-cap"><span class="card-n tab">2019</span><span class="card-t">[FOTO 5 - LEGENDA DE UMA LINHA: Tiago]</span></figcaption></figure>
+  <figure class="card"><div class="card-ph"><img class="ph" src="fotos/2019-entrega-de-certificados-1.jpg" alt="Entrega de certificados, 2019" style="object-position: 50% 50%;"></div><figcaption class="card-cap"><span class="card-n tab">2019</span><span class="card-t">[FOTO 6 - LEGENDA DE UMA LINHA: Tiago]</span></figcaption></figure>
+  <figure class="card"><div class="card-ph"><img class="ph" src="fotos/2019-entrega-de-certificados-2.jpg" alt="Entrega de certificados, 2019" style="object-position: 50% 50%;"></div><figcaption class="card-cap"><span class="card-n tab">2019</span><span class="card-t">[FOTO 7 - LEGENDA DE UMA LINHA: Tiago]</span></figcaption></figure>
+  <figure class="card"><div class="card-ph"><img class="ph" src="fotos/2022-competicao-1.jpg" alt="Competição de robótica, 2022" style="object-position: 50% 50%;"></div><figcaption class="card-cap"><span class="card-n tab">2022</span><span class="card-t">[FOTO 8 - LEGENDA DE UMA LINHA: Tiago]</span></figcaption></figure>
+  <figure class="card"><div class="card-ph"><img class="ph" src="fotos/2022-competicao-2.jpg" alt="Competição de robótica, 2022" style="object-position: 50% 50%;"></div><figcaption class="card-cap"><span class="card-n tab">2022</span><span class="card-t">[FOTO 9 - LEGENDA DE UMA LINHA: Tiago]</span></figcaption></figure>
+  <figure class="card"><div class="card-ph"><img class="ph" src="fotos/2022-competicao-3.jpg" alt="Competição de robótica, 2022" style="object-position: 50% 50%;"></div><figcaption class="card-cap"><span class="card-n tab">2022</span><span class="card-t">[FOTO 10 - LEGENDA DE UMA LINHA: Tiago]</span></figcaption></figure>
+  <figure class="card"><div class="card-ph"><img class="ph" src="fotos/2022-competicao-4.jpg" alt="Competição de robótica, 2022" style="object-position: 50% 50%;"></div><figcaption class="card-cap"><span class="card-n tab">2022</span><span class="card-t">[FOTO 11 - LEGENDA DE UMA LINHA: Tiago]</span></figcaption></figure>
+  <figure class="card"><div class="card-ph"><img class="ph" src="fotos/2022-apresentacao-em-auditorio.jpg" alt="Apresentação em auditório, 2022" style="object-position: 50% 50%;"></div><figcaption class="card-cap"><span class="card-n tab">2022</span><span class="card-t">[FOTO 12 - LEGENDA DE UMA LINHA: Tiago]</span></figcaption></figure>
+  <figure class="card"><div class="card-ph"><img class="ph" src="midia/ensinando-colegio-militar.jpg" alt="Tiago apresentando uma atividade para estudantes" style="object-position: 50% 50%;"></div><figcaption class="card-cap"><span class="card-n tab">2023</span><span class="card-t">Depois, comecei a ensinar aquilo que eu havia aprendido.</span></figcaption></figure>
+  <figure class="card"><div class="card-ph"><img class="ph" src="fotos/equipe-robotica-prototipos.jpg" alt="A equipe e os protótipos" style="object-position: 50% 50%;"></div><figcaption class="card-cap"><span class="card-n tab">2022</span><span class="card-t">Organizando competição na faculdade em Fortaleza</span></figcaption></figure>
+  <figure class="card"><div class="card-ph"><img class="ph" src="fotos/2022-delegacao-com-bandeira.jpg" alt="A delegação com a bandeira, a caminho da competição" style="object-position: 50% 50%;"></div><figcaption class="card-cap"><span class="card-n tab">2022</span><span class="card-t">[FOTO 17 - LEGENDA DE UMA LINHA: Tiago]</span></figcaption></figure>
 </div>
-<div class="dots"><div class="dots-list"><sc-for list="{{ gA.dots }}" as="d" hint-placeholder-count="18"><button type="button" class="{{ d.cls }}" aria-label="{{ d.label }}" onClick="{{ d.go }}"></button></sc-for></div><span class="gcount tab">{{ gA.count }}</span></div>
+<div class="dots"><div class="dots-list"><sc-for list="{{ gA.dots }}" as="d" hint-placeholder-count="15"><button type="button" class="{{ d.cls }}" aria-label="{{ d.label }}" onClick="{{ d.go }}"></button></sc-for></div><span class="gcount tab">{{ gA.count }}</span></div>
       <div class="sub" id="feiras">
         <p class="label mk"><span>Feiras de ciências</span><span class="seta" aria-hidden="true"><i></i></span></p>
         <h3 class="sub-h d">E teve feira de ciências também.</h3>
         <p class="txt">[TEXTO: escreve aqui sobre as feiras de ciências]</p>
         <div class="gal" data-gallery="gF" onScroll="{{ gF.onScroll }}" aria-label="Feiras de ciências">
-  <figure class="card"><div class="card-ph"><img class="ph" src="2022-colegio-militar-campo-grande.jpg" alt="Equipe no Colégio Militar de Campo Grande, 2022" style="object-position: 50% 50%;"></div><figcaption class="card-cap"><span class="card-n tab">2022</span><span class="card-t">[FOTO 1 - LEGENDA DE UMA LINHA: Tiago]</span></figcaption></figure>
-  <figure class="card"><div class="card-ph"><img class="ph" src="2022-cerimonia-de-premiacao.jpg" alt="Cerimônia de premiação, 2022" style="object-position: 50% 50%;"></div><figcaption class="card-cap"><span class="card-n tab">2022</span><span class="card-t">[FOTO 2 - LEGENDA DE UMA LINHA: Tiago]</span></figcaption></figure>
+  <figure class="card"><div class="card-ph"><img class="ph" src="midia/feira-premio-colegio-militar.jpg" alt="Equipe no Colégio Militar de Campo Grande, 2022" style="object-position: 50% 50%;"></div><figcaption class="card-cap"><span class="card-n tab">2022</span><span class="card-t">[FOTO 1 - LEGENDA DE UMA LINHA: Tiago]</span></figcaption></figure>
+  <figure class="card"><div class="card-ph"><img class="ph" src="midia/feira-cerimonia-premiacao.jpg" alt="Cerimônia de premiação, 2022" style="object-position: 50% 50%;"></div><figcaption class="card-cap"><span class="card-n tab">2022</span><span class="card-t">[FOTO 2 - LEGENDA DE UMA LINHA: Tiago]</span></figcaption></figure>
+  <figure class="card"><div class="card-ph"><video class="ph" src="midia/feira-projeto-ciencias.mp4" poster="midia/feira-projeto-ciencias-capa.jpg" controls playsinline preload="none"></video></div><figcaption class="card-cap card-cap-v"><span class="card-n tab">vídeo</span><span class="card-t">Apresentando o projeto de ciências</span></figcaption></figure>
 </div>
-<div class="dots"><div class="dots-list"><sc-for list="{{ gF.dots }}" as="d" hint-placeholder-count="2"><button type="button" class="{{ d.cls }}" aria-label="{{ d.label }}" onClick="{{ d.go }}"></button></sc-for></div><span class="gcount tab">{{ gF.count }}</span></div>
+<div class="dots"><div class="dots-list"><sc-for list="{{ gF.dots }}" as="d" hint-placeholder-count="3"><button type="button" class="{{ d.cls }}" aria-label="{{ d.label }}" onClick="{{ d.go }}"></button></sc-for></div><span class="gcount tab">{{ gF.count }}</span></div>
       </div>
 
 
@@ -1233,7 +1259,7 @@
       <div class="sub" id="reuni" style="margin-top: 64px;">
         <p class="lead" style="margin-top: 0;">Primeiro, reuniram 3 na minha casa.</p>
         <figure class="fig">
-          <img class="ph" src="2020-amigos.jpg" alt="Os três primeiros, reunidos na minha casa" style="object-position: 50% 40%;">
+          <img class="ph" src="fotos/2020-amigos.jpg" alt="Os três primeiros, reunidos na minha casa" style="object-position: 50% 40%;">
         <figcaption class="figcap">Felizes pós lágrimas de oração</figcaption></figure>
         <button type="button" class="abrir" onClick="{{ mais.reuni }}" aria-expanded="{{ mais.reuniOn }}"><span>{{ mais.reuniTxt }}</span><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg></button>
         <sc-if value="{{ mais.reuniOn }}" hint-placeholder-val="{{ true }}">
@@ -1251,11 +1277,11 @@
         <p class="txt">Nesse mesmo ano, no final, empatamos a média de nota <b>nos milésimos</b>, e nós dois ganhamos a mesma medalha no uniforme (coisa que o colégio nunca tinha feito)</p>
         <p class="txt">Ela era MUITO tímida na sala, e aos poucos foi se soltando. Olha ela falando na igreja.</p>
         <figure class="fig">
-          <img class="ph" src="pregando-na-praca.jpg" alt="A menina da turma pregando na minha igreja" style="object-position: 50% 50%;">
+          <img class="ph" src="midia/amiga-pregando-na-igreja.jpg" alt="A menina da turma pregando na minha igreja" style="object-position: 50% 50%;">
           <figcaption class="figcap">A menina da turma pregando na minha igreja</figcaption>
         </figure>
         <figure class="fig">
-          <img class="ph" src="2020-oracao-na-varanda.jpg" alt="Oração na varanda de casa com amigos, 2020" style="object-position: 50% 50%;">
+          <img class="ph" src="fotos/2020-oracao-na-varanda.jpg" alt="Oração na varanda de casa com amigos, 2020" style="object-position: 50% 50%;">
           <figcaption class="figcap"><span class="year tab">2020</span>Oração na varanda da minha casa, com "a menina que eu disputava nota" e com um <b class="palavra-fixa">amigo autêntico</b></figcaption>
         </figure>
           <div class="revelado">
@@ -1264,7 +1290,7 @@
             <p>Por conta dessa confissão. Por isso chamei de autêntico. Parando pra pensar, eu também usei máscara antes, e admitir isso me fez ser autêntico. Ele virou um amigão e mais pra frente liderou comigo um movimento no colégio.</p>
           </div>
           <figure class="fig" style="margin-top: 30px;">
-            <img class="ph" src="2021-grupo-ao-ar-livre.jpg" alt="O grupo crescendo, ao ar livre" style="object-position: 50% 50%;">
+            <img class="ph" src="midia/pregando-na-praca.jpg" alt="Pregando numa praça, com meu amigo" style="object-position: 50% 50%;">
           <figcaption class="figcap">Pregando numa praça, com meu amigo, na transição pós LockDown</figcaption></figure>
         </sc-if>
       </div>
@@ -1281,12 +1307,11 @@
       <div class="proj" id="intervalo">
         <h3 class="sub-h d">Intervalo com Deus</h3>
         <div class="story" id="story-intervalo" onPointerDown="{{ si.down }}" onPointerUp="{{ si.up }}">
-  <div class="story-top"><sc-for list="{{ si.bars }}" as="b" hint-placeholder-count="4"><i class="{{ b.cls }}"></i></sc-for></div>
+  <div class="story-top"><sc-for list="{{ si.bars }}" as="b" hint-placeholder-count="3"><i class="{{ b.cls }}"></i></sc-for></div>
   <div class="story-body">
           <sc-if value="{{ si.s0 }}" hint-placeholder-val="{{ true }}"><div class="step"><p>Quando entrei no Colégio Militar no 6º ano, e era serelepe, sempre fugia de um Tenente que me chamava para ir numa reunião na cantina <span class="fala">"pra falar de Deus"</span>.</p><p class="pilantra">PILANTRA! <button type="button" class="kkk" onClick="{{ kkk.toggle }}" aria-expanded="{{ kkk.on }}">{{ kkk.txt }}</button></p></div></sc-if>
-          <sc-if value="{{ si.s1 }}" hint-placeholder-val="{{ false }}"><div class="step"><p class="e">Quem diria...</p></div></sc-if>
-          <sc-if value="{{ si.s2 }}" hint-placeholder-val="{{ false }}"><div class="step"><p>Na volta pós pandemia, já no ensino médio, quando vi esse Tenente, a primeira coisa que perguntei foi:</p><blockquote class="dito"><p class="e">era o sr que fazia as reuniões cristãs na cantina?</p></blockquote></div></sc-if>
-          <sc-if value="{{ si.s3 }}" hint-placeholder-val="{{ false }}"><div class="step"><p>E daí a conversa fluiu.<br>Ele fazia no fundamental e eu queria fazer no ensino médio, ele não conseguiu dar tanto apoio.</p><p class="e">Corri atrás de muita coisa sozinho.</p></div></sc-if>
+          <sc-if value="{{ si.s1 }}" hint-placeholder-val="{{ false }}"><div class="step"><p class="e">Quem diria...</p><p>E daí a conversa fluiu.<br>Ele fazia no fundamental e eu queria fazer no ensino médio, ele não conseguiu dar tanto apoio.</p><p class="e">Corri atrás de muita coisa sozinho.</p></div></sc-if>
+          <sc-if value="{{ si.s2 }}" hint-placeholder-val="{{ false }}"><div class="step"><p>Na volta pós pandemia, já no ensino médio, quando vi esse Tenente, a primeira coisa que perguntei foi:</p><blockquote class="dito"><p class="e">era o sr que fazia as reuniões cristãs na cantina?</p></blockquote><p class="note" style="margin-top: 6px;">Só o encontro com esse Tenente tem tantos detalhes inacreditáveis que não dá para contar tudo aqui. O desenrolar do intervalo com Deus então... nem se fala, tem tantas histórias INCRÍVEIS para contar.</p></div></sc-if>
           </div>
   <div class="story-ft">
     <span class="story-count tab">{{ si.count }}</span>
@@ -1305,7 +1330,6 @@
     </sc-if>
   </div>
 </div>
-        <p class="note">Só o encontro com esse Tenente tem tantos detalhes inacreditáveis que não dá para contar tudo aqui. O desenrolar do intervalo com Deus então... nem se fala, tem tantas histórias INCRÍVEIS para contar.</p>
         <p class="lead" style="margin-top: 30px;">Mas vou contar apenas uma coisa boba, mas é uma curiosidade que poucos sabem:</p>
         <p class="txt">Começamos os encontros sem nenhum nome.</p>
         <p class="txt">Um dia, olhando papéis pra jogar fora em casa, vi um folheto muito antigo... um convite para o <b>"Intervalo com Deus"</b>. Fiquei maravilhado, porque provavelmente meu pai pegou e guardou (meu pai trabalhou nesse colégio anos antes).</p>
@@ -1324,20 +1348,26 @@
         <p class="lead">No final, ficou óbvio não estar sozinho. Acontece o quê você vê nas fotos abaixo:</p>
         
         <div class="gal" data-gallery="gI" onScroll="{{ gI.onScroll }}" aria-label="Fotos do Intervalo com Deus">
-          <figure class="card"><div class="card-ph"><img class="ph" src="2023-intervalo-com-deus-1.jpg" alt="Intervalo com Deus no Colégio Militar" style="object-position: 50% 50%;"></div><figcaption class="card-cap"><span class="card-n tab">2023</span><span class="card-t">Sala com todas cadeiras cheias. E pessoas em pé em todo redor</span></figcaption></figure>
-          <figure class="card"><div class="card-ph"><img class="ph" src="2023-sala-de-aula.jpg" alt="Reunião do Intervalo com Deus na sala" style="object-position: 50% 50%;"></div><figcaption class="card-cap"><span class="card-n tab">2023</span><span class="card-t">Me interromperam? Mando um salve</span></figcaption></figure>
-          <figure class="card"><div class="card-ph"><img class="ph" src="2023-colegas-1.jpg" alt="Intervalo com Deus: o lanche e a conversa" style="object-position: 50% 50%;"></div><figcaption class="card-cap"><span class="card-n tab">2023</span><span class="card-t">[FOTO 3 - LEGENDA DE UMA LINHA: Tiago]</span></figcaption></figure>
-          <figure class="card"><div class="card-ph"><img class="ph" src="2023-colegas-2.jpg" alt="Intervalo com Deus: o lanche e a conversa" style="object-position: 50% 50%;"></div><figcaption class="card-cap"><span class="card-n tab">2023</span><span class="card-t">Confra pré férias</span></figcaption></figure>
-          <figure class="card"><div class="card-ph"><img class="ph" src="2023-intervalo-com-deus-2.jpg" alt="Intervalo com Deus no Colégio Militar" style="object-position: 50% 50%;"></div><figcaption class="card-cap"><span class="card-n tab">2023</span><span class="card-t">[FOTO 5 - LEGENDA DE UMA LINHA: Tiago]</span></figcaption></figure>
-                  <figure class="card"><div class="card-ph"><img class="ph" src="2023-intervalo-com-deus-3.jpg" alt="Intervalo com Deus no Colégio Militar" style="object-position: 50% 50%;"></div><figcaption class="card-cap"><span class="card-n tab">2023</span><span class="card-t">[FOTO 6 - LEGENDA DE UMA LINHA: Tiago]</span></figcaption></figure>
-          <figure class="card"><div class="card-ph"><img class="ph" src="2023-intervalo-com-deus-4.jpg" alt="Intervalo com Deus no Colégio Militar" style="object-position: 50% 50%;"></div><figcaption class="card-cap"><span class="card-n tab">2023</span><span class="card-t">[FOTO 7 - LEGENDA DE UMA LINHA: Tiago]</span></figcaption></figure>
-          <figure class="card"><div class="card-ph"><img class="ph" src="2023-intervalo-com-deus-5.jpg" alt="Intervalo com Deus no Colégio Militar" style="object-position: 50% 50%;"></div><figcaption class="card-cap"><span class="card-n tab">2023</span><span class="card-t">[FOTO 8 - LEGENDA DE UMA LINHA: Tiago]</span></figcaption></figure>
-          <figure class="card"><div class="card-ph"><img class="ph" src="2023-intervalo-com-deus-6.jpg" alt="Intervalo com Deus no Colégio Militar" style="object-position: 50% 50%;"></div><figcaption class="card-cap"><span class="card-n tab">2023</span><span class="card-t">[FOTO 9 - LEGENDA DE UMA LINHA: Tiago]</span></figcaption></figure>
-          <figure class="card"><div class="card-ph"><img class="ph" src="2023-intervalo-com-deus-7.jpg" alt="Intervalo com Deus no Colégio Militar" style="object-position: 50% 50%;"></div><figcaption class="card-cap"><span class="card-n tab">2023</span><span class="card-t">[FOTO 10 - LEGENDA DE UMA LINHA: Tiago]</span></figcaption></figure>
-          <figure class="card"><div class="card-ph"><img class="ph" src="2023-intervalo-com-deus-8.jpg" alt="Intervalo com Deus no Colégio Militar" style="object-position: 50% 50%;"></div><figcaption class="card-cap"><span class="card-n tab">2023</span><span class="card-t">[FOTO 11 - LEGENDA DE UMA LINHA: Tiago]</span></figcaption></figure>
-          <figure class="card"><div class="card-ph"><img class="ph" src="2023-intervalo-com-deus-9.jpg" alt="Intervalo com Deus no Colégio Militar" style="object-position: 50% 50%;"></div><figcaption class="card-cap"><span class="card-n tab">2023</span><span class="card-t">[FOTO 12 - LEGENDA DE UMA LINHA: Tiago]</span></figcaption></figure>
+          <figure class="card"><div class="card-ph"><img class="ph" src="midia/icd-grupo-cresceu.jpg" alt="O grupo começou a crescer" loading="lazy" style="object-position: 50% 50%;"></div><figcaption class="card-cap"><span class="card-n tab">2023</span><span class="card-t">O grupo começou a crescer</span></figcaption></figure>
+          <figure class="card"><div class="card-ph"><img class="ph" src="fotos/2023-sala-de-aula.jpg" alt="Reunião do Intervalo com Deus na sala" style="object-position: 50% 50%;"></div><figcaption class="card-cap"><span class="card-n tab">2023</span><span class="card-t">Me interromperam? Mando um salve</span></figcaption></figure>
+          <figure class="card"><div class="card-ph"><img class="ph" src="fotos/2023-colegas-1.jpg" alt="Intervalo com Deus: o lanche e a conversa" style="object-position: 50% 50%;"></div><figcaption class="card-cap"><span class="card-n tab">2023</span><span class="card-t">[LEGENDA 3 - LEGENDA DE UMA LINHA: Tiago]</span></figcaption></figure>
+          <figure class="card"><div class="card-ph"><img class="ph" src="fotos/2023-colegas-2.jpg" alt="Intervalo com Deus: o lanche e a conversa" style="object-position: 50% 50%;"></div><figcaption class="card-cap"><span class="card-n tab">2023</span><span class="card-t">Confra pré férias</span></figcaption></figure>
+          <figure class="card"><div class="card-ph"><img class="ph" src="midia/icd-oracao.jpg" alt="Oração no Intervalo com Deus" loading="lazy" style="object-position: 50% 50%;"></div><figcaption class="card-cap"><span class="card-n tab">2023</span><span class="card-t">[LEGENDA DE UMA LINHA: Tiago]</span></figcaption></figure>
+          <figure class="card"><div class="card-ph"><img class="ph" src="midia/icd-henrique.jpg" alt="Henrique pregando" loading="lazy" style="object-position: 50% 50%;"></div><figcaption class="card-cap"><span class="card-n tab">2023</span><span class="card-t">Henrique pregando</span></figcaption></figure>
+          <figure class="card"><div class="card-ph"><img class="ph" src="midia/icd-jamile-1.jpg" alt="Jamile pregando" loading="lazy" style="object-position: 50% 50%;"></div><figcaption class="card-cap"><span class="card-n tab">2023</span><span class="card-t">Jamile pregando</span></figcaption></figure>
+          <figure class="card"><div class="card-ph"><img class="ph" src="midia/icd-jamile-2.jpg" alt="Jamile pregando no Intervalo com Deus" loading="lazy" style="object-position: 50% 50%;"></div><figcaption class="card-cap"><span class="card-n tab">2023</span><span class="card-t">[LEGENDA DE UMA LINHA: Tiago]</span></figcaption></figure>
+          <figure class="card"><div class="card-ph"><img class="ph" src="fotos/2023-intervalo-com-deus-3.jpg" alt="Intervalo com Deus no Colégio Militar" style="object-position: 50% 50%;"></div><figcaption class="card-cap"><span class="card-n tab">2023</span><span class="card-t">[LEGENDA 6 - LEGENDA DE UMA LINHA: Tiago]</span></figcaption></figure>
+          <figure class="card"><div class="card-ph"><img class="ph" src="fotos/2023-intervalo-com-deus-4.jpg" alt="Intervalo com Deus no Colégio Militar" style="object-position: 50% 50%;"></div><figcaption class="card-cap"><span class="card-n tab">2023</span><span class="card-t">[LEGENDA 7 - LEGENDA DE UMA LINHA: Tiago]</span></figcaption></figure>
+          <figure class="card"><div class="card-ph"><img class="ph" src="fotos/2023-intervalo-com-deus-8.jpg" alt="Intervalo com Deus no Colégio Militar" style="object-position: 50% 50%;"></div><figcaption class="card-cap"><span class="card-n tab">2023</span><span class="card-t">[LEGENDA 11 - LEGENDA DE UMA LINHA: Tiago]</span></figcaption></figure>
+          <figure class="card"><div class="card-ph"><img class="ph" src="fotos/2023-intervalo-com-deus-9.jpg" alt="Intervalo com Deus no Colégio Militar" style="object-position: 50% 50%;"></div><figcaption class="card-cap"><span class="card-n tab">2023</span><span class="card-t">[LEGENDA 12 - LEGENDA DE UMA LINHA: Tiago]</span></figcaption></figure>
+          <figure class="card"><div class="card-ph"><img class="ph" src="midia/icd-cleiton.jpg" alt="Cleiton pregando. Sala com todas cadeiras cheias, e pessoas em pé em todo redor" loading="lazy" style="object-position: 50% 50%;"></div><figcaption class="card-cap"><span class="card-n tab">legado</span><span class="card-t">Cleiton pregando. Sala com todas cadeiras cheias, e pessoas em pé em todo redor</span></figcaption></figure>
+          <figure class="card"><div class="card-ph"><img class="ph" src="midia/icd-guedes.jpg" alt="Guedes pregando" loading="lazy" style="object-position: 50% 50%;"></div><figcaption class="card-cap"><span class="card-n tab">legado</span><span class="card-t">Guedes pregando</span></figcaption></figure>
+          <figure class="card"><div class="card-ph"><img class="ph" src="midia/icd-ariel.jpg" alt="Ariel pregando" loading="lazy" style="object-position: 50% 50%;"></div><figcaption class="card-cap"><span class="card-n tab">legado</span><span class="card-t">Ariel pregando</span></figcaption></figure>
+          <figure class="card"><div class="card-ph"><img class="ph" src="midia/icd-novo-1.jpg" alt="A equipe que continuou o Intervalo com Deus" loading="lazy" style="object-position: 50% 50%;"></div><figcaption class="card-cap"><span class="card-n tab">legado</span><span class="card-t">[LEGENDA DE UMA LINHA: Tiago]</span></figcaption></figure>
+          <figure class="card"><div class="card-ph"><img class="ph" src="midia/icd-novo-2.jpg" alt="A equipe que continuou o Intervalo com Deus" loading="lazy" style="object-position: 50% 50%;"></div><figcaption class="card-cap"><span class="card-n tab">legado</span><span class="card-t">[LEGENDA DE UMA LINHA: Tiago]</span></figcaption></figure>
+          <figure class="card"><div class="card-ph"><img class="ph" src="midia/icd-novo-4.jpg" alt="A equipe que continuou o Intervalo com Deus" loading="lazy" style="object-position: 50% 50%;"></div><figcaption class="card-cap"><span class="card-n tab">legado</span><span class="card-t">[LEGENDA DE UMA LINHA: Tiago]</span></figcaption></figure>
         </div>
-        <div class="dots"><div class="dots-list"><sc-for list="{{ gI.dots }}" as="d" hint-placeholder-count="12"><button type="button" class="{{ d.cls }}" aria-label="{{ d.label }}" onClick="{{ d.go }}"></button></sc-for></div><span class="gcount tab">{{ gI.count }}</span></div>
+        <div class="dots"><div class="dots-list"><sc-for list="{{ gI.dots }}" as="d" hint-placeholder-count="18"><button type="button" class="{{ d.cls }}" aria-label="{{ d.label }}" onClick="{{ d.go }}"></button></sc-for></div><span class="gcount tab">{{ gI.count }}</span></div>
         
       </div>
 
@@ -1372,8 +1402,8 @@
   </div>
 </div>
         <div class="gal" data-gallery="gB" onScroll="{{ gB.onScroll }}" aria-label="Visita ao orfanato com a Legião de Honra">
-  <figure class="card"><div class="card-ph"><img class="ph" src="2022-orfanato-legiao-de-honra-1.jpg" alt="Tiago com um aluno em evento, 2022" style="object-position: 50% 50%;"></div><figcaption class="card-cap"><span class="card-n tab">2022</span><span class="card-t">[FOTO 1 - LEGENDA DE UMA LINHA: Tiago]</span></figcaption></figure>
-  <figure class="card"><div class="card-ph"><img class="ph" src="2022-orfanato-legiao-de-honra-2.jpg" alt="Tiago com um aluno em evento, 2022" style="object-position: 50% 50%;"></div><figcaption class="card-cap"><span class="card-n tab">2022</span><span class="card-t">[FOTO 2 - LEGENDA DE UMA LINHA: Tiago]</span></figcaption></figure>
+  <figure class="card"><div class="card-ph"><img class="ph" src="fotos/2022-orfanato-legiao-de-honra-1.jpg" alt="Tiago com um aluno em evento, 2022" style="object-position: 50% 50%;"></div><figcaption class="card-cap"><span class="card-n tab">2022</span><span class="card-t">[FOTO 1 - LEGENDA DE UMA LINHA: Tiago]</span></figcaption></figure>
+  <figure class="card"><div class="card-ph"><img class="ph" src="fotos/2022-orfanato-legiao-de-honra-2.jpg" alt="Tiago com um aluno em evento, 2022" style="object-position: 50% 50%;"></div><figcaption class="card-cap"><span class="card-n tab">2022</span><span class="card-t">[FOTO 2 - LEGENDA DE UMA LINHA: Tiago]</span></figcaption></figure>
 </div>
 <div class="dots"><div class="dots-list"><sc-for list="{{ gB.dots }}" as="d" hint-placeholder-count="2"><button type="button" class="{{ d.cls }}" aria-label="{{ d.label }}" onClick="{{ d.go }}"></button></sc-for></div><span class="gcount tab">{{ gB.count }}</span></div>
       </div>
@@ -1470,7 +1500,7 @@
       <p class="label mk"><span>Capítulo 03 · o sonho do vestibular</span><span class="seta" aria-hidden="true"><i></i></span></p>
       <h2 class="h2 d">Meu sonho era o IME.</h2>
       <figure class="fig">
-        <img class="ph" src="palacio-da-alvorada-equipe-do-ime.jpg" alt="Tiago com colegas no Palácio da Alvorada com a equipe de robótica do IME" style="object-position: 50% 50%;">
+        <img class="ph" src="fotos/palacio-da-alvorada-equipe-do-ime.jpg" alt="Tiago com colegas no Palácio da Alvorada com a equipe de robótica do IME" style="object-position: 50% 50%;">
         <figcaption class="figcap" style="text-align: center">Na foto, Palácio da Alvorada, e nossa equipe campeã de robótica com a equipe de Robótica do IME, em passeio&nbsp; por Brasília</figcaption>
       </figure>
       <p class="txt" style="margin-top: 28px;">Após uma competição de robótica que ficamos em primeiro lugar em Brasília, os alunos do IME nos disseram que tínhamos um currículo forte o suficiente para pedir uma bolsa no melhor curso preparatório do Brasil, que fica em Fortaleza...</p>
@@ -1482,7 +1512,7 @@
         <svg class="path" viewBox="0 0 320 96" style="overflow: visible;"><path id="voo-rota" d="M16 80 C 110 -10, 210 120, 304 22" style="fill: none; stroke: rgba(184,255,56,.45); stroke-width: 2.5; stroke-dasharray: 3 9;"></path><path d="M300 14h8v8h-8z" style="fill: #b8ff38;"></path><path d="M12 76h8v8h-8z" style="fill: #2b3154;"></path><g id="voo-aviao" transform="translate(16 80)"><path transform="translate(-15 -15) scale(1.25)" d="M21 15.5v-2l-7.5-4.7V3.6a1.5 1.5 0 0 0-3 0v5.2L3 13.5v2l7.5-2.3v4.9l-2 1.5V21l3.5-1 3.5 1v-1.4l-2-1.5v-4.9z" style="fill: #b8ff38;"></path></g></svg>
       </div>
       <figure class="fig">
-        <img class="ph" src="cursinho-farias-brito-ime-ita.jpg" alt="Aula no preparatório para IME e ITA em Fortaleza" style="object-position: 50% 50%;">
+        <img class="ph" src="fotos/cursinho-farias-brito-ime-ita.jpg" alt="Aula no preparatório para IME e ITA em Fortaleza" style="object-position: 50% 50%;">
         <span class="year over">Tempo de preparação</span>
       </figure>
       <p class="note" style="margin-top: 20px; text-align: center; width: 330px; height: 65px">Eu, e meu amigo da equipe de robótica sentado logo na minha frente, no cursinho em Fortaleza</p>
@@ -1526,10 +1556,10 @@
         <div class="ficha"><b class="tab">5x2</b><span>escala</span></div>
       </div>
       <div class="bento" aria-label="Fotos e vídeo da residência em Sistemas Embarcados no IFCE">
-        <figure class="b-wide b-cap"><img class="ph" src="residencia-ifce-1.svg" alt="Residência no laboratório de Sistemas Embarcados do IFCE" style="object-position: 50% 50%;"><figcaption class="card-cap"><span class="card-t">Residência no laboratório de Sistemas Embarcados do IFCE</span></figcaption></figure>
-        <div class="b-tall"><div class="slot"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4l13 8-13 8z"></path></svg><span>[VÍDEO] residencia ifce video 1</span></div></div>
-        <div class="b-sq"><img class="ph" src="residencia-ifce-2.svg" alt="Residência no IFCE, projeto" style="object-position: 50% 50%;"></div>
-        <div class="b-sq"><img class="ph" src="residencia-ifce-3.svg" alt="Residência no IFCE, equipe" style="object-position: 50% 50%;"></div>
+        <figure class="b-wide b-cap"><img class="ph" src="midia/ifce-residencia.jpg" alt="Residência no laboratório de Sistemas Embarcados do IFCE" style="object-position: 50% 50%;"><figcaption class="card-cap"><span class="card-t">Residência no laboratório de Sistemas Embarcados do IFCE</span></figcaption></figure>
+        <div class="b-tall"><video class="ph vid" src="midia/ifce-video.mp4" poster="midia/ifce-video-capa.jpg" controls playsinline preload="none"></video></div>
+        <div class="b-sq"><img class="ph" src="midia/ifce-laboratorio.jpg" alt="Residência no IFCE, mão na massa na bancada" style="object-position: 50% 50%;"></div>
+        <div class="b-sq"><img class="ph" src="midia/ifce-porta-laboratorio.jpg" alt="A porta do laboratório no IFCE" style="object-position: 50% 50%;"></div>
       </div>
     </section>
 
@@ -1566,8 +1596,8 @@
 
       <div class="licao"><p>O principal aprendizado é: você encontra seu caminho <b>servindo pessoas com as habilidades que tem! E até quando acha que não têm</b>, existe algo em suas mãos para dispor a servir, mesmo que sejam 5 pães e 2 peixinhos(quem leu, entenda). E se não tiver nada em mãos... Tem pelo menos a mão pra pegar uma enxada? kkkkk</p></div><p class="txt">Dava aula e estudava. Ensinar enquanto estou aprendendo... te lembra algum instagram por aí 👀?</p>
       <div class="videos" aria-label="Vídeos das aulas">
-        <div class="slot"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4l13 8-13 8z"></path></svg><span>[VÍDEO] video 1 aula codigokid</span></div>
-        <div class="slot"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4l13 8-13 8z"></path></svg><span>[VÍDEO] video 2 aula codigokid</span></div>
+        <video class="ph vid" src="midia/aula-codigokid-1.mp4" poster="midia/aula-codigokid-1-capa.jpg" controls playsinline preload="none" aria-label="Aula na CódigoKid, vídeo 1"></video>
+        <video class="ph vid" src="midia/aula-codigokid-2.mp4" poster="midia/aula-codigokid-2-capa.jpg" controls playsinline preload="none" aria-label="Aula na CódigoKid, vídeo 2"></video>
       </div>
     </section>
 
@@ -1575,6 +1605,7 @@
     <section id="programacao" class="sec p-tec">
       <p class="label mk"><span>Capítulo 06 · faculdade</span><span class="seta" aria-hidden="true"><i></i></span></p>
       <h2 class="h2 l d">Ao mesmo tempo, fazia faculdade de Análise e Desenvolvimento de Sistemas.</h2>
+      <div class="photos2"><img class="ph" src="midia/faculdade-ads-1.jpg" alt="Programando na faculdade de Análise e Desenvolvimento de Sistemas" loading="lazy"><img class="ph" src="midia/faculdade-ads-2.jpg" alt="Código na tela, faculdade de ADS" loading="lazy"></div>
       <p class="txt">Eu gostava de programação. Sempre fui o programador das minhas equipes de robótica.</p>
       <p class="txt">Mas com o tempo descobri que essa faculdade focava apenas em sites e aplicativos. Só que o que eu gosto de programar tem corpo:</p>
       <p class="estalo e">eu gosto de programar robôs.</p>
@@ -1583,7 +1614,7 @@
         <button type="button" class="tile" onClick="{{ tk.t1 }}" aria-pressed="{{ tk.p1 }}" style="background: {{ tk.b1 }}; color: {{ tk.f1 }}; border-color: {{ tk.d1 }};"><svg class="ic" viewBox="0 0 24 24"><path d="M4 12h4l2-5 4 10 2-5h4"></path></svg><span>Eletrônica</span></button>
         <button type="button" class="tile" onClick="{{ tk.t2 }}" aria-pressed="{{ tk.p2 }}" style="background: {{ tk.b2 }}; color: {{ tk.f2 }}; border-color: {{ tk.d2 }};"><svg class="ic" viewBox="0 0 24 24"><path d="M12 8a4 4 0 1 0 0 8a4 4 0 0 0 0-8z"></path><path d="M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M19 5l-2 2M7 17l-2 2"></path></svg><span>Máquinas</span></button>
       </div>
-      <figure class="fig"><img class="ph" src="2019-tela-programacao-do-robo.jpg" alt="Tela de programação de robô, 2019" style="object-position: 50% 50%;"><figcaption class="figcap">[FOTO - LEGENDA DE UMA LINHA: Tiago]</figcaption></figure>
+      <figure class="fig"><img class="ph" src="fotos/2019-tela-programacao-do-robo.jpg" alt="Tela de programação de robô, 2019" style="object-position: 50% 50%;"><figcaption class="figcap">[FOTO - LEGENDA DE UMA LINHA: Tiago]</figcaption></figure>
     </section>
 <!-- EDUCAÇÃO · ENSINO EM MOVIMENTO -->
     <section id="denovo" class="sec p-emp">
@@ -1653,7 +1684,7 @@
       <p class="lead" style="margin-top: 28px;">No dia 6 de janeiro (meu aniversário inclusive), foi meu último dia, algo simbólico pra mim. Decidi: a partir de hoje iria trabalhar pra mim, assumiria as rédeas da minha vida.</p>
 
       <figure class="fig">
-        <img class="ph" src="despedida-do-laboratorio.jpg" alt="Despedida do laboratório, com bolo de aniversário" style="object-position: 50% 50%;">
+        <img class="ph" src="fotos/despedida-do-laboratorio.jpg" alt="Despedida do laboratório, com bolo de aniversário" style="object-position: 50% 50%;">
         <figcaption class="figcap">Despedida do laboratório e comemoração do aniversário&nbsp;</figcaption>
       </figure>
       <p class="caixa">Era um laboratório secreto, assinei um termo de confidencialidade por 2 anos, então não posso falar muitas coisas.</p>
@@ -1676,10 +1707,26 @@
       <p class="estalo e">Ganhei tempo, dinheiro, tudo que eu precisava.</p>
 
       <figure class="fig">
-        <img class="ph tall" src="primeira-vez-vendendo-na-praia.jpg" alt="Primeira vez vendendo na praia" style="object-position: 50% 50%;">
+        <img class="ph tall" src="fotos/primeira-vez-vendendo-na-praia.jpg" alt="Primeira vez vendendo na praia" style="object-position: 50% 50%;">
         <figcaption class="figcap">Primeira vez vendendo na praia os meus próprios produtos.</figcaption>
       </figure>
       <p class="obs"><b>Observação:</b> Eu não comecei vendendo na praia, e não vendia meus próprios produtos. Mas a história de como comecei fica para outra hora... Ela é muito engraçada! E foi aí que vi que dava mais certo vender qualquer produto do que vender minha hora.</p>
+      <div class="cena" id="a-mae">
+        <p class="cena-l">Um dia, numa praça de alimentação em Fortaleza</p>
+        <p class="txt">Estava vendendo doces. Meus pais não apoiavam. Achavam perigoso. Já tinham me ligado pra falar disso.</p>
+        <p class="txt">Nesse dia vendi para uma mãe que, me parou, perguntou quantos anos eu tinha, olhou nos meus olhos e disse:</p>
+        <blockquote class="dito grande"><p class="e">Olha, eu tenho um filho de um ano. Se o meu filho tiver a sua idade fazendo exatamente o que você está fazendo, eu vou ser a mãe mais orgulhosa do mundo.</p></blockquote>
+        <p class="txt">Era um casal fitness. Compraram de mim só porque gostaram de mim e da minha abordagem e do meu propósito, o produto em si nem fazia tanto sentido pra eles.</p>
+        <p class="txt">Quando um mendigo chegou pedindo o resto do que tinha sobrado na mesa, eles deram o doce. Deram tudo.</p>
+        <p class="txt">Eu segurei enquanto ela estava ali.</p>
+        <p class="say w e s">Na hora que ela foi embora, eu tive que sair.</p>
+        <p class="txt">Naquele dia, quando cheguei em casa, eu chorei muito. Em casa não, lembro que foi na lavanderia(vida de solteiro ne). Não sei se chorei de tristeza ou de alegria.</p>
+        <p class="txt">Na verdade... eu sabia, era porque outras pessoas entendiam o que eu estava fazendo. E, mais do que isso, admiravam. Eu já tinha recebido vários elogios e palavras de incentivo, mas dessa vez bateu diferente, porque...</p>
+        <p class="lead">Eu queria que os meus pais vissem dessa forma.</p>
+        <p class="txt">Mas... mesmo que eles não vissem. Mesmo que eles não entendessem.</p>
+        <p class="estalo e">Aquilo me trouxe muito mais convicção do que eu tô fazendo, do porquê eu tô fazendo, e deu ânimo pra continuar.</p>
+      </div>
+
       <p class="say e s">Em fevereiro, tranquei a faculdade.</p>
       <p class="txt" style="margin-top: 26px;">Ela também me sugava tempo e energia, e não estava me dando o <b>ROI</b> necessário: o retorno sobre o investimento. Eu gastava energia e tempo ali sem ver que aquilo iria, de fato, me ajudar a concretizar o meu sonho.</p>
       <p class="txt">Além do que já falei, que esse curso ensinava mais sobre programar sites e aplicativos. E eu já sabia o que queria: construir máquinas.</p>
@@ -1712,25 +1759,15 @@
         </div>
       </div>
       <figure class="fig" style="margin-top: 26px;">
-        <div class="slot slot-alto"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 8h10a2 2 0 0 1 2 2v6a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-6a2 2 0 0 1 2-2z"></path><path d="M12 4v4"></path><path d="M9 13h.01M15 13h.01"></path><path d="M3 12H1M23 12h-2"></path></svg><span>[FOTO OU RENDER: o robô que vende comigo]</span></div>
+        <img class="ph tall" src="midia/sebrae-modelagem-3d.jpg" alt="No Sebrae, modelando o robô em 3D" loading="lazy" style="object-position: 50% 50%;">
+        <figcaption class="figcap">No Sebrae, modelando o robô em 3D</figcaption>
+      </figure>
+      <figure class="fig">
+        <img class="ph" src="midia/robo-que-vende-comigo.jpg" alt="Construindo o robô que vende comigo" loading="lazy" style="object-position: 50% 50%;">
+        <figcaption class="figcap">Construindo o robô que vende comigo</figcaption>
       </figure>
       <p class="estalo e">Um robô vendendo comigo, pra pagar a escola que eu quero construir.</p>
 
-      <div class="cena" id="a-mae">
-        <p class="cena-l">Um dia, numa praça de alimentação em Fortaleza</p>
-        <p class="txt">Estava vendendo doces. Meus pais não apoiavam. Achavam perigoso. Já tinham me ligado pra falar disso.</p>
-        <p class="txt">Nesse dia vendi para uma mãe que, me parou, perguntou quantos anos eu tinha, olhou nos meus olhos e disse:</p>
-        <blockquote class="dito grande"><p class="e">Olha, eu tenho um filho de um ano. Se o meu filho tiver a sua idade fazendo exatamente o que você está fazendo, eu vou ser a mãe mais orgulhosa do mundo.</p></blockquote>
-        <p class="txt">Era um casal fitness. Compraram de mim só porque gostaram de mim e da minha abordagem e do meu propósito, o produto em si nem fazia tanto sentido pra eles.</p>
-        <p class="txt">Quando um mendigo chegou pedindo o resto do que tinha sobrado na mesa, eles deram o doce. Deram tudo.</p>
-        <p class="txt">Eu segurei enquanto ela estava ali.</p>
-        <p class="say w e s">Na hora que ela foi embora, eu tive que sair.</p>
-        <p class="txt">Naquele dia, quando cheguei em casa, eu chorei muito. Em casa não, lembro que foi na lavanderia(vida de solteiro ne). Não sei se chorei de tristeza ou de alegria.</p>
-        <p class="txt">Na verdade... eu sabia, era porque outras pessoas entendiam o que eu estava fazendo. E, mais do que isso, admiravam. Eu já tinha recebido vários elogios e palavras de incentivo, mas dessa vez bateu diferente, porque...</p>
-        <p class="lead">Eu queria que os meus pais vissem dessa forma.</p>
-        <p class="txt">Mas... mesmo que eles não vissem. Mesmo que eles não entendessem.</p>
-        <p class="estalo e">Aquilo me trouxe muito mais convicção do que eu tô fazendo, do porquê eu tô fazendo, e deu ânimo pra continuar.</p>
-      </div>
     
 
     </section>
@@ -1884,19 +1921,19 @@
       <div class="treinos">
         <div class="treino">
           <p class="treino-k">Intensidade</p>
-          <img class="ph" src="corrida-orientacao.jpg" alt="Tiago numa prova de corrida de orientação" style="object-position: 50% 40%;">
+          <img class="ph" src="fotos/corrida-orientacao.jpg" alt="Tiago numa prova de corrida de orientação" style="object-position: 50% 40%;">
         </div>
         <div class="treino">
           <p class="treino-k">Resistência</p>
-          <img class="ph" src="kung-fu-1.jpg" alt="Treino de kung fu" style="object-position: 50% 50%;">
+          <div class="troca-fotos"><img class="ph" src="fotos/kung-fu-1.jpg" alt="Treino de kung fu" style="object-position: 50% 50%;"><img class="ph" src="midia/kung-fu-2.jpg" alt="" aria-hidden="true" loading="lazy"><img class="ph" src="midia/kung-fu-3.jpg" alt="" aria-hidden="true" loading="lazy"></div>
         </div>
         <div class="treino">
           <p class="treino-k">Constância</p>
-          <img class="ph" src="supino.jpg" alt="Tiago no supino" style="object-position: 90% 50%; object-fit: cover">
+          <img class="ph" src="fotos/supino.jpg" alt="Tiago no supino" style="object-position: 90% 50%; object-fit: cover">
         </div>
         <div class="treino">
           <p class="treino-k">RESULTADOS</p>
-          <img class="ph" src="medalhas-esporte.jpg" alt="Medalhas de esporte" style="object-position: 50% 50%;">
+          <img class="ph" src="fotos/medalhas-esporte.jpg" alt="Medalhas de esporte" style="object-position: 50% 50%;">
         </div>
       </div>
       <p class="say w e s">Aqui não tem de robótica, nem matemática, só esporte</p>
@@ -2013,7 +2050,7 @@ class Component extends DCLogic {
       tech: [false, false, false],
       disc: [false, false, false, false],
       trail: [false, false, false, false, false, false, false, false],
-      pilar: -1, mapaFim: false, roloVolta: 0, gav: [true, false, false], mostrar: { reuni: false, motivos: false }, mode: 'aula', glitch: 'g0', counts: {}, active: {}
+      pilar: -1, somOn: false, somZ: -1, somMudos: {}, somRev: 0, mapaFim: false, roloVolta: 0, gav: [true, false, false], mostrar: { reuni: false, motivos: false }, mode: 'aula', glitch: 'g0', counts: {}, active: {}
     };
   }
 
@@ -2055,6 +2092,109 @@ class Component extends DCLogic {
     ];
   }
 
+  // trilha sonora: cada música começa quando o capítulo chega no meio da tela,
+  // começa em 50% e desce até 15% no fim do capítulo; se acabar antes, fica em silêncio
+  trilhas() {
+    return [
+      { de: 'fe', ate: 'intervalo', f: 'fe' },
+      { de: 'intervalo', ate: 'legiao', f: 'intervalo' },
+      { de: 'legiao', ate: 'altas', f: 'legiao' },
+      { de: 'altas', ate: 'sonho', f: 'diferente' },
+      { de: 'sonho', ate: 'ensino', f: 'rainbows' },
+      { de: 'ensino', ate: 'programacao', f: 'professor' },
+      { de: 'denovo', ate: 'floripa', f: 'vendas' },
+      { de: 'floripa', ate: 'ensinar', f: 'mudanca' },
+      { de: 'empreender', ate: 'disciplina', f: 'empreender' },
+      { de: 'disciplina', ate: null, f: 'disciplina' }
+    ];
+  }
+
+  somZona() {
+    const meio = window.innerHeight * 0.5;
+    const fim = document.documentElement.scrollHeight - window.scrollY;
+    let z = -1, prog = 0;
+    this.trilhas().forEach((t, i) => {
+      const a = document.getElementById(t.de);
+      if (!a) return;
+      const top = a.getBoundingClientRect().top;
+      const b = t.ate ? document.getElementById(t.ate) : null;
+      const bot = b ? b.getBoundingClientRect().top : fim;
+      if (top <= meio && bot > meio) { z = i; prog = Math.min(1, Math.max(0, (meio - top) / Math.max(1, bot - top))); }
+    });
+    return { z: z, prog: prog };
+  }
+
+  faixa(i) {
+    this._faixas = this._faixas || {};
+    if (this._faixas[i]) return this._faixas[i];
+    const a = new Audio('midia/musica/' + this.trilhas()[i].f + '.mp3');
+    a.preload = 'auto';
+    const src = this._ctx.createMediaElementSource(a);
+    const g = this._ctx.createGain();
+    g.gain.value = 0;
+    src.connect(g); g.connect(this._ctx.destination);
+    const fx = { a: a, g: g, acabou: false };
+    a.addEventListener('ended', () => { fx.acabou = true; this.somUi(); });
+    a.addEventListener('error', () => { fx.acabou = true; fx.erro = true; this.somUi(); });
+    this._faixas[i] = fx;
+    return fx;
+  }
+
+  somTick() {
+    if (!this._ctx) { const zz = this.somZona().z; if (zz !== this.state.somZ) this.setState({ somZ: zz }); return; }
+    const { z, prog } = this.somZona();
+    const agora = this._ctx.currentTime;
+    if (z !== this._zAtual) {
+      const velha = this._faixas && this._faixas[this._zAtual];
+      if (velha) {
+        velha.g.gain.cancelScheduledValues(agora);
+        velha.g.gain.setTargetAtTime(0, agora, 0.25);
+        const va = velha.a;
+        setTimeout(() => { if (this._zAtual !== this._zDe(va)) va.pause(); }, 1400);
+      }
+      this._zAtual = z;
+      if (z >= 0) {
+        const fx = this.faixa(z);
+        if (!fx.acabou && fx.a.paused) { const pr = fx.a.play(); if (pr && pr.catch) pr.catch(() => {}); }
+      }
+      this.setState({ somZ: z });
+    }
+    if (z >= 0) {
+      const fx = this.faixa(z);
+      const alvo = this.state.somMudos[z] ? 0 : (0.5 - 0.35 * prog);
+      fx.g.gain.setTargetAtTime(alvo, agora, 0.35);
+    }
+  }
+
+  _zDe(audio) {
+    const f = this._faixas || {};
+    for (const k in f) if (f[k].a === audio) return Number(k);
+    return -2;
+  }
+
+  somUi() { this.setState({ somRev: (this.state.somRev || 0) + 1 }); }
+
+  somTap() {
+    if (!this._ctx) {
+      const AC = window.AudioContext || window.webkitAudioContext;
+      if (!AC) return;
+      this._ctx = new AC();
+      this._zAtual = -1;
+      document.addEventListener('visibilitychange', () => {
+        if (!this._ctx) return;
+        if (document.hidden) this._ctx.suspend(); else this._ctx.resume();
+      });
+      this.setState({ somOn: true }, () => this.somTick());
+      return;
+    }
+    if (this._ctx.state === 'suspended') this._ctx.resume();
+    const z = this._zAtual;
+    if (z < 0) return;
+    const m = Object.assign({}, this.state.somMudos);
+    m[z] = !m[z];
+    this.setState({ somMudos: m }, () => this.somTick());
+  }
+
   componentDidMount() {
     this.reduce = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
     this._onScroll = () => {
@@ -2075,6 +2215,8 @@ class Component extends DCLogic {
     if (this._raf) cancelAnimationFrame(this._raf);
     clearTimeout(this._st);
     clearInterval(this._rp);
+    if (this._faixas) Object.values(this._faixas).forEach((f) => f.a.pause());
+    if (this._ctx) this._ctx.close();
   }
 
   respira(on) {
@@ -2110,6 +2252,7 @@ class Component extends DCLogic {
     }
     this.mapaDesliza();
     this.voa();
+    this.somTick();
     const le = document.querySelector('.lente');
     if (le && !this.state.lenteOk && le.getBoundingClientRect().top < window.innerHeight * 0.62) this.setState({ lenteOk: true });
     const s = this.state;
@@ -2280,7 +2423,27 @@ class Component extends DCLogic {
     vals.sv = story('vivo', 14);
     vals.sl = story('legiao', 7);
     vals.sg = story('viagem', 6);
-    vals.si = story('intervalo', 4);
+
+    {
+      const z = s.somZ;
+      const fx = (z >= 0 && this._faixas) ? this._faixas[z] : null;
+      const acabou = !!(fx && fx.acabou);
+      const mudo = z >= 0 && !!s.somMudos[z];
+      const tocando = s.somOn && z >= 0 && !acabou && !mudo;
+      let txt = 'ligar música';
+      if (s.somOn) txt = mudo ? 'ligar som neste capítulo' : 'silenciar este capítulo';
+      vals.som = {
+        cls: (z < 0 || (s.somOn && acabou)) ? 'escondido' : (tocando ? 'on' : 'off'),
+        tap: () => this.somTap(),
+        txt: txt,
+        aria: txt,
+        pressed: String(tocando),
+        ligado: tocando,
+        mudo: !tocando,
+        onda: tocando
+      };
+    }
+    vals.si = story('intervalo', 3);
     vals.sa = story('aulas', 4);
     vals.sb = story('base', 8);
 
