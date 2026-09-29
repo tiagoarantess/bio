@@ -1115,7 +1115,7 @@
     </div>
 
     <div>
-      <button type="button" class="btn-go" onClick="{{ to.robotica }}">
+      <button type="button" class="btn-go" onClick="{{ to.trajetoria }}">
         <span>Conheça minha trajetória</span>
         <svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v15"></path><path d="M5 12l7 7 7-7"></path></svg>
       </button>
@@ -1155,9 +1155,8 @@
         <div class="gal" data-gallery="gF" onScroll="{{ gF.onScroll }}" aria-label="Feiras de ciências">
   <figure class="card"><div class="card-ph"><img class="ph" src="midia/feira-premio-colegio-militar.jpg" alt="Equipe no Colégio Militar de Campo Grande, 2022" style="object-position: 50% 50%;"></div><figcaption class="card-cap"><span class="card-n tab">2022</span><span class="card-t">[FOTO 1 - LEGENDA DE UMA LINHA: Tiago]</span></figcaption></figure>
   <figure class="card"><div class="card-ph"><img class="ph" src="midia/feira-cerimonia-premiacao.jpg" alt="Cerimônia de premiação, 2022" style="object-position: 50% 50%;"></div><figcaption class="card-cap"><span class="card-n tab">2022</span><span class="card-t">[FOTO 2 - LEGENDA DE UMA LINHA: Tiago]</span></figcaption></figure>
-  <figure class="card"><div class="card-ph"><video class="ph" src="midia/feira-projeto-ciencias.mp4" poster="midia/feira-projeto-ciencias-capa.jpg" controls playsinline preload="none"></video></div><figcaption class="card-cap card-cap-v"><span class="card-n tab">vídeo</span><span class="card-t">Apresentando o projeto de ciências</span></figcaption></figure>
 </div>
-<div class="dots"><div class="dots-list"><sc-for list="{{ gF.dots }}" as="d" hint-placeholder-count="3"><button type="button" class="{{ d.cls }}" aria-label="{{ d.label }}" onClick="{{ d.go }}"></button></sc-for></div><span class="gcount tab">{{ gF.count }}</span></div>
+<div class="dots"><div class="dots-list"><sc-for list="{{ gF.dots }}" as="d" hint-placeholder-count="2"><button type="button" class="{{ d.cls }}" aria-label="{{ d.label }}" onClick="{{ d.go }}"></button></sc-for></div><span class="gcount tab">{{ gF.count }}</span></div>
       </div>
 
 
@@ -1561,7 +1560,7 @@
       </div>
       <div class="bento" aria-label="Fotos e vídeo da residência em Sistemas Embarcados no IFCE">
         <figure class="b-wide b-cap"><img class="ph" src="midia/ifce-residencia.jpg" alt="Residência no laboratório de Sistemas Embarcados do IFCE" style="object-position: 50% 50%;"><figcaption class="figcap">Residência no laboratório de Sistemas Embarcados do IFCE</figcaption></figure>
-        <div class="b-tall"><video class="ph vid" src="midia/ifce-video.mp4" poster="midia/ifce-video-capa.jpg" controls playsinline preload="none"></video></div>
+        <div class="b-tall"><img class="ph vid" src="midia/ifce-video-capa.jpg" alt="Residência no IFCE" loading="lazy"></div>
         <div class="b-sq"><img class="ph" src="midia/ifce-laboratorio.jpg" alt="Residência no IFCE, mão na massa na bancada" style="object-position: 50% 50%;"></div>
         <div class="b-sq"><img class="ph" src="midia/ifce-porta-laboratorio.jpg" alt="A porta do laboratório no IFCE" style="object-position: 50% 50%;"></div>
       </div>
@@ -1601,8 +1600,8 @@
 
       <div class="licao"><p>O principal aprendizado é: você encontra seu caminho <b>servindo pessoas com as habilidades que tem! E até quando acha que não têm</b>, existe algo em suas mãos para dispor a servir, mesmo que sejam 5 pães e 2 peixinhos(quem leu, entenda). E se não tiver nada em mãos... Tem pelo menos a mão pra pegar uma enxada? kkkkk</p></div><p class="txt">Dava aula e estudava. Ensinar enquanto estou aprendendo... te lembra algum instagram por aí 👀?</p>
       <div class="videos" aria-label="Vídeos das aulas">
-        <video class="ph vid" src="midia/aula-codigokid-1.mp4" poster="midia/aula-codigokid-1-capa.jpg" controls playsinline preload="none" aria-label="Aula na CódigoKid, vídeo 1"></video>
-        <video class="ph vid" src="midia/aula-codigokid-2.mp4" poster="midia/aula-codigokid-2-capa.jpg" controls playsinline preload="none" aria-label="Aula na CódigoKid, vídeo 2"></video>
+        <img class="ph vid" src="midia/aula-codigokid-1-capa.jpg" alt="Aula na CódigoKid" loading="lazy">
+        <img class="ph vid" src="midia/aula-codigokid-2-capa.jpg" alt="Aula na CódigoKid" loading="lazy">
       </div>
     </section>
 
@@ -2042,6 +2041,8 @@
 
 </x-dc>
 <script data-dc-script>
+const TRECHOS = {"partes": [{"f": "trilha-1.mp3", "sil": [844.61, 873.11]}, {"f": "trilha-2.mp3", "sil": [812.11, 840.61]}, {"f": "trilha-3.mp3", "sil": [735.98, 764.48]}], "seg": {"origem": [0, 0.0, 170.5], "fe": [0, 172.5, 352.1], "intervalo": [0, 354.1, 600.11], "legiao": [0, 602.11, 842.11], "diferente": [1, 0.0, 169.74], "rainbows": [1, 171.74, 365.56], "professor": [1, 367.56, 524.21], "vendas": [1, 526.21, 809.61], "mudanca": [2, 0.0, 185.9], "empreender": [2, 187.9, 443.48], "disciplina": [2, 445.48, 733.48]}};
+
 class Component extends DCLogic {
   constructor(...args) {
     super(...args);
@@ -2099,18 +2100,22 @@ class Component extends DCLogic {
   // começa em 50% e desce até 15% no fim do capítulo; se acabar antes, fica em silêncio
   trilhas() {
     return [
+      { de: 'topo', ate: 'fe', f: 'origem' },
       { de: 'fe', ate: 'intervalo', f: 'fe' },
       { de: 'intervalo', ate: 'legiao', f: 'intervalo' },
       { de: 'legiao', ate: 'altas', f: 'legiao' },
       { de: 'altas', ate: 'sonho', f: 'diferente' },
       { de: 'sonho', ate: 'ensino', f: 'rainbows' },
       { de: 'ensino', ate: 'programacao', f: 'professor' },
-      { de: 'denovo', ate: 'floripa', f: 'vendas' },
-      { de: 'floripa', ate: 'ensinar', f: 'mudanca' },
+      { de: 'programacao', ate: 'floripa', f: 'vendas' },
+      { de: 'floripa', ate: 'empreender', f: 'mudanca' },
       { de: 'empreender', ate: 'disciplina', f: 'empreender' },
       { de: 'disciplina', ate: null, f: 'disciplina' }
     ];
   }
+
+  // cada música: [arquivo, início, fim] dentro de midia/musica/trilha-N.mp3 (em segundos)
+  _trecho(z) { return z >= 0 ? TRECHOS.seg[this.trilhas()[z].f] : null; }
 
   somZona() {
     const meio = window.innerHeight * 0.5;
@@ -2119,113 +2124,113 @@ class Component extends DCLogic {
     this.trilhas().forEach((t, i) => {
       const a = document.getElementById(t.de);
       if (!a) return;
-      const top = a.getBoundingClientRect().top;
+      const topReal = a.getBoundingClientRect().top;
+      const top = t.de === 'topo' ? -1 : topReal;
       const b = t.ate ? document.getElementById(t.ate) : null;
       const bot = b ? b.getBoundingClientRect().top : fim;
-      if (top <= meio && bot > meio) { z = i; prog = Math.min(1, Math.max(0, (meio - top) / Math.max(1, bot - top))); }
+      if (top <= meio && bot > meio) { z = i; prog = Math.min(1, Math.max(0, (meio - topReal) / Math.max(1, bot - topReal))); }
     });
     return { z: z, prog: prog };
   }
 
-  // dois tocadores que se revezam (o iPhone só deixa tocar áudio que foi "destravado" no toque do botão)
-  _tocadores() {
-    if (this._toc) return this._toc;
-    this._toc = [0, 1].map(() => {
-      const a = new Audio();
-      a.preload = 'auto';
-      a.setAttribute('playsinline', '');
-      const g = this._ctx.createGain();
-      g.gain.value = 0;
-      this._ctx.createMediaElementSource(a).connect(g);
-      g.connect(this._ctx.destination);
-      const t = { a: a, g: g, z: -1 };
-      a.addEventListener('ended', () => { if (t.z >= 0) { this._est(t.z).acabou = true; this.somUi(); } });
-      a.addEventListener('error', () => { if (t.z >= 0 && a.getAttribute('src')) { this._est(t.z).acabou = true; this.somUi(); } });
-      return t;
-    });
-    return this._toc;
-  }
-
   _est(z) { this._estado = this._estado || {}; return this._estado[z] || (this._estado[z] = { pos: 0, acabou: false }); }
 
-  // um pedacinho de silêncio pra destravar os dois tocadores no mesmo toque
-  _silencio() {
-    if (this._sil) return this._sil;
-    const n = 4410, buf = new ArrayBuffer(44 + n * 2), v = new DataView(buf);
-    const w = (o, t) => { for (let k = 0; k < t.length; k++) v.setUint8(o + k, t.charCodeAt(k)); };
-    w(0, 'RIFF'); v.setUint32(4, 36 + n * 2, true); w(8, 'WAVE'); w(12, 'fmt ');
-    v.setUint32(16, 16, true); v.setUint16(20, 1, true); v.setUint16(22, 1, true);
-    v.setUint32(24, 44100, true); v.setUint32(28, 88200, true); v.setUint16(32, 2, true); v.setUint16(34, 16, true);
-    w(36, 'data'); v.setUint32(40, n * 2, true);
-    this._sil = URL.createObjectURL(new Blob([buf], { type: 'audio/wav' }));
-    return this._sil;
+  // os tocadores nunca param (ficam num trecho de silêncio no fim de cada arquivo):
+  // o iPhone não deixa começar som sem toque, mas deixa pular dentro do que já está tocando
+  _estacionar(k) {
+    const t = this._toc[k];
+    try { t.a.currentTime = TRECHOS.partes[k].sil[0]; } catch (e) {}
   }
 
-  _tocar(t, z) {
-    const e = this._est(z);
-    t.z = z;
-    t.a.src = 'midia/musica/' + this.trilhas()[z].f + '.mp3';
-    const pos = e.pos || 0;
-    if (pos > 0) t.a.addEventListener('loadedmetadata', () => { try { t.a.currentTime = pos; } catch (err) {} }, { once: true });
-    const pr = t.a.play();
-    if (pr && pr.catch) pr.catch(() => {});
+  _vigia(k) {
+    const t = this._toc[k];
+    const sil = TRECHOS.partes[k].sil;
+    if (t.a.currentTime >= sil[1]) { try { t.a.currentTime = sil[0]; } catch (e) {} }
+    const z = this._tocando;
+    const tr = this._trecho(z);
+    if (tr && tr[0] === k && t.a.currentTime >= tr[2] - 0.15) {
+      this._est(z).acabou = true;
+      t.g.gain.setValueAtTime(0, this._ctx.currentTime);
+      this._estacionar(k);
+      this._tocando = -1;
+      this.somUi();
+    }
   }
 
   somTick() {
     if (!this._ctx) { const zz = this.somZona().z; if (zz !== this.state.somZ) this.setState({ somZ: zz }); return; }
     const { z, prog } = this.somZona();
     const agora = this._ctx.currentTime;
-    const toc = this._tocadores();
     if (z !== this._zAtual) {
-      const velho = toc.find((t) => t.z === this._zAtual && this._zAtual >= 0);
-      if (velho) {
-        this._est(velho.z).pos = velho.a.currentTime || 0;
-        velho.g.gain.cancelScheduledValues(agora);
-        velho.g.gain.setTargetAtTime(0, agora, 0.25);
-        const zv = velho.z;
-        setTimeout(() => { if (velho.z === zv && this._zAtual !== zv) velho.a.pause(); }, 1400);
+      const velho = this._tocando;
+      const tv = this._trecho(velho);
+      if (tv) {
+        const tk = this._toc[tv[0]];
+        this._est(velho).pos = Math.max(0, tk.a.currentTime - tv[1]);
+        tk.g.gain.cancelScheduledValues(agora);
+        tk.g.gain.setTargetAtTime(0, agora, 0.2);
       }
+      this._tocando = -1;
       this._zAtual = z;
-      if (z >= 0 && !this._est(z).acabou) {
-        const t = toc.find((x) => x !== velho) || toc[0];
-        t.g.gain.cancelScheduledValues(agora);
-        t.g.gain.setValueAtTime(0, agora);
-        this._tocar(t, z);
-      }
+      const seq = (this._seq = (this._seq || 0) + 1);
+      setTimeout(() => {
+        if (seq !== this._seq) return;
+        if (tv && !(this._trecho(z) && this._trecho(z)[0] === tv[0])) this._estacionar(tv[0]);
+        const tr = this._trecho(z);
+        if (tr && !this._est(z).acabou) {
+          const tk = this._toc[tr[0]];
+          tk.g.gain.cancelScheduledValues(this._ctx.currentTime);
+          tk.g.gain.setValueAtTime(0, this._ctx.currentTime);
+          try { tk.a.currentTime = tr[1] + (this._est(z).pos || 0); } catch (e) {}
+          this._tocando = z;
+          this.somTick();
+        }
+      }, tv ? 700 : 30);
       this.setState({ somZ: z });
+      return;
     }
-    if (z >= 0) {
-      const t = toc.find((x) => x.z === z);
-      if (t) {
-        const alvo = this.state.somMudos[z] ? 0 : (0.5 - 0.35 * prog);
-        t.g.gain.setTargetAtTime(alvo, agora, 0.35);
-      }
+    const tr = this._trecho(z);
+    if (tr && this._tocando === z) {
+      const alvo = this.state.somMudos[z] ? 0 : (0.5 - 0.35 * prog);
+      this._toc[tr[0]].g.gain.setTargetAtTime(alvo, agora, 0.35);
     }
   }
 
   somUi() { this.setState({ somRev: (this.state.somRev || 0) + 1 }); }
 
+  // liga a trilha (precisa ser dentro de um toque: botão flutuante ou "Conheça minha trajetória")
+  somLigar() {
+    if (this._ctx) { if (this._ctx.state === 'suspended') this._ctx.resume(); return false; }
+    const AC = window.AudioContext || window.webkitAudioContext;
+    if (!AC) return false;
+    this._ctx = new AC();
+    if (this._ctx.resume) this._ctx.resume();
+    this._zAtual = -1; this._tocando = -1;
+    this._toc = TRECHOS.partes.map((pt, k) => {
+      const a = new Audio('midia/musica/' + pt.f);
+      a.preload = 'auto';
+      a.setAttribute('playsinline', '');
+      const g = this._ctx.createGain();
+      g.gain.value = 0;
+      this._ctx.createMediaElementSource(a).connect(g);
+      g.connect(this._ctx.destination);
+      a.addEventListener('loadedmetadata', () => { if (!(this._trecho(this._tocando) && this._trecho(this._tocando)[0] === k)) { try { a.currentTime = pt.sil[0]; } catch (e) {} } }, { once: true });
+      a.addEventListener('timeupdate', () => this._vigia(k));
+      a.addEventListener('ended', () => { try { a.currentTime = pt.sil[0]; } catch (e) {} const p2 = a.play(); if (p2 && p2.catch) p2.catch(() => {}); });
+      const pr = a.play();
+      if (pr && pr.catch) pr.catch(() => {});
+      return { a: a, g: g };
+    });
+    document.addEventListener('visibilitychange', () => {
+      if (!this._ctx) return;
+      if (document.hidden) this._ctx.suspend(); else this._ctx.resume();
+    });
+    this.setState({ somOn: true }, () => setTimeout(() => this.somTick(), 200));
+    return true;
+  }
+
   somTap() {
-    if (!this._ctx) {
-      const AC = window.AudioContext || window.webkitAudioContext;
-      if (!AC) return;
-      this._ctx = new AC();
-      if (this._ctx.resume) this._ctx.resume();
-      this._zAtual = -1;
-      // destrava os dois tocadores dentro do toque
-      this._tocadores().forEach((t) => {
-        t.a.src = this._silencio();
-        const pr = t.a.play();
-        if (pr && pr.catch) pr.catch(() => {});
-      });
-      document.addEventListener('visibilitychange', () => {
-        if (!this._ctx) return;
-        if (document.hidden) this._ctx.suspend(); else this._ctx.resume();
-      });
-      this.setState({ somOn: true }, () => setTimeout(() => this.somTick(), 150));
-      return;
-    }
-    if (this._ctx.state === 'suspended') this._ctx.resume();
+    if (this.somLigar()) return;
     const z = this._zAtual;
     if (z < 0) return;
     const m = Object.assign({}, this.state.somMudos);
@@ -2425,7 +2430,7 @@ class Component extends DCLogic {
       motivosTxt: s.mostrar.motivos ? 'esconder os motivos' : 'ver motivos',
       motivos: () => this.setState({ mostrar: Object.assign({}, this.state.mostrar, { motivos: !this.state.mostrar.motivos }) })
     };
-    vals.to = { robotica: guard('robotica'), legiao: guard('legiao'), intervalo: guard('intervalo'), mapa: guard('mapa-final') };
+    vals.to = { trajetoria: () => { this.somLigar(); guard('robotica')(); }, robotica: guard('robotica'), legiao: guard('legiao'), intervalo: guard('intervalo'), mapa: guard('mapa-final') };
 
     // caixas de história: botões, ver tudo e arrastar com o dedo
     const story = (key, n) => {
@@ -2464,13 +2469,14 @@ class Component extends DCLogic {
 
     {
       const z = s.somZ;
-      const acabou = z >= 0 && !!(this._estado && this._estado[z] && this._estado[z].acabou);
+      const semFaixa = z >= 0 && !this._trecho(z);
+      const acabou = semFaixa || (z >= 0 && !!(this._estado && this._estado[z] && this._estado[z].acabou));
       const mudo = z >= 0 && !!s.somMudos[z];
       const tocando = s.somOn && z >= 0 && !acabou && !mudo;
       let txt = 'ligar música';
       if (s.somOn) txt = mudo ? 'ligar som neste capítulo' : 'silenciar este capítulo';
       vals.som = {
-        cls: (z < 0 || (s.somOn && acabou)) ? 'escondido' : (tocando ? 'on' : 'off'),
+        cls: (z < 0 || semFaixa || (s.somOn && acabou)) ? 'escondido' : (tocando ? 'on' : 'off'),
         tap: () => this.somTap(),
         txt: txt,
         aria: txt,
