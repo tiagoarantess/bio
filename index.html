@@ -1034,6 +1034,8 @@
     /* IFCE: legenda na foto, igual às galerias */
     .b-cap { position: relative; margin: 0; }
     .b-cap .card-cap { padding: 50px 14px 12px; }
+    .b-wide.b-cap .ph { aspect-ratio: 16 / 10; }
+    .b-cap .figcap { margin-top: 10px; }
     /* startup: ícones em azul */
     .ganho-ic { border-color: rgba(49, 167, 255, .55); background: rgba(49, 167, 255, .10); color: #31a7ff; }
     .ganho { border-color: rgba(49, 167, 255, .35); }
@@ -1061,6 +1063,8 @@
     .som-onda i { width: 2px; background: #b8ff38; animation: onda 1s ease-in-out infinite; }
     .som-onda i:nth-child(2) { animation-delay: .2s; } .som-onda i:nth-child(3) { animation-delay: .4s; }
     @keyframes onda { 0%, 100% { height: 3px; } 50% { height: 12px; } }
+    .robo-cap { display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 12px; color: #a6b0d1; font-size: 13px; text-align: center; }
+    .robo-cap svg { width: 26px; height: 26px; color: var(--ink); flex: none; }
   </style>
 </helmet>
 <button type="button" class="som {{ som.cls }}" onClick="{{ som.tap }}" aria-label="{{ som.aria }}" aria-pressed="{{ som.pressed }}">
@@ -1556,11 +1560,12 @@
         <div class="ficha"><b class="tab">5x2</b><span>escala</span></div>
       </div>
       <div class="bento" aria-label="Fotos e vídeo da residência em Sistemas Embarcados no IFCE">
-        <figure class="b-wide b-cap"><img class="ph" src="midia/ifce-residencia.jpg" alt="Residência no laboratório de Sistemas Embarcados do IFCE" style="object-position: 50% 50%;"><figcaption class="card-cap"><span class="card-t">Residência no laboratório de Sistemas Embarcados do IFCE</span></figcaption></figure>
+        <figure class="b-wide b-cap"><img class="ph" src="midia/ifce-residencia.jpg" alt="Residência no laboratório de Sistemas Embarcados do IFCE" style="object-position: 50% 50%;"><figcaption class="figcap">Residência no laboratório de Sistemas Embarcados do IFCE</figcaption></figure>
         <div class="b-tall"><video class="ph vid" src="midia/ifce-video.mp4" poster="midia/ifce-video-capa.jpg" controls playsinline preload="none"></video></div>
         <div class="b-sq"><img class="ph" src="midia/ifce-laboratorio.jpg" alt="Residência no IFCE, mão na massa na bancada" style="object-position: 50% 50%;"></div>
         <div class="b-sq"><img class="ph" src="midia/ifce-porta-laboratorio.jpg" alt="A porta do laboratório no IFCE" style="object-position: 50% 50%;"></div>
       </div>
+      <p class="caixa">Era um laboratório secreto, assinei um termo de confidencialidade por 2 anos, então não posso falar muitas coisas.</p>
     </section>
 
     <!-- EMPREENDEDORISMO · MUDANÇA, DE NOVO! --><section id="ensino" class="sec p-edu">
@@ -1605,7 +1610,6 @@
     <section id="programacao" class="sec p-tec">
       <p class="label mk"><span>Capítulo 06 · faculdade</span><span class="seta" aria-hidden="true"><i></i></span></p>
       <h2 class="h2 l d">Ao mesmo tempo, fazia faculdade de Análise e Desenvolvimento de Sistemas.</h2>
-      <div class="photos2"><img class="ph" src="midia/faculdade-ads-1.jpg" alt="Programando na faculdade de Análise e Desenvolvimento de Sistemas" loading="lazy"><img class="ph" src="midia/faculdade-ads-2.jpg" alt="Código na tela, faculdade de ADS" loading="lazy"></div>
       <p class="txt">Eu gostava de programação. Sempre fui o programador das minhas equipes de robótica.</p>
       <p class="txt">Mas com o tempo descobri que essa faculdade focava apenas em sites e aplicativos. Só que o que eu gosto de programar tem corpo:</p>
       <p class="estalo e">eu gosto de programar robôs.</p>
@@ -1614,7 +1618,7 @@
         <button type="button" class="tile" onClick="{{ tk.t1 }}" aria-pressed="{{ tk.p1 }}" style="background: {{ tk.b1 }}; color: {{ tk.f1 }}; border-color: {{ tk.d1 }};"><svg class="ic" viewBox="0 0 24 24"><path d="M4 12h4l2-5 4 10 2-5h4"></path></svg><span>Eletrônica</span></button>
         <button type="button" class="tile" onClick="{{ tk.t2 }}" aria-pressed="{{ tk.p2 }}" style="background: {{ tk.b2 }}; color: {{ tk.f2 }}; border-color: {{ tk.d2 }};"><svg class="ic" viewBox="0 0 24 24"><path d="M12 8a4 4 0 1 0 0 8a4 4 0 0 0 0-8z"></path><path d="M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M19 5l-2 2M7 17l-2 2"></path></svg><span>Máquinas</span></button>
       </div>
-      <figure class="fig"><img class="ph" src="fotos/2019-tela-programacao-do-robo.jpg" alt="Tela de programação de robô, 2019" style="object-position: 50% 50%;"><figcaption class="figcap">[FOTO - LEGENDA DE UMA LINHA: Tiago]</figcaption></figure>
+      <div class="photos2"><img class="ph" src="midia/faculdade-ads-1.jpg" alt="Programando na faculdade de Análise e Desenvolvimento de Sistemas" loading="lazy"><img class="ph" src="midia/faculdade-ads-2.jpg" alt="Código na tela, faculdade de ADS" loading="lazy"></div>
     </section>
 <!-- EDUCAÇÃO · ENSINO EM MOVIMENTO -->
     <section id="denovo" class="sec p-emp">
@@ -1687,7 +1691,6 @@
         <img class="ph" src="fotos/despedida-do-laboratorio.jpg" alt="Despedida do laboratório, com bolo de aniversário" style="object-position: 50% 50%;">
         <figcaption class="figcap">Despedida do laboratório e comemoração do aniversário&nbsp;</figcaption>
       </figure>
-      <p class="caixa">Era um laboratório secreto, assinei um termo de confidencialidade por 2 anos, então não posso falar muitas coisas.</p>
 
       <p class="say w e s" style="margin-top: 28px;">Troquei o ar-condicionado do laboratório secreto pelo sol na cabeça e areia no pé.</p>
       <p class="txt">Ouvi dezenas de "nãos" até pegar o jeito.</p>
@@ -1764,7 +1767,7 @@
       </figure>
       <figure class="fig">
         <img class="ph" src="midia/robo-que-vende-comigo.jpg" alt="Construindo o robô que vende comigo" loading="lazy" style="object-position: 50% 50%;">
-        <figcaption class="figcap">Construindo o robô que vende comigo</figcaption>
+        <figcaption class="robo-cap"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 8h10a2 2 0 0 1 2 2v6a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-6a2 2 0 0 1 2-2z"></path><path d="M12 4v4"></path><path d="M9 13h.01M15 13h.01"></path><path d="M3 12H1M23 12h-2"></path></svg><span>Construindo o robô que vende comigo</span></figcaption>
       </figure>
       <p class="estalo e">Um robô vendendo comigo, pra pagar a escola que eu quero construir.</p>
 
@@ -2124,52 +2127,80 @@ class Component extends DCLogic {
     return { z: z, prog: prog };
   }
 
-  faixa(i) {
-    this._faixas = this._faixas || {};
-    if (this._faixas[i]) return this._faixas[i];
-    const a = new Audio('midia/musica/' + this.trilhas()[i].f + '.mp3');
-    a.preload = 'auto';
-    const src = this._ctx.createMediaElementSource(a);
-    const g = this._ctx.createGain();
-    g.gain.value = 0;
-    src.connect(g); g.connect(this._ctx.destination);
-    const fx = { a: a, g: g, acabou: false };
-    a.addEventListener('ended', () => { fx.acabou = true; this.somUi(); });
-    a.addEventListener('error', () => { fx.acabou = true; fx.erro = true; this.somUi(); });
-    this._faixas[i] = fx;
-    return fx;
+  // dois tocadores que se revezam (o iPhone só deixa tocar áudio que foi "destravado" no toque do botão)
+  _tocadores() {
+    if (this._toc) return this._toc;
+    this._toc = [0, 1].map(() => {
+      const a = new Audio();
+      a.preload = 'auto';
+      a.setAttribute('playsinline', '');
+      const g = this._ctx.createGain();
+      g.gain.value = 0;
+      this._ctx.createMediaElementSource(a).connect(g);
+      g.connect(this._ctx.destination);
+      const t = { a: a, g: g, z: -1 };
+      a.addEventListener('ended', () => { if (t.z >= 0) { this._est(t.z).acabou = true; this.somUi(); } });
+      a.addEventListener('error', () => { if (t.z >= 0 && a.getAttribute('src')) { this._est(t.z).acabou = true; this.somUi(); } });
+      return t;
+    });
+    return this._toc;
+  }
+
+  _est(z) { this._estado = this._estado || {}; return this._estado[z] || (this._estado[z] = { pos: 0, acabou: false }); }
+
+  // um pedacinho de silêncio pra destravar os dois tocadores no mesmo toque
+  _silencio() {
+    if (this._sil) return this._sil;
+    const n = 4410, buf = new ArrayBuffer(44 + n * 2), v = new DataView(buf);
+    const w = (o, t) => { for (let k = 0; k < t.length; k++) v.setUint8(o + k, t.charCodeAt(k)); };
+    w(0, 'RIFF'); v.setUint32(4, 36 + n * 2, true); w(8, 'WAVE'); w(12, 'fmt ');
+    v.setUint32(16, 16, true); v.setUint16(20, 1, true); v.setUint16(22, 1, true);
+    v.setUint32(24, 44100, true); v.setUint32(28, 88200, true); v.setUint16(32, 2, true); v.setUint16(34, 16, true);
+    w(36, 'data'); v.setUint32(40, n * 2, true);
+    this._sil = URL.createObjectURL(new Blob([buf], { type: 'audio/wav' }));
+    return this._sil;
+  }
+
+  _tocar(t, z) {
+    const e = this._est(z);
+    t.z = z;
+    t.a.src = 'midia/musica/' + this.trilhas()[z].f + '.mp3';
+    const pos = e.pos || 0;
+    if (pos > 0) t.a.addEventListener('loadedmetadata', () => { try { t.a.currentTime = pos; } catch (err) {} }, { once: true });
+    const pr = t.a.play();
+    if (pr && pr.catch) pr.catch(() => {});
   }
 
   somTick() {
     if (!this._ctx) { const zz = this.somZona().z; if (zz !== this.state.somZ) this.setState({ somZ: zz }); return; }
     const { z, prog } = this.somZona();
     const agora = this._ctx.currentTime;
+    const toc = this._tocadores();
     if (z !== this._zAtual) {
-      const velha = this._faixas && this._faixas[this._zAtual];
-      if (velha) {
-        velha.g.gain.cancelScheduledValues(agora);
-        velha.g.gain.setTargetAtTime(0, agora, 0.25);
-        const va = velha.a;
-        setTimeout(() => { if (this._zAtual !== this._zDe(va)) va.pause(); }, 1400);
+      const velho = toc.find((t) => t.z === this._zAtual && this._zAtual >= 0);
+      if (velho) {
+        this._est(velho.z).pos = velho.a.currentTime || 0;
+        velho.g.gain.cancelScheduledValues(agora);
+        velho.g.gain.setTargetAtTime(0, agora, 0.25);
+        const zv = velho.z;
+        setTimeout(() => { if (velho.z === zv && this._zAtual !== zv) velho.a.pause(); }, 1400);
       }
       this._zAtual = z;
-      if (z >= 0) {
-        const fx = this.faixa(z);
-        if (!fx.acabou && fx.a.paused) { const pr = fx.a.play(); if (pr && pr.catch) pr.catch(() => {}); }
+      if (z >= 0 && !this._est(z).acabou) {
+        const t = toc.find((x) => x !== velho) || toc[0];
+        t.g.gain.cancelScheduledValues(agora);
+        t.g.gain.setValueAtTime(0, agora);
+        this._tocar(t, z);
       }
       this.setState({ somZ: z });
     }
     if (z >= 0) {
-      const fx = this.faixa(z);
-      const alvo = this.state.somMudos[z] ? 0 : (0.5 - 0.35 * prog);
-      fx.g.gain.setTargetAtTime(alvo, agora, 0.35);
+      const t = toc.find((x) => x.z === z);
+      if (t) {
+        const alvo = this.state.somMudos[z] ? 0 : (0.5 - 0.35 * prog);
+        t.g.gain.setTargetAtTime(alvo, agora, 0.35);
+      }
     }
-  }
-
-  _zDe(audio) {
-    const f = this._faixas || {};
-    for (const k in f) if (f[k].a === audio) return Number(k);
-    return -2;
   }
 
   somUi() { this.setState({ somRev: (this.state.somRev || 0) + 1 }); }
@@ -2179,12 +2210,19 @@ class Component extends DCLogic {
       const AC = window.AudioContext || window.webkitAudioContext;
       if (!AC) return;
       this._ctx = new AC();
+      if (this._ctx.resume) this._ctx.resume();
       this._zAtual = -1;
+      // destrava os dois tocadores dentro do toque
+      this._tocadores().forEach((t) => {
+        t.a.src = this._silencio();
+        const pr = t.a.play();
+        if (pr && pr.catch) pr.catch(() => {});
+      });
       document.addEventListener('visibilitychange', () => {
         if (!this._ctx) return;
         if (document.hidden) this._ctx.suspend(); else this._ctx.resume();
       });
-      this.setState({ somOn: true }, () => this.somTick());
+      this.setState({ somOn: true }, () => setTimeout(() => this.somTick(), 150));
       return;
     }
     if (this._ctx.state === 'suspended') this._ctx.resume();
@@ -2215,7 +2253,7 @@ class Component extends DCLogic {
     if (this._raf) cancelAnimationFrame(this._raf);
     clearTimeout(this._st);
     clearInterval(this._rp);
-    if (this._faixas) Object.values(this._faixas).forEach((f) => f.a.pause());
+    if (this._toc) this._toc.forEach((t) => t.a.pause());
     if (this._ctx) this._ctx.close();
   }
 
@@ -2426,8 +2464,7 @@ class Component extends DCLogic {
 
     {
       const z = s.somZ;
-      const fx = (z >= 0 && this._faixas) ? this._faixas[z] : null;
-      const acabou = !!(fx && fx.acabou);
+      const acabou = z >= 0 && !!(this._estado && this._estado[z] && this._estado[z].acabou);
       const mudo = z >= 0 && !!s.somMudos[z];
       const tocando = s.somOn && z >= 0 && !acabou && !mudo;
       let txt = 'ligar música';
