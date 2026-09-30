@@ -1070,6 +1070,8 @@
     .vira-in { position: relative; display: flex; flex-direction: column; align-items: center; gap: 10px; }
     .vira-sub { color: #090b18; font-size: 26px; text-align: center; }
     .vira-x { position: relative; display: inline-block; }
+    .vira-sub2 { margin-top: -4px; }
+    .vira-sub2 b { font-weight: 600; }
     .vira-x i { position: absolute; left: -4px; right: -4px; top: 55%; height: 4px; background: #090b18; transform-origin: left center; }
     /* tremendo as pernas: letra por letra balançando */
     .treme { font-family: "Shantell Sans", "Comic Sans MS", cursive; font-style: normal; color: #ff8049; white-space: nowrap; }
@@ -1265,6 +1267,7 @@
           <div class="vira-in">
             <p class="vira-t d" style="color: {{ va.fg }}; transform: scale({{ va.s }});">Dito e feito!</p>
             <p class="vira-sub e" style="opacity: {{ va.o }};">Comecei a falar...não de <span class="vira-x">religião<i style="transform: scaleX({{ va.x }});"></i></span>!</p>
+            <p class="vira-sub e vira-sub2" style="opacity: {{ va.o2 }};">mas de uma pessoa: <b>Jesus.</b></p>
           </div>
         </div>
         <p class="say w e s">Comecei a falar com ousadia (ok, às vezes <span class="treme" aria-label="tremendo as pernas"><i>t</i><i>r</i><i>e</i><i>m</i><i>e</i><i>n</i><i>d</i><i>o</i> <i>a</i><i>s</i> <i>p</i><i>e</i><i>r</i><i>n</i><i>a</i><i>s</i></span>, na verdade).</p>
@@ -2502,7 +2505,7 @@ class Component extends DCLogic {
 
     // Dito e feito: cresce e o laranja-chama se espalha ao entrar na tela
     const grow = cl((s.vira - 0.25) / 0.5);
-    vals.va = { r: (out3(grow) * 150).toFixed(1), s: (0.7 + 0.3 * out3(cl(s.vira / 0.6))).toFixed(3), fg: grow > 0.35 ? '#090b18' : '#e2572a', o: cl((s.vira - 0.5) / 0.15).toFixed(2), x: out3(cl((s.vira - 0.7) / 0.15)).toFixed(3) };
+    vals.va = { r: (out3(grow) * 150).toFixed(1), s: (0.7 + 0.3 * out3(cl(s.vira / 0.6))).toFixed(3), fg: grow > 0.35 ? '#090b18' : '#e2572a', o: cl((s.vira - 0.5) / 0.15).toFixed(2), x: out3(cl((s.vira - 0.7) / 0.15)).toFixed(3), o2: cl((s.vira - 0.85) / 0.12).toFixed(2) };
 
     // Você está nessa parte da história: 3 painéis que andam para o lado enquanto a rolagem desce
     const inOut = (x) => (x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2);
