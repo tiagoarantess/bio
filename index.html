@@ -10,7 +10,7 @@
 <body>
 <x-dc>
 <helmet>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@400;500;600;700;800;900&amp;family=Fraunces:opsz,wght@9..144,500;9..144,600&amp;family=Silkscreen&amp;display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@400;500;600;700;800;900&amp;family=Fraunces:opsz,wght@9..144,500;9..144,600&amp;family=Silkscreen&amp;family=Shantell+Sans:wght@600&amp;display=swap">
   <style>
     *, *::before, *::after { box-sizing: border-box; }
     html { background: #090b18; -webkit-text-size-adjust: 100%; scrollbar-color: #2b3154 #090b18; }
@@ -1065,6 +1065,20 @@
     @keyframes onda { 0%, 100% { height: 3px; } 50% { height: 12px; } }
     .robo-cap { display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 12px; color: #a6b0d1; font-size: 13px; text-align: center; }
     .robo-cap svg { width: 26px; height: 26px; color: var(--ink); flex: none; }
+    /* Dito e feito: sem o quadriculado por trás, e o "religião" riscado */
+    .vira { background: #090b18; }
+    .vira-in { position: relative; display: flex; flex-direction: column; align-items: center; gap: 10px; }
+    .vira-sub { color: #090b18; font-size: 26px; text-align: center; }
+    .vira-x { position: relative; display: inline-block; }
+    .vira-x i { position: absolute; left: -4px; right: -4px; top: 55%; height: 4px; background: #090b18; transform-origin: left center; }
+    /* tremendo as pernas: letra por letra balançando */
+    .treme { font-family: "Shantell Sans", "Comic Sans MS", cursive; font-style: normal; color: #ff8049; white-space: nowrap; }
+    .treme i { display: inline-block; font-style: normal; animation: treme .32s ease-in-out infinite alternate; }
+    .treme i:nth-child(3n) { animation-duration: .27s; animation-delay: -.1s; }
+    .treme i:nth-child(3n+1) { animation-duration: .36s; animation-delay: -.2s; }
+    .treme i:nth-child(2n) { animation-direction: alternate-reverse; }
+    @keyframes treme { from { transform: translateY(-1.5px) rotate(-5deg); } to { transform: translateY(1.5px) rotate(5deg); } }
+    @media (prefers-reduced-motion: reduce) { .treme i { animation: none; } }
   </style>
 </helmet>
 <button type="button" class="som {{ som.cls }}" onClick="{{ som.tap }}" aria-label="{{ som.aria }}" aria-pressed="{{ som.pressed }}">
@@ -1254,9 +1268,12 @@
 
         <div class="vira" id="virada">
           <div class="vira-fill" style="clip-path: circle({{ va.r }}% at 50% 50%);"></div>
-          <p class="vira-t d" style="color: {{ va.fg }}; transform: scale({{ va.s }});">Dito e feito!</p>
+          <div class="vira-in">
+            <p class="vira-t d" style="color: {{ va.fg }}; transform: scale({{ va.s }});">Dito e feito!</p>
+            <p class="vira-sub e" style="opacity: {{ va.o }};">...não de <span class="vira-x">religião<i style="transform: scaleX({{ va.x }});"></i></span>!</p>
+          </div>
         </div>
-        <p class="say w e s">Comecei a falar com ousadia (ok, às vezes tremendo as pernas, na verdade).</p>
+        <p class="say w e s">Comecei a falar com ousadia (ok, às vezes <span class="treme" aria-label="tremendo as pernas"><i>t</i><i>r</i><i>e</i><i>m</i><i>e</i><i>n</i><i>d</i><i>o</i> <i>a</i><i>s</i> <i>p</i><i>e</i><i>r</i><i>n</i><i>a</i><i>s</i></span>, na verdade).</p>
       </div>
 
       <div class="sub" id="reuni" style="margin-top: 64px;">
@@ -2492,7 +2509,7 @@ class Component extends DCLogic {
 
     // Dito e feito: cresce e o laranja-chama se espalha ao entrar na tela
     const grow = cl((s.vira - 0.25) / 0.5);
-    vals.va = { r: (out3(grow) * 150).toFixed(1), s: (0.7 + 0.3 * out3(cl(s.vira / 0.6))).toFixed(3), fg: grow > 0.35 ? '#090b18' : '#e2572a' };
+    vals.va = { r: (out3(grow) * 150).toFixed(1), s: (0.7 + 0.3 * out3(cl(s.vira / 0.6))).toFixed(3), fg: grow > 0.35 ? '#090b18' : '#e2572a', o: cl((s.vira - 0.5) / 0.15).toFixed(2), x: out3(cl((s.vira - 0.7) / 0.15)).toFixed(3) };
 
     // Você está nessa parte da história: 3 painéis que andam para o lado enquanto a rolagem desce
     const inOut = (x) => (x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2);
