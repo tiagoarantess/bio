@@ -1324,11 +1324,13 @@
       <div class="proj" id="intervalo">
         <h3 class="sub-h d">Intervalo com Deus</h3>
         <div class="story" id="story-intervalo" onPointerDown="{{ si.down }}" onPointerUp="{{ si.up }}">
-  <div class="story-top"><sc-for list="{{ si.bars }}" as="b" hint-placeholder-count="3"><i class="{{ b.cls }}"></i></sc-for></div>
+  <div class="story-top"><sc-for list="{{ si.bars }}" as="b" hint-placeholder-count="5"><i class="{{ b.cls }}"></i></sc-for></div>
   <div class="story-body">
           <sc-if value="{{ si.s0 }}" hint-placeholder-val="{{ true }}"><div class="step"><p>Quando entrei no Colégio Militar no 6º ano, e era serelepe, sempre fugia de um Tenente que me chamava para ir numa reunião na cantina <span class="fala">"pra falar de Deus"</span>.</p><p class="pilantra">PILANTRA! <button type="button" class="kkk" onClick="{{ kkk.toggle }}" aria-expanded="{{ kkk.on }}">{{ kkk.txt }}</button></p></div></sc-if>
           <sc-if value="{{ si.s1 }}" hint-placeholder-val="{{ false }}"><div class="step"><p class="e">Quem diria...</p><p>E daí a conversa fluiu.<br>Ele fazia no fundamental e eu queria fazer no ensino médio, ele não conseguiu dar tanto apoio.</p><p class="e">Corri atrás de muita coisa sozinho.</p></div></sc-if>
           <sc-if value="{{ si.s2 }}" hint-placeholder-val="{{ false }}"><div class="step"><p>Na volta pós pandemia, já no ensino médio, quando vi esse Tenente, a primeira coisa que perguntei foi:</p><blockquote class="dito"><p class="e">era o sr que fazia as reuniões cristãs na cantina?</p></blockquote><p class="note" style="margin-top: 6px;">Só o encontro com esse Tenente tem tantos detalhes inacreditáveis que não dá para contar tudo aqui. O desenrolar do intervalo com Deus então... nem se fala, tem tantas histórias INCRÍVEIS para contar, que é algo que se me perguntar eu passo horas falando.</p></div></sc-if>
+          <sc-if value="{{ si.s3 }}" hint-placeholder-val="{{ false }}"><div class="step"><p class="e">Mas vou contar apenas uma coisa boba, mas é uma curiosidade que poucos sabem:</p><p>Começamos os encontros sem nenhum nome.</p><p>Um dia, olhando papéis pra jogar fora em casa, vi um folheto muito antigo... um convite para o <b>"Intervalo com Deus"</b>. Fiquei maravilhado, porque provavelmente meu pai pegou e guardou (meu pai trabalhou nesse colégio anos antes).</p></div></sc-if>
+          <sc-if value="{{ si.s4 }}" hint-placeholder-val="{{ false }}"><div class="step"><p class="e">Então descobri que não estava começando algo novo, mas só continuando algo que existia antes.</p><p>Busquei contato com ex alunos, descobri como faziam, e que tinha um instagram inativo de antes da pandemia, me passaram a senha e continuamos o legado dali, usando o mesmo nome. Depois que saí, ficou uma equipe que continuou após mim, e continua até hoje...</p><p><a class="palavra-fixa" href="https://www.instagram.com/icd_cmcg/" target="_blank" rel="noopener noreferrer">@icd_cmcg</a></p></div></sc-if>
           </div>
   <div class="story-ft">
     <span class="story-count tab">{{ si.count }}</span>
@@ -1347,11 +1349,6 @@
     </sc-if>
   </div>
 </div>
-        <p class="lead" style="margin-top: 30px;">Mas vou contar apenas uma coisa boba, mas é uma curiosidade que poucos sabem:</p>
-        <p class="txt">Começamos os encontros sem nenhum nome.</p>
-        <p class="txt">Um dia, olhando papéis pra jogar fora em casa, vi um folheto muito antigo... um convite para o <b>"Intervalo com Deus"</b>. Fiquei maravilhado, porque provavelmente meu pai pegou e guardou (meu pai trabalhou nesse colégio anos antes).</p>
-        <p class="estalo e">Então descobri que não estava começando algo novo, mas só continuando algo que existia antes.</p>
-        <p class="txt" style="margin-top: 26px;">Busquei contato com ex alunos, descobri como faziam, e que tinha um instagram inativo de antes da pandemia, me passaram a senha e continuamos o legado dali, usando o mesmo nome. Depois que saí, ficou uma equipe que continuou após mim, e continua até hoje...</p>
         <div class="fogueira">
           <svg class="chama" viewBox="0 0 40 56" aria-hidden="true">
             <path class="fogo" d="M20 2c6 11 15 15 15 26a15 15 0 0 1-30 0C5 17 14 13 20 2z"></path>
@@ -1422,7 +1419,8 @@
 </div>
 <div class="dots"><div class="dots-list"><sc-for list="{{ gB.dots }}" as="d" hint-placeholder-count="2"><button type="button" class="{{ d.cls }}" aria-label="{{ d.label }}" onClick="{{ d.go }}"></button></sc-for></div><span class="gcount tab">{{ gB.count }}</span></div>
       </div>
-        <p class="figcap" style="margin-top: 16px;"><span class="year tab"></span>Nessa visita a um orfanato que fizemos no Dia das Crianças com a Legião de Honra, uma criança me desenhou e, tímido, entregou para uma amiga, que me contou e entregou por ele.&nbsp; Claro que fui falar com ele, olha a alegria dele de ter seu desenho reconhecido, e minha alegria de ser desenhado. (A QUE PARECE MAIS ALEGRE É MINHA AMIGA LÁ ATRÁS KKKKKK)</p>
+        <p class="figcap" style="margin-top: 16px;"><span class="year tab"></span>Nessa visita a um orfanato que fizemos no Dia das Crianças com a Legião de Honra, uma criança me desenhou.</p>
+        <p class="txt">Tímido, entregou para uma amiga, que me contou e entregou por ele. Claro que fui falar com ele, olha a alegria dele de ter seu desenho reconhecido, e minha alegria de ser desenhado. (A QUE PARECE MAIS ALEGRE É MINHA AMIGA LÁ ATRÁS KKKKKK)</p>
       </section>
 
       <section class="sec p-edu" id="altas">
@@ -1939,7 +1937,7 @@
         </div>
         <div class="treino">
           <p class="treino-k">Resistência</p>
-          <div class="troca-fotos"><img class="ph" src="fotos/kung-fu-1.jpg" alt="Treino de kung fu" style="object-position: 50% 50%;"><img class="ph" src="midia/kung-fu-2.jpg" alt="" aria-hidden="true" loading="lazy"><img class="ph" src="midia/kung-fu-3.jpg" alt="" aria-hidden="true" loading="lazy"></div>
+          <img class="ph" src="fotos/kung-fu-1.jpg" alt="Treino de kung fu" style="object-position: 50% 50%;">
         </div>
         <div class="treino">
           <p class="treino-k">Constância</p>
@@ -2497,7 +2495,7 @@ class Component extends DCLogic {
         onda: tocando
       };
     }
-    vals.si = story('intervalo', 3);
+    vals.si = story('intervalo', 5);
     vals.sa = story('aulas', 4);
     vals.sb = story('base', 8);
 
