@@ -136,7 +136,20 @@ button.ghost{background:transparent;color:var(--fg);border-color:var(--line);box
 .final-l{font-weight:900;font-size:clamp(26px,7vw,34px);line-height:1.1;margin:0}
 /* celular deitado: o jogo ocupa a tela, controles nas laterais */
 .vire{display:none;color:var(--muted);font-size:13px;margin:0}
-@media (pointer:coarse) and (orientation:portrait){.vire{display:block}}
+/* com um cartão aberto, os botões de andar somem pra não ficar na frente do Continuar */
+body.carta .pad{visibility:hidden}
+/* aviso grande pra deitar o celular, por cima do jogo */
+.aviso{display:none;position:absolute;inset:0;z-index:4;background:rgba(5,7,16,.88);color:var(--fg);flex-direction:column;align-items:center;justify-content:center;gap:10px;text-align:center;padding:16px;cursor:pointer}
+.aviso .fone-gira{font-size:54px;line-height:1;animation:gira 1.8s ease-in-out infinite}
+@keyframes gira{0%,25%{transform:rotate(0)}55%,100%{transform:rotate(-90deg)}}
+.aviso b{font-size:22px;font-weight:900;line-height:1.15}
+.aviso span{font-size:13px;color:var(--muted);text-decoration:underline}
+.portal .deite{display:none;background:var(--tec);color:#0a0c18;font-weight:800;font-size:15px;padding:10px 12px;margin:2px 0 0;box-shadow:4px 4px 0 #000}
+@media (pointer:coarse) and (orientation:portrait){
+  .vire{display:block}
+  .portal .deite{display:block}
+  body.jogando:not(.deitou) .aviso{display:flex}
+}
 @media (pointer:coarse) and (orientation:landscape){
   body{padding:0;background:#000;overflow:hidden}
   header,.keys,.full,.vire,.bar p{display:none}
@@ -148,6 +161,7 @@ button.ghost{background:transparent;color:var(--fg);border-color:var(--line);box
   .pad button{pointer-events:auto;opacity:.78}
   .overlay{position:fixed}
   .card{max-height:94dvh}
+  body.carta .bar{visibility:hidden}
 }
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
@@ -160,6 +174,7 @@ button.ghost{background:transparent;color:var(--fg);border-color:var(--line);box
   <div class="screen" id="screen">
     <canvas id="game" aria-label="Jogo de plataforma com a história do Tiago"></canvas>
     <div class="overlay" id="ov" hidden></div>
+    <div class="aviso" id="aviso" role="button" tabindex="0"><div class="fone-gira" aria-hidden="true">📱</div><b>Deite o celular<br>pra jogar</b><span>ou toque aqui pra jogar em pé</span></div>
   </div>
   <div class="bar">
     <p id="mission">Carregando…</p>
@@ -191,7 +206,8 @@ const WORLDS = [
   look:{c:'#2f7a2a', w:'#b8ff38', p:'#2b3350'},
   cards:[
   {pages:[{foto:'fotos/2018-entrevista-tv-robotica-1.jpg', ano:'2018', leg:`Comecei pivete. Entrevista de quando nossa equipe se destacou`}]},
-  {pages:[{foto:'fotos/2018-premiacao-no-palco.jpg', ano:'2018', leg:`Competições, medalhas e anos construindo, programando e competindo.`},{foto:'fotos/2019-equipe-testando-robo.jpg', ano:'2019', leg:``}]},
+  {pages:[{foto:'fotos/2018-premiacao-no-palco.jpg', ano:'2018', leg:`Competições, medalhas e anos construindo, programando e competindo.`},{foto:'fotos/2019-equipe-testando-robo.jpg', ano:'2019', leg:``},{foto:'fotos/2019-entrega-de-certificados-2.jpg', ano:'2019', leg:``}]},
+  {pages:[{foto:'fotos/2022-competicao-1.jpg', ano:'2022', leg:``},{foto:'fotos/2022-apresentacao-em-auditorio.jpg', ano:'2022', leg:``},{foto:'fotos/equipe-robotica-prototipos.jpg', ano:'2022', leg:`Organizando competição na faculdade em Fortaleza`}]},
   {pages:[{titulo:'Feiras de ciências', texto:`E teve feira de ciências também.\nExperiências que me criaram um [[m:olhar crítico-científico]] sobre a vida.`},{video:'fotos/feira-projeto-ciencias.mp4', poster:'fotos/feira-projeto-ciencias-capa.jpg'},{foto:'fotos/feira-estande-equipe.jpg', leg:``}]},
   {pages:[{foto:'fotos/feira-premio-colegio-militar.jpg', ano:'2022', leg:`Medalha de participação kkk na maior feira do centro-oeste, a FETEC`}]},
   {pages:[{foto:'fotos/feira-ciencias-1.jpg', ano:'2023', leg:`No outro ano, voltamos, e recebemos reconhecimento do Austrian Space Fórum, através do Dr. Groemer. Além de ganhar o 1 lugar da feira`},{foto:'fotos/feira-ciencias-2.jpg', ano:'2023', leg:`Foto na saída do auditório da UFMS, com o troféu, porque na hora da premiação ficamos tão sem acreditar que esquecemos de foto.`}]}
@@ -310,7 +326,7 @@ const WORLDS = [
   cards:[
   {pages:[{foto:'fotos/kit-eron.jpg', leg:``, grande:'Uma escola de robótica online.', texto:`Uma forma acessível e personalizada de ensinar robótica.`},{texto:`Não é apenas sobre aprender robótica, um conteúdo técnico. É sobre explorar uma ferramenta que te permite [[m:criar algo envolvente com as próprias mãos]], enquanto desenvolve raciocínio lógico, mentalidade de resolução de problemas e habilidades caras pro mercado de trabalho do futuro.`, chips:['competições','projetos escolares','feiras de ciências','projetos pessoais']}]},
   {tag:'Capítulo 12 · disciplina', pages:[{grande:'O corpo também faz parte da construção.', texto:`Por isso vou falar de treinos, esportes, meditação, respiração, jejum, alimentação.\nEu falo isso porque, pelo pouco que entendo de máquinas, sei que todas elas precisam de manutenção ou prevenção.\nImagina a máquina mais complexa do mundo:`, depois:`[[b:o nosso corpo.]]`}]},
-  {tag:'Capítulo 12 · disciplina', pages:[{chips:['Intensidade','Constância']},{foto:'fotos/kung-fu-1.jpg', leg:``, grande:'Resistência'},{foto:'fotos/medalhas-esporte.jpg', leg:``, grande:'RESULTADOS', texto:`Aqui não tem de robótica, nem matemática, só esporte\nMas a disciplina para superar desafios é a mesma`}]}
+  {tag:'Capítulo 12 · disciplina', pages:[{foto:'fotos/corrida-orientacao.jpg', leg:``, grande:'Intensidade'},{foto:'fotos/kung-fu-1.jpg', leg:``, grande:'Resistência'},{foto:'fotos/supino.jpg', leg:``, grande:'Constância'},{foto:'fotos/medalhas-esporte.jpg', leg:``, grande:'RESULTADOS', texto:`Aqui não tem de robótica, nem matemática, só esporte\nMas a disciplina para superar desafios é a mesma`}]}
   ]}
 ];
 const REGIOES = ['Mato Grosso do Sul', 'Fortaleza e estrada', 'Santa Catarina'];
@@ -509,6 +525,7 @@ function titleScreen(){
     <span class="tag" style="justify-content:center"><span>@otiagoarantes</span></span>
     <h2>Tiago em construção</h2>
     <p class="fone">Melhor com fone</p>
+    <p class="deite">📱↔ Deite o celular pra jogar em tela cheia</p>
     <div class="row"><button data-act="som">Entrar com som</button><button class="ghost" data-act="mudo">entrar sem som</button></div></div>`,
     {som: () => entrar(true), mudo: () => entrar(false)});
 }
@@ -690,7 +707,9 @@ function update(){
     return;
   }
   const ax = P.ground ? 0.3 : 0.18, max = keys.run ? 3.4 : 2.4;
-  if (keys.left){ P.vx -= ax; P.face = -1; }
+  if (P.freeze > 0) P.freeze--;
+  if (P.freeze > 0){ P.vx *= 0.7; }
+  else if (keys.left){ P.vx -= ax; P.face = -1; }
   else if (keys.right){ P.vx += ax; P.face = 1; }
   else { P.vx *= P.ground ? 0.75 : 0.95; if (Math.abs(P.vx) < 0.05) P.vx = 0; }
   P.vx = clamp(P.vx, -max, max);
@@ -729,8 +748,18 @@ function update(){
   }
   if (P.inv > 0) P.inv--;
   if (P.y > H + 20){
+    // caiu num buraco: renasce um pouco antes, parado meio segundo; na segunda queda no mesmo lugar, renasce do outro lado
     gears = Math.max(0, gears - 2);
-    P.x = Math.max(0, lastSafe.x - 10); P.y = lastSafe.y - 4; P.vx = 0; P.vy = 0; P.inv = 60;
+    const gap = Math.floor((P.x + P.w / 2) / T);
+    L.quedas = (L.quedaEm === gap || Math.abs((L.quedaEm || -99) - gap) <= 2) ? (L.quedas || 0) + 1 : 1; L.quedaEm = gap;
+    let x = lastSafe.x - 24, y = lastSafe.y - 4;
+    if (L.quedas >= 2){
+      let tx = gap; while (tx < L.cols - 2 && !(tile(tx, GROUND) && tile(tx + 1, GROUND) && tile(tx, GROUND) !== 8 && !solid(tx, GROUND - 1))) tx++;
+      x = tx * T + 3; y = GROUND * T - P.h - 2; L.quedas = 0;
+    }
+    while (x > 0 && !solid(Math.floor((x + P.w / 2) / T), Math.floor((y + P.h + 2) / T)) && !solid(Math.floor((x + P.w / 2) / T), GROUND)) x -= T;
+    P.x = Math.max(0, x); P.y = y; P.vx = 0; P.vy = 0; P.inv = 60; P.freeze = 30;
+    for (const k in keys) keys[k] = false;
   }
   // tenente
   const npc = L.npc;
@@ -1271,6 +1300,15 @@ addEventListener('keydown', e => {
   keys[k] = true;
 });
 addEventListener('keyup', e => { const k = KM[e.code]; if (k) keys[k] = false; });
+const soltarTudo = () => { for (const k in keys) keys[k] = false; };
+addEventListener('pointerup', e => { if (!e.target.closest || !e.target.closest('#pad')) soltarTudo(); });
+addEventListener('blur', soltarTudo);
+document.addEventListener('visibilitychange', () => {
+  soltarTudo();
+  if (!audio) return;
+  if (document.hidden) audio.pause(); else if (somOn) audio.play().catch(() => {});
+});
+document.querySelector('.full a').addEventListener('click', () => { if (audio) audio.pause(); });
 document.querySelectorAll('#pad button').forEach(b => {
   const k = b.dataset.k;
   const on = e => { e.preventDefault(); if (k === 'jump' && !keys.jump) jumpBuf = 6; keys[k] = true; b.setPointerCapture?.(e.pointerId); };
@@ -1293,8 +1331,17 @@ function loop(now){
       else frame++;
     }
   }
+  document.body.classList.toggle('jogando', mode === 'play' || mode === 'flight' || mode === 'quarto');
   draw(); requestAnimationFrame(loop);
 }
+// cartão aberto esconde os botões de andar
+new MutationObserver(() => document.body.classList.toggle('carta', !ov.hidden)).observe(ov, {attributes:true, attributeFilter:['hidden']});
+// "jogar em pé": some o aviso até recarregar a página
+const aviso = document.getElementById('aviso');
+const deitou = () => { document.body.classList.add('deitou'); };
+aviso.addEventListener('click', deitou);
+aviso.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') deitou(); });
+addEventListener('resize', resize);
 resize();
 sel = cityOf(unlocked);
 missionEl.innerHTML = '<b>11 capítulos</b> · uma história em construção';
