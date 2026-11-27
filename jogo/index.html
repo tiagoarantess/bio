@@ -332,7 +332,7 @@ const WORLDS = [
 const REGIOES = ['Mato Grosso do Sul', 'Fortaleza e estrada', 'Santa Catarina'];
 const VOOS = {
   fortaleza:{de:'MS', para:'CE', texto:`Pegamos o avião para Fortaleza para fazer uma "conexão" com o nosso sonho haha`, cor:C.edu},
-  floripa:{de:'estrada', para:'SC', texto:`E foi assim que vim parar em Florianópolis.`, cor:C.emp}
+  floripa:{de:'MS', para:'SC', texto:`E foi assim que vim parar em Florianópolis.`, cor:C.emp}
 };
 const FINAL1 = `Eu levei tempo para criar um site como esse que você está lendo.\nMas vi que talvez fosse importante me conhecerem. Porque posto coisas meio soltas: do nada tô num lugar, depois em outro.\nSe nem minha família entendia o porquê das minhas decisões, imagina quem me acompanha de longe.\nPor isso eu decidi contar essa história.`;
 const FINAL2 = `Mas não tô escrevendo pra ser compreendido. Tô escrevendo pra inspirar uma forma de enxergar a vida. Espero que a sua também seja carregada de sentido. 💙\nExiste uma história linda sendo desenhada. E eu te ajudo a ver.`;
@@ -631,10 +631,39 @@ const CITIES = [
   {nome:'Campo Grande', ll:[-54.6,-20.4], caps:[0,1,2,3,4], lado:'esq'},
   {nome:'Brasília', ll:[-47.9,-15.8], caps:[5], lado:'esq'},
   {nome:'Fortaleza', ll:[-38.5,-3.7], caps:[6,7], lado:'esq'},
-  {nome:'na estrada', ll:[-46.6,-23.5], caps:[8], lado:'dir'},
+  {nome:'na estrada', ll:[-41.2,-12.8], caps:[8], lado:'dir'},
   {nome:'Florianópolis', ll:[-48.5,-27.6], caps:[9,10], lado:'esq'}
 ].map(c => Object.assign(c, {p:proj(c.ll[0], c.ll[1])}));
-const ESTRADA = [[-38.5,-3.7],[-35.2,-5.8],[-34.9,-8.05],[-46.6,-23.5]].map(p => proj(p[0], p[1]));
+// Fortaleza → Natal → Recife/Olinda → estrada → São Paulo → Campo Grande (casa dos pais)
+const ESTRADA = [[-38.5,-3.7],[-35.2,-5.8],[-34.9,-8.05],[-41.2,-12.8],[-46.6,-23.5],[-54.6,-20.4]].map(p => proj(p[0], p[1]));
+// Campo Grande → paradas no caminho → Florianópolis
+const SUL = [[-54.6,-20.4],[-53.6,-22.6],[-52.2,-24.4],[-50.4,-25.6],[-49.2,-26.6],[-48.5,-27.6]].map(p => proj(p[0], p[1]));
+const SP = proj(-46.6, -23.5);
+function simbolo(tipo, x, y){
+  const r = (c, a, b, w, h) => { ctx.fillStyle = c; ctx.fillRect(x + a, y + b, w, h); };
+  if (tipo === 'soba'){ // Monumento ao Sobá: a tigela gigante de Campo Grande
+    ctx.fillStyle = '#e8e2d0'; ctx.beginPath(); ctx.arc(x + 6, y + 3, 6, 0, Math.PI); ctx.fill();
+    r('#c94a3a', -1, 2, 14, 2); r('#ffd36b', 1, 1, 10, 1); r('#ffd36b', 2, 0, 8, 1);
+    ctx.strokeStyle = '#8a5a2e'; ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(x + 8, y - 6); ctx.lineTo(x + 11, y + 1); ctx.moveTo(x + 10, y - 6); ctx.lineTo(x + 12, y + 1); ctx.stroke();
+  } else if (tipo === 'arara'){
+    r('#e03a2f', 2, 0, 4, 5); r('#e03a2f', 1, 1, 2, 2); r('#ffd36b', 0, 2, 2, 1); r('#1f6fd1', 3, 3, 4, 3); r('#ffd36b', 5, 6, 2, 3); r('#1f6fd1', 6, 8, 2, 3); r('#000', 3, 1, 1, 1);
+  } else if (tipo === 'onca'){
+    r('#e8a530', 0, 2, 11, 4); r('#e8a530', 10, 0, 4, 4); r('#e8a530', 1, 6, 2, 2); r('#e8a530', 8, 6, 2, 2); r('#e8a530', -2, 1, 2, 1);
+    r('#3a2510', 2, 3, 1, 1); r('#3a2510', 5, 2, 1, 1); r('#3a2510', 7, 4, 1, 1); r('#3a2510', 4, 5, 1, 1); r('#3a2510', 12, 1, 1, 1);
+  } else if (tipo === 'congresso'){
+    r('#f4f6fb', 5, -8, 2, 10); r('#f4f6fb', 8, -8, 2, 10); r('#f4f6fb', -2, 2, 19, 2);
+    ctx.fillStyle = '#f4f6fb'; ctx.beginPath(); ctx.arc(x + 1, y + 2, 4, Math.PI, 0); ctx.fill();
+    ctx.beginPath(); ctx.moveTo(x + 11, y - 2); ctx.lineTo(x + 19, y - 2); ctx.lineTo(x + 15, y + 2); ctx.fill();
+  } else if (tipo === 'jangada'){
+    ctx.fillStyle = '#f4f6fb'; ctx.beginPath(); ctx.moveTo(x + 5, y - 10); ctx.lineTo(x + 5, y + 1); ctx.lineTo(x - 2, y + 1); ctx.fill();
+    r('#8a5a2e', -3, 2, 13, 2); r('#4fb7ff', -5, 5, 18, 1); r('#ffe27a', 10, -9, 3, 3);
+  } else if (tipo === 'predios'){
+    r('#9aa3c7', 0, -6, 4, 9); r('#c9d2e8', 5, -10, 4, 13); r('#7a84a8', 10, -4, 4, 7); r('#ffd36b', 6, -8, 1, 1); r('#ffd36b', 6, -5, 1, 1);
+  } else if (tipo === 'ponte'){
+    r('#e8ecf4', 2, -8, 2, 10); r('#e8ecf4', 14, -8, 2, 10); r('#e8ecf4', -2, 1, 22, 1);
+    ctx.strokeStyle = '#e8ecf4'; ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(x - 2, y + 1); ctx.lineTo(x + 3, y - 8); ctx.quadraticCurveTo(x + 9, y + 2, x + 15, y - 8); ctx.lineTo(x + 20, y + 1); ctx.stroke();
+  }
+}
 const cityOf = i => CITIES.findIndex(c => c.caps.includes(i));
 const goBtn = document.getElementById('goBtn'), memBtn = document.getElementById('memBtn');
 memBtn.onclick = () => openMemorias();
@@ -1130,8 +1159,18 @@ function drawMap(){
   line([CITIES[0].p, CITIES[1].p], false, reached(1), C.edu);
   arc(CITIES[1].p, CITIES[2].p, reached(2), '#ffd36b', -14);
   line(ESTRADA, false, reached(3), C.edu);
-  arc(CITIES[3].p, CITIES[4].p, reached(4), '#ffd36b', 30);
-  ESTRADA.slice(1, 3).forEach(p => { ctx.fillStyle = reached(3) ? '#eef1ff' : '#3a4580'; ctx.fillRect(p[0] - 1, p[1] - 1, 3, 3); });
+  line(SUL, true, reached(4), '#ffd36b');
+  [ESTRADA[1], ESTRADA[2], ...SUL.slice(1, -1)].forEach(p => { ctx.fillStyle = reached(3) ? '#eef1ff' : '#3a4580'; ctx.fillRect(p[0] - 1, p[1] - 1, 3, 3); });
+  // São Paulo: parada da viagem vendendo
+  ctx.fillStyle = reached(3) ? '#eef1ff' : '#3a4580'; ctx.beginPath(); ctx.arc(SP[0], SP[1], 3, 0, 7); ctx.fill();
+  ctx.font = '700 6.5px "Libre Franklin", sans-serif'; ctx.textAlign = 'left'; ctx.textBaseline = 'middle'; ctx.fillStyle = reached(3) ? '#cfd6ee' : '#3a4580'; ctx.fillText('São Paulo', SP[0] + 22, SP[1] + 1);
+  // símbolos de cada lugar
+  const cg = CITIES[0].p, bsb = CITIES[1].p, fo = CITIES[2].p, fl = CITIES[4].p;
+  simbolo('arara', cg[0] - 62, cg[1] + 15); simbolo('soba', cg[0] - 48, cg[1] + 20); simbolo('onca', cg[0] - 30, cg[1] + 20);
+  simbolo('congresso', bsb[0] - 10, bsb[1] - 14);
+  simbolo('jangada', fo[0] - 2, fo[1] - 12);
+  simbolo('predios', SP[0] + 6, SP[1] + 2);
+  simbolo('ponte', fl[0] + 10, fl[1] + 4);
   // título e legenda
   ctx.font = '900 9px "Libre Franklin", sans-serif'; ctx.textAlign = 'left'; ctx.textBaseline = 'middle';
   ctx.fillStyle = '#eef1ff'; ctx.fillText('MAPA DA', 10, 20); ctx.fillText('CONSTRUÇÃO', 10, 31);
