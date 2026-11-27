@@ -100,6 +100,13 @@ button.ghost{background:transparent;color:var(--fg);border-color:var(--line);box
 .lista button.aqui{background:var(--k);color:#0a0c18}
 .lista button.aqui span:last-child{color:#0a0c18}
 #goBtn[hidden]{display:none}
+.rank{border:1px solid var(--line);background:#0b0f22;padding:12px;display:flex;flex-direction:column;gap:7px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+.rank b{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.rank .rk{display:grid;grid-template-columns:130px 1fr;gap:8px;align-items:center;font-size:13px;color:#dfe3f7}
+.rank .rk i{display:block;height:9px;background:#2a3160;animation:rk-sobe 1.2s ease-out both}
+.rank .rk i.eu,.rank .rk i.ela{background:var(--c)}
+.rank em{font-size:12px;color:var(--c);font-style:normal}
+@keyframes rk-sobe{from{width:0}}
 .card button.pular{align-self:flex-end;font-size:12px;padding:7px 10px;border-color:var(--c);color:var(--c)}
 /* páginas e tipos de texto, inspirados no link na bio */
 .card{max-height:min(100%,640px)}
@@ -256,16 +263,17 @@ Fé não é uma parte do meu conteúdo.
   {pages:[{texto:`Começou a despertar uma compaixão dentro de mim e eu não pude mais conter!\nTalvez precisassem do que eu tinha:`},{grande:'Dito e feito!', texto:`Comecei a falar com ousadia...não de religião!\nmas de uma pessoa: [[b:Jesus.]] E começou a fazer sentido para alguns.\n[[i:Ok, nem sempre era com ousadia, na maioria das vezes tremendo as pernas, na verdade.]]`}]},
   {pages:[
     {foto:'fotos/2020-amigos.jpg', leg:`Felizes pós lágrimas de oração`, texto:`Primeiro, reuniram 3 na minha casa.`},
-    {texto:`Começando pela colega de turma:\nEla era da minha sala, a gente era amigo, mas tinha uma disputa: todo trimestre o colégio atualizava um ranking de notas no sistema escolar. Os primeiros colocados entre todas as turmas, ao final do ano, ganhavam medalha pra usar no uniforme pra sempre. Um dia ela me perguntou:`},
+    {texto:`Começando pela colega de turma:\nEla era da minha sala, a gente era amigo, mas tinha uma disputa: todo trimestre o colégio atualizava um ranking de notas no sistema escolar. Os primeiros colocados entre todas as turmas, ao final do ano, ganhavam medalha pra usar no uniforme pra sempre. Um dia ela me perguntou:`, ranking:'disputa'},
     {chat:[['Colega de turma',`Tiago, como você parece tão tranquilo e tira notas melhores que eu? E ainda faz robótica, esporte, um monte de coisa...`,'esq'],['Tiago',`Não sei explicar... eu já fui ansioso por nota como você, mas desde que coloquei Jesus em primeiro na minha vida... tenho estudado até menos, os resultados melhoraram, talvez eu estudava demais e não descansava, e Jesus me ensinou a equilibrar, não sei`,'dir']], antes:`eu respondi, e lembro que até com certo frio na barriga,`},
-    {texto:`A partir daí ela quis ir na minha igreja e decidiu colocar Cristo como prioridade. Ela sentiu uma paz inexplicável e anda no amor de Jesus até hoje.\nNesse mesmo ano, no final, empatamos a média de nota nos milésimos, e nós dois ganhamos a mesma medalha no uniforme (coisa que o colégio nunca tinha feito)`},
-    {foto:'fotos/amiga-pregando-na-igreja.jpg', leg:`Olha a menina se desenvolvendo na igreja`, texto:`Ela era MUITO tímida na sala, e aos poucos foi se soltando... Quem diria que ela ia até pregar na igreja!!`},
-    {foto:'fotos/2020-oracao-na-varanda.jpg', ano:'2020', leg:`Oração na varanda da minha casa, com "a menina que eu disputava nota" e com um amigo autêntico`, texto:`Ele me procurou DO NADA, dizendo que queria ir na minha igreja, e um tempo depois me contou que parecia sempre feliz, sorria na escola, mas em casa a cabeça pesava quando encostava no travesseiro.`},
+    {foto:'fotos/amiga-pregando-na-igreja.jpg', leg:`Olha a menina se desenvolvendo na igreja`, texto:`A partir daí ela quis ir na minha igreja e decidiu colocar Cristo como prioridade. Ela sentiu uma paz inexplicável e anda no amor de Jesus até hoje.`},
+    {texto:`Ela era MUITO tímida na sala, e aos poucos foi se soltando... Quem diria que ela ia até pregar na igreja!!`},
+    {ranking:'empate', texto:`Nesse mesmo ano, no final, empatamos a média de nota nos milésimos, e nós dois ganhamos a mesma medalha no uniforme (coisa que o colégio nunca tinha feito)`},
+    {foto:'fotos/2020-oracao-na-varanda.jpg', ano:'2020', leg:`Oração na varanda da minha casa, com "a menina que eu disputava nota" e com um amigo autêntico`, texto:`O Cleiton me procurou DO NADA, dizendo que queria ir na minha igreja, e um tempo depois me contou que parecia sempre feliz, sorria na escola, mas em casa a cabeça pesava quando encostava no travesseiro.`},
     {titulo:'Mas por que autêntico? Ele não usava máscara na escola?', texto:`Por conta dessa confissão. Por isso chamei de autêntico. Parando pra pensar, eu também usei máscara antes, e admitir isso me fez ser autêntico. Ele virou um amigão e mais pra frente liderou comigo um movimento no colégio.`}
   ]},
   {pages:[{foto:'fotos/pregando-na-praca.jpg', leg:`Pregando com meu amigo numa praça, na transição pós LockDown`}]}
   ]},
-{ nome:'voluntário', tag:'Voluntário', titulo:'Intervalo com Deus · Legião de Honra', cor:C.fe, cena:'escola', trecho:'intervalo', tenente:true,
+{ nome:'voluntário', tag:'Voluntário', titulo:'Intervalo com Deus · Legião de Honra', cor:C.tec, cena:'escola', trecho:'intervalo', tenente:true,
   inimigos:['má fama','panelinha','uniforme errado'],
   look:{c:'#c9b98f', w:'#2a4b8d', p:'#2b3a55'},
   tenenteCard:{tag:'Intervalo com Deus', pages:[{texto:`Quem diria...\nNa volta pós pandemia, já no ensino médio, quando vi esse Tenente, a primeira coisa que perguntei foi:`},{chat:[['Tiago',`era o sr que fazia as reuniões cristãs na cantina?`,'dir']], depois:`E daí a conversa fluiu.\nEle fazia no fundamental e eu queria fazer no ensino médio, ele não conseguiu dar tanto apoio.\n[[b:Corri atrás de muita coisa sozinho.]]`}]},
@@ -462,6 +470,9 @@ function pageBody(c){
   if (c.titulo) h += `<h3>${fmt(c.titulo)}</h3>`;
   if (c.grande) h += `<h2>${fmt(c.grande)}</h2>`;
   if (c.dica) h += `<div class="dica"><b>Dica:</b>${paras(c.texto)}</div>`; else if (c.texto) h += paras(c.texto);
+  if (c.ranking) h += c.ranking === 'empate'
+    ? `<div class="rank"><b>ranking de notas · fim do ano</b><div class="rk"><span>🏅 Tiago</span><i style="width:96%"></i></div><div class="rk"><span>🏅 Colega de turma</span><i style="width:96%"></i></div><em>empate nos milésimos</em></div>`
+    : `<div class="rank"><b>ranking de notas · sistema escolar</b><div class="rk"><span>Tiago</span><i class="eu" style="width:93%"></i></div><div class="rk"><span>Colega de turma</span><i class="ela" style="width:91%"></i></div><div class="rk"><span>· · ·</span><i style="width:84%"></i></div><div class="rk"><span>· · ·</span><i style="width:79%"></i></div><em>todo trimestre, a disputa</em></div>`;
   if (c.citacao) h += `<blockquote>${lines(c.citacao)}</blockquote>`;
   if (c.velho) h += `<div class="velho">${lines(c.velho)}</div>`;
   if (c.verbete) h += `<div class="verbete"><b>${esc(c.verbete[0])}</b>${paras(c.verbete[1])}</div>`;
