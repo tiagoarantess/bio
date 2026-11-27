@@ -1,0 +1,940 @@
+<!doctype html>
+<html lang="pt-BR">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Tiaguinho em Construção</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@500;700;800;900&family=Fraunces:opsz,wght@9..144,600&display=swap" rel="stylesheet">
+<style>
+/* Layout: um console de bolso. Tela do jogo no topo, controles grandes embaixo, cartões de memória por cima. Visual escuro único, da identidade do link na bio. */
+:root{
+  --bg:#090b18; --panel:#10142a; --fg:#eef1ff; --muted:#9aa3c7; --line:#2a3160;
+  --tec:#b8ff38; --fe:#a56cff; --edu:#ff8049; --emp:#31a7ff;
+  --t-display:"Libre Franklin", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --t-quote:"Fraunces", Georgia, "Times New Roman", serif;
+  color-scheme:dark;
+}
+*,*::before,*::after{box-sizing:border-box}
+html,body{background:var(--bg);color:var(--fg)}
+body{font-family:var(--t-display);margin:0;padding-left:max(12px,env(safe-area-inset-left,0px));padding-right:max(12px,env(safe-area-inset-right,0px));padding-block:12px 40px;
+  background-image:linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px);background-size:28px 28px}
+.wrap{max-width:760px;margin:0 auto;display:flex;flex-direction:column;gap:12px}
+header{display:flex;align-items:baseline;justify-content:space-between;gap:8px;flex-wrap:wrap}
+header .mk{font-weight:800;color:var(--tec);font-size:13px;letter-spacing:.04em;margin:0}
+header h1{font-weight:900;font-size:clamp(20px,5vw,30px);margin:0;line-height:1.1;letter-spacing:-.01em}
+.screen{position:relative;width:100%;aspect-ratio:4/3;max-height:72vh;background:#000;border:3px solid #000;box-shadow:0 0 0 2px var(--line),6px 6px 0 #000;margin-inline:auto}
+canvas{display:block;width:100%;height:100%;touch-action:none;image-rendering:pixelated}
+.bar{display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.bar p{margin:0;color:var(--muted);font-size:14px;line-height:1.35;flex:1 1 220px;min-width:0}
+.bar p b{color:var(--fg)}
+.btns{display:flex;gap:8px}
+button{font-family:var(--t-display);font-weight:800;font-size:14px;letter-spacing:.02em;cursor:pointer;border:2px solid #000;background:var(--c,var(--tec));color:#0a0c18;padding:11px 16px;box-shadow:4px 4px 0 #000;border-radius:0}
+button:active{transform:translate(2px,2px);box-shadow:2px 2px 0 #000}
+button:focus-visible,a:focus-visible{outline:3px solid #fff;outline-offset:3px}
+button.ghost{background:transparent;color:var(--fg);border-color:var(--line);box-shadow:none}
+.pad{display:none;justify-content:space-between;gap:12px;user-select:none;-webkit-user-select:none;padding-top:4px}
+.pad .dir{display:flex;gap:12px}
+.pad button{width:76px;height:68px;font-size:22px;touch-action:none;background:var(--panel);color:var(--fg);border-color:var(--line);box-shadow:4px 4px 0 #000}
+.pad button.jump{width:128px;font-size:16px;background:var(--c,var(--tec));color:#0a0c18;border-color:#000}
+@media (pointer:coarse){.pad{display:flex}.keys{display:none}}
+.keys{color:var(--muted);font-size:13px;margin:0}
+.full{color:var(--muted);font-size:14px;margin:4px 0 0}
+.full a{color:var(--fg);font-weight:700}
+/* cartões */
+.overlay{position:absolute;inset:0;z-index:5;display:flex;align-items:center;justify-content:center;padding:10px;background:rgba(5,7,16,.66)}
+@media (max-width:820px){.overlay{position:fixed;padding:14px max(14px,env(safe-area-inset-right,0px)) max(14px,env(safe-area-inset-bottom,0px)) max(14px,env(safe-area-inset-left,0px))}}
+.card{--c:var(--tec);background:var(--panel);border:2px solid var(--c);box-shadow:6px 6px 0 #000,0 0 28px color-mix(in srgb,var(--c) 30%,transparent);width:100%;max-width:520px;max-height:100%;overflow:auto;padding:16px 18px 18px;display:flex;flex-direction:column;gap:12px}
+.card .tag{font-size:11px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--c);display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap}
+.card h2{font-weight:900;font-size:clamp(20px,5vw,26px);line-height:1.12;margin:0;text-wrap:balance}
+.card p{margin:0;font-size:16px;line-height:1.5;font-weight:500}
+.card blockquote{margin:0;font-family:var(--t-quote);font-size:19px;line-height:1.35;border-left:3px solid var(--c);padding-left:12px}
+.card figure{margin:0;display:flex;flex-direction:column;gap:6px}
+.card figure img{width:100%;max-height:44vh;object-fit:contain;background:#000;display:block}
+.card figcaption{font-size:13px;color:var(--muted);line-height:1.4}
+.card figcaption b{color:var(--c)}
+.fala{display:flex;flex-direction:column;gap:2px;border-left:3px solid var(--c);padding-left:10px}
+.fala b{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--c)}
+.fala span{font-family:var(--t-quote);font-size:17px;line-height:1.35}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(90px,1fr));gap:8px}
+.stats div{border:1px solid var(--line);padding:8px 10px;display:flex;flex-direction:column}
+.stats b{font-size:24px;font-weight:900;color:var(--c);font-variant-numeric:tabular-nums}
+.stats span{font-size:12px;color:var(--muted)}
+.vs{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.vs div{border:1px solid var(--line);padding:10px;display:flex;flex-direction:column;gap:4px}
+.vs div:last-child{border-color:var(--c)}
+.vs b{font-size:12px;letter-spacing:.12em;color:var(--muted)}
+.vs div:last-child b{color:var(--c)}
+.vs span{font-size:15px}
+.term{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;background:#000;border:1px solid var(--line);padding:10px 12px;font-size:15px;color:var(--tec)}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chips span{border:1px solid var(--c);color:var(--c);font-size:13px;font-weight:700;padding:5px 9px}
+.row{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:2px}
+.cta{display:flex;flex-direction:column;gap:10px}
+.cta a,.cta span.pend{display:block;text-decoration:none;font-weight:800;font-size:16px;color:#0a0c18;background:var(--k);border:2px solid #000;box-shadow:4px 4px 0 #000;padding:13px 14px}
+.cta span.pend{background:transparent;color:var(--muted);border-color:var(--line);box-shadow:none;font-weight:700}
+.cta small{display:block;font-weight:600;font-size:12px;opacity:.8}
+.big{font-size:44px;font-weight:900;line-height:1;color:var(--c)}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+
+<div class="wrap">
+  <header>
+    <h1>Tiago em construção</h1>
+    <p class="mk">@otiagoarantes</p>
+  </header>
+  <div class="screen" id="screen">
+    <canvas id="game" aria-label="Jogo de plataforma com a história do Tiago"></canvas>
+    <div class="overlay" id="ov" hidden></div>
+  </div>
+  <div class="bar">
+    <p id="mission">Carregando…</p>
+    <span class="btns"><button class="ghost" id="somBtn" aria-pressed="false">♪ som</button><button class="ghost" id="mapBtn">Mapa</button></span>
+  </div>
+  <div class="pad" id="pad">
+    <div class="dir">
+      <button data-k="left" aria-label="Andar para a esquerda">◀</button>
+      <button data-k="right" aria-label="Andar para a direita">▶</button>
+    </div>
+    <button class="jump" data-k="jump">PULAR</button>
+  </div>
+  <p class="keys">← → andar · Espaço pular · Shift correr · M mapa</p>
+  <p class="full">Prefere ler? <a href="https://tiagoarantess.github.io/bio/" target="_blank" rel="noopener">Ler a história completa</a></p>
+</div>
+
+<script>
+(() => {
+const W = 320, H = 240, T = 16, ROWS = 15, GROUND = 13, QROW = 9;
+const C = {tec:'#b8ff38', fe:'#a56cff', edu:'#ff8049', emp:'#31a7ff'};
+
+/* ============ CONTEÚDO: textos exatos do link na bio ============ */
+const WORLDS = [
+{ nome:'robótica', regiao:0, tag:'Capítulo 01 · origem', titulo:'Tudo começou com a robótica.', cor:C.tec, inimigo:'', cena:'arena', musica:1,
+  look:{c:'#2f7a2a', w:'#b8ff38', p:'#2b3350'},
+  cards:[
+  {foto:'fotos/2018-entrevista-tv-robotica-1.jpg', ano:'2018', leg:`Comecei pivete. Entrevista de quando nossa equipe se destacou`},
+  {foto:'fotos/2018-premiacao-no-palco.jpg', ano:'2018', leg:`Competições, medalhas e anos construindo, programando e competindo.`},
+  {foto:'fotos/2019-equipe-testando-robo.jpg', ano:'2019', leg:``},
+  {texto:`E teve feira de ciências também.\nExperiências que me criaram um olhar crítico-científico sobre a vida.`, foto:'fotos/feira-premio-colegio-militar.jpg', ano:'2022', leg:`Medalha de participação kkk na maior feira do centro-oeste, a FETEC`},
+  {foto:'fotos/feira-ciencias-1.jpg', ano:'2023', leg:`No outro ano, voltamos, e recebemos reconhecimento do Austrian Space Fórum, através do Dr. Groemer. Além de ganhar o 1 lugar da feira`},
+  {foto:'fotos/feira-ciencias-2.jpg', ano:'2023', leg:`Foto na saída do auditório da UFMS, com o troféu, porque na hora da premiação ficamos tão sem acreditar que esquecemos de foto.`}
+  ]},
+{ nome:'a base', regiao:0, tag:'Capítulo 02 · fé', titulo:'A força da construção está na base que ninguém vê', cor:C.fe, inimigo:'imprevisto', cena:'noite', musica:1,
+  look:{c:'#2f7a2a', w:'#b8ff38', p:'#2b3350'}, instavel:3,
+  cards:[
+  {texto:`Meses de preparo. O robô pronto, a expectativa lá no teto e a certeza de que aquele era o nosso ano.\nTínhamos ganhado a etapa anterior, a regional, em primeiro lugar. Estávamos bem!\nMas, na hora H... aconteceram TODOS os tipos de imprevistos.`},
+  {texto:`Desabei.\nMe levaram pra casa pós-competição. Naquele dia, por um milagre, todo mundo tava fora de casa. O silêncio era tudo o que eu precisava. Fechei a porta do quarto e orei. Ou melhor, me derramei... Entre lágrimas, soluços e gritos. Comecei a oração com tristeza, dúvidas e questionamentos, e tudo sublimou para fé e gratidão! No ápice, fiz uma das orações mais ousada da minha vida:`},
+  {texto:`“Pode me conduzir pelos processos mais difíceis, porque sei que eles produzirão os melhores frutos.”\nEu tinha 12 anos quando falei isso para Deus. Entrei naquele quarto abalado, mas lá comecei a ver se formar uma rocha firme onde poderia apoiar os meus pés.`},
+  {texto:`A base é onde apoiamos a nossa segurança, o nosso valor e a nossa identidade.\nAté aquele dia, sem perceber, a minha base estava nos meus resultados: se conquistasse algo, eu estava bem; quando não conseguia, ficava desesperado.`},
+  {texto:`Naquele quarto, a minha base se firmou. E agora a forma como eu enxergo a vida deveria ser a partir daquele novo ponto de vista.\nColoquei a minha dependência no amor de um Pai cujo amor não muda por performance.`},
+  {texto:`Já percebeu que quando a gente pisa com medo num terreno que não conhece, a gente anda olhando só para os próprios pés, tentando não cair? Mas quando sabemos que o terreno é firme, finalmente conseguimos levantar a cabeça, olhar ao redor e adiante.`},
+  {texto:`Talvez, por isso, peguei o celular e mandei mensagem pra um amigo da equipe, que também tinha ficado meio abalado.\nEu só consegui olhar para o meu amigo e me importar com a dor dele porque transbordei o que tinha acabado de receber naquele quarto.\nPela primeira vez, tive coragem de falar da minha fé e esperança para alguém, mesmo que por mensagem, e ele correspondeu bem.`},
+  {texto:`Na próxima frustração, não pense que veio para te destruir. Talvez ela só esteja cavando o espaço para construir uma fundação.`}
+  ],
+  fim:{texto:`Minha fé em Jesus faz parte de tudo que estou construindo.\nFé não é uma parte do meu conteúdo.\nÉ a lente através da qual eu enxergo todas as partes.`}},
+{ nome:'vivo', regiao:0, tag:'Me sentindo vivo', titulo:'Meu coração começou a ficar aquecido de amor.', cor:C.fe, inimigo:'medo', cena:'escola', musica:1,
+  look:{c:'#c9b98f', w:'#2a4b8d', p:'#2b3a55'},
+  cards:[
+  {texto:`Um amor maior do que robótica, conquistas acadêmicas e qualquer coisa.\nQuando eu li as palavras de Jesus (embora já tivesse ouvido muito pela boca dos outros, agora tinha parado para ler a Bíblia e buscar na fonte!) minha reação era: Uau! QUANTAS PALAVRAS DESSE HOMEM FAZIAM SENTIDO!`},
+  {texto:`As palavras de Jesus me confrontavam, e logo consolavam. Na verdade... ele expunha minha ferida, e vinha com o remédio.\n“Oh! Médico dos médicos.”`},
+  {texto:`Comecei a falar desse amor com mais ousadia na pandemia, através de reuniões online com os amigos: eu tinha voz na escola!\nIsso talvez porque era destaque de nota e o mais conversador/bagunceiro da turma, então muitos se achegavam pra ouvir.`},
+  {texto:`Com o tempo, aqueles que eram meus amigos já não queriam mais ouvir (ou não queria praticar o que ouviam na mesma intensidade que eu), e nos afastamos... até que fiquei sozinho e distante do meu grupo "popular"\nQuando acabou o lockdown do Covid, voltamos pra escola e eu me sentia só, mas estava em paz com a minha decisão. Todos falavam que eu estava super "zen" se comparado ao Tiago de antes.`},
+  {texto:`Começou a despertar uma compaixão dentro de mim e eu não pude mais conter!\nTalvez precisassem do que eu tinha:`, titulo:'Dito e feito!', depois:`Comecei a falar com ousadia...não de religião!\nmas de uma pessoa: Jesus. E começou a fazer sentido para alguns.\nOk, nem sempre era com ousadia, na maioria das vezes tremendo as pernas, na verdade.`},
+  {texto:`Primeiro, reuniram 3 na minha casa.`, foto:'fotos/2020-amigos.jpg', leg:`Felizes pós lágrimas de oração`},
+  {texto:`Começando pela colega de turma:\nEla era da minha sala, a gente era amigo, mas tinha uma disputa: todo trimestre o colégio atualizava um ranking de notas no sistema escolar. Os primeiros colocados entre todas as turmas, ao final do ano, ganhavam medalha pra usar no uniforme pra sempre. Um dia ela me perguntou:`,
+   fala:[['Colega de turma',`Tiago, como você parece tão tranquilo e tira notas melhores que eu? E ainda faz robótica, esporte, um monte de coisa...`],['Tiago',`Não sei explicar... eu já fui ansioso por nota como você, mas desde que coloquei Jesus em primeiro na minha vida... tenho estudado até menos, os resultados melhoraram, talvez eu estudava demais e não descansava, e Jesus me ensinou a equilibrar, não sei`]],
+   depois:`A partir daí ela quis ir na minha igreja e decidiu colocar Cristo como prioridade. Ela sentiu uma paz inexplicável e anda no amor de Jesus até hoje.\nNesse mesmo ano, no final, empatamos a média de nota nos milésimos, e nós dois ganhamos a mesma medalha no uniforme (coisa que o colégio nunca tinha feito)`},
+  {texto:`Ela era MUITO tímida na sala, e aos poucos foi se soltando... Quem diria que ela ia até pregar na igreja!!`, foto:'fotos/amiga-pregando-na-igreja.jpg', leg:`Olha a menina se desenvolvendo na igreja`},
+  {foto:'fotos/2020-oracao-na-varanda.jpg', ano:'2020', leg:`Oração na varanda da minha casa, com "a menina que eu disputava nota" e com um amigo autêntico`, depois:`Ele me procurou DO NADA, dizendo que queria ir na minha igreja, e um tempo depois me contou que parecia sempre feliz, sorria na escola, mas em casa a cabeça pesava quando encostava no travesseiro.`},
+  {foto:'fotos/pregando-na-praca.jpg', leg:`Pregando com meu amigo numa praça, na transição pós LockDown`}
+  ]},
+{ nome:'voluntário', regiao:0, tag:'Voluntário', titulo:'Intervalo com Deus · Legião de Honra', cor:C.fe, inimigo:'má fama', cena:'escola', musica:1, tenente:true,
+  look:{c:'#c9b98f', w:'#2a4b8d', p:'#2b3a55'},
+  tenenteCard:{titulo:'Intervalo com Deus', texto:`Quando entrei no Colégio Militar no 6º ano, e era serelepe, sempre fugia de um Tenente que me chamava para ir numa reunião na cantina "pra falar de Deus".\nPILANTRA!`},
+  cards:[
+  {texto:`Quem diria...\nNa volta pós pandemia, já no ensino médio, quando vi esse Tenente, a primeira coisa que perguntei foi:\n“era o sr que fazia as reuniões cristãs na cantina?”\nE daí a conversa fluiu.`},
+  {texto:`Começamos os encontros sem nenhum nome.\nUm dia, olhando papéis pra jogar fora em casa, vi um folheto muito antigo... um convite para o "Intervalo com Deus". Fiquei maravilhado, porque provavelmente meu pai pegou e guardou (meu pai trabalhou nesse colégio anos antes).\nEntão descobri que não estava começando algo novo, mas só continuando algo que existia antes.`},
+  {texto:`Vi que Deus não só "mexeu os pauzinhos"... ele ajeitou os pauzinhos, riscou o fósforo e acendeu a fogueira ele mesmo.\nPoderia dizer que comecei isso sozinho, mas chega a ser errado...\nEu, sozinho, fugia... lembra?\nMas, com Ele, aprendi a ser ousado. Desenvolvi coragem arriscando, e só assumi riscos por uma paixão ardente.`},
+  {texto:`No final, ficou óbvio não estar sozinho. Acontece o quê você vê nas fotos abaixo:`, foto:'fotos/icd-grupo-cresceu.jpg', ano:'2023', leg:`O grupo começou a crescer`},
+  {foto:'fotos/icd-cleiton.jpg', ano:'2023', leg:`Cleiton pregando. Sala com todas cadeiras cheias, e pessoas em pé em todo redor`},
+  {foto:'fotos/icd-novo-4.jpg', ano:'2023', leg:`Reuníamos não só alunos, mas militares, professores civis, até faxineiras`},
+  {tag:'Legião de Honra', texto:`Depois que me converti e melhorei meu comportamento na escola, consegui entrar numa iniciativa que eu queria há muito tempo...\na Legião de Honra, que fazia ações sociais, e só aceitava alunos exemplares, tanto em nota (coisa que eu tinha), quanto em comportamento (coisa que eu não tinha nos primeiros anos do colégio militar).`},
+  {tag:'Legião de Honra', texto:`Quase desisti disso...\nMas após pandemia vi aberta a inscrição, "falei: ah, vou tentar ", fiz o discurso de novo (dessa vez com verdade).\nE não esperava entrar, porque é difícil apagar uma má fama diante das pessoas.\nVocê pode ser perdoado por Deus e ainda sofrer as consequências.\nMas... se você ta no time dele, ele vai transformar até o mal em bênção`},
+  {tag:'Legião de Honra', texto:`Inclusive, eu estava tão desapegado que não lembrei o dia que sairia o resultado. Na noite que anunciaram na internet, eu estava fazendo uma live falando de Jesus no Instagram. Uma amiga que eu nem falava há muito tempo entrou na live só para dizer "TIAGOOO, VOCÊ ENTROU NA LEGIÃO". Eu tava orando e quando abri os olhos só vi um monte de comentário, e disse algo do tipo "sério? obrigado por avisar." sem muita reação. Só depois fui processar a alegria e agradecer ao Papai. Esse é o significado daquela bolacha azul que você vê no peito do meu uniforme.`},
+  {tag:'Legião de Honra', foto:'fotos/2022-orfanato-legiao-de-honra-1.jpg', ano:'2022', leg:``, texto:`Nessa visita a um orfanato que fizemos no Dia das Crianças com a Legião de Honra, uma criança me desenhou.\nTímido, entregou para uma amiga, que me contou e entregou por ele. Claro que fui falar com ele, olha a alegria dele de ter seu desenho reconhecido, e minha alegria de ser desenhado. (A QUE PARECE MAIS ALEGRE É MINHA AMIGA LÁ ATRÁS KKKKKK)`}
+  ]},
+{ nome:'diferente', regiao:0, tag:'Diferente', titulo:'Neurodivergente: é isso que me faz um pouco diferente.', cor:C.edu, inimigo:'saturado', cena:'escola', musica:1,
+  look:{c:'#c9b98f', w:'#2a4b8d', p:'#2b3a55'},
+  cards:[
+  {texto:`Fui diagnosticado com AHSD há mais de uma década. Começou assim:`, fala:[['8 anos · aula de matemática',`Eu terminava as atividades rápido e ficava à toa, conversando. Em vez de brigar comigo, a professora Sônia (obrigado, professora 🙏) chamou a coordenação e pediu uma avaliação no NAAHS, o núcleo de Altas Habilidades do estado. Uma neuropsicóloga confirmou.`]]},
+  {fala:[['13 anos · de volta',`Uma amiga do meu grupo de robótica me contou que o núcleo tinha mudado de nome (agora CEAM/AHS) e de lugar. Sem expectativa nenhuma, voltei. Novo teste psicológico: deu de novo. E todos os psicólogos e psiquiatras de lá pra cá só confirmam.`]]},
+  {titulo:'Isso não me faz melhor. Só me faz diferente.', texto:`Todo mundo tem potenciais a serem explorados e dificuldades a serem tratadas.`},
+  {texto:`Até que, do nada (após a pandemia rs), os meus interesses mudaram.\nEu já estava saturado das aulas de matemática. E meu tempo era escasso:`, chips:['ensino médio','Intervalo com Deus','Legião de Honra','projetos de ciências','robótica','igreja','esportes'], depois:`Cada atividade do meu dia tinha que fazer sentido pras minhas prioridades. E ali não estava fazendo.`},
+  {texto:`Eu queria explorar a minha fé, as profundezas do que acredito, de onde ela veio e conhecer\nos homens que viveram intensamente por ela:`, depois:`“Os quais, pela fé, venceram reinos, praticaram a justiça, alcançaram promessas, fecharam a boca de leões, apagaram a força do fogo, escaparam do fio da espada, da fraqueza tiraram força...”\nHebreus 11:33-34`},
+  {texto:`Mesmo assim, fui e falei:`, fala:[['eu',`Eu quero trocar os meus atendimentos de exatas. Já estou saturado e tenho novos interesses e prioridades nessa fase da minha vida.`],['coordenação',`Claro, Tiago. E quais seriam os seus novos interesses?`],['eu',`Eu quero aprender a história, especificamente história da igreja.`],['coordenação',`Nossa, você vai se identificar então com a professora de história.`]]},
+  {texto:`Foi assim: simples. Na semana seguinte eu já estava lá. E o que eu descobri no primeiro dia?`, titulo:'A professora de história era pastora.'},
+  {titulo:'Foi a melhor experiência da minha vida.', texto:`E a melhor decisão: ter me posicionado no que eu queria. Pra descobrir que era um desejo que Ele implantou no meu coração, num caminho que Ele já tinha preparado.`}
+  ]},
+{ nome:'IME', regiao:0, tag:'Capítulo 03 · o sonho do vestibular', titulo:'Meu sonho era o IME.', cor:C.edu, inimigo:'simulado', cena:'brasilia', musica:2, voo:'fortaleza',
+  look:{c:'#2f7a2a', w:'#b8ff38', p:'#2b3350'},
+  cards:[
+  {foto:'fotos/palacio-da-alvorada-equipe-do-ime.jpg', leg:`Na foto, Palácio da Alvorada, e nossa equipe campeã de robótica com a equipe de Robótica do IME, em passeio por Brasília`},
+  {texto:`Após uma competição de robótica que ficamos em primeiro lugar em Brasília, os alunos do IME nos disseram que tínhamos um currículo forte o suficiente para pedir uma bolsa no melhor curso preparatório do Brasil, que fica em Fortaleza...\nDisseram também que essa era a melhor forma de termos chances para passar na prova deles: O VESTIBULAR MAIS DIFÍCIL DO BRASIL 💀\n(é esperado que se faça alguns anos de cursinho)`},
+  {titulo:'Mais uma vez, dito e feito!', texto:`Mandamos nosso currículo, e ganhamos bolsa 100% no cursinho mais caro do Brasil.`}
+  ]},
+{ nome:'Fortaleza', regiao:1, tag:'Capítulo 04 · mudança de rota', titulo:'Mas Fortaleza me mostrou um mundo de possibilidades que eu ainda não conhecia.', cor:C.tec, inimigo:'simulado', cena:'fortaleza', musica:2,
+  look:{c:'#f2f4fa', w:'#31a7ff', p:'#33405f'},
+  cards:[
+  {tag:'Tempo de preparação', foto:'fotos/cursinho-farias-brito-ime-ita.jpg', leg:`Eu, e meu amigo da equipe de robótica sentado logo na minha frente, no cursinho em Fortaleza`, depois:`Esse amigo agora está na faculdade mais inovadora da América Latina, a Inteli\nO cara é bom, @paulo_rbto`},
+  {texto:`E sim, abri mão de ir para o IME 💀\nPor quê? Difícil? Também kkk mas eu poderia continuar tentando...\nAcontece que: descobri que não era o único lugar possível de continuar desenvolvendo o que gosto.\nNa verdade... comecei a enxergar oportunidades maiores no mundo da robótica.`},
+  {titulo:'Residência no IFCE · Sistemas Embarcados', texto:`Trabalhando no laboratório de Software do Instituto Federal do Ceará, desenvolvendo projetos de embarcados (uma área específica da robótica rsrs) para grandes empresas e startups.`, stats:[['+3 mil','por mês'],['4h','por dia'],['5x2','escala']], foto:'fotos/ifce-residencia.jpg', leg:`Residência no laboratório de Sistemas Embarcados do IFCE`},
+  {foto:'fotos/ifce-laboratorio.jpg', leg:``, texto:`Era um laboratório secreto, assinei um termo de confidencialidade por 2 anos, então não posso falar muitas coisas.`},
+  {tag:'Capítulo 05 · professor', titulo:'Comecei a trabalhar dando aulas.', texto:`Minhas experiências ensinando passaram por escolas de referência como:`, chips:['CódigoKid','Farias Brito','Colégio Militar de Fortaleza','Instituto Federal do Ceará']},
+  {tag:'Capítulo 05 · professor', texto:`Mas tudo começou num canto escuro do prédio do cursinho pro IME\nEu deitado num banco. Matando uma aula de inglês (fácil) do cursinho pro IME, enquanto orava e refletia sobre: 1. o quanto eu queria que meus amigos do cursinho conhecessem Jesus (e muitas orações foram respondidas, tá?)\n2. Como eu tava evoluindo pouco nos simulados pro IME.`},
+  {tag:'Capítulo 05 · professor', texto:`Com os insights, pensei que eu precisava me dispor a resolver o problema de alguém, e me ofereci para dar aula... de forma voluntária!\nAcredita?\nLogo gostaram do meu trabalho, me contrataram e até ressarciram o tempo como voluntário.\nDepois fui pra outra escola. E outra ganhando mais. E outra ganhando mais.\nMas isso é história pra outra hora.`},
+  {tag:'Capítulo 05 · professor', texto:`O principal aprendizado é: você encontra seu caminho servindo pessoas com as habilidades que tem! E até quando acha que não têm, existe algo em suas mãos para dispor a servir, mesmo que sejam 5 pães e 2 peixinhos(quem leu, entenda). E se não tiver nada em mãos... Tem pelo menos a mão pra pegar uma enxada? kkkkk\nDava aula e estudava. Ensinar enquanto estou aprendendo... te lembra algum instagram por aí 👀?`, foto:'fotos/aula-codigokid-1-capa.jpg', leg:``},
+  {tag:'Capítulo 06 · faculdade', titulo:'Ao mesmo tempo, fazia faculdade de Análise e Desenvolvimento de Sistemas.', texto:`Eu gostava de programação. Sempre fui o programador das minhas equipes de robótica.\nMas com o tempo descobri que essa faculdade focava apenas em sites e aplicativos. Só que o que eu gosto de programar tem corpo:\neu gosto de programar robôs.`, foto:'fotos/faculdade-ads-1.jpg', leg:``}
+  ]},
+{ nome:'vendas', regiao:1, tag:'Capítulo 07 · vendas', titulo:'Decidi sair do emprego no Instituto Federal!', cor:C.emp, inimigo:'não', cena:'praia', musica:2, doce:true,
+  look:{c:'#31a7ff', w:'#ffd36b', p:'#d9c79a', bone:'#ff8049'},
+  cards:[
+  {titulo:'Decidi sair do emprego no Instituto Federal!', fala:[['Pai','O QUÊ!?'],['Chefe','Por quê?'],['Amigo','Como assim??']], depois:`Sim, todos me questionaram, garantindo que estava certo da minha decisão, e saí! Em paz... sem muita satisfação, apenas dizendo que tava certo da nova fase que queria, porque era difícil explicar o que tinha lido:`},
+  {texto:`“Não trabalhe para ganhar dinheiro, trabalhe para aprender”\nAprendi no livro Pai Rico, Pai Pobre\nAprenda as habilidades necessárias para fazer o dinheiro trabalhar pra você.`},
+  {texto:`Sou jovem e quero usar minha energia para construir algo de valor para a sociedade.\nQuero que muitos vivam a robótica e sejam transformados por meio dela como eu fui. Quero expandir isso com um método escalável.`, titulo:'Chegou a hora de abrir a minha StartUp!', depois:`Mas pra isso eu vi que precisava de tempo e dinheiro`},
+  {texto:`"Ah, Tiago, mas tu trabalhava 4h por dia e ganhava mais que metade da população brasileira, vai me dizer que faltava tempo e dinheiro!?"\nSim, exatamente.\nO esgotamento mental era grande. Nunca vai entrar na minha cabeça admitir que as pessoas trabalham 8h por dia para ganhar um salário mínimo.\nDinheiro eu gastava tudo para sobreviver. (Descobri que no Brasil 3 mil é sobrevivência)`},
+  {texto:`Tivemos férias final do ano, pensei bastante, e no primeiro dia do retorno anunciei minha saída.`, data:true, depois:`No dia 6 de janeiro (meu aniversário inclusive), foi meu último dia, algo simbólico pra mim. Decidi: a partir de hoje iria trabalhar pra mim, assumiria as rédeas da minha vida.`, foto:'fotos/despedida-do-laboratorio.jpg', leg:`Despedida do laboratório e comemoração do aniversário`},
+  {texto:`Troquei o ar-condicionado do laboratório secreto pelo sol na cabeça e areia no pé.\nOuvi dezenas de "nãos" até pegar o jeito.\nComecei a vender 4 horas por dia, dia sim dia não, na praia de Fortaleza. Mas eu contava o deslocamento dentro das 4h, e no trabalho, se contasse deslocamento dava 6h.`},
+  {vs:[['LABORATÓRIO','tempo 6h, todo dia','dinheiro 3 mil, por mês'],['PRAIA','tempo 4h, dia sim, dia não','dinheiro 4 mil, por mês']], titulo:'Ganhei tempo, dinheiro, tudo que eu precisava.', foto:'fotos/primeira-vez-vendendo-na-praia.jpg', leg:`Primeira vez vendendo na praia os meus próprios produtos.`},
+  {tag:'Um dia, numa praça de alimentação em Fortaleza', texto:`Estava vendendo doces. Meus pais não apoiavam. Achavam perigoso. Já tinham me ligado pra falar disso.\nNesse dia vendi para uma mãe que, me parou, perguntou quantos anos eu tinha, olhou nos meus olhos e disse:`, depois:`“Olha, eu tenho um filho de um ano. Se o meu filho tiver a sua idade fazendo exatamente o que você está fazendo, eu vou ser a mãe mais orgulhosa do mundo.”`},
+  {texto:`Naquele dia, quando cheguei em casa, eu chorei muito. Em casa não, lembro que foi na lavanderia(vida de solteiro ne). Não sei se chorei de tristeza ou de alegria.\nEu queria que os meus pais vissem dessa forma.\nMas... mesmo que eles não vissem. Mesmo que eles não entendessem.\nAquilo me trouxe muito mais convicção do que eu tô fazendo, do porquê eu tô fazendo, e deu ânimo pra continuar.`},
+  {titulo:'Em fevereiro, tranquei a faculdade.', texto:`Tranquei a faculdade e decidi viajar vendendo.\nFiz um rolê pelo Nordeste: Olinda, Recife, Natal.\nDepois fui para São Paulo, e voltei para a minha cidade natal para ver os meus pais.`},
+  {texto:`Um dia estava no posto de gasolina, à noite, frio, mas as vendas estavam saindo aos poucos, e decidi continuar. Depois de muitos "nãos" seguidos... (parece que as bênçãos sempre vêm assim, né?)\nEncontrei um japonês. Vendi pra ele.\nQuando falei que estava levantando recurso pra abrir a minha empresa de robótica. Ele já meteu um "AH, ENTÃO VOCÊ TRABALHA NA MESMA ÁREA QUE EU? Conhece o laboratório do Sebrae?"\nEle me falou do Sebrae numa noite. No dia seguinte eu já estava lá, falando com os consultores.`},
+  {texto:`Eles me deram uma mentoria sobre o meu modelo de negócio: a ideia de criar uma escola de robótica online era válida, mas levaria tempo.\nEnquanto isso, eu poderia continuar vendendo os doces e criar um robô para vender junto comigo: aumentar a conexão com o cliente e o número de conversões de vendas, pra investir na estruturação da escola.`, foto:'fotos/sebrae-modelagem-3d.jpg', leg:`No Sebrae, modelando o robô em 3D`},
+  {foto:'fotos/robo-que-vende-comigo.jpg', leg:`Construindo o robô que vende comigo`, titulo:'Um robô vendendo comigo, pra pagar a escola que eu quero construir.'}
+  ]},
+{ nome:'mudança', regiao:1, tag:'Capítulo 08 · mudança, de novo!', titulo:'Mudança, de novo!', cor:C.edu, inimigo:'faculdade?', cena:'estrada', musica:3, voo:'floripa',
+  look:{c:'#31a7ff', w:'#ffd36b', p:'#d9c79a', bone:'#ff8049'},
+  cards:[
+  {texto:`Nessa época vendendo, muita gente me perguntava da faculdade.`, term:'> E a faculdade, Tiago?', depois:`Vi o quanto ainda valorizam isso.`},
+  {texto:`Eu, sinceramente, acredito que o sistema de ensino das faculdades está ultrapassado.\nMas ainda quero fazer! Porque quero passar pelo processo que todo mundo passa, sentir como é, e vencê-lo!\nDiferente de muitos, eu não espero que a faculdade me dê um bom emprego.`},
+  {texto:`No laboratório eu trabalhei ao lado de pessoas com mestrado e doutorado. De igual pra igual, ganhando a mesma coisa, e vendo que elas passavam os mesmos sufocos pra se manter financeiramente.`, titulo:'Eu quero fazer o dinheiro trabalhar pra mim.'},
+  {texto:`1. Ter recursos pra, primeiramente, viver com liberdade.\n2. Usar essa liberdade pra pensar em ideias inovadoras e gerar impacto. (O que já faço no meu tempo livre: isso é intrínseco a mim.)`},
+  {texto:`E por que eu gosto de pensar em formas de resolver problemas da sociedade?`, titulo:'Porque os meus problemas já estão todos resolvidos.', depois:`Olho no espelho, sorrio e me encontro plenamente satisfeito. Desde que conheci Jesus, tenho tudo que preciso e que quero. Ele pregou todos os meus problemas na cruz.`},
+  {texto:`Mas gosto de ver as coisas funcionando na vida real, construir máquinas.`, titulo:'E a melhor faculdade que integra hardware e software é a Engenharia Mecatrônica.'}
+  ]},
+{ nome:'Floripa', regiao:2, tag:'E por que Floripa?', titulo:'E foi assim que vim parar em Florianópolis.', cor:C.emp, inimigo:'status quo', cena:'floripa', musica:3,
+  look:{c:'#141a33', w:'#b8ff38', p:'#2b3350'},
+  cards:[
+  {titulo:'Passei numa faculdade federal de alto conceito daqui', texto:`Foi o primeiro processo seletivo que tentei, para retomar a faculdade o quanto antes, e deu certo. (tranquei Análise de Sistemas no 1º semestre de 2026, retomei Engenharia no segundo semestre).`},
+  {titulo:'Cidade segura, rica, bonita e com praia!'},
+  {titulo:'Polo de inovação, maiores eventos de tecnologia e empreendedorismo do Brasil acontecem aqui!'},
+  {tag:'Capítulo 09 · educação', titulo:'Mas eu não parei de ensinar.', texto:`A robótica me ensinou a usar tecnologia para construir robôs.\nA educação me ensinou a usar a tecnologia para desenvolver pessoas`},
+  {tag:'Capítulo 09 · educação', texto:`Decidi ensinar por aqui o que estou aprendendo, usando as redes sociais: uma tecnologia usada para distrair, mas que pode ser usada para construir.\nNossa geração tem olfato aguçado para hipocrisia e incoerência.`},
+  {tag:'Capítulo 10 · empreender', titulo:'O que significa empreender?', texto:`Do latim, imprehendere (ou inprehendere), significa "tentar", "tomar para si" ou "apoderar-se"\nO sentido original e literal da palavra remete à ideia de colocar algo em execução.`},
+  {tag:'Capítulo 10 · empreender', texto:`O empreendedorismo nasce nesse momento exato em que você decide capturar uma ideia, assumindo para si a responsabilidade de tirá-la do campo da imaginação.\nEmpreendedor não necessariamente é quem inicia uma empresa. Isso é ser empresário.\nEu quero ser os dois. Risos. Porque acredito que algumas empresas são capazes de gerar muito valor e impacto na sociedade.`},
+  {tag:'Capítulo 10 · empreender', texto:`Já tive várias ideias e tentei botar elas pra frente. Muitas ideias minhas deram certo como podem ver na minha história, mas... nem todas.\nTalvez seja exatamente esse o ponto...\nPor tentar tanto que conquistei um pouco até aqui. Isso só me motiva a continuar manifestando as minhas ideias.`, depois:`“Aprendizado validado”\nÉ assim que Eric Ries chama, em A Startup Enxuta, o que sobra de informação de um teste que deu errado.`}
+  ]},
+{ nome:'agora', regiao:2, tag:'Capítulo 11 · o que estou construindo agora', titulo:'Uma escola de robótica online.', cor:C.tec, inimigo:'', cena:'floripa', musica:3,
+  look:{c:'#141a33', w:'#b8ff38', p:'#2b3350'},
+  cards:[
+  {titulo:'Uma escola de robótica online.', texto:`Uma forma acessível e personalizada de ensinar robótica.\nNão é apenas sobre aprender robótica, um conteúdo técnico. É sobre explorar uma ferramenta que te permite criar algo envolvente com as próprias mãos, enquanto desenvolve raciocínio lógico, mentalidade de resolução de problemas e habilidades caras pro mercado de trabalho do futuro.`, chips:['competições','projetos escolares','feiras de ciências','projetos pessoais']},
+  {tag:'Capítulo 12 · disciplina', titulo:'O corpo também faz parte da construção.', texto:`Por isso vou falar de treinos, esportes, meditação, respiração, jejum, alimentação.\nEu falo isso porque, pelo pouco que entendo de máquinas, sei que todas elas precisam de manutenção ou prevenção.\nImagina a máquina mais complexa do mundo:\no nosso corpo.`},
+  {tag:'Capítulo 12 · disciplina', titulo:'Intensidade', foto:'fotos/corrida-orientacao.jpg', leg:``},
+  {tag:'Capítulo 12 · disciplina', titulo:'Resistência', foto:'fotos/kung-fu-1.jpg', leg:``},
+  {tag:'Capítulo 12 · disciplina', titulo:'Constância', foto:'fotos/supino.jpg', leg:``},
+  {tag:'Capítulo 12 · disciplina', titulo:'RESULTADOS', foto:'fotos/medalhas-esporte.jpg', leg:``, texto:`Aqui não tem de robótica, nem matemática, só esporte\nMas a disciplina para superar desafios é a mesma`}
+  ]}
+];
+const REGIOES = ['Mato Grosso do Sul', 'Fortaleza e estrada', 'Santa Catarina'];
+const VOOS = {
+  fortaleza:{de:'MS', para:'CE', texto:`Pegamos o avião para Fortaleza para fazer uma "conexão" com o nosso sonho haha`, cor:C.edu},
+  floripa:{de:'estrada', para:'SC', texto:`E foi assim que vim parar em Florianópolis.`, cor:C.emp}
+};
+const FINAL1 = `Eu levei tempo para criar um site como esse que você está lendo.\nMas vi que talvez fosse importante me conhecerem. Porque posto coisas meio soltas: do nada tô num lugar, depois em outro.\nSe nem minha família entendia o porquê das minhas decisões, imagina quem me acompanha de longe.\nPor isso eu decidi contar essa história.`;
+const FINAL2 = `Mas não tô escrevendo pra ser compreendido. Tô escrevendo pra inspirar uma forma de enxergar a vida. Espero que a sua também seja carregada de sentido. 💙\nExiste uma história linda sendo desenhada. E eu te ajudo a ver.`;
+const FINAL3 = `Vamos limpar as lentes comigo.\nVamos nos livrar dos medos.\nVamos viver livres.`;
+
+/* ============ ESTADO ============ */
+const cv = document.getElementById('game'), ctx = cv.getContext('2d');
+const ov = document.getElementById('ov'), missionEl = document.getElementById('mission');
+let scale = 1, wi = 0, L = null, P = null, cam = 0, frame = 0, gears = 0;
+let mode = 'title', paused = true, jumpBuf = 0, lastSafe = {x:40, y:0}, bumps = [], falling = [], parts = [];
+let fly = null, sel = 0, prevK = {};
+const keys = {};
+const queue = [];
+let unlocked = 0, seenAll = WORLDS.map(() => []);
+try {
+  unlocked = Math.min(WORLDS.length - 1, parseInt(localStorage.getItem('tc-unlocked') || '0', 10) || 0);
+  const s = JSON.parse(localStorage.getItem('tc-seen') || 'null');
+  if (Array.isArray(s) && s.length === WORLDS.length) seenAll = s;
+  gears = parseInt(localStorage.getItem('tc-gears') || '0', 10) || 0;
+} catch (e) {}
+function save(){ try { localStorage.setItem('tc-unlocked', String(unlocked)); localStorage.setItem('tc-seen', JSON.stringify(seenAll)); localStorage.setItem('tc-gears', String(gears)); } catch (e) {} }
+let seen = new Set();
+
+function resize(){
+  const r = cv.getBoundingClientRect(), d = Math.min(window.devicePixelRatio || 1, 2);
+  cv.width = Math.max(1, Math.round(r.width * d)); cv.height = Math.max(1, Math.round(r.height * d));
+  scale = cv.width / W;
+}
+addEventListener('resize', resize);
+const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+function rng(seed){ return () => (seed = (seed * 16807) % 2147483647) / 2147483647; }
+
+/* ============ FASE ============ */
+function build(i){
+  const w = WORLDS[i], n = w.cards.length, SEG = 16, start = 14, cols = start + n * SEG + 24;
+  const map = Array.from({length:ROWS}, () => new Array(cols).fill(0));
+  const rockFrom = w.instavel ? start + w.instavel * SEG : -1;
+  for (let x = 0; x < cols; x++){ const v = (rockFrom >= 0 && x >= rockFrom) ? 9 : 1; map[GROUND][x] = v; map[GROUND+1][x] = v; }
+  const q = {}, enemies = [], coins = [], rnd = rng(71 + i * 29);
+  for (let k = 0; k < n; k++){
+    const x0 = start + k * SEG;
+    map[QROW][x0+3] = 2; map[QROW][x0+4] = 3; map[QROW][x0+5] = 2;
+    q[(x0+4) + ',' + QROW] = k;
+    if (k > 0 || i > 0){
+      const s = w.inimigo === 'não' ? 13 : 14;
+      enemies.push({x:(x0+9)*T, y:GROUND*T - s, w:s, h:s, vx:-0.4 - (i > 5 ? 0.15 : 0), vy:0, alive:true, active:false, squash:0, label:w.inimigo, ground:false});
+    }
+    for (let c = 0; c < 3; c++) coins.push({x:(x0+6+c)*T + 4, y:(GROUND-2)*T + 2, taken:false});
+    if (w.instavel && k < w.instavel){
+      for (let x = x0+11; x <= x0+14; x++){ map[GROUND][x] = 8; map[GROUND+1][x] = 0; }
+      continue;
+    }
+    const type = (k + i) % 4;
+    if (type === 0){
+      const len = 2 + (i > 4 && rnd() > 0.5 ? 1 : 0);
+      for (let x = x0+12; x < x0+12+len; x++){ map[GROUND][x] = 0; map[GROUND+1][x] = 0; }
+    } else if (type === 1){
+      const h = 2 + (rnd() > 0.5 ? 1 : 0);
+      for (let y = GROUND-h; y < GROUND; y++){ map[y][x0+12] = 4; map[y][x0+13] = 4; }
+    } else if (type === 2){
+      for (let x = x0+11; x <= x0+14; x++){ map[QROW][x] = 2; coins.push({x:x*T + 4, y:(QROW-2)*T + 4, taken:false}); }
+    } else {
+      [1,2,3,2,1].forEach((h, j) => { for (let y = GROUND-h; y < GROUND; y++) map[y][x0+11+j] = 5; });
+    }
+  }
+  const lv = {map, cols, q, enemies, coins, flagX:(cols - 10) * T, crumbleT:{}, npc:null};
+  if (w.tenente) lv.npc = {x:-30, y:GROUND*T - 22, w:12, h:22, vx:0, vy:0, met:false, ground:false};
+  return lv;
+}
+function tile(tx, ty){ if (ty < 0 || ty >= ROWS || tx < 0 || tx >= L.cols) return 0; return L.map[ty][tx]; }
+function solid(tx, ty){ if (tx < 0) return true; return tile(tx, ty) > 0; }
+function moveX(o){
+  o.x += o.vx;
+  const top = Math.floor(o.y / T), bot = Math.floor((o.y + o.h - 0.01) / T);
+  if (o.vx > 0){ const tx = Math.floor((o.x + o.w) / T); for (let ty = top; ty <= bot; ty++) if (solid(tx, ty)){ o.x = tx*T - o.w - 0.01; o.vx = 0; break; } }
+  else if (o.vx < 0){ const tx = Math.floor(o.x / T); for (let ty = top; ty <= bot; ty++) if (solid(tx, ty)){ o.x = (tx+1)*T; o.vx = 0; break; } }
+}
+function moveY(o){
+  o.y += o.vy; o.ground = false; let bump = null;
+  const l = Math.floor(o.x / T), r = Math.floor((o.x + o.w - 0.01) / T);
+  if (o.vy > 0){ const ty = Math.floor((o.y + o.h) / T); for (let tx = l; tx <= r; tx++) if (solid(tx, ty)){ o.y = ty*T - o.h; o.vy = 0; o.ground = true; break; } }
+  else if (o.vy < 0){ const ty = Math.floor(o.y / T), cx = Math.floor((o.x + o.w/2) / T); for (const tx of [cx, l, r]) if (solid(tx, ty)){ o.y = (ty+1)*T; o.vy = 0; bump = {tx, ty}; break; } }
+  return bump;
+}
+const hit = (a, b) => a.x < b.x + b.w && a.x + a.w > b.x && a.y < b.y + b.h && a.y + a.h > b.y;
+
+/* ============ CARTÕES ============ */
+function esc(s){ return String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
+function paras(t){
+  return String(t || '').split('\n').map(x => x.trim()).filter(Boolean).map(x =>
+    /^[“"].*[”"]$/.test(x) && x.length > 24 ? `<blockquote>${esc(x)}</blockquote>` : `<p>${esc(x)}</p>`).join('');
+}
+function cardBody(c){
+  let h = '';
+  if (c.titulo && !c.texto && !c.foto) h += `<h2>${esc(c.titulo)}</h2>`;
+  if (c.texto) h += paras(c.texto);
+  if (c.term) h += `<div class="term">${esc(c.term)}</div>`;
+  if (c.titulo && (c.texto || c.foto)) h += `<h2>${esc(c.titulo)}</h2>`;
+  if (c.data) h += `<div><span class="big">6</span> <b style="font-size:13px;letter-spacing:.14em;text-transform:uppercase">janeiro</b></div>`;
+  if (c.fala) h += c.fala.map(f => `<div class="fala"><b>${esc(f[0])}</b><span>${esc(f[1])}</span></div>`).join('');
+  if (c.chips) h += `<div class="chips">${c.chips.map(x => `<span>${esc(x)}</span>`).join('')}</div>`;
+  if (c.stats) h += `<div class="stats">${c.stats.map(s => `<div><b>${esc(s[0])}</b><span>${esc(s[1])}</span></div>`).join('')}</div>`;
+  if (c.vs) h += `<div class="vs">${c.vs.map(v => `<div><b>${esc(v[0])}</b><span>${esc(v[1])}</span><span>${esc(v[2])}</span></div>`).join('')}</div>`;
+  if (c.depois) h += paras(c.depois);
+  if (c.foto) h += `<figure><img src="${esc(c.foto)}" alt="${esc(c.leg || c.titulo || 'foto do Tiago')}" loading="lazy">${(c.ano || c.leg) ? `<figcaption>${c.ano ? `<b>${esc(c.ano)}</b> ` : ''}${esc(c.leg || '')}</figcaption>` : ''}</figure>`;
+  return h;
+}
+function cardHTML(w, c, extra){
+  return `<div class="card" role="dialog" aria-modal="true" style="--c:${w.cor}">
+    <span class="tag"><span>${esc(c.tag || w.tag)}</span>${extra || ''}</span>
+    ${cardBody(c)}
+    <div class="row"><button data-act="ok" style="--c:${w.cor}">Continuar</button></div></div>`;
+}
+function queueCard(html, actions){ queue.push({html, actions:actions || {}}); if (ov.hidden) nextCard(); }
+function nextCard(){
+  const c = queue.shift();
+  if (!c){ ov.hidden = true; paused = mode !== 'play'; return; }
+  paused = true; for (const k in keys) keys[k] = false;
+  ov.innerHTML = c.html; ov.hidden = false; ov.scrollTop = 0;
+  const card = ov.querySelector('.card'); if (card) card.scrollTop = 0;
+  ov.querySelectorAll('button[data-act]').forEach(b => {
+    b.onclick = () => { const fn = c.actions[b.dataset.act]; if (fn){ queue.length = 0; ov.hidden = true; fn(); } else nextCard(); };
+  });
+  const first = ov.querySelector('button'); if (first) first.focus({preventScroll:true});
+}
+
+/* ============ FLUXO ============ */
+function setMission(){
+  const w = WORLDS[wi];
+  missionEl.innerHTML = `<b>${esc(w.tag)}</b> · memórias ${seen.size}/${w.cards.length}`;
+}
+function startWorld(i){
+  mode = 'play'; wi = i; L = build(i); bumps = []; falling = []; parts = [];
+  P = {x:3*T, y:GROUND*T - 20, w:10, h:20, vx:0, vy:0, face:1, ground:false, inv:0, coyote:0};
+  cam = 0; lastSafe = {x:P.x, y:P.y}; seen = new Set();
+  if (i > unlocked){ unlocked = i; save(); }
+  document.documentElement.style.setProperty('--c', WORLDS[i].cor);
+  setMission(); playMusic();
+  const w = WORLDS[i];
+  queueCard(`<div class="card" role="dialog" aria-modal="true" style="--c:${w.cor}">
+    <span class="tag"><span>${esc(w.tag)}</span><span>${i+1}/${WORLDS.length}</span></span>
+    <h2>${esc(w.titulo)}</h2>
+    <p style="color:var(--muted);font-size:14px">${w.cards.length} memórias escondidas nos blocos ?</p>
+    <div class="row"><button data-act="ok" style="--c:${w.cor}">Jogar</button><button class="ghost" data-act="map">Mapa</button></div></div>`, {map:goMap});
+}
+function titleScreen(){
+  mode = 'title';
+  queueCard(`<div class="card" role="dialog" aria-modal="true" style="--c:${C.tec}">
+    <span class="tag"><span>@otiagoarantes</span></span>
+    <h2>Tiago em construção</h2>
+    <p>Antes era só @tiagodarobotica.<br>Agora é muito mais que robótica.</p>
+    <div class="chips"><span style="--c:${C.tec};border-color:${C.tec};color:${C.tec}">TECNOLOGIA</span><span style="border-color:${C.fe};color:${C.fe}">ESPIRITUALIDADE</span><span style="border-color:${C.edu};color:${C.edu}">EDUCAÇÃO</span><span style="border-color:${C.emp};color:${C.emp}">EMPREENDEDORISMO</span></div>
+    <p style="color:var(--muted);font-size:14px">Bata a cabeça nos blocos ? para abrir as memórias.</p>
+    <div class="row"><button data-act="go">${unlocked > 0 ? 'Continuar de onde parei' : 'Começar'}</button>${unlocked > 0 ? '<button class="ghost" data-act="map">Mapa</button>' : ''}</div></div>`,
+    {go: () => unlocked > 0 ? goMap(unlocked) : startWorld(0), map: () => goMap(unlocked)});
+}
+function worldDone(){
+  paused = true; mode = 'done';
+  const prev = new Set(seenAll[wi]); seen.forEach(k => prev.add(k)); seenAll[wi] = [...prev];
+  if (wi + 1 < WORLDS.length && unlocked < wi + 1) unlocked = wi + 1;
+  save();
+  const w = WORLDS[wi], last = wi === WORLDS.length - 1;
+  if (w.fim) queueCard(cardHTML(w, Object.assign({tag:w.tag}, w.fim)));
+  const faltam = w.cards.length - seen.size;
+  const next = () => last ? finale(0) : (w.voo ? startFlight(w.voo, wi + 1) : startWorld(wi + 1));
+  queueCard(`<div class="card" role="dialog" aria-modal="true" style="--c:${w.cor}">
+    <span class="tag"><span>${esc(w.tag)}</span><span>concluído</span></span>
+    <div><span class="big">${seen.size}/${w.cards.length}</span></div>
+    <p>${faltam === 0 ? 'Você abriu todas as memórias deste capítulo.' : `Ficaram ${faltam} ${faltam === 1 ? 'memória fechada' : 'memórias fechadas'} neste capítulo.`}</p>
+    <div class="row"><button data-act="next" style="--c:${w.cor}">${last ? 'Ver o fim' : 'Próximo capítulo'}</button>
+    ${faltam ? '<button class="ghost" data-act="again">Jogar de novo</button>' : ''}<button class="ghost" data-act="map">Mapa</button></div></div>`,
+    {next, again: () => startWorld(wi), map: () => goMap(Math.min(wi + 1, WORLDS.length - 1))});
+}
+function finale(n){
+  mode = 'final'; paused = true; ov.hidden = true;
+  const pages = [FINAL1, FINAL2, FINAL3];
+  if (n < pages.length){
+    queueCard(`<div class="card" role="dialog" aria-modal="true" style="--c:${C.tec}">
+      <span class="tag"><span>Em construção</span><span>${n+1}/4</span></span>${paras(pages[n])}
+      <div class="row"><button data-act="next">Continuar</button></div></div>`, {next: () => finale(n + 1)});
+    return;
+  }
+  queueCard(`<div class="card" role="dialog" aria-modal="true" style="--c:${C.tec}">
+    <span class="tag"><span>...escolha como participar dela.</span><span>4/4</span></span>
+    <h2>Você está nessa parte da história</h2>
+    <div class="cta">
+      <a style="--k:${C.tec}" href="https://tiagoarantess.github.io/escola-de-robotica-online/" target="_blank" rel="noopener">Quero conhecer a escola de robótica online</a>
+      <span class="pend">Quero as estratégias de vendas<small>[LINK: e-book de estratégias de vendas]</small></span>
+      <a style="--k:${C.edu}" href="https://www.youtube.com/@tiagoarantess" target="_blank" rel="noopener">Quero acompanhar essa construção no YouTube</a>
+      <a style="--k:${C.fe}" href="https://www.instagram.com/otiagoarantes/" target="_blank" rel="noopener">Acompanhe essa construção no Instagram</a>
+    </div>
+    <p style="color:var(--muted);font-size:14px">Em construção, com fé, disciplina e curiosidade.</p>
+    <div class="row"><button class="ghost" data-act="map">Mapa</button></div></div>`, {map: () => goMap(WORLDS.length - 1)});
+}
+
+/* ============ VOO ============ */
+function startFlight(key, to){
+  mode = 'flight'; paused = false; fly = {t:0, v:VOOS[key], to};
+  missionEl.innerHTML = `<b>${esc(fly.v.de)} → ${esc(fly.v.para)}</b>`;
+}
+function updateFlight(){
+  frame++; fly.t++;
+  if (fly.t === 200){
+    paused = true;
+    queueCard(`<div class="card" role="dialog" aria-modal="true" style="--c:${fly.v.cor}">
+      <span class="tag"><span>${esc(fly.v.de)} → ${esc(fly.v.para)}</span></span><h2>${esc(fly.v.texto)}</h2>
+      <div class="row"><button data-act="go" style="--c:${fly.v.cor}">Pousar</button></div></div>`, {go: () => startWorld(fly.to)});
+  }
+}
+
+/* ============ MAPA ============ */
+const NODES = [
+  {x:30,y:84},{x:80,y:72},{x:130,y:84},{x:180,y:72},{x:230,y:84},{x:282,y:72},
+  {x:262,y:148},{x:176,y:140},{x:90,y:148},
+  {x:150,y:206},{x:236,y:200}];
+const mc = {x:NODES[0].x, y:NODES[0].y, face:1, moving:false};
+function goMap(at){
+  mode = 'map'; queue.length = 0; ov.hidden = true; paused = true;
+  sel = clamp(typeof at === 'number' ? at : Math.min(wi, unlocked), 0, unlocked);
+  mc.x = NODES[sel].x; mc.y = NODES[sel].y;
+  for (const k in keys) keys[k] = false; prevK = {};
+  document.documentElement.style.setProperty('--c', WORLDS[sel].cor);
+  missionEl.innerHTML = `<b>Mapa</b> · toque num capítulo liberado ou use ← → e pule para entrar`;
+}
+function updateMap(){
+  frame++;
+  const t = NODES[sel], dx = t.x - mc.x, dy = t.y - mc.y, d = Math.hypot(dx, dy);
+  mc.moving = d > 0.6;
+  if (mc.moving){ const sp = Math.min(2.4, d); mc.x += dx / d * sp; mc.y += dy / d * sp; if (Math.abs(dx) > 0.3) mc.face = dx < 0 ? -1 : 1; }
+  else { mc.x = t.x; mc.y = t.y; }
+  const pressed = k => keys[k] && !prevK[k];
+  if (!mc.moving){
+    if (pressed('right') && sel + 1 <= unlocked) sel++;
+    else if (pressed('left') && sel > 0) sel--;
+    else if (jumpBuf > 0) startWorld(sel);
+  }
+  jumpBuf = 0; prevK = Object.assign({}, keys);
+}
+cv.addEventListener('pointerdown', e => {
+  if (mode !== 'map' || !ov.hidden) return;
+  const r = cv.getBoundingClientRect(), x = (e.clientX - r.left) / r.width * W, y = (e.clientY - r.top) / r.height * H;
+  let best = -1, bd = 22;
+  NODES.forEach((n, i) => { const d = Math.hypot(n.x - x, n.y - y); if (d < bd && i <= unlocked){ bd = d; best = i; } });
+  if (best < 0) return;
+  if (best === sel && !mc.moving) startWorld(best); else sel = best;
+});
+
+/* ============ JOGO ============ */
+function hurt(from){
+  if (P.inv > 0) return;
+  P.inv = 80; P.vx = P.x < from.x ? -2.6 : 2.6; P.vy = -4;
+  const lose = Math.min(gears, 3); gears -= lose;
+  for (let k = 0; k < lose; k++) parts.push({x:P.x + 5, y:P.y, vx:(Math.random() - .5) * 3, vy:-2 - Math.random() * 2, t:40});
+}
+function update(){
+  frame++;
+  const ax = P.ground ? 0.3 : 0.18, max = keys.run ? 3.0 : 2.0;
+  if (keys.left){ P.vx -= ax; P.face = -1; }
+  else if (keys.right){ P.vx += ax; P.face = 1; }
+  else { P.vx *= P.ground ? 0.75 : 0.95; if (Math.abs(P.vx) < 0.05) P.vx = 0; }
+  P.vx = clamp(P.vx, -max, max);
+  P.coyote = P.ground ? 6 : P.coyote - 1;
+  if (jumpBuf > 0){ jumpBuf--; if (P.coyote > 0){ P.vy = keys.run ? -8 : -7.6; P.coyote = 0; jumpBuf = 0; } }
+  P.vy = Math.min(P.vy + ((keys.jump && P.vy < 0) ? 0.36 : 0.75), 9);
+  moveX(P);
+  const b = moveY(P);
+  if (b){
+    const v = L.map[b.ty][b.tx];
+    if (v === 2 || v === 3) bumps.push({tx:b.tx, ty:b.ty, t:10});
+    if (v === 3){
+      L.map[b.ty][b.tx] = 6;
+      const k = L.q[b.tx + ',' + b.ty];
+      if (k !== undefined){
+        seen.add(k); setMission();
+        for (let s = 0; s < 10; s++) parts.push({x:b.tx*T + 8, y:b.ty*T, vx:(Math.random() - .5) * 3, vy:-1.5 - Math.random() * 2.5, t:34, star:true});
+        const w = WORLDS[wi];
+        queueCard(cardHTML(w, w.cards[k], `<span>memória ${seen.size}/${w.cards.length}</span>`));
+      }
+    }
+  }
+  // base instável
+  if (P.ground){
+    const fy = Math.floor((P.y + P.h + 1) / T), l = Math.floor(P.x / T), r = Math.floor((P.x + P.w - 0.01) / T);
+    let onCrumble = false;
+    for (const tx of [l, r]) if (tile(tx, fy) === 8){
+      onCrumble = true; const key = tx + ',' + fy; L.crumbleT[key] = (L.crumbleT[key] || 0) + 1;
+      if (L.crumbleT[key] > 26){ L.map[fy][tx] = 0; falling.push({x:tx*T, y:fy*T, vy:0}); }
+    }
+    if (!onCrumble) lastSafe = {x:P.x, y:P.y};
+  }
+  if (P.inv > 0) P.inv--;
+  if (P.y > H + 20){
+    gears = Math.max(0, gears - 2);
+    P.x = Math.max(0, lastSafe.x - 10); P.y = lastSafe.y - 4; P.vx = 0; P.vy = 0; P.inv = 60;
+  }
+  // tenente
+  const npc = L.npc;
+  if (npc && !npc.met){
+    const target = P.x - 26;
+    npc.vx = clamp((target - npc.x) * 0.05, -1.4, 1.75);
+    npc.vy = Math.min(npc.vy + 0.75, 9); moveX(npc); moveY(npc);
+    if (npc.ground && npc.vx > 0.4 && solid(Math.floor((npc.x + npc.w + 2) / T), Math.floor((npc.y + npc.h - 4) / T))) npc.vy = -7;
+    if (npc.y > H){ npc.x = P.x - 60; npc.y = GROUND*T - 40; npc.vy = 0; }
+    if (hit(P, npc)){
+      npc.met = true; P.vx = 2.5; P.vy = -4;
+      queueCard(cardHTML(WORLDS[wi], WORLDS[wi].tenenteCard));
+    }
+  }
+  for (const e of L.enemies){
+    if (!e.alive){ if (e.squash > 0) e.squash--; continue; }
+    if (!e.active){ if (e.x < cam + W + 24) e.active = true; else continue; }
+    e.vy = Math.min(e.vy + 0.5, 8);
+    const pvx = e.vx; moveX(e); if (e.vx === 0) e.vx = -pvx;
+    moveY(e);
+    if (e.ground){
+      const fx = e.vx < 0 ? e.x - 1 : e.x + e.w + 1;
+      const below = tile(Math.floor(fx / T), Math.floor((e.y + e.h + 2) / T));
+      if (below === 0 || below === 8) e.vx = -e.vx;
+    }
+    if (e.y > H + 30){ e.alive = false; continue; }
+    if (hit(P, e)){
+      const stomp = P.vy > 0 && (P.y + P.h - P.vy) <= e.y + 5;
+      if (stomp){ e.alive = false; e.squash = 36; P.vy = keys.jump ? -7 : -5; P.y = e.y - P.h; gears++; }
+      else hurt(e);
+    }
+  }
+  for (const c of L.coins){ if (!c.taken && hit(P, {x:c.x, y:c.y, w:8, h:10})){ c.taken = true; gears++; } }
+  for (const f of falling){ f.vy = Math.min(f.vy + 0.4, 8); f.y += f.vy; }
+  falling = falling.filter(f => f.y < H + 20);
+  for (const p of parts){ p.vy += 0.18; p.x += p.vx; p.y += p.vy; p.t--; }
+  parts = parts.filter(p => p.t > 0);
+  bumps = bumps.filter(k => --k.t > 0);
+  cam = clamp(P.x + P.w/2 - W * 0.4, 0, L.cols * T - W);
+  if (P.x + P.w >= L.flagX + 6){ worldDone(); }
+}
+
+/* ============ DESENHO ============ */
+const SPR = [
+"...hhhhhh...","..hhhhhhhh..",".hhhhhhhhhh.",".hhssssssh..","..ssksskss..",
+"..ssssssss..","..sssmmsss..","...ssssss...","....ssss....","..cccccccc..",
+".cccccwcccc.","ccccccwccccc","ss.cccccc.ss","ss.cccccc.ss","...cccccc...",
+"...pppppp...","...pp..pp...","...pp..pp...","..ooo..ooo..","..ooo..ooo.."];
+const WALK = ["..pp....pp..",".pp......pp.",".oo......oo.","ooo......ooo"];
+function drawSprite(x0, y0, face, walking, look){
+  const lk = look || WORLDS[wi].look;
+  const pal = {h:'#2a1a12', s:'#d9a37a', k:'#141414', m:'#9a4a3a', c:lk.c, w:lk.w, p:lk.p, o:'#1d1d24'};
+  const rows = walking ? SPR.slice(0, 16).concat(WALK) : SPR;
+  for (let r = 0; r < 20; r++){
+    const row = rows[r];
+    for (let c = 0; c < 12; c++){
+      let ch = row[c]; if (ch === '.') continue;
+      let col = pal[ch];
+      if (lk.bone && r < 2 && ch === 'h') col = lk.bone;
+      ctx.fillStyle = col;
+      ctx.fillRect(x0 + (face > 0 ? c : 11 - c), y0 + r, 1, 1);
+    }
+  }
+  if (lk.bone){ ctx.fillStyle = lk.bone; ctx.fillRect(face > 0 ? x0 + 9 : x0 - 1, y0 + 2, 4, 1); }
+}
+function drawTenente(n){
+  const x = Math.round(n.x - cam), y = Math.round(n.y);
+  ctx.fillStyle = '#2f4a2a'; ctx.fillRect(x + 1, y + 6, 10, 10);
+  ctx.fillStyle = '#d9a37a'; ctx.fillRect(x + 2, y + 1, 8, 6);
+  ctx.fillStyle = '#1f3320'; ctx.fillRect(x + 1, y - 1, 10, 3); ctx.fillRect(x + (n.vx >= 0 ? 8 : -1), y + 1, 4, 1);
+  ctx.fillStyle = '#141414'; ctx.fillRect(x + (n.vx >= 0 ? 7 : 3), y + 3, 1, 1);
+  ctx.fillStyle = '#ffd36b'; ctx.fillRect(x + 3, y + 8, 2, 1);
+  ctx.fillStyle = '#1d2a1a'; const st = Math.floor(frame / 7) % 2;
+  ctx.fillRect(x + 2, y + 16, 3, 6 - st); ctx.fillRect(x + 7, y + 16, 3, 5 + st);
+  label('Tenente', x + 6, y - 9, '#ffd36b');
+}
+function label(t, cx, y, col){
+  ctx.font = '700 7px "Libre Franklin", system-ui, sans-serif';
+  const tw = ctx.measureText(t).width, lx = Math.round(cx - tw/2 - 3);
+  ctx.fillStyle = 'rgba(8,10,22,.82)'; ctx.fillRect(lx, y, tw + 6, 9);
+  ctx.fillStyle = col; ctx.textBaseline = 'middle'; ctx.textAlign = 'left'; ctx.fillText(t, lx + 3, y + 5);
+}
+function drawEnemy(e){
+  const x = Math.round(e.x - cam), y = Math.round(e.y), w = e.w, h = e.h;
+  if (x < -60 || x > W + 60) return;
+  if (!e.alive && e.squash <= 0) return;
+  const wd = WORLDS[wi];
+  if (wd.inimigo === 'não'){
+    // balão de fala dizendo NÃO
+    if (!e.alive){ ctx.fillStyle = '#c94a3a'; ctx.fillRect(x, y + h - 3, w + 6, 3); return; }
+    ctx.fillStyle = '#c94a3a'; ctx.fillRect(x - 2, y, w + 8, h - 3); ctx.fillRect(x + 1, y + h - 3, 4, 3);
+    ctx.fillStyle = '#fff'; ctx.font = '900 7px "Libre Franklin", sans-serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+    ctx.fillText('NÃO', x + w/2 + 2, y + (h - 3)/2 + 1);
+    return;
+  }
+  const col = wi === 0 ? '#5d6b86' : wi === 1 ? '#6a4b9c' : '#7a3b52';
+  if (!e.alive){ ctx.fillStyle = col; ctx.fillRect(x, y + h - 4, w, 4); return; }
+  ctx.fillStyle = col; ctx.beginPath();
+  ctx.moveTo(x, y + h - 3); ctx.lineTo(x, y + h * 0.5); ctx.quadraticCurveTo(x, y, x + w/2, y); ctx.quadraticCurveTo(x + w, y, x + w, y + h * 0.5);
+  ctx.lineTo(x + w, y + h - 3); ctx.closePath(); ctx.fill();
+  if (wi === 0){ ctx.fillStyle = '#b8ff38'; ctx.fillRect(x + w/2 - 1, y - 3, 2, 3); }
+  const er = 3, ey = y + Math.round(h * 0.34), lx = x + 3, rx = x + w - 3 - er;
+  ctx.fillStyle = '#fff'; ctx.fillRect(lx, ey, er, er + 1); ctx.fillRect(rx, ey, er, er + 1);
+  ctx.fillStyle = '#111'; const dx = e.vx < 0 ? 0 : 1;
+  ctx.fillRect(lx + dx, ey + 1, 2, er); ctx.fillRect(rx + dx, ey + 1, 2, er);
+  ctx.fillStyle = '#1a1220'; const st = Math.floor(frame / 10) % 2;
+  ctx.fillRect(x + (st ? 0 : 1), y + h - 3, 5, 3); ctx.fillRect(x + w - 5 - (st ? 1 : 0), y + h - 3, 5, 3);
+  if (e.label) label(e.label, x + w/2, y - 12, '#ffdede');
+}
+const GROUNDS = {
+  arena:{g:'#3a3f55', top:'#b8ff38'}, noite:{g:'#3b2f58', top:'#7a5cc0'}, escola:{g:'#8a6d4a', top:'#5e9e3c'},
+  brasilia:{g:'#9b5a35', top:'#5e9e3c'}, fortaleza:{g:'#a4774a', top:'#d8c08a'}, praia:{g:'#e6cf94', top:'#f4e3b2'},
+  estrada:{g:'#4a4a52', top:'#e8e8e8'}, floripa:{g:'#6b5a46', top:'#4caf50'}
+};
+function drawTile(v, tx, ty){
+  const w = WORLDS[wi], G = GROUNDS[w.cena];
+  let x = tx * T - cam, y = ty * T;
+  const bp = bumps.find(k => k.tx === tx && k.ty === ty); if (bp) y -= Math.sin((bp.t / 10) * Math.PI) * 5;
+  x = Math.round(x); y = Math.round(y);
+  if (v === 1 || v === 9){
+    const rock = v === 9;
+    ctx.fillStyle = rock ? '#6e6a86' : G.g; ctx.fillRect(x, y, T, T);
+    ctx.fillStyle = 'rgba(0,0,0,.18)';
+    ctx.fillRect(x + ((tx * 7 + ty * 3) % 11), y + 6 + (tx % 3) * 3, 2, 2); ctx.fillRect(x + ((tx * 5) % 13), y + 3 + (ty % 2) * 8, 2, 2);
+    if (!solid(tx, ty - 1)){
+      ctx.fillStyle = rock ? '#a8a2c8' : G.top; ctx.fillRect(x, y, T, w.cena === 'estrada' ? 2 : 4);
+      if (w.cena === 'estrada' && tx % 3 === 0){ ctx.fillStyle = '#ffd36b'; ctx.fillRect(x + 2, y + 8, 8, 2); }
+    }
+  } else if (v === 8){
+    const t = L.crumbleT[tx + ',' + ty] || 0, sh = t > 0 ? (frame % 4 < 2 ? 1 : -1) : 0;
+    ctx.fillStyle = '#9b7b55'; ctx.fillRect(x + sh, y, T, 7);
+    ctx.fillStyle = '#5a4128'; ctx.fillRect(x + sh, y + 6, T, 1); ctx.fillRect(x + 5 + sh, y + 1, 1, 5); ctx.fillRect(x + 11 + sh, y + 2, 1, 4);
+    if (t > 12){ ctx.fillStyle = '#2a1a12'; ctx.fillRect(x + 7 + sh, y, 1, 7); }
+  } else if (v === 2){
+    ctx.fillStyle = '#4a5280'; ctx.fillRect(x, y, T, T);
+    ctx.fillStyle = '#262b4d'; ctx.fillRect(x, y + 7, T, 1); ctx.fillRect(x, y + 15, T, 1); ctx.fillRect(x + 7, y, 1, 7); ctx.fillRect(x + 3, y + 8, 1, 7); ctx.fillRect(x + 12, y + 8, 1, 7);
+    ctx.fillStyle = 'rgba(255,255,255,.16)'; ctx.fillRect(x, y, T, 1);
+  } else if (v === 3 || v === 6){
+    ctx.fillStyle = v === 6 ? '#2c3150' : w.cor; ctx.fillRect(x, y, T, T);
+    ctx.fillStyle = v === 6 ? '#1a1e36' : 'rgba(0,0,0,.35)';
+    ctx.fillRect(x, y + 15, T, 1); ctx.fillRect(x + 15, y, 1, T);
+    ctx.fillRect(x + 2, y + 2, 1, 1); ctx.fillRect(x + 13, y + 2, 1, 1); ctx.fillRect(x + 2, y + 13, 1, 1); ctx.fillRect(x + 13, y + 13, 1, 1);
+    if (v === 3){
+      const glow = 0.5 + 0.5 * Math.sin(frame / 9);
+      ctx.fillStyle = `rgba(255,255,255,${0.12 + glow * 0.2})`; ctx.fillRect(x - 1, y - 1, T + 2, 1);
+      ctx.fillStyle = '#0a0c18'; ctx.font = '900 11px "Libre Franklin", sans-serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+      ctx.fillText('?', x + 8, y + 9);
+    } else { ctx.fillStyle = w.cor; ctx.fillRect(x + 6, y + 6, 4, 4); }
+  } else if (v === 4){
+    const top = tile(tx, ty - 1) !== 4, left = tile(tx - 1, ty) !== 4;
+    ctx.fillStyle = '#20264a'; ctx.fillRect(x, y, T, T);
+    ctx.fillStyle = w.cor; if (left) ctx.fillRect(x + 2, y, 2, T); if (top) ctx.fillRect(x, y, T, 3);
+    ctx.fillStyle = 'rgba(255,255,255,.08)'; ctx.fillRect(x + 6, y + 5, 6, 6);
+  } else if (v === 5){
+    ctx.fillStyle = '#5a5f7a'; ctx.fillRect(x, y, T, T);
+    ctx.fillStyle = '#9aa0bf'; ctx.fillRect(x, y, T, 2); ctx.fillRect(x, y, 2, T);
+    ctx.fillStyle = '#30344a'; ctx.fillRect(x, y + 14, T, 2); ctx.fillRect(x + 14, y, 2, T);
+  }
+}
+function hills(color, par, amp, base, period){
+  ctx.fillStyle = color; ctx.beginPath(); ctx.moveTo(0, H);
+  for (let x = 0; x <= W; x += 4){ const wx = x + cam * par; ctx.lineTo(x, base - amp * (0.55 + 0.45 * Math.sin(wx / period)) * (0.7 + 0.3 * Math.sin(wx / (period * 2.7)))); }
+  ctx.lineTo(W, H); ctx.closePath(); ctx.fill();
+}
+function each(par, spacing, fn){ const s = cam * par, k0 = Math.floor(s / spacing) - 1; for (let k = k0; k * spacing - s < W + spacing; k++) fn(Math.round(k * spacing - s), k); }
+function sky(a, b){ const g = ctx.createLinearGradient(0, 0, 0, H); g.addColorStop(0, a); g.addColorStop(1, b); ctx.fillStyle = g; ctx.fillRect(0, 0, W, H); }
+function clouds(alpha){
+  each(0.2, 140, (x, k) => { const y = 34 + (((k * 37) % 4) + 4) % 4 * 10; ctx.fillStyle = `rgba(255,255,255,${alpha})`;
+    ctx.beginPath(); ctx.arc(x, y, 8, 0, 7); ctx.arc(x + 11, y - 5, 10, 0, 7); ctx.arc(x + 23, y, 8, 0, 7); ctx.fill(); ctx.fillRect(x, y, 23, 8); });
+}
+function stars(){ for (let i = 0; i < 40; i++){ const x = (i * 83 - cam * 0.05) % W, y = (i * 47) % 120; ctx.fillStyle = (i + Math.floor(frame / 20)) % 7 === 0 ? '#fff' : 'rgba(255,255,255,.45)'; ctx.fillRect((x + W) % W, y, 1, 1); } }
+function city(color, win, par, base){
+  each(par, 40, (x, k) => { const h = 40 + ((k * 53) % 7 + 7) % 7 * 12; ctx.fillStyle = color; ctx.fillRect(x, base - h, 34, h);
+    ctx.fillStyle = win; for (let yy = base - h + 4; yy < base - 6; yy += 8) for (let xx = 4; xx < 30; xx += 7) if (((k * 13 + xx * 7 + yy * 3) % 5) === 0) ctx.fillRect(x + xx, yy, 3, 3); });
+}
+function drawScenery(){
+  const c = WORLDS[wi].cena;
+  if (c === 'arena'){
+    sky('#0d1330', '#1d2550');
+    ctx.fillStyle = 'rgba(184,255,56,.08)'; for (let i = 0; i < 6; i++) ctx.fillRect(((i * 70 - cam * 0.1) % (W + 70) + W + 70) % (W + 70) - 35, 0, 18, 150);
+    each(0.35, 120, x => { ctx.fillStyle = '#232b5a'; ctx.fillRect(x, 140, 100, 70); ctx.fillStyle = '#2f3a74'; for (let r = 0; r < 4; r++) ctx.fillRect(x + 4, 146 + r * 14, 92, 6);
+      ctx.fillStyle = 'rgba(255,255,255,.25)'; for (let p = 0; p < 9; p++) ctx.fillRect(x + 8 + p * 10, 142 + (p % 2) * 14, 3, 4); });
+  } else if (c === 'noite'){
+    sky('#0a0820', '#2a1f4a'); stars();
+    ctx.fillStyle = '#e8e2ff'; ctx.beginPath(); ctx.arc(250 - cam * 0.03, 46, 13, 0, 7); ctx.fill();
+    ctx.fillStyle = '#0a0820'; ctx.beginPath(); ctx.arc(256 - cam * 0.03, 42, 12, 0, 7); ctx.fill();
+    hills('#1d1838', 0.25, 44, 210, 60); hills('#251e46', 0.5, 22, 214, 34);
+  } else if (c === 'escola'){
+    sky('#7cc3ff', '#d6eeff'); clouds(.9);
+    each(0.35, 300, x => { ctx.fillStyle = '#e9e0c8'; ctx.fillRect(x, 120, 200, 90); ctx.fillStyle = '#b84a3a'; ctx.fillRect(x - 6, 112, 212, 10);
+      ctx.fillStyle = '#7a8aa8'; for (let i = 0; i < 8; i++) for (let j = 0; j < 2; j++) ctx.fillRect(x + 10 + i * 24, 132 + j * 28, 12, 14);
+      ctx.fillStyle = '#5a4128'; ctx.fillRect(x + 90, 170, 20, 40); ctx.fillStyle = '#cfcfcf'; ctx.fillRect(x + 186, 70, 2, 50);
+      ctx.fillStyle = '#009c3b'; ctx.fillRect(x + 188, 72, 16, 11); ctx.fillStyle = '#ffdf00'; ctx.fillRect(x + 192, 75, 8, 5); });
+    hills('#6fae4a', 0.6, 10, 214, 30);
+  } else if (c === 'brasilia'){
+    sky('#ff9e6b', '#ffe0b0');
+    each(0.35, 380, x => { ctx.fillStyle = 'rgba(250,250,255,.92)'; ctx.fillRect(x, 168, 160, 6); ctx.fillRect(x + 70, 100, 7, 68); ctx.fillRect(x + 82, 100, 7, 68); ctx.fillRect(x + 70, 124, 19, 4);
+      ctx.beginPath(); ctx.moveTo(x + 14, 152); ctx.quadraticCurveTo(x + 34, 172, x + 54, 152); ctx.lineTo(x + 50, 168); ctx.lineTo(x + 18, 168); ctx.fill(); ctx.beginPath(); ctx.arc(x + 124, 168, 18, Math.PI, 0); ctx.fill(); });
+    hills('#c98d5a', 0.6, 12, 214, 30);
+  } else if (c === 'fortaleza'){
+    sky('#41b6ff', '#bfe8ff'); clouds(.85);
+    ctx.fillStyle = '#1f8fd6'; ctx.fillRect(0, 170, W, 40);
+    city('#d8dde8', 'rgba(60,90,140,.5)', 0.35, 176);
+    each(0.7, 160, (x, k) => { ctx.fillStyle = '#3f7d2a'; const cx = x + (k % 3) * 20; ctx.fillRect(cx + 4, 160, 3, 48); ctx.fillStyle = '#5bb043'; ctx.fillRect(cx - 6, 156, 22, 4); ctx.fillRect(cx - 2, 152, 14, 4); });
+  } else if (c === 'praia'){
+    sky('#29a9ff', '#c8f0ff');
+    ctx.fillStyle = '#ffe27a'; ctx.beginPath(); ctx.arc(70 - cam * 0.03, 50, 18, 0, 7); ctx.fill(); clouds(.8);
+    ctx.fillStyle = '#1576c4'; ctx.fillRect(0, 150, W, 60);
+    ctx.fillStyle = 'rgba(255,255,255,.55)'; for (let i = 0; i < 18; i++){ const wx = ((i * 41 - cam * 0.4 + frame * 0.3) % (W + 40) + W + 40) % (W + 40) - 20; ctx.fillRect(wx, 160 + (i % 4) * 11, 12, 1); }
+    each(0.5, 210, (x, k) => { ctx.fillStyle = k % 2 ? '#ff8049' : '#31a7ff'; ctx.beginPath(); ctx.moveTo(x, 182); ctx.quadraticCurveTo(x + 18, 164, x + 36, 182); ctx.fill(); ctx.fillStyle = '#fff'; ctx.fillRect(x + 17, 182, 2, 26); });
+  } else if (c === 'estrada'){
+    sky('#1b1f3f', '#ff9a6b');
+    ctx.fillStyle = '#ffcf7a'; ctx.beginPath(); ctx.arc(160 - cam * 0.02, 150, 26, 0, 7); ctx.fill();
+    hills('#3a2f4f', 0.2, 40, 200, 70); hills('#2a2440', 0.45, 22, 206, 40);
+    each(0.7, 230, (x, k) => { ctx.fillStyle = '#1d1a2c'; ctx.fillRect(x, 150, 4, 58); ctx.fillStyle = '#31a7ff'; ctx.fillRect(x - 22, 140, 48, 14);
+      ctx.fillStyle = '#fff'; ctx.font = '700 7px "Libre Franklin", sans-serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+      ctx.fillText(['Olinda','Recife','Natal','São Paulo'][((k % 4) + 4) % 4], x + 2, 147); });
+  } else if (c === 'floripa'){
+    sky('#59c2ff', '#e1f5ff'); clouds(.9);
+    ctx.fillStyle = '#2d86c9'; ctx.fillRect(0, 164, W, 46);
+    hills('#3f8a4a', 0.2, 34, 168, 50);
+    each(0.35, 520, x => { ctx.strokeStyle = '#d8dde8'; ctx.lineWidth = 2; ctx.fillStyle = '#d8dde8';
+      ctx.fillRect(x + 60, 88, 5, 92); ctx.fillRect(x + 210, 88, 5, 92); ctx.fillRect(x, 176, 280, 4);
+      ctx.beginPath(); ctx.moveTo(x, 176); ctx.quadraticCurveTo(x + 30, 110, x + 62, 90); ctx.quadraticCurveTo(x + 137, 170, x + 212, 90); ctx.quadraticCurveTo(x + 245, 110, x + 280, 176); ctx.stroke();
+      ctx.lineWidth = 1; for (let i = 0; i < 20; i++){ const bx = x + 70 + i * 7; ctx.beginPath(); ctx.moveTo(bx, 176); ctx.lineTo(bx, 176 - Math.max(4, 70 - Math.abs(i - 9.5) * 7)); ctx.stroke(); } });
+  }
+}
+function drawGear(x, y, doce){
+  if (doce){ ctx.fillStyle = '#5a3420'; ctx.beginPath(); ctx.arc(x + 4, y + 5, 4, 0, 7); ctx.fill(); ctx.fillStyle = '#ffd36b'; ctx.fillRect(x + 2, y + 3, 1, 1); ctx.fillStyle = '#ff8049'; ctx.fillRect(x + 5, y + 4, 1, 1); ctx.fillStyle = '#b8ff38'; ctx.fillRect(x + 3, y + 6, 1, 1); return; }
+  const r = frame / 12;
+  ctx.fillStyle = '#c9d2e8';
+  for (let i = 0; i < 6; i++){ const a = r + i * Math.PI / 3; ctx.fillRect(Math.round(x + 4 + Math.cos(a) * 4) - 1, Math.round(y + 5 + Math.sin(a) * 4) - 1, 2, 2); }
+  ctx.beginPath(); ctx.arc(x + 4, y + 5, 3, 0, 7); ctx.fill(); ctx.fillStyle = '#10142a'; ctx.fillRect(x + 3, y + 4, 2, 2);
+}
+function drawFlag(){
+  const x = Math.round(L.flagX - cam), w = WORLDS[wi];
+  if (x < -140 || x > W + 20) return;
+  ctx.fillStyle = '#e0e0e0'; ctx.fillRect(x + 7, 64, 2, GROUND*T - 64);
+  ctx.fillStyle = w.cor; ctx.beginPath(); ctx.moveTo(x + 9, 66); ctx.lineTo(x + 34, 74); ctx.lineTo(x + 9, 82); ctx.fill();
+  ctx.fillStyle = '#ffd36b'; ctx.beginPath(); ctx.arc(x + 8, 63, 3, 0, 7); ctx.fill();
+  const px = x + 3 * T;
+  ctx.fillStyle = '#20264a'; ctx.fillRect(px, GROUND*T - 50, 84, 50);
+  ctx.fillStyle = w.cor; ctx.fillRect(px, GROUND*T - 54, 84, 4);
+  ctx.fillStyle = '#0a0c18'; ctx.fillRect(px + 32, GROUND*T - 24, 20, 24);
+  ctx.fillStyle = w.cor; ctx.font = '800 7px "Libre Franklin", sans-serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+  ctx.fillText(wi === WORLDS.length - 1 ? 'VOCÊ ESTÁ AQUI' : 'PRÓXIMO CAPÍTULO', px + 42, GROUND*T - 38);
+}
+function drawHUD(){
+  const w = WORLDS[wi];
+  ctx.fillStyle = 'rgba(8,10,22,.78)'; ctx.fillRect(0, 0, W, 15);
+  ctx.fillStyle = w.cor; ctx.fillRect(0, 15, W * (seen.size / w.cards.length), 2);
+  ctx.font = '800 7.5px "Libre Franklin", sans-serif'; ctx.textBaseline = 'middle'; ctx.textAlign = 'left';
+  ctx.fillStyle = w.cor; ctx.fillText(w.tag.toUpperCase(), 6, 8);
+  ctx.textAlign = 'right'; ctx.fillStyle = '#eef1ff';
+  ctx.fillText(`? ${seen.size}/${w.cards.length}`, W - 44, 8);
+  drawGear(W - 38, 3, w.doce); ctx.fillText(String(gears), W - 6, 8);
+}
+function drawPlay(){
+  drawScenery();
+  const c0 = Math.max(0, Math.floor(cam / T) - 1), c1 = Math.min(L.cols, Math.ceil((cam + W) / T) + 1);
+  for (let ty = 0; ty < ROWS; ty++) for (let tx = c0; tx < c1; tx++){ const v = L.map[ty][tx]; if (v) drawTile(v, tx, ty); }
+  for (const f of falling){ ctx.fillStyle = '#9b7b55'; ctx.fillRect(Math.round(f.x - cam), Math.round(f.y), T, 7); }
+  drawFlag();
+  for (const c of L.coins) if (!c.taken) drawGear(Math.round(c.x - cam), c.y + Math.sin((frame + c.x) / 12) * 1.5, WORLDS[wi].doce);
+  for (const e of L.enemies) drawEnemy(e);
+  if (L.npc && !L.npc.met) drawTenente(L.npc);
+  if (!(P.inv > 0 && frame % 6 < 3)){
+    const walking = !P.ground || (Math.abs(P.vx) > 0.3 && Math.floor(frame / 7) % 2 === 0);
+    drawSprite(Math.round(P.x - 1 - cam), Math.round(P.y), P.face, walking);
+  }
+  for (const p of parts){ ctx.fillStyle = p.star ? WORLDS[wi].cor : '#c9d2e8'; ctx.fillRect(Math.round(p.x - cam), Math.round(p.y), 2, 2); }
+  drawHUD();
+}
+function drawMap(){
+  sky('#0b0f26', '#141a3a');
+  ctx.strokeStyle = 'rgba(255,255,255,.04)'; ctx.lineWidth = 1;
+  for (let x = 0; x < W; x += 14){ ctx.beginPath(); ctx.moveTo(x + .5, 0); ctx.lineTo(x + .5, H); ctx.stroke(); }
+  for (let y = 0; y < H; y += 14){ ctx.beginPath(); ctx.moveTo(0, y + .5); ctx.lineTo(W, y + .5); ctx.stroke(); }
+  ctx.font = '800 8px "Libre Franklin", sans-serif'; ctx.textAlign = 'left'; ctx.textBaseline = 'middle';
+  ctx.fillStyle = '#eef1ff'; ctx.fillText('TIAGO EM CONSTRUÇÃO · MAPA', 10, 14);
+  ctx.font = '700 7px "Libre Franklin", sans-serif'; ctx.fillStyle = '#9aa3c7';
+  ctx.fillText(REGIOES[0], 10, 46); ctx.fillText(REGIOES[1], 10, 116); ctx.fillText(REGIOES[2], 10, 180);
+  for (let i = 0; i < NODES.length - 1; i++){
+    const a = NODES[i], b = NODES[i + 1], flight = WORLDS[i].voo;
+    ctx.strokeStyle = i < unlocked ? (flight ? '#ffd36b' : WORLDS[i + 1].cor) : 'rgba(154,163,199,.3)';
+    ctx.lineWidth = 2; ctx.setLineDash(flight ? [3, 4] : []);
+    ctx.beginPath(); ctx.moveTo(a.x, a.y);
+    if (flight){ const mx = (a.x + b.x) / 2 + (i === 5 ? 26 : 0), my = Math.min(a.y, b.y) - 14; ctx.quadraticCurveTo(mx, my, b.x, b.y); } else ctx.lineTo(b.x, b.y);
+    ctx.stroke(); ctx.setLineDash([]);
+    if (flight){ const px = (a.x + b.x) / 2 + (i === 5 ? 14 : 0), py = (a.y + b.y) / 2 - 8; ctx.fillStyle = '#ffd36b'; ctx.fillRect(px - 5, py, 10, 2); ctx.fillRect(px - 1, py - 3, 3, 8); ctx.fillRect(px - 5, py - 2, 2, 3); }
+  }
+  NODES.forEach((n, i) => {
+    const w = WORLDS[i], open = i <= unlocked, done = (seenAll[i] || []).length;
+    ctx.fillStyle = open ? w.cor : '#2a3160'; ctx.fillRect(n.x - 9, n.y - 9, 18, 18);
+    ctx.fillStyle = '#000'; ctx.fillRect(n.x - 9, n.y + 9, 18, 2); ctx.fillRect(n.x + 9, n.y - 7, 2, 18);
+    ctx.fillStyle = open ? '#0a0c18' : '#9aa3c7'; ctx.font = '900 9px "Libre Franklin", sans-serif'; ctx.textAlign = 'center';
+    ctx.fillText(String(i + 1), n.x, n.y + 1);
+    ctx.font = '700 6.5px "Libre Franklin", sans-serif'; ctx.fillStyle = open ? '#eef1ff' : '#5a6290';
+    ctx.fillText(w.nome, n.x, n.y + 18);
+    if (done){ ctx.fillStyle = done >= w.cards.length ? w.cor : '#9aa3c7'; ctx.fillText(`${done}/${w.cards.length}`, n.x, n.y + 26); }
+    if (i === sel){ ctx.strokeStyle = '#fff'; ctx.lineWidth = 1; ctx.strokeRect(n.x - 11.5, n.y - 11.5, 23, 23); }
+  });
+  const bob = mc.moving ? 0 : Math.round(Math.sin(frame / 14));
+  drawSprite(Math.round(mc.x - 6), Math.round(mc.y - 33 + bob), mc.face, mc.moving && Math.floor(frame / 7) % 2 === 0, WORLDS[sel].look);
+}
+function drawFlight(){
+  const t = fly.t, v = fly.v;
+  sky('#2f8fe0', '#bfe6ff');
+  for (let i = 0; i < 14; i++){
+    const sp = 0.6 + (i % 3) * 0.5, x = ((i * 97 - t * sp * 2) % (W + 80) + W + 80) % (W + 80) - 40, y = 30 + (i * 53) % 170;
+    ctx.fillStyle = `rgba(255,255,255,${0.5 + (i % 3) * 0.15})`;
+    ctx.beginPath(); ctx.arc(x, y, 7 + (i % 3) * 2, 0, 7); ctx.arc(x + 12, y - 4, 9 + (i % 3) * 2, 0, 7); ctx.arc(x + 24, y, 7, 0, 7); ctx.fill();
+  }
+  const px = Math.round(-90 + t * 1.55), py = Math.round(112 + Math.sin(t / 16) * 5);
+  ctx.fillStyle = '#f4f6fb'; ctx.fillRect(px, py, 86, 16); ctx.fillRect(px + 86, py + 3, 8, 10); ctx.fillRect(px + 94, py + 6, 4, 5);
+  ctx.fillStyle = v.cor; ctx.fillRect(px, py + 10, 94, 3);
+  ctx.fillStyle = '#d0d6e6'; ctx.beginPath(); ctx.moveTo(px + 34, py + 12); ctx.lineTo(px + 54, py + 12); ctx.lineTo(px + 36, py + 34); ctx.lineTo(px + 26, py + 34); ctx.fill();
+  ctx.fillStyle = '#f4f6fb'; ctx.beginPath(); ctx.moveTo(px, py); ctx.lineTo(px + 10, py); ctx.lineTo(px - 2, py - 18); ctx.lineTo(px - 10, py - 18); ctx.fill();
+  ctx.fillStyle = v.cor; ctx.fillRect(px - 9, py - 18, 7, 4);
+  ctx.fillStyle = '#7fb6e6'; for (let i = 0; i < 7; i++) ctx.fillRect(px + 14 + i * 9, py + 3, 5, 5);
+  ctx.fillStyle = '#2a1a12'; ctx.fillRect(px + 60, py + 3, 5, 2); ctx.fillStyle = '#d9a37a'; ctx.fillRect(px + 60, py + 5, 5, 3);
+  ctx.font = '800 9px "Libre Franklin", sans-serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+  ctx.fillStyle = 'rgba(8,10,22,.7)'; ctx.fillRect(W/2 - 60, 16, 120, 18);
+  ctx.fillStyle = '#fff'; ctx.fillText(`${v.de}  ✈  ${v.para}`, W/2, 25);
+}
+function draw(){
+  ctx.setTransform(scale, 0, 0, scale, 0, 0); ctx.imageSmoothingEnabled = false;
+  if (mode === 'map' || mode === 'title') drawMap();
+  else if (mode === 'flight') drawFlight();
+  else if (L) drawPlay();
+}
+
+/* ============ SOM: trilhas do link na bio ============ */
+let somOn = false, audio = null, faixa = 0;
+const somBtn = document.getElementById('somBtn');
+function playMusic(){
+  if (!somOn) return;
+  const f = mode === 'map' || mode === 'title' ? (WORLDS[sel] || WORLDS[0]).musica : WORLDS[wi].musica;
+  if (audio && faixa === f) { if (audio.paused) audio.play().catch(() => {}); return; }
+  if (audio) audio.pause();
+  faixa = f; audio = new Audio(`../midia/musica/trilha-${f}.mp3`); audio.loop = true; audio.volume = 0.5;
+  audio.play().catch(() => {});
+}
+somBtn.onclick = () => {
+  somOn = !somOn; somBtn.setAttribute('aria-pressed', String(somOn)); somBtn.textContent = somOn ? '♪ som ligado' : '♪ som';
+  if (somOn) playMusic(); else if (audio) audio.pause();
+};
+document.getElementById('mapBtn').onclick = () => goMap(mode === 'play' ? wi : unlocked);
+
+/* ============ ENTRADA ============ */
+const KM = {ArrowLeft:'left', KeyA:'left', ArrowRight:'right', KeyD:'right', ArrowUp:'jump', KeyW:'jump', Space:'jump', KeyZ:'jump', ShiftLeft:'run', ShiftRight:'run', KeyX:'run'};
+addEventListener('keydown', e => {
+  if (!ov.hidden){ if (e.code === 'Enter' || e.code === 'Space'){ const b = ov.querySelector('button:focus') || ov.querySelector('button'); if (b && document.activeElement !== b){ e.preventDefault(); b.click(); } } return; }
+  if (e.code === 'KeyM'){ goMap(mode === 'play' ? wi : unlocked); return; }
+  const k = KM[e.code]; if (!k) return; e.preventDefault();
+  if (k === 'jump' && !keys.jump) jumpBuf = 6;
+  keys[k] = true;
+});
+addEventListener('keyup', e => { const k = KM[e.code]; if (k) keys[k] = false; });
+document.querySelectorAll('#pad button').forEach(b => {
+  const k = b.dataset.k;
+  const on = e => { e.preventDefault(); if (k === 'jump' && !keys.jump) jumpBuf = 6; keys[k] = true; b.setPointerCapture?.(e.pointerId); };
+  const off = e => { e.preventDefault(); keys[k] = false; };
+  b.addEventListener('pointerdown', on); b.addEventListener('pointerup', off); b.addEventListener('pointercancel', off); b.addEventListener('lostpointercapture', off);
+  b.addEventListener('contextmenu', e => e.preventDefault());
+});
+
+/* ============ LAÇO ============ */
+let acc = 0, last = performance.now();
+function loop(now){
+  acc += Math.min(100, now - last); last = now;
+  while (acc >= 1000 / 60){
+    acc -= 1000 / 60;
+    if (ov.hidden){
+      if (mode === 'play' && !paused) update();
+      else if (mode === 'map') updateMap();
+      else if (mode === 'flight') updateFlight();
+      else frame++;
+    }
+  }
+  draw(); requestAnimationFrame(loop);
+}
+resize();
+sel = Math.min(unlocked, NODES.length - 1); mc.x = NODES[sel].x; mc.y = NODES[sel].y;
+missionEl.innerHTML = '<b>11 capítulos</b> · uma história em construção';
+(document.fonts ? document.fonts.ready : Promise.resolve()).then(() => {
+  resize();
+  titleScreen();
+});
+requestAnimationFrame(loop);
+})();
+</script>
+
+</html>
