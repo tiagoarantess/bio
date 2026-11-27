@@ -11,7 +11,7 @@
 /* Layout: um console de bolso. Tela do jogo no topo, controles grandes embaixo, cartões de memória por cima. Visual escuro único, da identidade do link na bio. */
 :root{
   --bg:#090b18; --panel:#10142a; --fg:#eef1ff; --muted:#9aa3c7; --line:#2a3160;
-  --tec:#b8ff38; --fe:#a56cff; --edu:#ff8049; --emp:#31a7ff;
+  --tec:#b8ff38; --fe:#ff8049; --edu:#a56cff; --emp:#31a7ff;
   --t-display:"Libre Franklin", system-ui, -apple-system, "Segoe UI", sans-serif;
   --t-quote:"Fraunces", Georgia, "Times New Roman", serif;
   color-scheme:dark;
@@ -78,9 +78,15 @@ button.ghost{background:transparent;color:var(--fg);border-color:var(--line);box
 .cta small{display:block;font-weight:600;font-size:12px;opacity:.8}
 .big{font-size:44px;font-weight:900;line-height:1;color:var(--c)}
 .card video{width:100%;max-height:46vh;background:#000;display:block}
-.dica{background:#ffd36b;color:#1a1200;padding:16px 16px 18px;box-shadow:5px 5px 0 #000;display:flex;flex-direction:column;gap:8px;transform:rotate(-.6deg)}
-.dica b{font-weight:900;font-size:13px;letter-spacing:.16em;text-transform:uppercase}
-.dica p{font-family:var(--t-quote);font-size:22px;line-height:1.3;color:#1a1200;font-weight:600}
+.dica{border-left:4px solid #ffd36b;padding:4px 0 4px 14px;display:flex;flex-direction:column;gap:8px}
+.dica b{font-weight:900;font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:#ffd36b}
+.dica p{font-family:var(--t-quote);font-size:22px;line-height:1.35;color:#fff;font-weight:600}
+.dica p::before{content:'“'}.dica p::after{content:'”'}
+.lente{display:grid;grid-template-columns:58px minmax(0,1fr);gap:14px;align-items:center;border:1px solid color-mix(in srgb,var(--c) 55%,transparent);padding:14px;background:radial-gradient(120% 120% at 0 0,color-mix(in srgb,var(--c) 14%,transparent),transparent)}
+.lente-ic{width:58px;height:32px;fill:color-mix(in srgb,var(--c) 15%,transparent);stroke:var(--c);stroke-width:2.5}
+.lente > div{display:flex;flex-direction:column;gap:10px}
+.lente > *{animation:lente-foca 1.6s ease-out both}
+@keyframes lente-foca{0%{filter:blur(6px);opacity:.45;transform:translateX(-3px)}12%{transform:translateX(3px)}24%{transform:translateX(-3px)}36%{transform:translateX(2px)}48%{transform:translateX(-1px)}60%{filter:blur(6px);opacity:.5;transform:none}100%{filter:none;opacity:1}}
 .portal{text-align:center;align-items:center}
 .portal img{width:132px;height:132px;object-fit:cover;object-position:50% 25%;border-radius:50%;border:4px solid var(--bg);box-shadow:0 0 0 4px var(--tec),0 0 0 8px var(--fe),0 0 0 12px var(--edu),0 0 0 16px var(--emp);margin:18px auto 10px}
 .portal h2{font-size:clamp(28px,8vw,38px)}
@@ -94,6 +100,7 @@ button.ghost{background:transparent;color:var(--fg);border-color:var(--line);box
 .lista button.aqui{background:var(--k);color:#0a0c18}
 .lista button.aqui span:last-child{color:#0a0c18}
 #goBtn[hidden]{display:none}
+.card button.pular{align-self:flex-end;font-size:12px;padding:7px 10px;border-color:var(--c);color:var(--c)}
 /* páginas e tipos de texto, inspirados no link na bio */
 .card{max-height:min(100%,640px)}
 .card p{font-weight:400;font-size:16.5px;line-height:1.55;color:#dfe3f7}
@@ -195,7 +202,7 @@ body.carta .pad{visibility:hidden}
 <script>
 (() => {
 const W = 320, H = 240, T = 16, ROWS = 15, GROUND = 13, QROW = 9;
-const C = {tec:'#b8ff38', fe:'#a56cff', edu:'#ff8049', emp:'#31a7ff'};
+const C = {tec:'#b8ff38', fe:'#ff8049', edu:'#a56cff', emp:'#31a7ff'}; // as cores do link na bio: fé laranja, educação roxo
 
 /* ============ CONTEÚDO: textos exatos do link na bio ============ */
 /* Marcas nos textos (só destaque, as palavras são as do site):
@@ -216,16 +223,29 @@ const WORLDS = [
   inimigos:['imprevisto','dúvida','questionamento','tristeza'],
   look:{c:'#2f7a2a', w:'#b8ff38', p:'#2b3350'}, instavel:2, desabei:1, quarto:2,
   cards:[
-  {pages:[{texto:`Meses de preparo. O robô pronto, a expectativa lá no teto e a certeza de que aquele era o nosso ano.\nTínhamos ganhado a etapa anterior, a regional, em primeiro lugar. Estávamos bem!\nMas, na hora H... aconteceram [[r:TODOS os tipos de imprevistos.]]`}]},
+  {pages:[{texto:`Meses de preparo. O robô pronto, a expectativa lá no teto e a certeza de que aquele era o nosso ano.
+Tínhamos ganhado a etapa anterior, a regional, em primeiro lugar. Estávamos bem!
+Mas, na hora H... aconteceram [[r:TODOS os tipos de imprevistos.]]`}]},
   {pages:[{titulo:'Desabei.', texto:`Me levaram pra casa pós-competição. Naquele dia, por um milagre, todo mundo tava fora de casa. O silêncio era tudo o que eu precisava. Fechei a porta do quarto e orei. Ou melhor, me derramei... Entre lágrimas, soluços e gritos. Comecei a oração com tristeza, dúvidas e questionamentos, e tudo sublimou para [[b:fé e gratidão!]] No ápice, fiz uma das orações mais ousada da minha vida:`}]},
   {pages:[{citacao:`“Pode me conduzir pelos processos mais difíceis, porque sei que eles produzirão os melhores frutos.”`, texto:`Eu tinha 12 anos quando falei isso para Deus. Entrei naquele quarto abalado, mas lá comecei a ver se formar uma [[m:rocha firme]] onde poderia apoiar os meus pés.`}]},
-  {pages:[{texto:`A base é onde apoiamos a nossa [[b:segurança]], o nosso [[b:valor]] e a nossa [[b:identidade]].\nAté aquele dia, sem perceber, a minha base estava nos meus resultados: se conquistasse algo, eu estava bem; quando não conseguia, ficava desesperado.`}]},
-  {pages:[{texto:`Naquele quarto, a minha base se firmou. E agora a forma como eu enxergo a vida deveria ser a partir daquele novo ponto de vista.\nColoquei a minha dependência no amor de um Pai cujo amor [[m:não muda por performance.]]`}]},
-  {pages:[{texto:`Já percebeu que quando a gente pisa com medo num terreno que não conhece, a gente anda olhando só para os próprios pés, tentando não cair? Mas quando sabemos que o terreno é firme, finalmente conseguimos levantar a cabeça, olhar ao redor e adiante.`}]},
-  {pages:[{texto:`Talvez, por isso, peguei o celular e mandei mensagem pra um amigo da equipe, que também tinha ficado meio abalado.\nEu só consegui olhar para o meu amigo e me importar com a dor dele porque [[m:transbordei o que tinha acabado de receber]] naquele quarto.`},{texto:`Pela primeira vez, tive coragem de falar da minha fé e esperança para alguém, mesmo que por mensagem, e ele correspondeu bem.`}]},
-  {pages:[{dica:true, texto:`Na próxima frustração, não pense que veio para te destruir. Talvez ela só esteja cavando o espaço para construir uma fundação.`}]}
+  {pages:[{texto:`A base é onde apoiamos a nossa [[b:segurança]], o nosso [[b:valor]] e a nossa [[b:identidade.]]
+Até aquele dia, sem perceber, a minha base estava nos meus resultados: se conquistasse algo, eu estava bem; quando não conseguia, ficava desesperado.`},{lente:true, grande:`Com uma base instável, a visão fica distorcida.`, texto:`Por isso, quando o robô falhou na hora H, desabei em lágrimas...`},{texto:`E MINHA MÃE TIROU FOTO DE EU CHORANDO NO MEIO DA COMPETIÇÃO(a mesma da entrevista, acredita? Sim, em um momento fomos tão bem que nos entrevistaram, em outro momento o robô simplesmente não quis ligar) KKKK ENQUANTO EU QUERIA ALGUÉM PRA ME ACOLHER
+Ela sabia que ia virar testemunho! hahah tentei achar com ela essa foto, mas não conseguimos.`},{texto:`Enfim, quero refletir com você que firmar a base é tirar o nosso valor das coisas que oscilam (notas, troféus, dinheiro, aprovação dos outros) e [[m:prender em algo inabalável]].`}]},
+  {pages:[{lente:true, citacao:`De fato, ter um novo ponto de vista é enxergar a vida a partir de um novo ponto. Mude sua base e a visão muda.`},{texto:`Antes, eu me sentia igual a um robô com o chassi desalinhado: se a base fica bamba, a imagem da câmera fica borrada e o sensor faz leituras erradas.
+Naquele quarto, a minha base se firmou. E agora a forma como eu enxergo a vida deveria ser a partir daquele novo ponto de vista.
+Coloquei a minha dependência no amor de um Pai cujo amor [[m:não muda por performance.]]`}]},
+  {pages:[{grande:`É fácil imaginar que ninguém consegue ajustar o foco da câmera enquanto está tremendo, com medo.`, texto:`Quando não temos onde nos sustentar, vivemos inseguros. Estamos em modo de sobrevivência. E nesse modo ficamos cegos e egoístas: a gente só enxerga a própria dor, temos medo de errar, nos sentimos julgados pelas pessoas e às vezes vemos elas como ameaça.`},{texto:`Tentamos sustentar o nosso valor diante do mundo, mas qualquer aparente falha nos desestabiliza. O paradoxo é: A instabilidade só afeta quem tem medo de ser instável.
+Não adianta tentar mudar "a forma de ver as coisas lá fora" enquanto a gente está com medo por dentro.`},{texto:`Já percebeu que quando a gente pisa com medo num terreno que não conhece, a gente anda olhando só para os próprios pés, tentando não cair? Mas quando sabemos que o terreno é firme, finalmente conseguimos levantar a cabeça, olhar ao redor e adiante.`},{texto:`Assim sinto que minha visão da vida era distorcida, parecia tudo escuro, embaçado. Mas, no quarto de oração, fui acolhido por Ele. Nesse nosso local seguro, Ele começou a limpar minhas lentes e redefiniu a forma como enxergo as circunstâncias, o fracasso, o próximo, um trabalho, o futuro. Também comecei a ficar no meu quarto lendo a Palavra, e ela se tornou [[m:lâmpada para os meus pés]], agora eu sabia onde pisava e podia adiante`}]},
+  {pages:[{texto:`Na robótica, porém, não basta o chão estar firme e a base do robô alinhada... a câmera pode continuar ofuscada mesmo assim, e o sensor continuar lendo errado.
+O primeiro passo foi feito, mas aí a gente precisa calibrar o sensor, limpar a câmera.
+Agora eu não olhava mais só para mim, eu podia olhar ao redor.`},{texto:`Talvez, por isso, peguei o celular e mandei mensagem pra um amigo da equipe, que também tinha ficado meio abalado.
+Eu só consegui olhar para o meu amigo e me importar com a dor dele porque [[m:transbordei o que tinha acabado de receber]] naquele quarto.`},{fala:[['engraçado',`Meu amigo usava um grau de óculos bem alto. Eu nem usava óculos nessa época, mas naquele dia quem estava com a visão mais embaçada e míope sobre a vida era eu.`]], depois:`Pela primeira vez, tive coragem de falar da minha fé e esperança para alguém, mesmo que por mensagem, e ele correspondeu bem.`}]},
+  {pages:[{texto:`Nesse momento, olhei para a frustração e percebi o quanto era necessária para me amadurecer, e que isso estava me forjando uma pessoa melhor. E por isso fiz a oração que fiz, da forma que te falei.`},{dica:true, texto:`Na próxima frustração, não pense que veio para te destruir. Talvez ela só esteja cavando o espaço para construir uma fundação.`}]}
   ],
-  fim:{texto:`Minha fé em Jesus faz parte de tudo que estou construindo.\nFé não é uma parte do meu conteúdo.\nÉ a lente através da qual eu enxergo todas as partes.`}},
+  fim:{lente:true, texto:`Minha fé em Jesus faz parte de tudo que estou construindo.
+Fé não é uma parte do meu conteúdo.
+É a lente através da qual eu enxergo todas as partes.`}},
+
 { nome:'vivo', tag:'Me sentindo vivo', titulo:'Meu coração começou a ficar aquecido de amor.', cor:C.fe, cena:'escola', trecho:'fe',
   inimigos:['aprovação','máscara','festa','solidão'],
   look:{c:'#c9b98f', w:'#2a4b8d', p:'#2b3a55'},
@@ -258,7 +278,7 @@ const WORLDS = [
   {tag:'Legião de Honra', pages:[{texto:`Inclusive, eu estava tão desapegado que não lembrei o dia que sairia o resultado. Na noite que anunciaram na internet, eu estava fazendo uma live falando de Jesus no Instagram.`},{texto:`Uma amiga que eu nem falava há muito tempo entrou na live só para dizer [[b:"TIAGOOO, VOCÊ ENTROU NA LEGIÃO"]]. Eu tava orando e quando abri os olhos só vi um monte de comentário, e disse algo do tipo "sério? obrigado por avisar." sem muita reação. Só depois fui processar a alegria e agradecer ao Papai. Esse é o significado daquela bolacha azul que você vê no peito do meu uniforme.`}]},
   {tag:'Legião de Honra', pages:[{foto:'fotos/2022-orfanato-legiao-de-honra-1.jpg', ano:'2022', leg:``, texto:`Nessa visita a um orfanato que fizemos no Dia das Crianças com a Legião de Honra, uma criança me desenhou.\nTímido, entregou para uma amiga, que me contou e entregou por ele. Claro que fui falar com ele, olha a alegria dele de ter seu desenho reconhecido, e minha alegria de ser desenhado. [[i:(A QUE PARECE MAIS ALEGRE É MINHA AMIGA LÁ ATRÁS KKKKKK)]]`}]}
   ]},
-{ nome:'diferente', tag:'Diferente', titulo:'Neurodivergente: é isso que me faz um pouco diferente.', cor:C.fe, cena:'escola', trecho:'diferente',
+{ nome:'diferente', tag:'Diferente', titulo:'Neurodivergente: é isso que me faz um pouco diferente.', cor:C.edu, cena:'escola', trecho:'diferente',
   inimigos:['saturado','agenda cheia','tempo escasso'],
   look:{c:'#c9b98f', w:'#2a4b8d', p:'#2b3a55'},
   cards:[
@@ -270,7 +290,7 @@ const WORLDS = [
   {pages:[{texto:`Foi assim: simples. Na semana seguinte eu já estava lá. E o que eu descobri no primeiro dia?`, fecho:'A professora de história era pastora.'},{texto:`E não daquelas que você encontra em qualquer esquina, com jargão pronto, aleluia glória a Deus. [[m:Amável, sábia, estudiosa.]] Os livros que eu queria ler? Ela já tinha lido. As histórias de avivamento que eu nunca achei ninguém na igreja pra me contar? Ela já tinha estudado.`},{texto:`E ela me questionava fundo:`, fala:[['professora',`O que é avivamento pra você? Define em 3 palavras, sem pensar muito.`],['professora',`O que você acha que precisamos? O que nos falta para um avivamento?`]]}]},
   {pages:[{grande:'Foi a melhor experiência da minha vida.', texto:`E a melhor decisão: ter me posicionado no que eu queria. Pra descobrir que era um desejo que Ele implantou no meu coração, num caminho que Ele já tinha preparado.`}]}
   ]},
-{ nome:'IME', tag:'Capítulo 03 · o sonho do vestibular', titulo:'Meu sonho era o IME.', cor:C.edu, cena:'brasilia', trecho:'rainbows', voo:'fortaleza',
+{ nome:'IME', tag:'Capítulo 03 · o sonho do vestibular', titulo:'Meu sonho era o IME.', cor:'#ff8049', cena:'brasilia', trecho:'rainbows', voo:'fortaleza',
   inimigos:['simulado','vestibular'],
   look:{c:'#2f7a2a', w:'#b8ff38', p:'#2b3350'},
   cards:[
@@ -299,7 +319,7 @@ const WORLDS = [
   {pages:[{grande:'Em fevereiro, tranquei a faculdade.', texto:`Ela também me sugava tempo e energia, e não estava me dando o ROI necessário: o retorno sobre o investimento. Eu gastava energia e tempo ali sem ver que aquilo iria, de fato, me ajudar a concretizar o meu sonho.\nAlém do que já falei, que esse curso ensinava mais sobre programar sites e aplicativos. E eu já sabia o que queria: [[b:construir máquinas.]]`},{grande:'Tranquei a faculdade e decidi viajar vendendo.', chips:['Olinda','Recife','Natal','São Paulo','cidade natal'], texto:`Fiz um rolê pelo Nordeste: Olinda, Recife, Natal.\nDepois fui para São Paulo, e voltei para a minha cidade natal para ver os meus pais.\nLá continuei vendendo...\nInclusive, sem ter o apoio do meu pai pra isso (ele achava estranho e perigoso)`}]},
   {pages:[{texto:`Um dia estava no posto de gasolina, à noite, frio, mas as vendas estavam saindo aos poucos, e decidi continuar. Depois de muitos "nãos" seguidos... [[i:(parece que as bênçãos sempre vêm assim, né?)]]\nEncontrei um japonês. Vendi pra ele.\nJaponês você sabe como é:\nInteligentes, práticos, desenrolados.`},{texto:`Quando falei que estava levantando recurso pra abrir a minha empresa de robótica. Ele já meteu um`, chat:[['japonês',`AH, ENTÃO VOCÊ TRABALHA NA MESMA ÁREA QUE EU? Conhece o laboratório do Sebrae?`,'esq']], depois:`Ele me falou do Sebrae numa noite. [[m:No dia seguinte eu já estava lá]], falando com os consultores.`},{foto:'fotos/sebrae-modelagem-3d.jpg', leg:`No Sebrae, modelando o robô em 3D`, texto:`Eles me deram uma mentoria sobre o meu modelo de negócio: a ideia de criar uma escola de robótica online era válida, mas levaria tempo.\nEnquanto isso, eu poderia continuar vendendo os doces e criar um robô para vender junto comigo: aumentar a conexão com o cliente e o número de conversões de vendas, pra investir na estruturação da escola.`},{foto:'fotos/robo-que-vende-comigo.jpg', leg:`Construindo o robô que vende comigo`, grande:'Um robô vendendo comigo, pra pagar a escola que eu quero construir.'}]}
   ]},
-{ nome:'mudança', tag:'Capítulo 08 · mudança, de novo!', titulo:'Mudança, de novo!', cor:C.edu, cena:'estrada', trecho:'mudanca', voo:'floripa',
+{ nome:'mudança', tag:'Capítulo 08 · mudança, de novo!', titulo:'Mudança, de novo!', cor:'#ff8049', cena:'estrada', trecho:'mudanca', voo:'floripa',
   inimigos:['E a faculdade?','8h por dia','salário mínimo'],
   look:{c:'#31a7ff', w:'#ffd36b', p:'#d9c79a', bone:'#ff8049'},
   cards:[
@@ -457,12 +477,14 @@ function pageBody(c){
   if (c.itens) h += `<div class="itens">${c.itens.map(v => `<div><b>${esc(v[0])}</b><span>${fmt(v[1])}</span></div>`).join('')}</div>`;
   if (c.fecho) h += `<h2 class="fecho">${fmt(c.fecho)}</h2>`;
   if (c.depois) h += paras(c.depois);
+  if (c.lente) h = `<div class="lente"><svg class="lente-ic" viewBox="0 0 76 42" aria-hidden="true"><circle cx="18" cy="22" r="14"/><circle cx="58" cy="22" r="14"/><path d="M32 20q6-5 12 0M4 18 1 12M72 18l3-6"/></svg><div>${h}</div></div>`;
   return h;
 }
-function cardHTML(w, c, extra, okLabel){
+function cardHTML(w, c, extra, okLabel, pular){
   const pages = c.pages || [c], n = pages.length;
   return `<div class="card" role="dialog" aria-modal="true" style="--c:${w.cor}" data-n="${n}">
     <span class="tag"><span>${esc(c.tag || w.tag)}</span>${extra || ''}</span>
+    ${pular ? '<button class="ghost pular" data-act="pular">Pular pra memória que você abriu ›</button>' : ''}
     ${pages.map((p, i) => `<section class="pg" data-i="${i}" ${i ? 'hidden' : ''}>${pageBody(p)}</section>`).join('')}
     <div class="row nav">
       ${n > 1 ? `<button class="ghost" data-nav="-1" hidden>‹ Anterior</button><span class="dots">${pages.map((_, i) => `<i class="${i ? '' : 'on'}"></i>`).join('')}</span><button data-nav="1" style="--c:${w.cor}">Próxima ›</button>` : ''}
@@ -761,7 +783,19 @@ function update(){
         const w = WORLDS[wi];
         if (k === w.desabei) L.desabei = 'pending';
         if (L.npc && k === 0 && !L.npc.on){ L.npc.on = true; L.npc.x = Math.max(-20, P.x - 110); L.npc.y = GROUND*T - 22; }
-        queueCard(cardHTML(w, w.cards[k], `<span>memória ${seen.size}/${w.cards.length}</span>`));
+        // memórias que ficaram pra trás aparecem antes, na ordem, com botão de pular
+        const puladas = [];
+        for (let j = 0; j < k; j++) if (!seen.has(j) && j !== w.quarto && j !== w.desabei) puladas.push(j);
+        const atual = () => queueCard(cardHTML(w, w.cards[k], `<span>memória ${k + 1}/${w.cards.length}</span>`));
+        if (puladas.length){
+          puladas.forEach(j => {
+            seen.add(j);
+            for (const key in L.q) if (L.q[key] === j){ const [tx, ty] = key.split(',').map(Number); if (L.map[ty][tx] === 3) L.map[ty][tx] = 6; }
+            queueCard(cardHTML(w, w.cards[j], `<span>memória ${j + 1} · ficou pra trás</span>`, null, true), {pular: atual});
+          });
+          setMission();
+        }
+        atual();
       }
     }
   }
@@ -1249,7 +1283,14 @@ function updateQuarto(){
     paused = true;
     const w = WORLDS[wi], k = w.quarto;
     seen.add(k); setMission();
-    queueCard(cardHTML(w, w.cards[k], `<span>memória ${seen.size}/${w.cards.length}</span>`), {ok: endQuarto});
+    queueCard(cardHTML(w, w.cards[k], `<span>memória ${seen.size}/${w.cards.length}</span>`), {ok: () => { quarto.sair = true; quarto.x = 154; quarto.face = 1; paused = false; missionEl.innerHTML = '<b>Levanta e abre a porta</b> · ande até a porta →'; }});
+  }
+  if (quarto.sair){
+    // de pé no quarto: anda até a porta e abre
+    if (quarto.abrindo){ quarto.abrindo++; if (quarto.abrindo > 34){ setMission(); endQuarto(); } return; }
+    if (keys.left){ quarto.x -= 1.6; quarto.face = -1; } else if (keys.right){ quarto.x += 1.6; quarto.face = 1; }
+    quarto.x = clamp(quarto.x, 20, 238); quarto.anda = keys.left || keys.right;
+    if (quarto.x >= 238) quarto.abrindo = 1;
   }
 }
 function endQuarto(){
@@ -1266,7 +1307,7 @@ function drawQuarto(){
   const t = quarto.t;
   ctx.fillStyle = '#05040c'; ctx.fillRect(0, 0, W, H);
   if (t < 30){ // ainda caindo
-    for (let i = 0; i < 20; i++){ ctx.fillStyle = 'rgba(165,108,255,.25)'; ctx.fillRect((i * 53) % W, ((i * 37) + t * 9) % H, 1, 8); }
+    for (let i = 0; i < 20; i++){ ctx.fillStyle = 'rgba(255,128,73,.25)'; ctx.fillRect((i * 53) % W, ((i * 37) + t * 9) % H, 1, 8); }
     drawSprite(154, Math.round(-20 + t * 6), 1, true);
     return;
   }
@@ -1274,16 +1315,28 @@ function drawQuarto(){
   // quarto: parede, porta fechada, cama
   ctx.fillStyle = `rgba(42,31,74,${a})`; ctx.fillRect(0, 0, W, 196);
   ctx.fillStyle = `rgba(28,20,52,${a})`; ctx.fillRect(0, 196, W, 44);
-  ctx.fillStyle = `rgba(20,14,38,${a})`; ctx.fillRect(34, 98, 46, 98); ctx.fillStyle = `rgba(255,211,107,${a * .6})`; ctx.fillRect(72, 148, 3, 3);
-  ctx.fillStyle = `rgba(70,55,110,${a})`; ctx.fillRect(226, 164, 74, 32); ctx.fillStyle = `rgba(220,215,240,${a * .8})`; ctx.fillRect(228, 158, 22, 8);
+  // cama à esquerda, porta à direita
+  ctx.fillStyle = `rgba(70,55,110,${a})`; ctx.fillRect(16, 164, 74, 32); ctx.fillStyle = `rgba(220,215,240,${a * .8})`; ctx.fillRect(18, 158, 22, 8);
+  const ab = quarto.abrindo ? Math.min(1, quarto.abrindo / 20) : 0;
+  if (ab > 0){ const lg = ctx.createLinearGradient(250, 0, 300, 0); lg.addColorStop(0, 'rgba(255,236,170,.95)'); lg.addColorStop(1, 'rgba(255,200,120,.5)'); ctx.fillStyle = lg; ctx.fillRect(250, 98, 46, 98); }
+  ctx.fillStyle = `rgba(20,14,38,${a})`; ctx.fillRect(250, 98, Math.round(46 * (1 - ab * 0.85)), 98);
+  ctx.fillStyle = `rgba(255,211,107,${a * .7})`; if (ab < .5) ctx.fillRect(256, 148, 3, 3);
+  ctx.strokeStyle = `rgba(255,211,107,${a * .35})`; ctx.lineWidth = 1; ctx.strokeRect(249.5, 97.5, 47, 99);
   // luz que desce
   const g = Math.max(0, (t - 70) / 80);
   if (g > 0){
     const r = 30 + g * 110;
     const grd = ctx.createRadialGradient(160, 150, 4, 160, 150, r);
-    grd.addColorStop(0, `rgba(255,236,170,${0.55 * Math.min(1, g)})`); grd.addColorStop(1, 'rgba(165,108,255,0)');
+    grd.addColorStop(0, `rgba(255,236,170,${0.55 * Math.min(1, g)})`); grd.addColorStop(1, 'rgba(255,128,73,0)');
     ctx.fillStyle = grd; ctx.fillRect(0, 0, W, H);
     ctx.fillStyle = `rgba(255,236,170,${0.25 * Math.min(1, g)})`; ctx.beginPath(); ctx.moveTo(150, 0); ctx.lineTo(170, 0); ctx.lineTo(200, 196); ctx.lineTo(120, 196); ctx.fill();
+  }
+  if (quarto.sair){
+    // de pé, indo pra porta
+    drawSprite(Math.round(quarto.x), 176, quarto.face, quarto.anda && Math.floor(frame / 7) % 2 === 0);
+    if (!quarto.abrindo){ label('abra a porta →', 262, 82, '#ffd36b'); }
+    if (quarto.abrindo > 18){ ctx.fillStyle = `rgba(255,236,170,${Math.min(1, (quarto.abrindo - 18) / 16)})`; ctx.fillRect(0, 0, W, H); }
+    return;
   }
   // Tiaguinho de joelhos
   ctx.save(); ctx.beginPath(); ctx.rect(0, 0, W, 196); ctx.clip();
