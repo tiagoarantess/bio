@@ -6,7 +6,7 @@
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@500;700;800;900&family=Fraunces:opsz,wght@9..144,600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@500;700;800;900&family=Fraunces:opsz,wght@9..144,600&family=Special+Elite&display=swap" rel="stylesheet">
 <style>
 /* Layout: um console de bolso. Tela do jogo no topo, controles grandes embaixo, cartões de memória por cima. Visual escuro único, da identidade do link na bio. */
 :root{
@@ -94,6 +94,61 @@ button.ghost{background:transparent;color:var(--fg);border-color:var(--line);box
 .lista button.aqui{background:var(--k);color:#0a0c18}
 .lista button.aqui span:last-child{color:#0a0c18}
 #goBtn[hidden]{display:none}
+/* páginas e tipos de texto, inspirados no link na bio */
+.card{max-height:min(100%,640px)}
+.card p{font-weight:400;font-size:16.5px;line-height:1.55;color:#dfe3f7}
+.pg{display:flex;flex-direction:column;gap:12px;animation:entra .28s ease-out}
+@keyframes entra{from{opacity:0;transform:translateX(14px)}to{opacity:1;transform:none}}
+.card h3{font-weight:800;font-size:17px;line-height:1.25;margin:0;color:var(--c)}
+.card h2.fecho{color:var(--c)}
+.card mark{background:color-mix(in srgb,var(--c) 85%,#fff);color:#0a0c18;padding:0 3px;box-decoration-break:clone;-webkit-box-decoration-break:clone}
+.card strong.red{color:#ff5a5a;font-weight:800}
+.card strong.hl{color:var(--c);font-weight:800}
+.card em{color:var(--muted)}
+.card s{text-decoration-thickness:3px;text-decoration-color:#ff5a5a;opacity:.8}
+.card blockquote{font-size:20px;color:#fff}
+.icones{font-size:34px;line-height:1;letter-spacing:4px}
+.nav{justify-content:space-between}
+.nav .dots{display:flex;gap:5px;flex:1;justify-content:center}
+.nav .dots i{width:7px;height:7px;background:var(--line);display:block}
+.nav .dots i.on{background:var(--c)}
+.chat{display:flex;flex-direction:column;gap:8px;background:#0b141a;padding:12px;border:1px solid #1f2c34}
+.msg{align-self:flex-start;max-width:86%;background:#202c33;color:#e9edef;padding:7px 10px 8px;border-radius:0 10px 10px 10px;font-size:15.5px;line-height:1.4;font-weight:400}
+.msg b{display:block;font-size:12px;font-weight:700;color:#53bdeb;margin-bottom:2px}
+.msg.eu{align-self:flex-end;background:#005c4b;border-radius:10px 0 10px 10px}
+.msg.eu b{color:#7ee2b8}
+.velho{background:#efe3c2;color:#3b2f1e;font-family:"Special Elite","Courier New",monospace;font-size:19px;line-height:1.4;padding:18px 16px;box-shadow:inset 0 0 40px rgba(120,90,40,.45),4px 4px 0 #000;filter:sepia(.3)}
+.velho em{color:#7a5a2e;font-style:italic;font-size:22px}
+.verbete{border:1px solid var(--line);padding:14px;display:flex;flex-direction:column;gap:6px;background:rgba(255,255,255,.03)}
+.verbete b{font-family:var(--t-quote);font-size:28px;color:var(--c);font-weight:600}
+.verbete b::after{content:" · verbo";font-family:var(--t-display);font-size:12px;color:var(--muted);letter-spacing:.08em}
+.livro{display:flex;flex-direction:column;gap:6px;border-left:6px solid var(--c);padding:10px 12px;background:rgba(255,255,255,.04)}
+.livro span{font-size:13px;color:var(--muted)}
+.itens{display:flex;flex-direction:column;gap:8px}
+.itens div{display:grid;grid-template-columns:auto 1fr;gap:4px 12px;align-items:baseline;border-bottom:1px solid var(--line);padding-bottom:8px}
+.itens b{font-weight:900;color:var(--c);font-size:15px}
+.itens span{font-size:15px;color:#dfe3f7}
+.cal{width:110px;border:2px solid #000;box-shadow:4px 4px 0 #000;background:#fff;color:#0a0c18;text-align:center;align-self:flex-start}
+.cal span{display:block;background:#ff5a5a;color:#fff;font-weight:800;font-size:12px;letter-spacing:.14em;text-transform:uppercase;padding:4px}
+.cal b{display:block;font-size:54px;font-weight:900;line-height:1.1}
+.term .cursor{display:inline-block;width:8px;height:15px;background:var(--tec);margin-left:4px;vertical-align:-2px;animation:pisca 1s steps(1) infinite}
+@keyframes pisca{50%{opacity:0}}
+.final-l{font-weight:900;font-size:clamp(26px,7vw,34px);line-height:1.1;margin:0}
+/* celular deitado: o jogo ocupa a tela, controles nas laterais */
+.vire{display:none;color:var(--muted);font-size:13px;margin:0}
+@media (pointer:coarse) and (orientation:portrait){.vire{display:block}}
+@media (pointer:coarse) and (orientation:landscape){
+  body{padding:0;background:#000;overflow:hidden}
+  header,.keys,.full,.vire,.bar p{display:none}
+  .wrap{max-width:none;gap:0}
+  .screen{position:fixed;inset:0;margin:auto;height:100vh;height:100dvh;width:auto;max-height:none;max-width:100vw;aspect-ratio:4/3;border:0;box-shadow:none}
+  .bar{position:fixed;top:max(6px,env(safe-area-inset-top,0px));right:max(8px,env(safe-area-inset-right,0px));z-index:4}
+  .bar button{padding:7px 10px;font-size:12px;background:rgba(9,11,24,.7)}
+  .pad{position:fixed;inset:auto 0 0 0;padding:0 max(10px,env(safe-area-inset-right,0px)) max(10px,env(safe-area-inset-bottom,0px)) max(10px,env(safe-area-inset-left,0px));z-index:3;pointer-events:none}
+  .pad button{pointer-events:auto;opacity:.78}
+  .overlay{position:fixed}
+  .card{max-height:94dvh}
+}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 
@@ -108,7 +163,7 @@ button.ghost{background:transparent;color:var(--fg);border-color:var(--line);box
   </div>
   <div class="bar">
     <p id="mission">Carregando…</p>
-    <span class="btns"><button id="goBtn" hidden>Continuar</button><button class="ghost" id="somBtn" aria-pressed="false">♪ som</button><button class="ghost" id="mapBtn">Mapa</button></span>
+    <span class="btns"><button id="goBtn" hidden>Continuar</button><button class="ghost" id="memBtn" hidden>Memórias</button><button class="ghost" id="somBtn" aria-pressed="false">♪ som</button><button class="ghost" id="mapBtn">Mapa</button></span>
   </div>
   <div class="pad" id="pad">
     <div class="dir">
@@ -117,6 +172,7 @@ button.ghost{background:transparent;color:var(--fg);border-color:var(--line);box
     </div>
     <button class="jump" data-k="jump">PULAR</button>
   </div>
+  <p class="vire">📱↔ Deite o celular pra jogar em tela cheia</p>
   <p class="keys">← → andar · Espaço pular · Shift correr · M mapa</p>
   <p class="full">Prefere ler? <a href="https://tiagoarantess.github.io/bio/" target="_blank" rel="noopener">Ler a história completa</a></p>
 </div>
@@ -127,143 +183,134 @@ const W = 320, H = 240, T = 16, ROWS = 15, GROUND = 13, QROW = 9;
 const C = {tec:'#b8ff38', fe:'#a56cff', edu:'#ff8049', emp:'#31a7ff'};
 
 /* ============ CONTEÚDO: textos exatos do link na bio ============ */
+/* Marcas nos textos (só destaque, as palavras são as do site):
+   [[m:...]] marca-texto · [[r:...]] vermelho · [[b:...]] cor do capítulo · [[i:...]] itálico · [[s:...]] riscado */
 const WORLDS = [
-{ nome:'robótica', regiao:0, tag:'Capítulo 01 · origem', titulo:'Tudo começou com a robótica.', cor:C.tec, inimigo:'', cena:'arena', musica:1,
+{ nome:'robótica', tag:'Capítulo 01 · origem', titulo:'Tudo começou com a robótica.', cor:C.tec, cena:'arena', trecho:'origem',
+  inimigos:['sensor errado','chassi desalinhado','câmera borrada'],
   look:{c:'#2f7a2a', w:'#b8ff38', p:'#2b3350'},
   cards:[
-  {foto:'fotos/2018-entrevista-tv-robotica-1.jpg', ano:'2018', leg:`Comecei pivete. Entrevista de quando nossa equipe se destacou`},
-  {foto:'fotos/2018-premiacao-no-palco.jpg', ano:'2018', leg:`Competições, medalhas e anos construindo, programando e competindo.`},
-  {foto:'fotos/2019-equipe-testando-robo.jpg', ano:'2019', leg:``},
-  {texto:`E teve feira de ciências também.\nExperiências que me criaram um olhar crítico-científico sobre a vida.`, video:'fotos/feira-projeto-ciencias.mp4', poster:'fotos/feira-projeto-ciencias-capa.jpg'},
-  {foto:'fotos/feira-estande-equipe.jpg', leg:``},
-  {foto:'fotos/feira-premio-colegio-militar.jpg', ano:'2022', leg:`Medalha de participação kkk na maior feira do centro-oeste, a FETEC`},
-  {foto:'fotos/feira-ciencias-1.jpg', ano:'2023', leg:`No outro ano, voltamos, e recebemos reconhecimento do Austrian Space Fórum, através do Dr. Groemer. Além de ganhar o 1 lugar da feira`},
-  {foto:'fotos/feira-ciencias-2.jpg', ano:'2023', leg:`Foto na saída do auditório da UFMS, com o troféu, porque na hora da premiação ficamos tão sem acreditar que esquecemos de foto.`}
+  {pages:[{foto:'fotos/2018-entrevista-tv-robotica-1.jpg', ano:'2018', leg:`Comecei pivete. Entrevista de quando nossa equipe se destacou`}]},
+  {pages:[{foto:'fotos/2018-premiacao-no-palco.jpg', ano:'2018', leg:`Competições, medalhas e anos construindo, programando e competindo.`},{foto:'fotos/2019-equipe-testando-robo.jpg', ano:'2019', leg:``}]},
+  {pages:[{titulo:'Feiras de ciências', texto:`E teve feira de ciências também.\nExperiências que me criaram um [[m:olhar crítico-científico]] sobre a vida.`},{video:'fotos/feira-projeto-ciencias.mp4', poster:'fotos/feira-projeto-ciencias-capa.jpg'},{foto:'fotos/feira-estande-equipe.jpg', leg:``}]},
+  {pages:[{foto:'fotos/feira-premio-colegio-militar.jpg', ano:'2022', leg:`Medalha de participação kkk na maior feira do centro-oeste, a FETEC`}]},
+  {pages:[{foto:'fotos/feira-ciencias-1.jpg', ano:'2023', leg:`No outro ano, voltamos, e recebemos reconhecimento do Austrian Space Fórum, através do Dr. Groemer. Além de ganhar o 1 lugar da feira`},{foto:'fotos/feira-ciencias-2.jpg', ano:'2023', leg:`Foto na saída do auditório da UFMS, com o troféu, porque na hora da premiação ficamos tão sem acreditar que esquecemos de foto.`}]}
   ]},
-{ nome:'a base', regiao:0, tag:'Capítulo 02 · fé', titulo:'A força da construção está na base que ninguém vê', cor:C.fe, inimigo:'imprevisto', cena:'noite', musica:1,
+{ nome:'a base', tag:'Capítulo 02 · fé', titulo:'A força da construção está na base que ninguém vê', cor:C.fe, cena:'noite', trecho:'fe',
+  inimigos:['imprevisto','dúvida','questionamento','tristeza'],
   look:{c:'#2f7a2a', w:'#b8ff38', p:'#2b3350'}, instavel:2, desabei:1, quarto:2,
   cards:[
-  {texto:`Meses de preparo. O robô pronto, a expectativa lá no teto e a certeza de que aquele era o nosso ano.\nTínhamos ganhado a etapa anterior, a regional, em primeiro lugar. Estávamos bem!\nMas, na hora H... aconteceram TODOS os tipos de imprevistos.`},
-  {texto:`Desabei.\nMe levaram pra casa pós-competição. Naquele dia, por um milagre, todo mundo tava fora de casa. O silêncio era tudo o que eu precisava. Fechei a porta do quarto e orei. Ou melhor, me derramei... Entre lágrimas, soluços e gritos. Comecei a oração com tristeza, dúvidas e questionamentos, e tudo sublimou para fé e gratidão! No ápice, fiz uma das orações mais ousada da minha vida:`},
-  {texto:`“Pode me conduzir pelos processos mais difíceis, porque sei que eles produzirão os melhores frutos.”\nEu tinha 12 anos quando falei isso para Deus. Entrei naquele quarto abalado, mas lá comecei a ver se formar uma rocha firme onde poderia apoiar os meus pés.`},
-  {texto:`A base é onde apoiamos a nossa segurança, o nosso valor e a nossa identidade.\nAté aquele dia, sem perceber, a minha base estava nos meus resultados: se conquistasse algo, eu estava bem; quando não conseguia, ficava desesperado.`},
-  {texto:`Naquele quarto, a minha base se firmou. E agora a forma como eu enxergo a vida deveria ser a partir daquele novo ponto de vista.\nColoquei a minha dependência no amor de um Pai cujo amor não muda por performance.`},
-  {texto:`Já percebeu que quando a gente pisa com medo num terreno que não conhece, a gente anda olhando só para os próprios pés, tentando não cair? Mas quando sabemos que o terreno é firme, finalmente conseguimos levantar a cabeça, olhar ao redor e adiante.`},
-  {texto:`Talvez, por isso, peguei o celular e mandei mensagem pra um amigo da equipe, que também tinha ficado meio abalado.\nEu só consegui olhar para o meu amigo e me importar com a dor dele porque transbordei o que tinha acabado de receber naquele quarto.\nPela primeira vez, tive coragem de falar da minha fé e esperança para alguém, mesmo que por mensagem, e ele correspondeu bem.`},
-  {dica:true, texto:`Na próxima frustração, não pense que veio para te destruir. Talvez ela só esteja cavando o espaço para construir uma fundação.`}
+  {pages:[{texto:`Meses de preparo. O robô pronto, a expectativa lá no teto e a certeza de que aquele era o nosso ano.\nTínhamos ganhado a etapa anterior, a regional, em primeiro lugar. Estávamos bem!\nMas, na hora H... aconteceram [[r:TODOS os tipos de imprevistos.]]`}]},
+  {pages:[{titulo:'Desabei.', texto:`Me levaram pra casa pós-competição. Naquele dia, por um milagre, todo mundo tava fora de casa. O silêncio era tudo o que eu precisava. Fechei a porta do quarto e orei. Ou melhor, me derramei... Entre lágrimas, soluços e gritos. Comecei a oração com tristeza, dúvidas e questionamentos, e tudo sublimou para [[b:fé e gratidão!]] No ápice, fiz uma das orações mais ousada da minha vida:`}]},
+  {pages:[{citacao:`“Pode me conduzir pelos processos mais difíceis, porque sei que eles produzirão os melhores frutos.”`, texto:`Eu tinha 12 anos quando falei isso para Deus. Entrei naquele quarto abalado, mas lá comecei a ver se formar uma [[m:rocha firme]] onde poderia apoiar os meus pés.`}]},
+  {pages:[{texto:`A base é onde apoiamos a nossa [[b:segurança]], o nosso [[b:valor]] e a nossa [[b:identidade]].\nAté aquele dia, sem perceber, a minha base estava nos meus resultados: se conquistasse algo, eu estava bem; quando não conseguia, ficava desesperado.`}]},
+  {pages:[{texto:`Naquele quarto, a minha base se firmou. E agora a forma como eu enxergo a vida deveria ser a partir daquele novo ponto de vista.\nColoquei a minha dependência no amor de um Pai cujo amor [[m:não muda por performance.]]`}]},
+  {pages:[{texto:`Já percebeu que quando a gente pisa com medo num terreno que não conhece, a gente anda olhando só para os próprios pés, tentando não cair? Mas quando sabemos que o terreno é firme, finalmente conseguimos levantar a cabeça, olhar ao redor e adiante.`}]},
+  {pages:[{texto:`Talvez, por isso, peguei o celular e mandei mensagem pra um amigo da equipe, que também tinha ficado meio abalado.\nEu só consegui olhar para o meu amigo e me importar com a dor dele porque [[m:transbordei o que tinha acabado de receber]] naquele quarto.`},{texto:`Pela primeira vez, tive coragem de falar da minha fé e esperança para alguém, mesmo que por mensagem, e ele correspondeu bem.`}]},
+  {pages:[{dica:true, texto:`Na próxima frustração, não pense que veio para te destruir. Talvez ela só esteja cavando o espaço para construir uma fundação.`}]}
   ],
   fim:{texto:`Minha fé em Jesus faz parte de tudo que estou construindo.\nFé não é uma parte do meu conteúdo.\nÉ a lente através da qual eu enxergo todas as partes.`}},
-{ nome:'vivo', regiao:0, tag:'Me sentindo vivo', titulo:'Meu coração começou a ficar aquecido de amor.', cor:C.fe, inimigo:'medo', cena:'escola', musica:1,
+{ nome:'vivo', tag:'Me sentindo vivo', titulo:'Meu coração começou a ficar aquecido de amor.', cor:C.fe, cena:'escola', trecho:'fe',
+  inimigos:['aprovação','máscara','festa','solidão'],
   look:{c:'#c9b98f', w:'#2a4b8d', p:'#2b3a55'},
   cards:[
-  {texto:`Um amor maior do que robótica, conquistas acadêmicas e qualquer coisa.\nQuando eu li as palavras de Jesus (embora já tivesse ouvido muito pela boca dos outros, agora tinha parado para ler a Bíblia e buscar na fonte!) minha reação era: Uau! QUANTAS PALAVRAS DESSE HOMEM FAZIAM SENTIDO!`},
-  {texto:`As palavras de Jesus me confrontavam, e logo consolavam. Na verdade... ele expunha minha ferida, e vinha com o remédio.\n“Oh! Médico dos médicos.”`},
-  {texto:`Comecei a falar desse amor com mais ousadia na pandemia, através de reuniões online com os amigos: eu tinha voz na escola!\nIsso talvez porque era destaque de nota e o mais conversador/bagunceiro da turma, então muitos se achegavam pra ouvir.`},
-  {texto:`Com o tempo, aqueles que eram meus amigos já não queriam mais ouvir (ou não queria praticar o que ouviam na mesma intensidade que eu), e nos afastamos... até que fiquei sozinho e distante do meu grupo "popular"\nQuando acabou o lockdown do Covid, voltamos pra escola e eu me sentia só, mas estava em paz com a minha decisão. Todos falavam que eu estava super "zen" se comparado ao Tiago de antes.`},
-  {texto:`Começou a despertar uma compaixão dentro de mim e eu não pude mais conter!\nTalvez precisassem do que eu tinha:`, titulo:'Dito e feito!', depois:`Comecei a falar com ousadia...não de religião!\nmas de uma pessoa: Jesus. E começou a fazer sentido para alguns.\nOk, nem sempre era com ousadia, na maioria das vezes tremendo as pernas, na verdade.`},
-  {texto:`Primeiro, reuniram 3 na minha casa.`, foto:'fotos/2020-amigos.jpg', leg:`Felizes pós lágrimas de oração`},
-  {texto:`Começando pela colega de turma:\nEla era da minha sala, a gente era amigo, mas tinha uma disputa: todo trimestre o colégio atualizava um ranking de notas no sistema escolar. Os primeiros colocados entre todas as turmas, ao final do ano, ganhavam medalha pra usar no uniforme pra sempre. Um dia ela me perguntou:`,
-   fala:[['Colega de turma',`Tiago, como você parece tão tranquilo e tira notas melhores que eu? E ainda faz robótica, esporte, um monte de coisa...`],['Tiago',`Não sei explicar... eu já fui ansioso por nota como você, mas desde que coloquei Jesus em primeiro na minha vida... tenho estudado até menos, os resultados melhoraram, talvez eu estudava demais e não descansava, e Jesus me ensinou a equilibrar, não sei`]],
-   depois:`A partir daí ela quis ir na minha igreja e decidiu colocar Cristo como prioridade. Ela sentiu uma paz inexplicável e anda no amor de Jesus até hoje.\nNesse mesmo ano, no final, empatamos a média de nota nos milésimos, e nós dois ganhamos a mesma medalha no uniforme (coisa que o colégio nunca tinha feito)`},
-  {texto:`Ela era MUITO tímida na sala, e aos poucos foi se soltando... Quem diria que ela ia até pregar na igreja!!`, foto:'fotos/amiga-pregando-na-igreja.jpg', leg:`Olha a menina se desenvolvendo na igreja`},
-  {foto:'fotos/2020-oracao-na-varanda.jpg', ano:'2020', leg:`Oração na varanda da minha casa, com "a menina que eu disputava nota" e com um amigo autêntico`, depois:`Ele me procurou DO NADA, dizendo que queria ir na minha igreja, e um tempo depois me contou que parecia sempre feliz, sorria na escola, mas em casa a cabeça pesava quando encostava no travesseiro.`},
-  {foto:'fotos/pregando-na-praca.jpg', leg:`Pregando com meu amigo numa praça, na transição pós LockDown`}
+  {pages:[{texto:`Um amor maior do que robótica, conquistas acadêmicas e qualquer coisa.\nQuando eu li as palavras de Jesus (embora já tivesse ouvido muito pela boca dos outros, agora tinha parado para ler a Bíblia e buscar na fonte!) minha reação era: Uau! [[b:QUANTAS PALAVRAS DESSE HOMEM FAZIAM SENTIDO!]]`}]},
+  {pages:[{citacao:`As palavras de Jesus me confrontavam, e logo consolavam. Na verdade... ele expunha minha ferida, e vinha com o remédio.\nOh! Médico dos médicos.`}]},
+  {pages:[{texto:`Comecei a falar desse amor com mais ousadia na pandemia, através de reuniões online com os amigos: eu tinha voz na escola!\nIsso talvez porque era destaque de nota e o mais conversador/bagunceiro da turma, então muitos se achegavam pra ouvir.`},{texto:`Com o tempo, aqueles que eram meus amigos já não queriam mais ouvir (ou não queria praticar o que ouviam na mesma intensidade que eu), e nos afastamos... até que fiquei sozinho e distante do meu grupo "popular"`},{texto:`Quando acabou o lockdown do Covid, voltamos pra escola e eu me sentia só, mas estava em paz com a minha decisão. Todos falavam que eu estava super "zen" se comparado ao Tiago de antes.`}]},
+  {pages:[{texto:`Começou a despertar uma compaixão dentro de mim e eu não pude mais conter!\nTalvez precisassem do que eu tinha:`},{grande:'Dito e feito!', texto:`Comecei a falar com ousadia...não de religião!\nmas de uma pessoa: [[b:Jesus.]] E começou a fazer sentido para alguns.\n[[i:Ok, nem sempre era com ousadia, na maioria das vezes tremendo as pernas, na verdade.]]`}]},
+  {pages:[
+    {foto:'fotos/2020-amigos.jpg', leg:`Felizes pós lágrimas de oração`, texto:`Primeiro, reuniram 3 na minha casa.`},
+    {texto:`Começando pela colega de turma:\nEla era da minha sala, a gente era amigo, mas tinha uma disputa: todo trimestre o colégio atualizava um ranking de notas no sistema escolar. Os primeiros colocados entre todas as turmas, ao final do ano, ganhavam medalha pra usar no uniforme pra sempre. Um dia ela me perguntou:`},
+    {chat:[['Colega de turma',`Tiago, como você parece tão tranquilo e tira notas melhores que eu? E ainda faz robótica, esporte, um monte de coisa...`,'esq'],['Tiago',`Não sei explicar... eu já fui ansioso por nota como você, mas desde que coloquei Jesus em primeiro na minha vida... tenho estudado até menos, os resultados melhoraram, talvez eu estudava demais e não descansava, e Jesus me ensinou a equilibrar, não sei`,'dir']], antes:`eu respondi, e lembro que até com certo frio na barriga,`},
+    {texto:`A partir daí ela quis ir na minha igreja e decidiu colocar Cristo como prioridade. Ela sentiu uma paz inexplicável e anda no amor de Jesus até hoje.\nNesse mesmo ano, no final, empatamos a média de nota nos milésimos, e nós dois ganhamos a mesma medalha no uniforme (coisa que o colégio nunca tinha feito)`},
+    {foto:'fotos/amiga-pregando-na-igreja.jpg', leg:`Olha a menina se desenvolvendo na igreja`, texto:`Ela era MUITO tímida na sala, e aos poucos foi se soltando... Quem diria que ela ia até pregar na igreja!!`},
+    {foto:'fotos/2020-oracao-na-varanda.jpg', ano:'2020', leg:`Oração na varanda da minha casa, com "a menina que eu disputava nota" e com um amigo autêntico`, texto:`Ele me procurou DO NADA, dizendo que queria ir na minha igreja, e um tempo depois me contou que parecia sempre feliz, sorria na escola, mas em casa a cabeça pesava quando encostava no travesseiro.`},
+    {titulo:'Mas por que autêntico? Ele não usava máscara na escola?', texto:`Por conta dessa confissão. Por isso chamei de autêntico. Parando pra pensar, eu também usei máscara antes, e admitir isso me fez ser autêntico. Ele virou um amigão e mais pra frente liderou comigo um movimento no colégio.`}
   ]},
-{ nome:'voluntário', regiao:0, tag:'Voluntário', titulo:'Intervalo com Deus · Legião de Honra', cor:C.fe, inimigo:'má fama', cena:'escola', musica:1, tenente:true,
+  {pages:[{foto:'fotos/pregando-na-praca.jpg', leg:`Pregando com meu amigo numa praça, na transição pós LockDown`}]}
+  ]},
+{ nome:'voluntário', tag:'Voluntário', titulo:'Intervalo com Deus · Legião de Honra', cor:C.fe, cena:'escola', trecho:'intervalo', tenente:true,
+  inimigos:['má fama','panelinha','uniforme errado'],
   look:{c:'#c9b98f', w:'#2a4b8d', p:'#2b3a55'},
-  tenenteCard:{titulo:'Intervalo com Deus', texto:`Quando entrei no Colégio Militar no 6º ano, e era serelepe, sempre fugia de um Tenente que me chamava para ir numa reunião na cantina "pra falar de Deus".\nPILANTRA!`},
+  tenenteCard:{tag:'Intervalo com Deus', pages:[{texto:`Quem diria...\nNa volta pós pandemia, já no ensino médio, quando vi esse Tenente, a primeira coisa que perguntei foi:`},{chat:[['Tiago',`era o sr que fazia as reuniões cristãs na cantina?`,'dir']], depois:`E daí a conversa fluiu.\nEle fazia no fundamental e eu queria fazer no ensino médio, ele não conseguiu dar tanto apoio.\n[[b:Corri atrás de muita coisa sozinho.]]`}]},
   cards:[
-  {texto:`Quem diria...\nNa volta pós pandemia, já no ensino médio, quando vi esse Tenente, a primeira coisa que perguntei foi:\n“era o sr que fazia as reuniões cristãs na cantina?”\nE daí a conversa fluiu.`},
-  {texto:`Começamos os encontros sem nenhum nome.\nUm dia, olhando papéis pra jogar fora em casa, vi um folheto muito antigo... um convite para o "Intervalo com Deus". Fiquei maravilhado, porque provavelmente meu pai pegou e guardou (meu pai trabalhou nesse colégio anos antes).\nEntão descobri que não estava começando algo novo, mas só continuando algo que existia antes.`},
-  {texto:`Vi que Deus não só "mexeu os pauzinhos"... ele ajeitou os pauzinhos, riscou o fósforo e acendeu a fogueira ele mesmo.\nPoderia dizer que comecei isso sozinho, mas chega a ser errado...\nEu, sozinho, fugia... lembra?\nMas, com Ele, aprendi a ser ousado. Desenvolvi coragem arriscando, e só assumi riscos por uma paixão ardente.`},
-  {texto:`No final, ficou óbvio não estar sozinho. Acontece o quê você vê nas fotos abaixo:`, foto:'fotos/icd-grupo-cresceu.jpg', ano:'2023', leg:`O grupo começou a crescer`},
-  {foto:'fotos/icd-cleiton.jpg', ano:'2023', leg:`Cleiton pregando. Sala com todas cadeiras cheias, e pessoas em pé em todo redor`},
-  {foto:'fotos/icd-novo-4.jpg', ano:'2023', leg:`Reuníamos não só alunos, mas militares, professores civis, até faxineiras`},
-  {tag:'Legião de Honra', texto:`Depois que me converti e melhorei meu comportamento na escola, consegui entrar numa iniciativa que eu queria há muito tempo...\na Legião de Honra, que fazia ações sociais, e só aceitava alunos exemplares, tanto em nota (coisa que eu tinha), quanto em comportamento (coisa que eu não tinha nos primeiros anos do colégio militar).`},
-  {tag:'Legião de Honra', texto:`Quase desisti disso...\nMas após pandemia vi aberta a inscrição, "falei: ah, vou tentar ", fiz o discurso de novo (dessa vez com verdade).\nE não esperava entrar, porque é difícil apagar uma má fama diante das pessoas.\nVocê pode ser perdoado por Deus e ainda sofrer as consequências.\nMas... se você ta no time dele, ele vai transformar até o mal em bênção`},
-  {tag:'Legião de Honra', texto:`Inclusive, eu estava tão desapegado que não lembrei o dia que sairia o resultado. Na noite que anunciaram na internet, eu estava fazendo uma live falando de Jesus no Instagram. Uma amiga que eu nem falava há muito tempo entrou na live só para dizer "TIAGOOO, VOCÊ ENTROU NA LEGIÃO". Eu tava orando e quando abri os olhos só vi um monte de comentário, e disse algo do tipo "sério? obrigado por avisar." sem muita reação. Só depois fui processar a alegria e agradecer ao Papai. Esse é o significado daquela bolacha azul que você vê no peito do meu uniforme.`},
-  {tag:'Legião de Honra', foto:'fotos/2022-orfanato-legiao-de-honra-1.jpg', ano:'2022', leg:``, texto:`Nessa visita a um orfanato que fizemos no Dia das Crianças com a Legião de Honra, uma criança me desenhou.\nTímido, entregou para uma amiga, que me contou e entregou por ele. Claro que fui falar com ele, olha a alegria dele de ter seu desenho reconhecido, e minha alegria de ser desenhado. (A QUE PARECE MAIS ALEGRE É MINHA AMIGA LÁ ATRÁS KKKKKK)`}
+  {tag:'Intervalo com Deus', pages:[{texto:`Quando entrei no Colégio Militar no 6º ano, e era serelepe, sempre fugia de um Tenente que me chamava para ir numa reunião na cantina "pra falar de Deus".`, fecho:'PILANTRA!'}]},
+  {tag:'Intervalo com Deus', pages:[{texto:`Mas vou contar apenas uma coisa boba, mas é uma curiosidade que poucos sabem:\nComeçamos os encontros sem nenhum nome.`},{texto:`Um dia, olhando papéis pra jogar fora em casa, vi um folheto muito antigo... um convite para o [[m:"Intervalo com Deus"]]. Fiquei maravilhado, porque provavelmente meu pai pegou e guardou (meu pai trabalhou nesse colégio anos antes).\nEntão descobri que não estava começando algo novo, mas só [[b:continuando algo que existia antes.]]`}]},
+  {tag:'Intervalo com Deus', pages:[{citacao:`Vi que Deus não só "mexeu os pauzinhos"... ele ajeitou os pauzinhos, riscou o fósforo e acendeu a fogueira ele mesmo.`, icones:'🔥'},{texto:`Poderia dizer que comecei isso sozinho, mas chega a ser errado...\nEu, sozinho, fugia... lembra?\nMas, com Ele, aprendi a ser ousado. Desenvolvi coragem arriscando, e só assumi riscos por uma [[m:paixão ardente.]]`}]},
+  {tag:'Intervalo com Deus', pages:[{foto:'fotos/icd-grupo-cresceu.jpg', ano:'2023', leg:`O grupo começou a crescer`, texto:`No final, ficou óbvio não estar sozinho. Acontece o quê você vê nas fotos abaixo:`},{foto:'fotos/icd-cleiton.jpg', ano:'2023', leg:`Cleiton pregando. Sala com todas cadeiras cheias, e pessoas em pé em todo redor`},{foto:'fotos/icd-novo-4.jpg', ano:'2023', leg:`Reuníamos não só alunos, mas militares, professores civis, até faxineiras`}]},
+  {tag:'Legião de Honra', pages:[{texto:`Depois que me converti e melhorei meu comportamento na escola, consegui entrar numa iniciativa que eu queria há muito tempo...\na Legião de Honra, que fazia ações sociais, e só aceitava alunos exemplares, tanto em nota (coisa que eu tinha), quanto em comportamento (coisa que eu não tinha nos primeiros anos do colégio militar).`},{texto:`Quase desisti disso...\nMas após pandemia vi aberta a inscrição, "falei: ah, vou tentar ", fiz o discurso de novo (dessa vez com verdade).\nE não esperava entrar, porque é difícil apagar uma [[r:má fama]] diante das pessoas.`},{citacao:`Você pode ser perdoado por Deus e ainda sofrer as consequências.\nMas... se você ta no time dele, ele vai transformar até o mal em bênção`}]},
+  {tag:'Legião de Honra', pages:[{texto:`Inclusive, eu estava tão desapegado que não lembrei o dia que sairia o resultado. Na noite que anunciaram na internet, eu estava fazendo uma live falando de Jesus no Instagram.`},{texto:`Uma amiga que eu nem falava há muito tempo entrou na live só para dizer [[b:"TIAGOOO, VOCÊ ENTROU NA LEGIÃO"]]. Eu tava orando e quando abri os olhos só vi um monte de comentário, e disse algo do tipo "sério? obrigado por avisar." sem muita reação. Só depois fui processar a alegria e agradecer ao Papai. Esse é o significado daquela bolacha azul que você vê no peito do meu uniforme.`}]},
+  {tag:'Legião de Honra', pages:[{foto:'fotos/2022-orfanato-legiao-de-honra-1.jpg', ano:'2022', leg:``, texto:`Nessa visita a um orfanato que fizemos no Dia das Crianças com a Legião de Honra, uma criança me desenhou.\nTímido, entregou para uma amiga, que me contou e entregou por ele. Claro que fui falar com ele, olha a alegria dele de ter seu desenho reconhecido, e minha alegria de ser desenhado. [[i:(A QUE PARECE MAIS ALEGRE É MINHA AMIGA LÁ ATRÁS KKKKKK)]]`}]}
   ]},
-{ nome:'diferente', regiao:0, tag:'Diferente', titulo:'Neurodivergente: é isso que me faz um pouco diferente.', cor:C.edu, inimigo:'saturado', cena:'escola', musica:1,
+{ nome:'diferente', tag:'Diferente', titulo:'Neurodivergente: é isso que me faz um pouco diferente.', cor:C.fe, cena:'escola', trecho:'diferente',
+  inimigos:['saturado','agenda cheia','tempo escasso'],
   look:{c:'#c9b98f', w:'#2a4b8d', p:'#2b3a55'},
   cards:[
-  {texto:`Fui diagnosticado com AHSD há mais de uma década. Começou assim:`, fala:[['8 anos · aula de matemática',`Eu terminava as atividades rápido e ficava à toa, conversando. Em vez de brigar comigo, a professora Sônia (obrigado, professora 🙏) chamou a coordenação e pediu uma avaliação no NAAHS, o núcleo de Altas Habilidades do estado. Uma neuropsicóloga confirmou.`]]},
-  {fala:[['13 anos · de volta',`Uma amiga do meu grupo de robótica me contou que o núcleo tinha mudado de nome (agora CEAM/AHS) e de lugar. Sem expectativa nenhuma, voltei. Novo teste psicológico: deu de novo. E todos os psicólogos e psiquiatras de lá pra cá só confirmam.`]]},
-  {titulo:'Isso não me faz melhor. Só me faz diferente.', texto:`Todo mundo tem potenciais a serem explorados e dificuldades a serem tratadas.`},
-  {texto:`Até que, do nada (após a pandemia rs), os meus interesses mudaram.\nEu já estava saturado das aulas de matemática. E meu tempo era escasso:`, chips:['ensino médio','Intervalo com Deus','Legião de Honra','projetos de ciências','robótica','igreja','esportes'], depois:`Cada atividade do meu dia tinha que fazer sentido pras minhas prioridades. E ali não estava fazendo.`},
-  {texto:`Eu queria explorar a minha fé, as profundezas do que acredito, de onde ela veio e conhecer\nos homens que viveram intensamente por ela:`, depois:`“Os quais, pela fé, venceram reinos, praticaram a justiça, alcançaram promessas, fecharam a boca de leões, apagaram a força do fogo, escaparam do fio da espada, da fraqueza tiraram força...”\nHebreus 11:33-34`},
-  {texto:`Mesmo assim, fui e falei:`, fala:[['eu',`Eu quero trocar os meus atendimentos de exatas. Já estou saturado e tenho novos interesses e prioridades nessa fase da minha vida.`],['coordenação',`Claro, Tiago. E quais seriam os seus novos interesses?`],['eu',`Eu quero aprender a história, especificamente história da igreja.`],['coordenação',`Nossa, você vai se identificar então com a professora de história.`]]},
-  {texto:`Foi assim: simples. Na semana seguinte eu já estava lá. E o que eu descobri no primeiro dia?`, titulo:'A professora de história era pastora.'},
-  {titulo:'Foi a melhor experiência da minha vida.', texto:`E a melhor decisão: ter me posicionado no que eu queria. Pra descobrir que era um desejo que Ele implantou no meu coração, num caminho que Ele já tinha preparado.`}
+  {pages:[{texto:`Fui diagnosticado com AHSD há mais de uma década. Começou assim:`, fala:[['8 anos · aula de matemática',`Eu terminava as atividades rápido e ficava à toa, conversando. Em vez de brigar comigo, a professora Sônia (obrigado, professora 🙏) chamou a coordenação e pediu uma avaliação no NAAHS, o núcleo de Altas Habilidades do estado. Uma neuropsicóloga confirmou.`]]},{fala:[['no núcleo',`Pouca estrutura. Basicamente me deixavam desenhando e pintando.\nAchei chato. E logo saí.`]]},{fala:[['13 anos · de volta',`Uma amiga do meu grupo de robótica me contou que o núcleo tinha mudado de nome (agora CEAM/AHS) e de lugar. Sem expectativa nenhuma, voltei. Novo teste psicológico: deu de novo. E todos os psicólogos e psiquiatras de lá pra cá só confirmam.`]]}]},
+  {pages:[{grande:'Isso não me faz melhor. Só me faz diferente.', texto:`Todo mundo tem [[b:potenciais a serem explorados]] e [[b:dificuldades a serem tratadas.]]`}]},
+  {pages:[{texto:`No Centro Estadual de Altas Habilidades, em Mato Grosso do Sul, eu desenvolvia projetos de exatas: robótica, matemática, física e programação. A área em que eu tinha sido diagnosticado.\nAté que, do nada (após a pandemia rs), os meus interesses mudaram.`},{texto:`Eu já estava saturado das aulas de matemática. E meu tempo era escasso:`, chips:['ensino médio','Intervalo com Deus','Legião de Honra','projetos de ciências','robótica','igreja','esportes','agenda cheia'], depois:`Cada atividade do meu dia tinha que fazer sentido pras minhas prioridades. E ali não estava fazendo.`}]},
+  {pages:[{texto:`Eu queria explorar a minha fé, as profundezas do que acredito, de onde ela veio e conhecer\nos homens que viveram intensamente por ela:`},{citacao:`"Os quais, pela fé, venceram reinos, praticaram a justiça, alcançaram promessas, fecharam a boca de leões, apagaram a força do fogo, escaparam do fio da espada, da fraqueza tiraram força..."`, depois:`Hebreus 11:33-34`}]},
+  {pages:[{texto:`Só que como eu ia explicar isso pra coordenação? Pedir pra sair justo das aulas em que eu tinha mais desenvoltura, pra estudar história da igreja?`, chips:['pernas tremendo','barriga gelada','coração apertado']},{texto:`Mesmo assim, fui e falei:`, fala:[['eu',`Eu quero trocar os meus atendimentos de exatas. Já estou saturado e tenho novos interesses e prioridades nessa fase da minha vida.`],['coordenação',`Claro, Tiago. E quais seriam os seus novos interesses?`],['eu',`Eu quero aprender a história, especificamente história da igreja.`],['coordenação',`Nossa, você vai se identificar então com a professora de história.`]]}]},
+  {pages:[{texto:`Foi assim: simples. Na semana seguinte eu já estava lá. E o que eu descobri no primeiro dia?`, fecho:'A professora de história era pastora.'},{texto:`E não daquelas que você encontra em qualquer esquina, com jargão pronto, aleluia glória a Deus. [[m:Amável, sábia, estudiosa.]] Os livros que eu queria ler? Ela já tinha lido. As histórias de avivamento que eu nunca achei ninguém na igreja pra me contar? Ela já tinha estudado.`},{texto:`E ela me questionava fundo:`, fala:[['professora',`O que é avivamento pra você? Define em 3 palavras, sem pensar muito.`],['professora',`O que você acha que precisamos? O que nos falta para um avivamento?`]]}]},
+  {pages:[{grande:'Foi a melhor experiência da minha vida.', texto:`E a melhor decisão: ter me posicionado no que eu queria. Pra descobrir que era um desejo que Ele implantou no meu coração, num caminho que Ele já tinha preparado.`}]}
   ]},
-{ nome:'IME', regiao:0, tag:'Capítulo 03 · o sonho do vestibular', titulo:'Meu sonho era o IME.', cor:C.edu, inimigo:'simulado', cena:'brasilia', musica:2, voo:'fortaleza',
+{ nome:'IME', tag:'Capítulo 03 · o sonho do vestibular', titulo:'Meu sonho era o IME.', cor:C.edu, cena:'brasilia', trecho:'rainbows', voo:'fortaleza',
+  inimigos:['simulado','vestibular'],
   look:{c:'#2f7a2a', w:'#b8ff38', p:'#2b3350'},
   cards:[
-  {foto:'fotos/palacio-da-alvorada-equipe-do-ime.jpg', leg:`Na foto, Palácio da Alvorada, e nossa equipe campeã de robótica com a equipe de Robótica do IME, em passeio por Brasília`},
-  {texto:`Após uma competição de robótica que ficamos em primeiro lugar em Brasília, os alunos do IME nos disseram que tínhamos um currículo forte o suficiente para pedir uma bolsa no melhor curso preparatório do Brasil, que fica em Fortaleza...\nDisseram também que essa era a melhor forma de termos chances para passar na prova deles: O VESTIBULAR MAIS DIFÍCIL DO BRASIL 💀\n(é esperado que se faça alguns anos de cursinho)`},
-  {titulo:'Mais uma vez, dito e feito!', texto:`Mandamos nosso currículo, e ganhamos bolsa 100% no cursinho mais caro do Brasil.`}
+  {pages:[{foto:'fotos/palacio-da-alvorada-equipe-do-ime.jpg', leg:`Na foto, Palácio da Alvorada, e nossa equipe campeã de robótica com a equipe de Robótica do IME, em passeio por Brasília`}]},
+  {pages:[{texto:`Após uma competição de robótica que ficamos em primeiro lugar em Brasília, os alunos do IME nos disseram que tínhamos um currículo forte o suficiente para pedir uma bolsa no melhor curso preparatório do Brasil, que fica em Fortaleza...`},{texto:`Disseram também que essa era a melhor forma de termos chances para passar na prova deles:`, fecho:'O VESTIBULAR MAIS DIFÍCIL DO BRASIL 💀', depois:`[[i:(é esperado que se faça alguns anos de cursinho)]]`}]},
+  {pages:[{grande:'Mais uma vez, dito e feito!', texto:`Mandamos nosso currículo, e ganhamos [[m:bolsa 100%]] no cursinho mais caro do Brasil.`}]}
   ]},
-{ nome:'Fortaleza', regiao:1, tag:'Capítulo 04 · mudança de rota', titulo:'Mas Fortaleza me mostrou um mundo de possibilidades que eu ainda não conhecia.', cor:C.tec, inimigo:'simulado', cena:'fortaleza', musica:2,
+{ nome:'Fortaleza', tag:'Capítulo 04 · mudança de rota', titulo:'Mas Fortaleza me mostrou um mundo de possibilidades que eu ainda não conhecia.', cor:C.tec, cena:'fortaleza', trecho:'professor',
+  inimigos:['simulado','sufoco'],
   look:{c:'#f2f4fa', w:'#31a7ff', p:'#33405f'},
   cards:[
-  {tag:'Tempo de preparação', foto:'fotos/cursinho-farias-brito-ime-ita.jpg', leg:`Eu, e meu amigo da equipe de robótica sentado logo na minha frente, no cursinho em Fortaleza`, depois:`Esse amigo agora está na faculdade mais inovadora da América Latina, a Inteli\nO cara é bom, @paulo_rbto`},
-  {texto:`E sim, abri mão de ir para o IME 💀\nPor quê? Difícil? Também kkk mas eu poderia continuar tentando...\nAcontece que: descobri que não era o único lugar possível de continuar desenvolvendo o que gosto.\nNa verdade... comecei a enxergar oportunidades maiores no mundo da robótica.`},
-  {titulo:'Residência no IFCE · Sistemas Embarcados', texto:`Trabalhando no laboratório de Software do Instituto Federal do Ceará, desenvolvendo projetos de embarcados (uma área específica da robótica rsrs) para grandes empresas e startups.`, stats:[['+3 mil','por mês'],['4h','por dia'],['5x2','escala']], foto:'fotos/ifce-residencia.jpg', leg:`Residência no laboratório de Sistemas Embarcados do IFCE`},
-  {foto:'fotos/ifce-laboratorio.jpg', leg:``, texto:`Era um laboratório secreto, assinei um termo de confidencialidade por 2 anos, então não posso falar muitas coisas.`},
-  {tag:'Capítulo 05 · professor', titulo:'Comecei a trabalhar dando aulas.', texto:`Minhas experiências ensinando passaram por escolas de referência como:`, chips:['CódigoKid','Farias Brito','Colégio Militar de Fortaleza','Instituto Federal do Ceará']},
-  {tag:'Capítulo 05 · professor', texto:`Mas tudo começou num canto escuro do prédio do cursinho pro IME\nEu deitado num banco. Matando uma aula de inglês (fácil) do cursinho pro IME, enquanto orava e refletia sobre: 1. o quanto eu queria que meus amigos do cursinho conhecessem Jesus (e muitas orações foram respondidas, tá?)\n2. Como eu tava evoluindo pouco nos simulados pro IME.`},
-  {tag:'Capítulo 05 · professor', texto:`Com os insights, pensei que eu precisava me dispor a resolver o problema de alguém, e me ofereci para dar aula... de forma voluntária!\nAcredita?\nLogo gostaram do meu trabalho, me contrataram e até ressarciram o tempo como voluntário.\nDepois fui pra outra escola. E outra ganhando mais. E outra ganhando mais.\nMas isso é história pra outra hora.`},
-  {tag:'Capítulo 05 · professor', texto:`O principal aprendizado é: você encontra seu caminho servindo pessoas com as habilidades que tem! E até quando acha que não têm, existe algo em suas mãos para dispor a servir, mesmo que sejam 5 pães e 2 peixinhos(quem leu, entenda). E se não tiver nada em mãos... Tem pelo menos a mão pra pegar uma enxada? kkkkk\nDava aula e estudava. Ensinar enquanto estou aprendendo... te lembra algum instagram por aí 👀?`, foto:'fotos/aula-codigokid-1-capa.jpg', leg:``},
-  {tag:'Capítulo 06 · faculdade', titulo:'Ao mesmo tempo, fazia faculdade de Análise e Desenvolvimento de Sistemas.', texto:`Eu gostava de programação. Sempre fui o programador das minhas equipes de robótica.\nMas com o tempo descobri que essa faculdade focava apenas em sites e aplicativos. Só que o que eu gosto de programar tem corpo:\neu gosto de programar robôs.`, foto:'fotos/faculdade-ads-1.jpg', leg:``}
+  {tag:'Tempo de preparação', pages:[{foto:'fotos/cursinho-farias-brito-ime-ita.jpg', leg:`Eu, e meu amigo da equipe de robótica sentado logo na minha frente, no cursinho em Fortaleza`, texto:`Esse amigo agora está na faculdade mais inovadora da América Latina, a Inteli\nO cara é bom, @paulo_rbto`}]},
+  {pages:[{grande:'E sim, abri mão de ir para o [[s:IME]] 💀', texto:`Por quê? Difícil? Também kkk mas eu poderia continuar tentando...`},{texto:`Acontece que: descobri que não era o único lugar possível de continuar desenvolvendo o que gosto.`, fecho:'Na verdade... comecei a enxergar oportunidades maiores no mundo da robótica.'}]},
+  {tag:'o que me abriu a visão', pages:[{foto:'fotos/ifce-residencia.jpg', leg:`Residência no laboratório de Sistemas Embarcados do IFCE`, titulo:'Residência no IFCE · Sistemas Embarcados', texto:`Trabalhando no laboratório de Software do Instituto Federal do Ceará, desenvolvendo projetos de embarcados (uma área específica da robótica rsrs) para grandes empresas e startups.`},{itens:[['Conexão com grandes empresas','projetos reais, pessoas-chaves'],['Desenvolvimento de startups','visão de mercado em robótica'],['Direito de errar','do mais jovem (eu rsrs) ao mais velho, todos tratados como estagiários']]},{texto:`Contato com pessoas incríveis, aprendi muita coisa profunda de eletrônica, tive espaço pra aprender e investimento em capacitação constante. E no sentido financeiro também éramos valorizados:`, stats:[['+3 mil','por mês'],['4h','por dia'],['5x2','escala']]},{foto:'fotos/ifce-laboratorio.jpg', leg:``, texto:`Era um [[m:laboratório secreto]], assinei um termo de confidencialidade por 2 anos, então não posso falar muitas coisas.`, icones:'🤫'}]},
+  {tag:'Capítulo 05 · professor', pages:[{foto:'fotos/aula-codigokid-1-capa.jpg', leg:``, grande:'Comecei a trabalhar dando aulas.', texto:`Minhas experiências ensinando passaram por escolas de referência como:`, chips:['CódigoKid','Farias Brito','Colégio Militar de Fortaleza','Instituto Federal do Ceará']},{texto:`Mas tudo começou num canto escuro do prédio do cursinho pro IME\nEu deitado num banco. Matando uma aula de inglês (fácil) do cursinho pro IME, enquanto orava e refletia sobre: 1. o quanto eu queria que meus amigos do cursinho conhecessem Jesus (e muitas orações foram respondidas, tá?)\n2. Como eu tava evoluindo pouco nos simulados pro IME.`},{texto:`Com os insights, pensei que eu precisava me dispor a resolver o problema de alguém, e me ofereci para dar aula... [[m:de forma voluntária!]]\nAcredita?\nLogo gostaram do meu trabalho, me contrataram e até ressarciram o tempo como voluntário.\nDepois fui pra outra escola. E outra ganhando mais. E outra ganhando mais.\nMas isso é história pra outra hora.`},{citacao:`O principal aprendizado é: você encontra seu caminho servindo pessoas com as habilidades que tem!`, texto:`E até quando acha que não têm, existe algo em suas mãos para dispor a servir, mesmo que sejam 5 pães e 2 peixinhos(quem leu, entenda). E se não tiver nada em mãos... Tem pelo menos a mão pra pegar uma enxada? kkkkk\nDava aula e estudava. Ensinar enquanto estou aprendendo... te lembra algum instagram por aí 👀?`}]},
+  {tag:'Capítulo 06 · faculdade', pages:[{foto:'fotos/faculdade-ads-1.jpg', leg:``, titulo:'Ao mesmo tempo, fazia faculdade de Análise e Desenvolvimento de Sistemas.', texto:`Eu gostava de programação. Sempre fui o programador das minhas equipes de robótica.\nMas com o tempo descobri que essa faculdade focava apenas em sites e aplicativos. Só que o que eu gosto de programar tem corpo:`},{grande:'eu gosto de programar robôs.', chips:['Software','Eletrônica','Máquinas']}]}
   ]},
-{ nome:'vendas', regiao:1, tag:'Capítulo 07 · vendas', titulo:'Decidi sair do emprego no Instituto Federal!', cor:C.emp, inimigo:'não', cena:'praia', musica:2, doce:true,
+{ nome:'vendas', tag:'Capítulo 07 · vendas', titulo:'Decidi sair do emprego no Instituto Federal!', cor:C.emp, cena:'praia', trecho:'vendas', doce:true, pessoas:true, cenas:[[0,'praia'],[6,'estrada']],
   look:{c:'#31a7ff', w:'#ffd36b', p:'#d9c79a', bone:'#ff8049'},
   cards:[
-  {titulo:'Decidi sair do emprego no Instituto Federal!', fala:[['Pai','O QUÊ!?'],['Chefe','Por quê?'],['Amigo','Como assim??']], depois:`Sim, todos me questionaram, garantindo que estava certo da minha decisão, e saí! Em paz... sem muita satisfação, apenas dizendo que tava certo da nova fase que queria, porque era difícil explicar o que tinha lido:`},
-  {texto:`“Não trabalhe para ganhar dinheiro, trabalhe para aprender”\nAprendi no livro Pai Rico, Pai Pobre\nAprenda as habilidades necessárias para fazer o dinheiro trabalhar pra você.`},
-  {texto:`Sou jovem e quero usar minha energia para construir algo de valor para a sociedade.\nQuero que muitos vivam a robótica e sejam transformados por meio dela como eu fui. Quero expandir isso com um método escalável.`, titulo:'Chegou a hora de abrir a minha StartUp!', depois:`Mas pra isso eu vi que precisava de tempo e dinheiro`},
-  {texto:`"Ah, Tiago, mas tu trabalhava 4h por dia e ganhava mais que metade da população brasileira, vai me dizer que faltava tempo e dinheiro!?"\nSim, exatamente.\nO esgotamento mental era grande. Nunca vai entrar na minha cabeça admitir que as pessoas trabalham 8h por dia para ganhar um salário mínimo.\nDinheiro eu gastava tudo para sobreviver. (Descobri que no Brasil 3 mil é sobrevivência)`},
-  {texto:`Tivemos férias final do ano, pensei bastante, e no primeiro dia do retorno anunciei minha saída.`, data:true, depois:`No dia 6 de janeiro (meu aniversário inclusive), foi meu último dia, algo simbólico pra mim. Decidi: a partir de hoje iria trabalhar pra mim, assumiria as rédeas da minha vida.`, foto:'fotos/despedida-do-laboratorio.jpg', leg:`Despedida do laboratório e comemoração do aniversário`},
-  {texto:`Troquei o ar-condicionado do laboratório secreto pelo sol na cabeça e areia no pé.\nOuvi dezenas de "nãos" até pegar o jeito.\nComecei a vender 4 horas por dia, dia sim dia não, na praia de Fortaleza. Mas eu contava o deslocamento dentro das 4h, e no trabalho, se contasse deslocamento dava 6h.`},
-  {vs:[['LABORATÓRIO','tempo 6h, todo dia','dinheiro 3 mil, por mês'],['PRAIA','tempo 4h, dia sim, dia não','dinheiro 4 mil, por mês']], titulo:'Ganhei tempo, dinheiro, tudo que eu precisava.', foto:'fotos/primeira-vez-vendendo-na-praia.jpg', leg:`Primeira vez vendendo na praia os meus próprios produtos.`},
-  {tag:'Um dia, numa praça de alimentação em Fortaleza', texto:`Estava vendendo doces. Meus pais não apoiavam. Achavam perigoso. Já tinham me ligado pra falar disso.\nNesse dia vendi para uma mãe que, me parou, perguntou quantos anos eu tinha, olhou nos meus olhos e disse:`, depois:`“Olha, eu tenho um filho de um ano. Se o meu filho tiver a sua idade fazendo exatamente o que você está fazendo, eu vou ser a mãe mais orgulhosa do mundo.”`},
-  {texto:`Naquele dia, quando cheguei em casa, eu chorei muito. Em casa não, lembro que foi na lavanderia(vida de solteiro ne). Não sei se chorei de tristeza ou de alegria.\nEu queria que os meus pais vissem dessa forma.\nMas... mesmo que eles não vissem. Mesmo que eles não entendessem.\nAquilo me trouxe muito mais convicção do que eu tô fazendo, do porquê eu tô fazendo, e deu ânimo pra continuar.`},
-  {titulo:'Em fevereiro, tranquei a faculdade.', texto:`Tranquei a faculdade e decidi viajar vendendo.\nFiz um rolê pelo Nordeste: Olinda, Recife, Natal.\nDepois fui para São Paulo, e voltei para a minha cidade natal para ver os meus pais.`},
-  {texto:`Um dia estava no posto de gasolina, à noite, frio, mas as vendas estavam saindo aos poucos, e decidi continuar. Depois de muitos "nãos" seguidos... (parece que as bênçãos sempre vêm assim, né?)\nEncontrei um japonês. Vendi pra ele.\nQuando falei que estava levantando recurso pra abrir a minha empresa de robótica. Ele já meteu um "AH, ENTÃO VOCÊ TRABALHA NA MESMA ÁREA QUE EU? Conhece o laboratório do Sebrae?"\nEle me falou do Sebrae numa noite. No dia seguinte eu já estava lá, falando com os consultores.`},
-  {texto:`Eles me deram uma mentoria sobre o meu modelo de negócio: a ideia de criar uma escola de robótica online era válida, mas levaria tempo.\nEnquanto isso, eu poderia continuar vendendo os doces e criar um robô para vender junto comigo: aumentar a conexão com o cliente e o número de conversões de vendas, pra investir na estruturação da escola.`, foto:'fotos/sebrae-modelagem-3d.jpg', leg:`No Sebrae, modelando o robô em 3D`},
-  {foto:'fotos/robo-que-vende-comigo.jpg', leg:`Construindo o robô que vende comigo`, titulo:'Um robô vendendo comigo, pra pagar a escola que eu quero construir.'}
+  {pages:[{grande:'Decidi sair do emprego no Instituto Federal!', chat:[['Pai','O QUÊ!?','esq'],['Chefe','Por quê?','esq'],['Amigo','Como assim??','esq']]},{texto:`Sim, todos me questionaram, garantindo que estava certo da minha decisão, e saí! Em paz... sem muita satisfação, apenas dizendo que tava certo da nova fase que queria, porque era difícil explicar o que tinha lido:`},{livro:[`“Não trabalhe para ganhar dinheiro, trabalhe para aprender”`,`Aprendi no livro Pai Rico, Pai Pobre`], texto:`Aprenda as habilidades necessárias para fazer o dinheiro trabalhar pra você.`}]},
+  {pages:[{texto:`Sou jovem e quero usar minha energia para construir [[m:algo de valor para a sociedade.]]\nQuero que muitos vivam a robótica e sejam transformados por meio dela como eu fui. Quero expandir isso com um método escalável.`, fecho:'Chegou a hora de abrir a minha StartUp!', depois:`Mas pra isso eu vi que precisava de [[b:tempo]] e [[b:dinheiro]]`},{citacao:`"Ah, Tiago, mas tu trabalhava 4h por dia e ganhava mais que metade da população brasileira, vai me dizer que faltava tempo e dinheiro!?"`, fecho:'Sim, exatamente.'},{texto:`O esgotamento mental era grande. Nunca vai entrar na minha cabeça admitir que as pessoas trabalham 8h por dia para ganhar um salário mínimo.\nDinheiro eu gastava tudo para sobreviver. [[r:(Descobri que no Brasil 3 mil é sobrevivência)]]\nPagando meu aluguel, minhas refeições, deslocamentos, tudo da vida de quem mora sozinho...`},{texto:`E tempo... bom, apesar de estar apenas 4h no trabalho, eu fazia faculdade né, e também academia, e também igreja.`, chips:['tempo','dinheiro','energia mental'], depois:`Onde ia arranjar tempo pra pensar no meu negócio próprio?`}]},
+  {pages:[{texto:`Tivemos férias final do ano, pensei bastante, e no primeiro dia do retorno anunciei minha saída.`, data:true, depois:`No dia 6 de janeiro (meu aniversário inclusive), foi meu último dia, algo simbólico pra mim. Decidi: a partir de hoje iria trabalhar pra mim, [[m:assumiria as rédeas da minha vida.]]`},{foto:'fotos/despedida-do-laboratorio.jpg', leg:`Despedida do laboratório e comemoração do aniversário`}]},
+  {pages:[{icones:'❄️ → ☀️🏖️', grande:'Troquei o ar-condicionado do laboratório secreto pelo sol na cabeça e areia no pé.', texto:`Ouvi dezenas de "nãos" até pegar o jeito.\nComecei a vender 4 horas por dia, dia sim dia não, na praia de Fortaleza. Mas eu contava o deslocamento dentro das 4h, e no trabalho, se contasse deslocamento dava 6h.`},{vs:[['LABORATÓRIO','tempo 6h, todo dia','dinheiro 3 mil, por mês'],['PRAIA','tempo 4h, dia sim, dia não','dinheiro 4 mil, por mês']], fecho:'Ganhei tempo, dinheiro, tudo que eu precisava.'},{foto:'fotos/primeira-vez-vendendo-na-praia.jpg', leg:`Primeira vez vendendo na praia os meus próprios produtos.`, texto:`[[i:Observação: Eu não comecei vendendo na praia, e não vendia meus próprios produtos. Mas a história de como comecei fica para outra hora... Ela é muito engraçada! E foi aí que vi que dava mais certo vender qualquer produto do que vender minha hora.]]`}]},
+  {tag:'Um dia, numa praça de alimentação em Fortaleza', pages:[{texto:`Estava vendendo doces. Meus pais não apoiavam. Achavam perigoso. Já tinham me ligado pra falar disso.\nNesse dia vendi para uma mãe que, me parou, perguntou quantos anos eu tinha, olhou nos meus olhos e disse:`},{citacao:`Olha, eu tenho um filho de um ano. Se o meu filho tiver a sua idade fazendo exatamente o que você está fazendo, eu vou ser a mãe mais orgulhosa do mundo.`},{texto:`Era um casal fitness. Compraram de mim só porque gostaram de mim e da minha abordagem e do meu propósito, o produto em si nem fazia tanto sentido pra eles.\nQuando um mendigo chegou pedindo o resto do que tinha sobrado na mesa, eles deram o doce. Deram tudo.\nEu segurei enquanto ela estava ali.\nNa hora que ela foi embora, eu tive que sair.`},{texto:`Naquele dia, quando cheguei em casa, eu chorei muito. Em casa não, lembro que foi na lavanderia(vida de solteiro ne). Não sei se chorei de tristeza ou de alegria.\nNa verdade... eu sabia, era porque outras pessoas entendiam o que eu estava fazendo. E, mais do que isso, admiravam. Eu já tinha recebido vários elogios e palavras de incentivo, mas dessa vez bateu diferente, porque...`},{grande:'Eu queria que os meus pais vissem dessa forma.', texto:`Mas... mesmo que eles não vissem. Mesmo que eles não entendessem.\nAquilo me trouxe muito mais [[m:convicção]] do que eu tô fazendo, do porquê eu tô fazendo, e deu ânimo pra continuar.`}]},
+  {pages:[{grande:'Em fevereiro, tranquei a faculdade.', texto:`Ela também me sugava tempo e energia, e não estava me dando o ROI necessário: o retorno sobre o investimento. Eu gastava energia e tempo ali sem ver que aquilo iria, de fato, me ajudar a concretizar o meu sonho.\nAlém do que já falei, que esse curso ensinava mais sobre programar sites e aplicativos. E eu já sabia o que queria: [[b:construir máquinas.]]`},{grande:'Tranquei a faculdade e decidi viajar vendendo.', chips:['Olinda','Recife','Natal','São Paulo','cidade natal'], texto:`Fiz um rolê pelo Nordeste: Olinda, Recife, Natal.\nDepois fui para São Paulo, e voltei para a minha cidade natal para ver os meus pais.\nLá continuei vendendo...\nInclusive, sem ter o apoio do meu pai pra isso (ele achava estranho e perigoso)`}]},
+  {pages:[{texto:`Um dia estava no posto de gasolina, à noite, frio, mas as vendas estavam saindo aos poucos, e decidi continuar. Depois de muitos "nãos" seguidos... [[i:(parece que as bênçãos sempre vêm assim, né?)]]\nEncontrei um japonês. Vendi pra ele.\nJaponês você sabe como é:\nInteligentes, práticos, desenrolados.`},{texto:`Quando falei que estava levantando recurso pra abrir a minha empresa de robótica. Ele já meteu um`, chat:[['japonês',`AH, ENTÃO VOCÊ TRABALHA NA MESMA ÁREA QUE EU? Conhece o laboratório do Sebrae?`,'esq']], depois:`Ele me falou do Sebrae numa noite. [[m:No dia seguinte eu já estava lá]], falando com os consultores.`},{foto:'fotos/sebrae-modelagem-3d.jpg', leg:`No Sebrae, modelando o robô em 3D`, texto:`Eles me deram uma mentoria sobre o meu modelo de negócio: a ideia de criar uma escola de robótica online era válida, mas levaria tempo.\nEnquanto isso, eu poderia continuar vendendo os doces e criar um robô para vender junto comigo: aumentar a conexão com o cliente e o número de conversões de vendas, pra investir na estruturação da escola.`},{foto:'fotos/robo-que-vende-comigo.jpg', leg:`Construindo o robô que vende comigo`, grande:'Um robô vendendo comigo, pra pagar a escola que eu quero construir.'}]}
   ]},
-{ nome:'mudança', regiao:1, tag:'Capítulo 08 · mudança, de novo!', titulo:'Mudança, de novo!', cor:C.edu, inimigo:'faculdade?', cena:'estrada', musica:3, voo:'floripa',
+{ nome:'mudança', tag:'Capítulo 08 · mudança, de novo!', titulo:'Mudança, de novo!', cor:C.edu, cena:'estrada', trecho:'mudanca', voo:'floripa',
+  inimigos:['E a faculdade?','8h por dia','salário mínimo'],
   look:{c:'#31a7ff', w:'#ffd36b', p:'#d9c79a', bone:'#ff8049'},
   cards:[
-  {texto:`Nessa época vendendo, muita gente me perguntava da faculdade.`, term:'> E a faculdade, Tiago?', depois:`Vi o quanto ainda valorizam isso.`},
-  {texto:`Eu, sinceramente, acredito que o sistema de ensino das faculdades está ultrapassado.\nMas ainda quero fazer! Porque quero passar pelo processo que todo mundo passa, sentir como é, e vencê-lo!\nDiferente de muitos, eu não espero que a faculdade me dê um bom emprego.`},
-  {texto:`No laboratório eu trabalhei ao lado de pessoas com mestrado e doutorado. De igual pra igual, ganhando a mesma coisa, e vendo que elas passavam os mesmos sufocos pra se manter financeiramente.`, titulo:'Eu quero fazer o dinheiro trabalhar pra mim.'},
-  {texto:`1. Ter recursos pra, primeiramente, viver com liberdade.\n2. Usar essa liberdade pra pensar em ideias inovadoras e gerar impacto. (O que já faço no meu tempo livre: isso é intrínseco a mim.)`},
-  {texto:`E por que eu gosto de pensar em formas de resolver problemas da sociedade?`, titulo:'Porque os meus problemas já estão todos resolvidos.', depois:`Olho no espelho, sorrio e me encontro plenamente satisfeito. Desde que conheci Jesus, tenho tudo que preciso e que quero. Ele pregou todos os meus problemas na cruz.`},
-  {texto:`Mas gosto de ver as coisas funcionando na vida real, construir máquinas.`, titulo:'E a melhor faculdade que integra hardware e software é a Engenharia Mecatrônica.'}
+  {pages:[{texto:`Nessa época vendendo, muita gente me perguntava da faculdade.`, term:'> E a faculdade, Tiago?', depois:`Vi o quanto ainda valorizam isso.`}]},
+  {pages:[{velho:`Eu, sinceramente, acredito que o sistema de ensino das faculdades está [[i:ultrapassado.]]`},{grande:'Mas ainda quero fazer!', texto:`Porque quero passar pelo processo que todo mundo passa, sentir como é, e vencê-lo!\nE quero aprender os assuntos básicos, como cálculo diferencial, principalmente 2 e 3, física experimental, porque gosto de exatas e porque quero expandir minha mente, o meu raciocínio matemático e físico, a forma como enxergo o mundo, porque sei que ele é desenhado pelas leis matemáticas e físicas. [[m:Quero fazer pelo prazer de aprender.]]`},{texto:`Diferente de muitos, eu não espero que a faculdade me dê um bom emprego.`}]},
+  {pages:[{texto:`No laboratório eu trabalhei ao lado de pessoas com [[m:mestrado e doutorado]]. De igual pra igual, ganhando a mesma coisa, e vendo que elas passavam os mesmos sufocos pra se manter financeiramente.`},{texto:`Tudo bem que, enquanto eu fazia faculdade, elas trabalhavam em outro emprego e somavam os salários. Mas poucos saem dessa linha de formação tradicional com abundância de recursos. E quando ganham bem, é à custa de dedicação exclusiva.`, fecho:'Eu quero fazer o dinheiro trabalhar pra mim.'},{itens:[['1','Ter recursos pra, primeiramente, viver com liberdade.'],['2','Usar essa liberdade pra pensar em ideias inovadoras e gerar impacto. (O que já faço no meu tempo livre: isso é intrínseco a mim.)']]}]},
+  {pages:[{texto:`E por que eu gosto de pensar em formas de resolver problemas da sociedade?`, fecho:'Porque os meus problemas já estão todos resolvidos.'},{texto:`Olho no espelho, sorrio e me encontro plenamente satisfeito. Desde que conheci Jesus, tenho tudo que preciso e que quero. [[b:Ele pregou todos os meus problemas na cruz.]]\nEle não tem deixado faltar nada pra essa fase da vida (é a promessa dEle pra quem busca os interesses do Reino, e Ele tem cumprido). Aquilo que não tenho, vejo que nem precisava, nem queria de verdade, ou que atrapalharia outra coisa que quero mais intensamente.\n[[i:Só às vezes me olho indignado... por ter tanto e fazer tão pouco.]]`}]},
+  {pages:[{texto:`Voltando ao assunto da faculdade.\nEu pensei em retomar Análise e Desenvolvimento de Sistemas. De fato gosto de construir sistemas, mas prefiro os que ultrapassam a tela de um computador.\n[[i:(ainda bem que aprendi a fazer o básico de sites, como esse aqui)]]\nMas gosto de ver as coisas funcionando na vida real, construir máquinas.`, fecho:'E a melhor faculdade que integra hardware e software é a Engenharia Mecatrônica.'}]}
   ]},
-{ nome:'Floripa', regiao:2, tag:'E por que Floripa?', titulo:'E foi assim que vim parar em Florianópolis.', cor:C.emp, inimigo:'status quo', cena:'floripa', musica:3,
+{ nome:'Floripa', tag:'E por que Floripa?', titulo:'E foi assim que vim parar em Florianópolis.', cor:C.emp, cena:'ponte', trecho:'empreender', cenas:[[0,'ponte'],[2,'floripa'],[5,'campeche']],
+  inimigos:['status quo','hipocrisia','incoerência'],
   look:{c:'#141a33', w:'#b8ff38', p:'#2b3350'},
   cards:[
-  {titulo:'Passei numa faculdade federal de alto conceito daqui', texto:`Foi o primeiro processo seletivo que tentei, para retomar a faculdade o quanto antes, e deu certo. (tranquei Análise de Sistemas no 1º semestre de 2026, retomei Engenharia no segundo semestre).`},
-  {titulo:'Cidade segura, rica, bonita e com praia!'},
-  {titulo:'Polo de inovação, maiores eventos de tecnologia e empreendedorismo do Brasil acontecem aqui!'},
-  {tag:'Capítulo 09 · educação', titulo:'Mas eu não parei de ensinar.', texto:`A robótica me ensinou a usar tecnologia para construir robôs.\nA educação me ensinou a usar a tecnologia para desenvolver pessoas`},
-  {tag:'Capítulo 09 · educação', texto:`Decidi ensinar por aqui o que estou aprendendo, usando as redes sociais: uma tecnologia usada para distrair, mas que pode ser usada para construir.\nNossa geração tem olfato aguçado para hipocrisia e incoerência.`},
-  {tag:'Capítulo 10 · empreender', titulo:'O que significa empreender?', texto:`Do latim, imprehendere (ou inprehendere), significa "tentar", "tomar para si" ou "apoderar-se"\nO sentido original e literal da palavra remete à ideia de colocar algo em execução.`},
-  {tag:'Capítulo 10 · empreender', texto:`O empreendedorismo nasce nesse momento exato em que você decide capturar uma ideia, assumindo para si a responsabilidade de tirá-la do campo da imaginação.\nEmpreendedor não necessariamente é quem inicia uma empresa. Isso é ser empresário.\nEu quero ser os dois. Risos. Porque acredito que algumas empresas são capazes de gerar muito valor e impacto na sociedade.`},
-  {tag:'Capítulo 10 · empreender', texto:`Já tive várias ideias e tentei botar elas pra frente. Muitas ideias minhas deram certo como podem ver na minha história, mas... nem todas.\nTalvez seja exatamente esse o ponto...\nPor tentar tanto que conquistei um pouco até aqui. Isso só me motiva a continuar manifestando as minhas ideias.`, depois:`“Aprendizado validado”\nÉ assim que Eric Ries chama, em A Startup Enxuta, o que sobra de informação de um teste que deu errado.`}
+  {pages:[{icones:'🎓', grande:'Passei numa faculdade federal de alto conceito daqui', texto:`Foi o primeiro processo seletivo que tentei, para retomar a faculdade o quanto antes, e deu certo. (tranquei Análise de Sistemas no 1º semestre de 2026, retomei Engenharia no segundo semestre).`}]},
+  {pages:[{icones:'🏖️🌊☀️', grande:'Cidade segura, rica, bonita e com praia!'}]},
+  {pages:[{icones:'🚀📍', grande:'Polo de inovação, maiores eventos de tecnologia e empreendedorismo do Brasil acontecem aqui!'}]},
+  {tag:'Capítulo 09 · educação', pages:[{grande:'Mas eu não parei de ensinar.', itens:[['A robótica','me ensinou a usar tecnologia para construir robôs.'],['A educação','me ensinou a usar a tecnologia para desenvolver pessoas']]},{texto:`Decidi ensinar por aqui o que estou aprendendo, usando as redes sociais: uma tecnologia usada para [[s:distrair]], mas que pode ser usada para [[m:construir.]]\nAqui, estou empreendendo minhas ideias, e incentivo você a fazer o mesmo.\nJá temos em mãos as melhores ferramentas, só precisamos de pessoas que carregam uma mensagem cheia de verdade.`},{grande:'Nossa geração tem olfato aguçado para hipocrisia e incoerência.'}]},
+  {tag:'Capítulo 10 · empreender', pages:[{grande:'O que significa empreender?', verbete:['empreender',`Do latim, imprehendere (ou inprehendere), significa "tentar", "tomar para si" ou "apoderar-se"\nO sentido original e literal da palavra remete à ideia de colocar algo em execução.`]},{chips:['01 capturar','02 inconformar','03 arriscar'], texto:`O empreendedorismo nasce nesse momento exato em que você decide [[m:capturar uma ideia]], assumindo para si a responsabilidade de tirá-la do campo da imaginação.`},{grande:'Empreendedor não necessariamente é quem inicia uma empresa. Isso é ser empresário.', texto:`Eu quero ser os dois. Risos. Porque acredito que algumas empresas são capazes de gerar muito valor e impacto na sociedade.`}]},
+  {tag:'Capítulo 10 · empreender', pages:[{livro:[`Mas no livro Originais: Como os Inconformistas Mudam o Mundo (de Adam Grant), ele mostra que a atitude de questionar o status quo e propor novas soluções (o cerne do imprehendere) não pertence apenas a empresários, mas a qualquer pessoa que deseja inovar em sua comunidade, família ou trabalho.`,`Adam Grant · Originais`]},{texto:`Eu quero servir as pessoas usando a habilidade que tenho, principalmente em robótica e educação, e inovar na forma de ensinar robótica.\nJá tive várias ideias e tentei botar elas pra frente. Muitas ideias minhas deram certo como podem ver na minha história, mas... nem todas.`},{grande:'Talvez seja exatamente esse o ponto...', texto:`Por tentar tanto que conquistei um pouco até aqui. Isso só me motiva a continuar manifestando as minhas ideias.\nE, na real, cada fracasso até aqui tem me gerado uma aprendizagem validada diferente, para redesenhar minha rota.`},{livro:[`“Aprendizado validado”`,`É assim que Eric Ries chama, em A Startup Enxuta, o que sobra de informação de um teste que deu errado.`]}]}
   ]},
-{ nome:'agora', regiao:2, tag:'Capítulo 11 · o que estou construindo agora', titulo:'Uma escola de robótica online.', cor:C.tec, inimigo:'', cena:'floripa', musica:3,
-  look:{c:'#141a33', w:'#b8ff38', p:'#2b3350'},
+{ nome:'agora', tag:'Capítulo 11 · o que estou construindo agora', titulo:'Uma escola de robótica online.', cor:'#8b5cf6', cena:'eron', trecho:'disciplina',
+  inimigos:['distração'],
+  look:{c:'#141a33', w:'#8b5cf6', p:'#2b3350'},
   cards:[
-  {titulo:'Uma escola de robótica online.', texto:`Uma forma acessível e personalizada de ensinar robótica.\nNão é apenas sobre aprender robótica, um conteúdo técnico. É sobre explorar uma ferramenta que te permite criar algo envolvente com as próprias mãos, enquanto desenvolve raciocínio lógico, mentalidade de resolução de problemas e habilidades caras pro mercado de trabalho do futuro.`, chips:['competições','projetos escolares','feiras de ciências','projetos pessoais']},
-  {tag:'Capítulo 12 · disciplina', titulo:'O corpo também faz parte da construção.', texto:`Por isso vou falar de treinos, esportes, meditação, respiração, jejum, alimentação.\nEu falo isso porque, pelo pouco que entendo de máquinas, sei que todas elas precisam de manutenção ou prevenção.\nImagina a máquina mais complexa do mundo:\no nosso corpo.`},
-  {tag:'Capítulo 12 · disciplina', titulo:'Intensidade', foto:'fotos/corrida-orientacao.jpg', leg:``},
-  {tag:'Capítulo 12 · disciplina', titulo:'Resistência', foto:'fotos/kung-fu-1.jpg', leg:``},
-  {tag:'Capítulo 12 · disciplina', titulo:'Constância', foto:'fotos/supino.jpg', leg:``},
-  {tag:'Capítulo 12 · disciplina', titulo:'RESULTADOS', foto:'fotos/medalhas-esporte.jpg', leg:``, texto:`Aqui não tem de robótica, nem matemática, só esporte\nMas a disciplina para superar desafios é a mesma`}
+  {pages:[{foto:'fotos/kit-eron.jpg', leg:``, grande:'Uma escola de robótica online.', texto:`Uma forma acessível e personalizada de ensinar robótica.`},{texto:`Não é apenas sobre aprender robótica, um conteúdo técnico. É sobre explorar uma ferramenta que te permite [[m:criar algo envolvente com as próprias mãos]], enquanto desenvolve raciocínio lógico, mentalidade de resolução de problemas e habilidades caras pro mercado de trabalho do futuro.`, chips:['competições','projetos escolares','feiras de ciências','projetos pessoais']}]},
+  {tag:'Capítulo 12 · disciplina', pages:[{grande:'O corpo também faz parte da construção.', texto:`Por isso vou falar de treinos, esportes, meditação, respiração, jejum, alimentação.\nEu falo isso porque, pelo pouco que entendo de máquinas, sei que todas elas precisam de manutenção ou prevenção.\nImagina a máquina mais complexa do mundo:`, depois:`[[b:o nosso corpo.]]`}]},
+  {tag:'Capítulo 12 · disciplina', pages:[{chips:['Intensidade','Constância']},{foto:'fotos/kung-fu-1.jpg', leg:``, grande:'Resistência'},{foto:'fotos/medalhas-esporte.jpg', leg:``, grande:'RESULTADOS', texto:`Aqui não tem de robótica, nem matemática, só esporte\nMas a disciplina para superar desafios é a mesma`}]}
   ]}
 ];
 const REGIOES = ['Mato Grosso do Sul', 'Fortaleza e estrada', 'Santa Catarina'];
@@ -278,7 +325,7 @@ const FINAL3 = `Vamos limpar as lentes comigo.\nVamos nos livrar dos medos.\nVam
 /* ============ ESTADO ============ */
 const cv = document.getElementById('game'), ctx = cv.getContext('2d');
 const ov = document.getElementById('ov'), missionEl = document.getElementById('mission');
-let scale = 1, wi = 0, L = null, P = null, cam = 0, frame = 0, gears = 0;
+let scale = 1, wi = 0, L = null, P = null, cam = 0, frame = 0, gears = 0, nos = 0, doces = 0;
 let mode = 'title', paused = true, jumpBuf = 0, lastSafe = {x:40, y:0}, bumps = [], falling = [], parts = [];
 let fly = null, sel = 0, prevK = {};
 const keys = {};
@@ -314,10 +361,14 @@ function build(i){
     if (k === w.quarto) continue; // essa memória aparece no quarto, depois da queda
     map[QROW][x0+2] = 2; map[QROW][x0+3] = 3; map[QROW][x0+4] = 2;
     q[(x0+3) + ',' + QROW] = k;
-    if (k === w.desabei) desX = x0 + 3;
-    if (k % 2 === 1 && k !== w.desabei){
-      const s = w.inimigo === 'não' ? 13 : 14;
-      enemies.push({x:(x0+7)*T, y:GROUND*T - s, w:s, h:s, vx:-0.45 - (i > 5 ? 0.15 : 0), vy:0, alive:true, active:false, squash:0, label:w.inimigo, ground:false});
+    if (k === w.desabei || (w.tenente && k === 0)) desX = x0 + 3;
+    if (w.pessoas){
+      // pessoas na praia e na estrada: cada uma pode dizer "NÃO"
+      enemies.push({x:(x0+7)*T, y:GROUND*T - 20, w:10, h:20, vx:-0.35 - rnd() * 0.25, vy:0, alive:true, active:false, squash:0, pessoa:true, nao:0, disse:false, cor:['#ff8049','#a56cff','#2fb37a','#e04f6a','#f4b400'][k % 5], ground:false});
+      if (k % 2 === 0) enemies.push({x:(x0+10)*T, y:GROUND*T - 20, w:10, h:20, vx:0.3, vy:0, alive:true, active:false, squash:0, pessoa:true, nao:0, disse:false, cor:['#31a7ff','#c94a3a','#7a5cc0'][k % 3], ground:false});
+    } else if (k % 2 === 1 && k !== w.desabei && w.inimigos){
+      const nm = w.inimigos[((k - 1) / 2) % w.inimigos.length];
+      enemies.push({x:(x0+7)*T, y:GROUND*T - 14, w:14, h:14, vx:-0.45 - (i > 5 ? 0.15 : 0), vy:0, alive:true, active:false, squash:0, label:nm, ground:false});
     }
     for (let c = 0; c < 3; c++) coins.push({x:(x0+5+c)*T + 4, y:(GROUND-2)*T + 2, taken:false});
     if (k === w.desabei) continue;
@@ -337,8 +388,8 @@ function build(i){
       [1,2,1].forEach((h, j) => { for (let y = GROUND-h; y < GROUND; y++) map[y][x0+8+j] = 5; });
     }
   }
-  const lv = {map, cols, q, enemies, coins, flagX:(cols - 9) * T, crumbleT:{}, npc:null, desabei:false, desX};
-  if (w.tenente) lv.npc = {x:-30, y:GROUND*T - 22, w:12, h:22, vx:0, vy:0, met:false, ground:false};
+  const lv = {map, cols, q, enemies, coins, flagX:(cols - 9) * T, crumbleT:{}, npc:null, desabei:false, desX, start, SEG};
+  if (w.tenente) lv.npc = {x:-30, y:GROUND*T - 22, w:12, h:22, vx:0, vy:0, met:false, on:false, ground:false};
   return lv;
 }
 function tile(tx, ty){ if (ty < 0 || ty >= ROWS || tx < 0 || tx >= L.cols) return 0; return L.map[ty][tx]; }
@@ -360,44 +411,74 @@ const hit = (a, b) => a.x < b.x + b.w && a.x + a.w > b.x && a.y < b.y + b.h && a
 
 /* ============ CARTÕES ============ */
 function esc(s){ return String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
-function paras(t){
-  return String(t || '').split('\n').map(x => x.trim()).filter(Boolean).map(x =>
-    /^[“"].*[”"]$/.test(x) && x.length > 24 ? `<blockquote>${esc(x)}</blockquote>` : `<p>${esc(x)}</p>`).join('');
+// destaques: [[m:]] marca-texto, [[r:]] vermelho, [[b:]] cor do capítulo, [[i:]] itálico, [[s:]] riscado
+function fmt(s){
+  return esc(s).replace(/\[\[(m|r|b|i|s):([\s\S]*?)\]\]/g, (_, k, t) =>
+    k === 'm' ? `<mark>${t}</mark>` : k === 'r' ? `<strong class="red">${t}</strong>` : k === 'b' ? `<strong class="hl">${t}</strong>` : k === 'i' ? `<em>${t}</em>` : `<s>${t}</s>`);
 }
-function cardBody(c){
+function paras(t){ return String(t || '').split('\n').map(x => x.trim()).filter(Boolean).map(x => `<p>${fmt(x)}</p>`).join(''); }
+function lines(t){ return String(t || '').split('\n').map(x => fmt(x.trim())).join('<br>'); }
+function pageBody(c){
   let h = '';
-  if (c.titulo && !c.texto && !c.foto) h += `<h2>${esc(c.titulo)}</h2>`;
-  if (c.dica) h += `<div class="dica"><b>Dica:</b>${paras(c.texto)}</div>`;
-  else if (c.texto) h += paras(c.texto);
-  if (c.term) h += `<div class="term">${esc(c.term)}</div>`;
-  if (c.titulo && (c.texto || c.foto)) h += `<h2>${esc(c.titulo)}</h2>`;
-  if (c.data) h += `<div><span class="big">6</span> <b style="font-size:13px;letter-spacing:.14em;text-transform:uppercase">janeiro</b></div>`;
-  if (c.fala) h += c.fala.map(f => `<div class="fala"><b>${esc(f[0])}</b><span>${esc(f[1])}</span></div>`).join('');
+  if (c.video) h += `<figure><video src="${esc(c.video)}" poster="${esc(c.poster || '')}" muted loop playsinline controls preload="metadata"></video></figure>`;
+  if (c.foto) h += `<figure><img src="${esc(c.foto)}" alt="${esc(c.leg || c.titulo || c.grande || 'foto do Tiago')}" loading="lazy">${(c.ano || c.leg) ? `<figcaption>${c.ano ? `<b>${esc(c.ano)}</b> ` : ''}${esc(c.leg || '')}</figcaption>` : ''}</figure>`;
+  if (c.icones) h += `<div class="icones" aria-hidden="true">${esc(c.icones)}</div>`;
+  if (c.titulo) h += `<h3>${fmt(c.titulo)}</h3>`;
+  if (c.grande) h += `<h2>${fmt(c.grande)}</h2>`;
+  if (c.dica) h += `<div class="dica"><b>Dica:</b>${paras(c.texto)}</div>`; else if (c.texto) h += paras(c.texto);
+  if (c.citacao) h += `<blockquote>${lines(c.citacao)}</blockquote>`;
+  if (c.velho) h += `<div class="velho">${lines(c.velho)}</div>`;
+  if (c.verbete) h += `<div class="verbete"><b>${esc(c.verbete[0])}</b>${paras(c.verbete[1])}</div>`;
+  if (c.livro) h += `<div class="livro"><blockquote>${lines(c.livro[0])}</blockquote><span>${fmt(c.livro[1])}</span></div>`;
+  if (c.term) h += `<div class="term">${esc(c.term)}<i class="cursor"></i></div>`;
+  if (c.data) h += `<div class="cal"><span>janeiro</span><b>6</b></div>`;
+  if (c.antes) h += paras(c.antes);
+  if (c.fala) h += c.fala.map(f => `<div class="fala"><b>${esc(f[0])}</b><span>${lines(f[1])}</span></div>`).join('');
+  if (c.chat) h += `<div class="chat">${c.chat.map(f => `<div class="msg ${f[2] === 'dir' ? 'eu' : ''}"><b>${esc(f[0])}</b>${lines(f[1])}</div>`).join('')}</div>`;
   if (c.chips) h += `<div class="chips">${c.chips.map(x => `<span>${esc(x)}</span>`).join('')}</div>`;
   if (c.stats) h += `<div class="stats">${c.stats.map(s => `<div><b>${esc(s[0])}</b><span>${esc(s[1])}</span></div>`).join('')}</div>`;
   if (c.vs) h += `<div class="vs">${c.vs.map(v => `<div><b>${esc(v[0])}</b><span>${esc(v[1])}</span><span>${esc(v[2])}</span></div>`).join('')}</div>`;
+  if (c.itens) h += `<div class="itens">${c.itens.map(v => `<div><b>${esc(v[0])}</b><span>${fmt(v[1])}</span></div>`).join('')}</div>`;
+  if (c.fecho) h += `<h2 class="fecho">${fmt(c.fecho)}</h2>`;
   if (c.depois) h += paras(c.depois);
-  if (c.video) h += `<figure><video src="${esc(c.video)}" poster="${esc(c.poster || '')}" autoplay muted loop playsinline controls></video></figure>`;
-  if (c.foto) h += `<figure><img src="${esc(c.foto)}" alt="${esc(c.leg || c.titulo || 'foto do Tiago')}" loading="lazy">${(c.ano || c.leg) ? `<figcaption>${c.ano ? `<b>${esc(c.ano)}</b> ` : ''}${esc(c.leg || '')}</figcaption>` : ''}</figure>`;
   return h;
 }
-function cardHTML(w, c, extra){
-  return `<div class="card" role="dialog" aria-modal="true" style="--c:${w.cor}">
+function cardHTML(w, c, extra, okLabel){
+  const pages = c.pages || [c], n = pages.length;
+  return `<div class="card" role="dialog" aria-modal="true" style="--c:${w.cor}" data-n="${n}">
     <span class="tag"><span>${esc(c.tag || w.tag)}</span>${extra || ''}</span>
-    ${cardBody(c)}
-    <div class="row"><button data-act="ok" style="--c:${w.cor}">Continuar</button></div></div>`;
+    ${pages.map((p, i) => `<section class="pg" data-i="${i}" ${i ? 'hidden' : ''}>${pageBody(p)}</section>`).join('')}
+    <div class="row nav">
+      ${n > 1 ? `<button class="ghost" data-nav="-1" hidden>‹ Anterior</button><span class="dots">${pages.map((_, i) => `<i class="${i ? '' : 'on'}"></i>`).join('')}</span><button data-nav="1" style="--c:${w.cor}">Próxima ›</button>` : ''}
+      <button data-act="ok" style="--c:${w.cor}" ${n > 1 ? 'hidden' : ''}>${okLabel || 'Continuar'}</button>
+    </div></div>`;
 }
 function queueCard(html, actions){ queue.push({html, actions:actions || {}}); if (ov.hidden) nextCard(); }
+function showPage(card, i){
+  const secs = card.querySelectorAll('.pg'), n = secs.length;
+  secs.forEach((s, k) => { s.hidden = k !== i; const v = s.querySelector('video'); if (v){ if (k === i) v.play().catch(() => {}); else v.pause(); } });
+  card.querySelectorAll('.dots i').forEach((d, k) => d.classList.toggle('on', k === i));
+  const prev = card.querySelector('[data-nav="-1"]'), next = card.querySelector('[data-nav="1"]'), ok = card.querySelector('[data-act="ok"]');
+  if (prev) prev.hidden = i === 0;
+  if (next) next.hidden = i === n - 1;
+  if (ok && n > 1) ok.hidden = i !== n - 1;
+  card.dataset.i = i; card.scrollTop = 0;
+  const f = i === n - 1 ? ok : next; if (f) f.focus({preventScroll:true});
+}
 function nextCard(){
   const c = queue.shift();
   if (!c){ ov.hidden = true; paused = mode !== 'play'; return; }
   paused = true; for (const k in keys) keys[k] = false;
   ov.innerHTML = c.html; ov.hidden = false; ov.scrollTop = 0;
-  const card = ov.querySelector('.card'); if (card) card.scrollTop = 0;
-  ov.querySelectorAll('button[data-act]').forEach(b => {
-    b.onclick = () => { const fn = c.actions[b.dataset.act]; if (fn){ queue.length = 0; ov.hidden = true; fn(); } else nextCard(); };
+  const card = ov.querySelector('.card');
+  if (card){ card.scrollTop = 0; card.dataset.i = 0; showPage(card, 0); }
+  ov.querySelectorAll('button[data-nav]').forEach(b => {
+    b.onclick = () => showPage(card, clamp(+card.dataset.i + +b.dataset.nav, 0, card.querySelectorAll('.pg').length - 1));
   });
-  const first = ov.querySelector('button'); if (first) first.focus({preventScroll:true});
+  ov.querySelectorAll('button[data-act]').forEach(b => {
+    b.onclick = () => { ov.querySelectorAll('video').forEach(v => v.pause()); const fn = c.actions[b.dataset.act]; if (fn){ queue.length = 0; ov.hidden = true; fn(); } else nextCard(); };
+  });
+  if (!card || !card.querySelector('.pg')){ const first = ov.querySelector('button:not([hidden])'); if (first) first.focus({preventScroll:true}); }
 }
 
 /* ============ FLUXO ============ */
@@ -407,10 +488,10 @@ function setMission(){
 }
 function startWorld(i){
   mode = 'play'; wi = i; L = build(i); bumps = []; falling = []; parts = [];
-  P = {x:3*T, y:GROUND*T - 20, w:10, h:20, vx:0, vy:0, face:1, ground:false, inv:0, coyote:0};
+  P = {x:3*T, y:GROUND*T - 20, w:10, h:20, vx:0, vy:0, face:1, ground:false, inv:0, coyote:0}; nos = 0; doces = 0;
   cam = 0; lastSafe = {x:P.x, y:P.y}; seen = new Set();
   if (i > unlocked){ unlocked = i; save(); }
-  goBtn.hidden = true;
+  goBtn.hidden = true; memBtn.hidden = false;
   document.documentElement.style.setProperty('--c', WORLDS[i].cor);
   setMission(); playMusic();
   const w = WORLDS[i];
@@ -448,13 +529,31 @@ function worldDone(){
     ${faltam ? '<button class="ghost" data-act="again">Jogar de novo</button>' : ''}<button class="ghost" data-act="map">Mapa</button></div></div>`,
     {next, again: () => startWorld(wi), map: () => goMap(Math.min(wi + 1, WORLDS.length - 1))});
 }
+// lista das memórias já abertas neste capítulo, pra reler
+function openMemorias(){
+  if (mode !== 'play' || !ov.hidden) return;
+  const w = WORLDS[wi], ks = [...seen].sort((a, b) => a - b);
+  const prim = c => { const p = (c.pages || [c])[0]; return String(p.grande || p.titulo || p.citacao || p.texto || p.leg || 'foto').replace(/\[\[\w:|\]\]/g, '').slice(0, 54); };
+  const items = ks.length ? ks.map(k => `<button data-act="m${k}" style="--k:${w.cor}"><span>${esc(prim(w.cards[k]))}…</span><span>${k + 1}</span></button>`).join('') : '<p>Nenhuma memória aberta ainda. Bata a cabeça nos blocos ?</p>';
+  const actions = {};
+  ks.forEach(k => actions['m' + k] = () => queueCard(cardHTML(w, w.cards[k], `<span>memória ${k + 1}</span>`), {ok: openMemorias}));
+  queueCard(`<div class="card" role="dialog" aria-modal="true" style="--c:${w.cor}">
+    <span class="tag"><span>${esc(w.tag)}</span><span>${ks.length}/${w.cards.length}</span></span>
+    <h3>Memórias que você já abriu</h3><div class="lista">${items}</div>
+    <div class="row"><button data-act="ok" style="--c:${w.cor}">Voltar ao jogo</button></div></div>`, actions);
+}
 function finale(n){
-  mode = 'final'; paused = true; ov.hidden = true;
-  const pages = [FINAL1, FINAL2, FINAL3];
-  if (n < pages.length){
+  mode = 'final'; paused = true; ov.hidden = true; memBtn.hidden = true;
+  if (n === 0){
     queueCard(`<div class="card" role="dialog" aria-modal="true" style="--c:${C.tec}">
-      <span class="tag"><span>Em construção</span><span>${n+1}/4</span></span>${paras(pages[n])}
-      <div class="row"><button data-act="next">Continuar</button></div></div>`, {next: () => finale(n + 1)});
+      <span class="tag"><span>Em construção</span></span>
+      <section class="pg">${paras(FINAL1)}</section>
+      <section class="pg" hidden><p>Nesse tempo, fui mal compreendido tantas vezes que nem me afeta mais.</p><blockquote>${lines(FINAL2)}</blockquote></section>
+      <section class="pg" hidden>${FINAL3.split('\n').map((l, i) => `<p class="final-l" style="color:${[C.tec, C.fe, C.edu][i]}">${esc(l)}</p>`).join('')}</section>
+      <div class="row nav"><button class="ghost" data-nav="-1" hidden>‹ Anterior</button><span class="dots"><i class="on"></i><i></i><i></i></span><button data-nav="1">Próxima ›</button><button data-act="next" hidden>Continuar</button></div></div>`, {next: () => finale(3)});
+    const c = ov.querySelector('.card'); const ok = c.querySelector('[data-act="next"]'); ok.dataset.act = 'next';
+    // reaproveita a navegação de páginas: o botão final é o "next"
+    c.querySelectorAll('[data-nav]').forEach(b => b.onclick = () => { const i = clamp(+c.dataset.i + +b.dataset.nav, 0, 2); c.dataset.i = i; c.querySelectorAll('.pg').forEach((s, k) => s.hidden = k !== i); c.querySelectorAll('.dots i').forEach((d, k) => d.classList.toggle('on', k === i)); c.querySelector('[data-nav="-1"]').hidden = i === 0; c.querySelector('[data-nav="1"]').hidden = i === 2; ok.hidden = i !== 2; });
     return;
   }
   queueCard(`<div class="card" role="dialog" aria-modal="true" style="--c:${C.tec}">
@@ -474,7 +573,7 @@ function finale(n){
 const FLY_LEN = 780;
 function startFlight(key, to){
   mode = 'flight'; paused = false;
-  fly = {t:0, v:VOOS[key], to, y:110, vy:0, obs:[], got:0, hit:0}; goBtn.hidden = true;
+  fly = {t:0, v:VOOS[key], to, y:110, vy:0, obs:[], got:0, hit:0}; goBtn.hidden = true; memBtn.hidden = true;
   missionEl.innerHTML = `<b>${esc(fly.v.de)} ✈ ${esc(fly.v.para)}</b> · segure PULAR pra subir, solte pra descer`;
   playMusic();
 }
@@ -520,7 +619,8 @@ const CITIES = [
 ].map(c => Object.assign(c, {p:proj(c.ll[0], c.ll[1])}));
 const ESTRADA = [[-38.5,-3.7],[-35.2,-5.8],[-34.9,-8.05],[-46.6,-23.5]].map(p => proj(p[0], p[1]));
 const cityOf = i => CITIES.findIndex(c => c.caps.includes(i));
-const goBtn = document.getElementById('goBtn');
+const goBtn = document.getElementById('goBtn'), memBtn = document.getElementById('memBtn');
+memBtn.onclick = () => openMemorias();
 function goMap(at){
   mode = 'map'; queue.length = 0; ov.hidden = true; paused = true;
   sel = cityOf(clamp(typeof at === 'number' ? at : unlocked, 0, WORLDS.length - 1));
@@ -530,7 +630,7 @@ function goMap(at){
   const algum = seenAll.some(s => s.length) || unlocked > 0;
   missionEl.innerHTML = algum ? `<b>Você parou em:</b> ${esc(w.tag)}` : `<b>Toque numa cidade</b> ou comece do começo`;
   goBtn.textContent = algum ? `Continuar: capítulo ${unlocked + 1}` : 'Começar';
-  goBtn.hidden = false; playMusic();
+  goBtn.hidden = false; memBtn.hidden = true; playMusic();
 }
 function openCity(ci){
   const c = CITIES[ci];
@@ -612,6 +712,7 @@ function update(){
         for (let s = 0; s < 10; s++) parts.push({x:b.tx*T + 8, y:b.ty*T, vx:(Math.random() - .5) * 3, vy:-1.5 - Math.random() * 2.5, t:34, star:true});
         const w = WORLDS[wi];
         if (k === w.desabei) L.desabei = 'pending';
+        if (L.npc && k === 0 && !L.npc.on){ L.npc.on = true; L.npc.x = Math.max(-20, P.x - 110); L.npc.y = GROUND*T - 22; }
         queueCard(cardHTML(w, w.cards[k], `<span>memória ${seen.size}/${w.cards.length}</span>`));
       }
     }
@@ -633,9 +734,10 @@ function update(){
   }
   // tenente
   const npc = L.npc;
-  if (npc && !npc.met){
+  if (npc && npc.on && !npc.met){
     const target = P.x - 26;
-    npc.vx = clamp((target - npc.x) * 0.05, -1.4, 1.75);
+    // no começo dá pra fugir; da metade da fase em diante ele alcança
+    npc.vx = clamp((target - npc.x) * 0.05, -1.4, P.x > L.flagX * 0.45 ? 4 : 1.75);
     npc.vy = Math.min(npc.vy + 0.75, 9); moveX(npc); moveY(npc);
     if (npc.ground && npc.vx > 0.4 && solid(Math.floor((npc.x + npc.w + 2) / T), Math.floor((npc.y + npc.h - 4) / T))) npc.vy = -7;
     if (npc.y > H){ npc.x = P.x - 60; npc.y = GROUND*T - 40; npc.vy = 0; }
@@ -656,13 +758,19 @@ function update(){
       if (below === 0 || below === 8) e.vx = -e.vx;
     }
     if (e.y > H + 30){ e.alive = false; continue; }
+    if (e.nao > 0) e.nao--;
+    if (e.pessoa){
+      // ninguém pisa em gente: a pessoa só diz NÃO e segue
+      if (hit(P, e) && !e.disse){ e.disse = true; e.nao = 70; nos++; e.vx = P.x < e.x ? 0.8 : -0.8; P.vx *= 0.3; }
+      continue;
+    }
     if (hit(P, e)){
       const stomp = P.vy > 0 && (P.y + P.h - P.vy) <= e.y + 5;
       if (stomp){ e.alive = false; e.squash = 36; P.vy = keys.jump ? -7 : -5; P.y = e.y - P.h; gears++; }
       else hurt(e);
     }
   }
-  for (const c of L.coins){ if (!c.taken && hit(P, {x:c.x, y:c.y, w:8, h:10})){ c.taken = true; gears++; } }
+  for (const c of L.coins){ if (!c.taken && hit(P, {x:c.x, y:c.y, w:8, h:10})){ c.taken = true; gears++; doces++; } }
   for (const f of falling){ f.vy = Math.min(f.vy + 0.4, 8); f.y += f.vy; }
   falling = falling.filter(f => f.y < H + 20);
   for (const p of parts){ p.vy += 0.18; p.x += p.vx; p.y += p.vy; p.t--; }
@@ -716,13 +824,22 @@ function drawEnemy(e){
   const x = Math.round(e.x - cam), y = Math.round(e.y), w = e.w, h = e.h;
   if (x < -60 || x > W + 60) return;
   if (!e.alive && e.squash <= 0) return;
-  const wd = WORLDS[wi];
-  if (wd.inimigo === 'não'){
-    // balão de fala dizendo NÃO
-    if (!e.alive){ ctx.fillStyle = '#c94a3a'; ctx.fillRect(x, y + h - 3, w + 6, 3); return; }
-    ctx.fillStyle = '#c94a3a'; ctx.fillRect(x - 2, y, w + 8, h - 3); ctx.fillRect(x + 1, y + h - 3, 4, 3);
-    ctx.fillStyle = '#fff'; ctx.font = '900 7px "Libre Franklin", sans-serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
-    ctx.fillText('NÃO', x + w/2 + 2, y + (h - 3)/2 + 1);
+  if (e.pessoa){
+    // bonequinho andando; quando você chega perto, ele diz NÃO
+    const f = e.vx < 0 ? -1 : 1, st = Math.floor((frame + e.x) / 9) % 2;
+    ctx.fillStyle = '#2a1a12'; ctx.fillRect(x + 2, y, 6, 3);
+    ctx.fillStyle = '#c98e64'; ctx.fillRect(x + 2, y + 2, 6, 5);
+    ctx.fillStyle = '#141414'; ctx.fillRect(x + (f > 0 ? 6 : 3), y + 4, 1, 1);
+    ctx.fillStyle = e.cor; ctx.fillRect(x + 1, y + 7, 8, 7);
+    ctx.fillStyle = '#c98e64'; ctx.fillRect(x, y + 8, 1, 4); ctx.fillRect(x + 9, y + 8, 1, 4);
+    ctx.fillStyle = '#2b3350'; ctx.fillRect(x + 2, y + 14, 2, 6 - st); ctx.fillRect(x + 6, y + 14, 2, 5 + st);
+    if (e.nao > 0 || (!e.disse && Math.abs(P.x - e.x) < 34)){
+      const pop = e.nao > 0 ? 1 + Math.max(0, (e.nao - 55) / 15) * .4 : .85, bw = 26 * pop, bh = 13 * pop, bx = x + 5 - bw / 2, by = y - bh - 6;
+      ctx.fillStyle = e.nao > 0 ? '#ff4d4d' : '#fff'; ctx.fillRect(bx, by, bw, bh);
+      ctx.beginPath(); ctx.moveTo(x + 3, by + bh); ctx.lineTo(x + 8, by + bh); ctx.lineTo(x + 4, by + bh + 4); ctx.fill();
+      ctx.fillStyle = e.nao > 0 ? '#fff' : '#c94a3a'; ctx.font = `900 ${Math.round(8 * pop)}px "Libre Franklin", sans-serif`; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+      ctx.fillText('NÃO', bx + bw / 2, by + bh / 2 + 1);
+    }
     return;
   }
   const col = wi === 0 ? '#5d6b86' : wi === 1 ? '#6a4b9c' : '#7a3b52';
@@ -737,15 +854,24 @@ function drawEnemy(e){
   ctx.fillRect(lx + dx, ey + 1, 2, er); ctx.fillRect(rx + dx, ey + 1, 2, er);
   ctx.fillStyle = '#1a1220'; const st = Math.floor(frame / 10) % 2;
   ctx.fillRect(x + (st ? 0 : 1), y + h - 3, 5, 3); ctx.fillRect(x + w - 5 - (st ? 1 : 0), y + h - 3, 5, 3);
-  if (e.label) label(e.label, x + w/2, y - 12, '#ffdede');
+  if (e.label){ ctx.globalAlpha = .75; ctx.font = '600 6.5px "Libre Franklin", sans-serif'; ctx.fillStyle = '#fff'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillText(e.label, x + w/2, y - 5); ctx.globalAlpha = 1; }
 }
+// cenário muda dentro da fase (praia → estrada, ponte → praia → Campeche)
+function cenaAt(px){
+  const w = WORLDS[wi]; if (!w.cenas || !L) return w.cena;
+  const seg = Math.floor((px / T - L.start) / L.SEG); let c = w.cena;
+  for (const [k, nm] of w.cenas) if (seg >= k) c = nm;
+  return c;
+}
+const LOGO = new Image(); LOGO.src = 'fotos/eron-logo.png';
 const GROUNDS = {
   arena:{g:'#3a3f55', top:'#b8ff38'}, noite:{g:'#3b2f58', top:'#7a5cc0'}, escola:{g:'#8a6d4a', top:'#5e9e3c'},
   brasilia:{g:'#9b5a35', top:'#5e9e3c'}, fortaleza:{g:'#a4774a', top:'#d8c08a'}, praia:{g:'#e6cf94', top:'#f4e3b2'},
-  estrada:{g:'#4a4a52', top:'#e8e8e8'}, floripa:{g:'#6b5a46', top:'#4caf50'}
+  estrada:{g:'#4a4a52', top:'#e8e8e8'}, floripa:{g:'#e9d49c', top:'#f7e8bd'}, campeche:{g:'#e9d49c', top:'#f7e8bd'},
+  ponte:{g:'#7c8597', top:'#d8dde8'}, eron:{g:'#12102a', top:'#8b5cf6'}
 };
 function drawTile(v, tx, ty){
-  const w = WORLDS[wi], G = GROUNDS[w.cena];
+  const w = WORLDS[wi], cena = cenaAt(tx * T), G = GROUNDS[cena];
   let x = tx * T - cam, y = ty * T;
   const bp = bumps.find(k => k.tx === tx && k.ty === ty); if (bp) y -= Math.sin((bp.t / 10) * Math.PI) * 5;
   x = Math.round(x); y = Math.round(y);
@@ -755,8 +881,10 @@ function drawTile(v, tx, ty){
     ctx.fillStyle = 'rgba(0,0,0,.18)';
     ctx.fillRect(x + ((tx * 7 + ty * 3) % 11), y + 6 + (tx % 3) * 3, 2, 2); ctx.fillRect(x + ((tx * 5) % 13), y + 3 + (ty % 2) * 8, 2, 2);
     if (!solid(tx, ty - 1)){
-      ctx.fillStyle = rock ? '#a8a2c8' : G.top; ctx.fillRect(x, y, T, w.cena === 'estrada' ? 2 : 4);
-      if (w.cena === 'estrada' && tx % 3 === 0){ ctx.fillStyle = '#ffd36b'; ctx.fillRect(x + 2, y + 8, 8, 2); }
+      ctx.fillStyle = rock ? '#a8a2c8' : G.top; ctx.fillRect(x, y, T, cena === 'estrada' ? 2 : 4);
+      if (cena === 'estrada' && tx % 3 === 0){ ctx.fillStyle = '#ffd36b'; ctx.fillRect(x + 2, y + 8, 8, 2); }
+      if (cena === 'ponte'){ ctx.fillStyle = '#c94a3a'; ctx.fillRect(x, y - 6, T, 2); ctx.fillRect(x + 7, y - 6, 2, 6); }
+      if (cena === 'eron'){ ctx.fillStyle = 'rgba(139,92,246,.35)'; ctx.fillRect(x, y + 4, 1, T - 4); }
     }
   } else if (v === 8){
     const t = L.crumbleT[tx + ',' + ty] || 0, sh = t > 0 ? (frame % 4 < 2 ? 1 : -1) : 0;
@@ -805,8 +933,15 @@ function city(color, win, par, base){
   each(par, 40, (x, k) => { const h = 40 + ((k * 53) % 7 + 7) % 7 * 12; ctx.fillStyle = color; ctx.fillRect(x, base - h, 34, h);
     ctx.fillStyle = win; for (let yy = base - h + 4; yy < base - 6; yy += 8) for (let xx = 4; xx < 30; xx += 7) if (((k * 13 + xx * 7 + yy * 3) % 5) === 0) ctx.fillRect(x + xx, yy, 3, 3); });
 }
+function placa(x, nome){
+  ctx.fillStyle = '#1d1a2c'; ctx.fillRect(x + 22, 130, 4, 80);
+  ctx.font = '800 11px "Libre Franklin", sans-serif'; const tw = ctx.measureText(nome).width;
+  ctx.fillStyle = '#0f7a3c'; ctx.fillRect(x + 24 - tw / 2 - 8, 106, tw + 16, 24);
+  ctx.strokeStyle = '#fff'; ctx.lineWidth = 1; ctx.strokeRect(x + 24 - tw / 2 - 6 + .5, 108.5, tw + 12, 20);
+  ctx.fillStyle = '#fff'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillText(nome, x + 24, 119);
+}
 function drawScenery(){
-  const c = WORLDS[wi].cena;
+  const c = cenaAt(cam + W / 2);
   if (c === 'arena'){
     sky('#0d1330', '#1d2550');
     ctx.fillStyle = 'rgba(184,255,56,.08)'; for (let i = 0; i < 6; i++) ctx.fillRect(((i * 70 - cam * 0.1) % (W + 70) + W + 70) % (W + 70) - 35, 0, 18, 150);
@@ -844,21 +979,66 @@ function drawScenery(){
     sky('#1b1f3f', '#ff9a6b');
     ctx.fillStyle = '#ffcf7a'; ctx.beginPath(); ctx.arc(160 - cam * 0.02, 150, 26, 0, 7); ctx.fill();
     hills('#3a2f4f', 0.2, 40, 200, 70); hills('#2a2440', 0.45, 22, 206, 40);
-    each(0.7, 230, (x, k) => { ctx.fillStyle = '#1d1a2c'; ctx.fillRect(x, 150, 4, 58); ctx.fillStyle = '#31a7ff'; ctx.fillRect(x - 22, 140, 48, 14);
-      ctx.fillStyle = '#fff'; ctx.font = '700 7px "Libre Franklin", sans-serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
-      ctx.fillText(['Olinda','Recife','Natal','São Paulo'][((k % 4) + 4) % 4], x + 2, 147); });
+    const nomes = WORLDS[wi].doce ? ['Olinda','Recife','Natal','São Paulo','cidade natal'] : ['Olinda','Recife','Natal','São Paulo'];
+    each(0.9, 300, (x, k) => placa(x, nomes[((k % nomes.length) + nomes.length) % nomes.length]));
+  } else if (c === 'ponte'){
+    // atravessando a Ponte Hercílio Luz: o chão é o tabuleiro, as torres passam por perto
+    sky('#5fc4ff', '#e6f6ff'); clouds(.9);
+    ctx.fillStyle = '#2d86c9'; ctx.fillRect(0, 150, W, 90);
+    hills('#3f8a4a', 0.15, 30, 160, 60);
+    ctx.fillStyle = 'rgba(255,255,255,.4)'; for (let i = 0; i < 14; i++){ const wx = ((i * 53 - cam * 0.3 + frame * 0.2) % (W + 40) + W + 40) % (W + 40) - 20; ctx.fillRect(wx, 180 + (i % 3) * 14, 10, 1); }
+    each(1, 640, x => {
+      ctx.strokeStyle = '#e8ecf4'; ctx.fillStyle = '#e8ecf4'; ctx.lineWidth = 3;
+      ctx.fillRect(x + 100, 40, 8, 168); ctx.fillRect(x + 420, 40, 8, 168);
+      ctx.beginPath(); ctx.moveTo(x - 80, 200); ctx.quadraticCurveTo(x + 20, 120, x + 104, 42); ctx.quadraticCurveTo(x + 264, 200, x + 424, 42); ctx.quadraticCurveTo(x + 520, 120, x + 620, 200); ctx.stroke();
+      ctx.lineWidth = 1; for (let i = 0; i < 44; i++){ const bx = x + 112 + i * 7, top = 42 + Math.pow((i - 21.5) / 21.5, 2) * -1 * 0 + (1 - Math.pow((i - 21.5) / 21.5, 2)) * 150; ctx.beginPath(); ctx.moveTo(bx, 206); ctx.lineTo(bx, Math.min(200, top)); ctx.stroke(); }
+    });
   } else if (c === 'floripa'){
-    sky('#59c2ff', '#e1f5ff'); clouds(.9);
-    ctx.fillStyle = '#2d86c9'; ctx.fillRect(0, 164, W, 46);
-    hills('#3f8a4a', 0.2, 34, 168, 50);
-    each(0.35, 520, x => { ctx.strokeStyle = '#d8dde8'; ctx.lineWidth = 2; ctx.fillStyle = '#d8dde8';
-      ctx.fillRect(x + 60, 88, 5, 92); ctx.fillRect(x + 210, 88, 5, 92); ctx.fillRect(x, 176, 280, 4);
-      ctx.beginPath(); ctx.moveTo(x, 176); ctx.quadraticCurveTo(x + 30, 110, x + 62, 90); ctx.quadraticCurveTo(x + 137, 170, x + 212, 90); ctx.quadraticCurveTo(x + 245, 110, x + 280, 176); ctx.stroke();
-      ctx.lineWidth = 1; for (let i = 0; i < 20; i++){ const bx = x + 70 + i * 7; ctx.beginPath(); ctx.moveTo(bx, 176); ctx.lineTo(bx, 176 - Math.max(4, 70 - Math.abs(i - 9.5) * 7)); ctx.stroke(); } });
+    // praia de Floripa
+    sky('#3fb7ff', '#d9f3ff'); clouds(.9);
+    ctx.fillStyle = '#ffe27a'; ctx.beginPath(); ctx.arc(250 - cam * 0.02, 46, 16, 0, 7); ctx.fill();
+    hills('#2f7d45', 0.2, 46, 150, 46);
+    ctx.fillStyle = '#1f8fd6'; ctx.fillRect(0, 150, W, 60);
+    ctx.fillStyle = 'rgba(255,255,255,.55)'; for (let i = 0; i < 18; i++){ const wx = ((i * 41 - cam * 0.4 + frame * 0.3) % (W + 40) + W + 40) % (W + 40) - 20; ctx.fillRect(wx, 158 + (i % 4) * 11, 12, 1); }
+    each(0.6, 180, (x, k) => { ctx.fillStyle = '#3f7d2a'; ctx.fillRect(x + 6, 168, 3, 40); ctx.fillStyle = '#5bb043'; ctx.fillRect(x - 4, 164, 22, 4); ctx.fillRect(x, 160, 14, 4);
+      if (k % 2){ ctx.fillStyle = '#ffffff'; ctx.beginPath(); ctx.moveTo(x + 60, 186); ctx.lineTo(x + 76, 166); ctx.lineTo(x + 76, 186); ctx.fill(); ctx.fillStyle = '#c94a3a'; ctx.fillRect(x + 58, 186, 24, 4); } });
+  } else if (c === 'campeche'){
+    // Ilha do Campeche no horizonte
+    sky('#2aa9ff', '#c7f0ff'); clouds(.85);
+    ctx.fillStyle = '#1bb0c9'; ctx.fillRect(0, 140, W, 80);
+    const ix = 200 - cam * 0.05;
+    ctx.fillStyle = '#2f7d45'; ctx.beginPath(); ctx.moveTo(ix - 70, 142); ctx.quadraticCurveTo(ix - 30, 96, ix + 10, 108); ctx.quadraticCurveTo(ix + 50, 92, ix + 90, 142); ctx.fill();
+    ctx.fillStyle = '#f7e8bd'; ctx.fillRect(ix - 40, 139, 50, 3);
+    ctx.fillStyle = 'rgba(255,255,255,.6)'; for (let i = 0; i < 20; i++){ const wx = ((i * 37 - cam * 0.4 + frame * 0.35) % (W + 40) + W + 40) % (W + 40) - 20; ctx.fillRect(wx, 150 + (i % 5) * 11, 14, 1); }
+    each(0.7, 240, x => { ctx.fillStyle = '#ffd36b'; ctx.fillRect(x, 192, 30, 3); ctx.fillStyle = '#31a7ff'; ctx.beginPath(); ctx.moveTo(x, 192); ctx.quadraticCurveTo(x + 15, 176, x + 30, 192); ctx.fill(); ctx.fillStyle = '#fff'; ctx.fillRect(x + 14, 192, 2, 16); });
+  } else if (c === 'eron'){
+    // ERON: sala escura com a marca e kits de robótica
+    sky('#05040f', '#120c2c');
+    ctx.strokeStyle = 'rgba(139,92,246,.18)'; ctx.lineWidth = 1;
+    for (let i = 0; i < 16; i++){ const x = ((i * 40 - cam * 0.3) % (W + 40) + W + 40) % (W + 40); ctx.beginPath(); ctx.moveTo(x, 150); ctx.lineTo(x - 60, 210); ctx.stroke(); }
+    for (let yy = 160; yy < 210; yy += 12){ ctx.beginPath(); ctx.moveTo(0, yy); ctx.lineTo(W, yy); ctx.stroke(); }
+    each(0.35, 360, x => {
+      ctx.fillStyle = 'rgba(139,92,246,.12)'; ctx.fillRect(x - 6, 34, 200, 72);
+      ctx.strokeStyle = '#8b5cf6'; ctx.lineWidth = 2; ctx.strokeRect(x - 6, 34, 200, 72);
+      if (LOGO.complete && LOGO.naturalWidth) ctx.drawImage(LOGO, x + 6, 44, 176, 52);
+    });
+    each(0.6, 220, (x, k) => {
+      // kit aberto: caixa transparente com placa, fios e rodas amarelas
+      ctx.fillStyle = 'rgba(255,255,255,.12)'; ctx.fillRect(x, 168, 64, 26); ctx.strokeStyle = 'rgba(255,255,255,.35)'; ctx.strokeRect(x + .5, 168.5, 64, 26);
+      ctx.fillStyle = '#1f6fd1'; ctx.fillRect(x + 6, 174, 18, 12); ctx.fillStyle = '#ffd36b'; ctx.beginPath(); ctx.arc(x + 44, 186, 6, 0, 7); ctx.arc(x + 56, 186, 6, 0, 7); ctx.fill();
+      ['#ff4d4d','#31a7ff','#b8ff38','#ff8049'].forEach((cc, j) => { ctx.fillStyle = cc; ctx.fillRect(x + 28 + j * 3, 172, 2, 12); });
+    });
   }
 }
 function drawGear(x, y, doce){
-  if (doce){ ctx.fillStyle = '#5a3420'; ctx.beginPath(); ctx.arc(x + 4, y + 5, 4, 0, 7); ctx.fill(); ctx.fillStyle = '#ffd36b'; ctx.fillRect(x + 2, y + 3, 1, 1); ctx.fillStyle = '#ff8049'; ctx.fillRect(x + 5, y + 4, 1, 1); ctx.fillStyle = '#b8ff38'; ctx.fillRect(x + 3, y + 6, 1, 1); return; }
+  if (doce){
+    // brigadeiro na forminha
+    ctx.fillStyle = '#ff6fa8'; ctx.beginPath(); ctx.moveTo(x - 1, y + 6); ctx.lineTo(x + 9, y + 6); ctx.lineTo(x + 7, y + 11); ctx.lineTo(x + 1, y + 11); ctx.fill();
+    ctx.fillStyle = '#ffffff'; for (let i = 0; i < 4; i++) ctx.fillRect(x + 1 + i * 2, y + 7, 1, 4);
+    ctx.fillStyle = '#4a2716'; ctx.beginPath(); ctx.arc(x + 4, y + 4, 4, 0, 7); ctx.fill();
+    ctx.fillStyle = '#ffd36b'; ctx.fillRect(x + 2, y + 2, 1, 1); ctx.fillStyle = '#ff8049'; ctx.fillRect(x + 5, y + 3, 1, 1); ctx.fillStyle = '#b8ff38'; ctx.fillRect(x + 3, y + 5, 1, 1); ctx.fillStyle = '#fff'; ctx.fillRect(x + 5, y + 1, 1, 1);
+    return;
+  }
   const r = frame / 12;
   ctx.fillStyle = '#c9d2e8';
   for (let i = 0; i < 6; i++){ const a = r + i * Math.PI / 3; ctx.fillRect(Math.round(x + 4 + Math.cos(a) * 4) - 1, Math.round(y + 5 + Math.sin(a) * 4) - 1, 2, 2); }
@@ -884,8 +1064,10 @@ function drawHUD(){
   ctx.font = '800 7.5px "Libre Franklin", sans-serif'; ctx.textBaseline = 'middle'; ctx.textAlign = 'left';
   ctx.fillStyle = w.cor; ctx.fillText(w.tag.toUpperCase(), 6, 8);
   ctx.textAlign = 'right'; ctx.fillStyle = '#eef1ff';
-  ctx.fillText(`? ${seen.size}/${w.cards.length}`, W - 44, 8);
-  drawGear(W - 38, 3, w.doce); ctx.fillText(String(gears), W - 6, 8);
+  const gx = w.doce ? W - 66 : W - 38;
+  ctx.fillText(`? ${seen.size}/${w.cards.length}`, gx - 6, 8);
+  drawGear(gx, 3, w.doce); ctx.fillText(w.doce ? `${doces} doces` : String(gears), W - 6, 8);
+  if (w.pessoas){ ctx.fillStyle = '#ff6b6b'; ctx.fillText(`${nos} "nãos"`, gx - 42, 8); }
 }
 function drawPlay(){
   drawScenery();
@@ -895,7 +1077,7 @@ function drawPlay(){
   drawFlag();
   for (const c of L.coins) if (!c.taken) drawGear(Math.round(c.x - cam), c.y + Math.sin((frame + c.x) / 12) * 1.5, WORLDS[wi].doce);
   for (const e of L.enemies) drawEnemy(e);
-  if (L.npc && !L.npc.met) drawTenente(L.npc);
+  if (L.npc && L.npc.on && !L.npc.met) drawTenente(L.npc);
   if (!(P.inv > 0 && frame % 6 < 3)){
     const walking = !P.ground || (Math.abs(P.vx) > 0.3 && Math.floor(frame / 7) % 2 === 0);
     drawSprite(Math.round(P.x - 1 - cam), Math.round(P.y), P.face, walking);
@@ -1049,15 +1231,29 @@ function draw(){
 }
 
 /* ============ SOM: trilhas do link na bio ============ */
-let somOn = false, audio = null, faixa = 0;
+// os mesmos trechos que tocam em cada capítulo do link na bio: [arquivo, início, fim] em segundos
+const TRECHOS = {origem:[1, 0.0, 170.5], fe:[1, 172.5, 352.1], intervalo:[1, 354.1, 600.11], legiao:[1, 602.11, 842.11], diferente:[2, 0.0, 169.74], rainbows:[2, 171.74, 365.56], professor:[2, 367.56, 524.21], vendas:[2, 526.21, 809.61], mudanca:[3, 0.0, 185.9], empreender:[3, 187.9, 443.48], disciplina:[3, 445.48, 733.48]};
+let somOn = false, audio = null, trechoAtual = null;
 const somBtn = document.getElementById('somBtn');
+function trechoAgora(){
+  if (mode === 'map' || mode === 'title') return WORLDS[unlocked].trecho;
+  if (mode === 'flight') return WORLDS[fly.to - 1].trecho;
+  return WORLDS[wi].trecho;
+}
 function playMusic(){
   if (!somOn) return;
-  const f = mode === 'map' || mode === 'title' ? WORLDS[unlocked].musica : mode === 'flight' ? WORLDS[fly.to].musica : WORLDS[wi].musica;
-  if (audio && faixa === f) { if (audio.paused) audio.play().catch(() => {}); return; }
-  if (audio) audio.pause();
-  faixa = f; audio = new Audio(`../midia/musica/trilha-${f}.mp3`); audio.loop = true; audio.volume = 0.5;
-  audio.play().catch(() => {});
+  const nome = trechoAgora(), tr = TRECHOS[nome];
+  if (!tr) return;
+  if (!audio){
+    audio = new Audio(); audio.volume = 0.5; audio.preload = 'auto';
+    audio.addEventListener('timeupdate', () => { const t = TRECHOS[trechoAtual]; if (t && audio.currentTime >= t[2] - 0.15) audio.currentTime = t[1]; });
+  }
+  if (trechoAtual === nome){ if (audio.paused) audio.play().catch(() => {}); return; }
+  trechoAtual = nome;
+  const src = `../midia/musica/trilha-${tr[0]}.mp3`;
+  const ir = () => { try { audio.currentTime = tr[1]; } catch (e) {} audio.play().catch(() => {}); };
+  if (!audio.src.endsWith(src)){ audio.src = src; audio.addEventListener('loadedmetadata', ir, {once:true}); audio.play().catch(() => {}); }
+  else ir();
 }
 somBtn.onclick = () => {
   somOn = !somOn; somBtn.setAttribute('aria-pressed', String(somOn)); somBtn.textContent = somOn ? '♪ som ligado' : '♪ som';
