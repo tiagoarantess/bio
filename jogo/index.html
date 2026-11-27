@@ -76,6 +76,23 @@ button.ghost{background:transparent;color:var(--fg);border-color:var(--line);box
 .cta span.pend{background:transparent;color:var(--muted);border-color:var(--line);box-shadow:none;font-weight:700}
 .cta small{display:block;font-weight:600;font-size:12px;opacity:.8}
 .big{font-size:44px;font-weight:900;line-height:1;color:var(--c)}
+.card video{width:100%;max-height:46vh;background:#000;display:block}
+.dica{background:#ffd36b;color:#1a1200;padding:16px 16px 18px;box-shadow:5px 5px 0 #000;display:flex;flex-direction:column;gap:8px;transform:rotate(-.6deg)}
+.dica b{font-weight:900;font-size:13px;letter-spacing:.16em;text-transform:uppercase}
+.dica p{font-family:var(--t-quote);font-size:22px;line-height:1.3;color:#1a1200;font-weight:600}
+.portal{text-align:center;align-items:center}
+.portal img{width:132px;height:132px;object-fit:cover;object-position:50% 25%;border-radius:50%;border:4px solid var(--bg);box-shadow:0 0 0 4px var(--tec),0 0 0 8px var(--fe),0 0 0 12px var(--edu),0 0 0 16px var(--emp);margin:18px auto 10px}
+.portal h2{font-size:clamp(28px,8vw,38px)}
+.portal .fone{color:var(--muted);font-size:14px;margin:0}
+.portal .row{justify-content:center;flex-direction:column;width:100%}
+.portal .row button{width:100%;max-width:300px;align-self:center}
+.lista{display:flex;flex-direction:column;gap:8px}
+.lista button{display:flex;justify-content:space-between;gap:10px;text-align:left;width:100%;background:var(--panel);color:var(--fg);border:2px solid var(--k);box-shadow:3px 3px 0 #000}
+.lista button span:last-child{color:var(--muted);font-weight:700;white-space:nowrap}
+.lista button[disabled]{opacity:.4;cursor:not-allowed;border-color:var(--line)}
+.lista button.aqui{background:var(--k);color:#0a0c18}
+.lista button.aqui span:last-child{color:#0a0c18}
+#goBtn[hidden]{display:none}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 
@@ -90,7 +107,7 @@ button.ghost{background:transparent;color:var(--fg);border-color:var(--line);box
   </div>
   <div class="bar">
     <p id="mission">Carregando…</p>
-    <span class="btns"><button class="ghost" id="somBtn" aria-pressed="false">♪ som</button><button class="ghost" id="mapBtn">Mapa</button></span>
+    <span class="btns"><button id="goBtn" hidden>Continuar</button><button class="ghost" id="somBtn" aria-pressed="false">♪ som</button><button class="ghost" id="mapBtn">Mapa</button></span>
   </div>
   <div class="pad" id="pad">
     <div class="dir">
@@ -116,12 +133,14 @@ const WORLDS = [
   {foto:'fotos/2018-entrevista-tv-robotica-1.jpg', ano:'2018', leg:`Comecei pivete. Entrevista de quando nossa equipe se destacou`},
   {foto:'fotos/2018-premiacao-no-palco.jpg', ano:'2018', leg:`Competições, medalhas e anos construindo, programando e competindo.`},
   {foto:'fotos/2019-equipe-testando-robo.jpg', ano:'2019', leg:``},
-  {texto:`E teve feira de ciências também.\nExperiências que me criaram um olhar crítico-científico sobre a vida.`, foto:'fotos/feira-premio-colegio-militar.jpg', ano:'2022', leg:`Medalha de participação kkk na maior feira do centro-oeste, a FETEC`},
+  {texto:`E teve feira de ciências também.\nExperiências que me criaram um olhar crítico-científico sobre a vida.`, video:'fotos/feira-projeto-ciencias.mp4', poster:'fotos/feira-projeto-ciencias-capa.jpg'},
+  {foto:'fotos/feira-estande-equipe.jpg', leg:``},
+  {foto:'fotos/feira-premio-colegio-militar.jpg', ano:'2022', leg:`Medalha de participação kkk na maior feira do centro-oeste, a FETEC`},
   {foto:'fotos/feira-ciencias-1.jpg', ano:'2023', leg:`No outro ano, voltamos, e recebemos reconhecimento do Austrian Space Fórum, através do Dr. Groemer. Além de ganhar o 1 lugar da feira`},
   {foto:'fotos/feira-ciencias-2.jpg', ano:'2023', leg:`Foto na saída do auditório da UFMS, com o troféu, porque na hora da premiação ficamos tão sem acreditar que esquecemos de foto.`}
   ]},
 { nome:'a base', regiao:0, tag:'Capítulo 02 · fé', titulo:'A força da construção está na base que ninguém vê', cor:C.fe, inimigo:'imprevisto', cena:'noite', musica:1,
-  look:{c:'#2f7a2a', w:'#b8ff38', p:'#2b3350'}, instavel:3,
+  look:{c:'#2f7a2a', w:'#b8ff38', p:'#2b3350'}, instavel:2, desabei:1, quarto:2,
   cards:[
   {texto:`Meses de preparo. O robô pronto, a expectativa lá no teto e a certeza de que aquele era o nosso ano.\nTínhamos ganhado a etapa anterior, a regional, em primeiro lugar. Estávamos bem!\nMas, na hora H... aconteceram TODOS os tipos de imprevistos.`},
   {texto:`Desabei.\nMe levaram pra casa pós-competição. Naquele dia, por um milagre, todo mundo tava fora de casa. O silêncio era tudo o que eu precisava. Fechei a porta do quarto e orei. Ou melhor, me derramei... Entre lágrimas, soluços e gritos. Comecei a oração com tristeza, dúvidas e questionamentos, e tudo sublimou para fé e gratidão! No ápice, fiz uma das orações mais ousada da minha vida:`},
@@ -130,7 +149,7 @@ const WORLDS = [
   {texto:`Naquele quarto, a minha base se firmou. E agora a forma como eu enxergo a vida deveria ser a partir daquele novo ponto de vista.\nColoquei a minha dependência no amor de um Pai cujo amor não muda por performance.`},
   {texto:`Já percebeu que quando a gente pisa com medo num terreno que não conhece, a gente anda olhando só para os próprios pés, tentando não cair? Mas quando sabemos que o terreno é firme, finalmente conseguimos levantar a cabeça, olhar ao redor e adiante.`},
   {texto:`Talvez, por isso, peguei o celular e mandei mensagem pra um amigo da equipe, que também tinha ficado meio abalado.\nEu só consegui olhar para o meu amigo e me importar com a dor dele porque transbordei o que tinha acabado de receber naquele quarto.\nPela primeira vez, tive coragem de falar da minha fé e esperança para alguém, mesmo que por mensagem, e ele correspondeu bem.`},
-  {texto:`Na próxima frustração, não pense que veio para te destruir. Talvez ela só esteja cavando o espaço para construir uma fundação.`}
+  {dica:true, texto:`Na próxima frustração, não pense que veio para te destruir. Talvez ela só esteja cavando o espaço para construir uma fundação.`}
   ],
   fim:{texto:`Minha fé em Jesus faz parte de tudo que estou construindo.\nFé não é uma parte do meu conteúdo.\nÉ a lente através da qual eu enxergo todas as partes.`}},
 { nome:'vivo', regiao:0, tag:'Me sentindo vivo', titulo:'Meu coração começou a ficar aquecido de amor.', cor:C.fe, inimigo:'medo', cena:'escola', musica:1,
@@ -284,38 +303,40 @@ function rng(seed){ return () => (seed = (seed * 16807) % 2147483647) / 21474836
 
 /* ============ FASE ============ */
 function build(i){
-  const w = WORLDS[i], n = w.cards.length, SEG = 16, start = 14, cols = start + n * SEG + 24;
+  const w = WORLDS[i], n = w.cards.length, SEG = 11, start = 7, cols = start + n * SEG + 16;
   const map = Array.from({length:ROWS}, () => new Array(cols).fill(0));
-  const rockFrom = w.instavel ? start + w.instavel * SEG : -1;
-  for (let x = 0; x < cols; x++){ const v = (rockFrom >= 0 && x >= rockFrom) ? 9 : 1; map[GROUND][x] = v; map[GROUND+1][x] = v; }
+  for (let x = 0; x < cols; x++){ map[GROUND][x] = 1; map[GROUND+1][x] = 1; }
   const q = {}, enemies = [], coins = [], rnd = rng(71 + i * 29);
+  let desX = -1;
   for (let k = 0; k < n; k++){
     const x0 = start + k * SEG;
-    map[QROW][x0+3] = 2; map[QROW][x0+4] = 3; map[QROW][x0+5] = 2;
-    q[(x0+4) + ',' + QROW] = k;
-    if (k > 0 || i > 0){
+    if (k === w.quarto) continue; // essa memória aparece no quarto, depois da queda
+    map[QROW][x0+2] = 2; map[QROW][x0+3] = 3; map[QROW][x0+4] = 2;
+    q[(x0+3) + ',' + QROW] = k;
+    if (k === w.desabei) desX = x0 + 3;
+    if (k % 2 === 1 && k !== w.desabei){
       const s = w.inimigo === 'não' ? 13 : 14;
-      enemies.push({x:(x0+9)*T, y:GROUND*T - s, w:s, h:s, vx:-0.4 - (i > 5 ? 0.15 : 0), vy:0, alive:true, active:false, squash:0, label:w.inimigo, ground:false});
+      enemies.push({x:(x0+7)*T, y:GROUND*T - s, w:s, h:s, vx:-0.45 - (i > 5 ? 0.15 : 0), vy:0, alive:true, active:false, squash:0, label:w.inimigo, ground:false});
     }
-    for (let c = 0; c < 3; c++) coins.push({x:(x0+6+c)*T + 4, y:(GROUND-2)*T + 2, taken:false});
+    for (let c = 0; c < 3; c++) coins.push({x:(x0+5+c)*T + 4, y:(GROUND-2)*T + 2, taken:false});
+    if (k === w.desabei) continue;
     if (w.instavel && k < w.instavel){
-      for (let x = x0+11; x <= x0+14; x++){ map[GROUND][x] = 8; map[GROUND+1][x] = 0; }
+      for (let x = x0+8; x <= x0+10; x++){ map[GROUND][x] = 8; map[GROUND+1][x] = 0; }
       continue;
     }
     const type = (k + i) % 4;
     if (type === 0){
-      const len = 2 + (i > 4 && rnd() > 0.5 ? 1 : 0);
-      for (let x = x0+12; x < x0+12+len; x++){ map[GROUND][x] = 0; map[GROUND+1][x] = 0; }
+      for (let x = x0+8; x < x0+10; x++){ map[GROUND][x] = 0; map[GROUND+1][x] = 0; }
     } else if (type === 1){
-      const h = 2 + (rnd() > 0.5 ? 1 : 0);
-      for (let y = GROUND-h; y < GROUND; y++){ map[y][x0+12] = 4; map[y][x0+13] = 4; }
+      const h = 2 + (rnd() > 0.6 ? 1 : 0);
+      for (let y = GROUND-h; y < GROUND; y++) map[y][x0+9] = 4;
     } else if (type === 2){
-      for (let x = x0+11; x <= x0+14; x++){ map[QROW][x] = 2; coins.push({x:x*T + 4, y:(QROW-2)*T + 4, taken:false}); }
+      for (let x = x0+7; x <= x0+10; x++){ map[QROW+1][x] = 2; coins.push({x:x*T + 4, y:(QROW-1)*T + 4, taken:false}); }
     } else {
-      [1,2,3,2,1].forEach((h, j) => { for (let y = GROUND-h; y < GROUND; y++) map[y][x0+11+j] = 5; });
+      [1,2,1].forEach((h, j) => { for (let y = GROUND-h; y < GROUND; y++) map[y][x0+8+j] = 5; });
     }
   }
-  const lv = {map, cols, q, enemies, coins, flagX:(cols - 10) * T, crumbleT:{}, npc:null};
+  const lv = {map, cols, q, enemies, coins, flagX:(cols - 9) * T, crumbleT:{}, npc:null, desabei:false, desX};
   if (w.tenente) lv.npc = {x:-30, y:GROUND*T - 22, w:12, h:22, vx:0, vy:0, met:false, ground:false};
   return lv;
 }
@@ -345,7 +366,8 @@ function paras(t){
 function cardBody(c){
   let h = '';
   if (c.titulo && !c.texto && !c.foto) h += `<h2>${esc(c.titulo)}</h2>`;
-  if (c.texto) h += paras(c.texto);
+  if (c.dica) h += `<div class="dica"><b>Dica:</b>${paras(c.texto)}</div>`;
+  else if (c.texto) h += paras(c.texto);
   if (c.term) h += `<div class="term">${esc(c.term)}</div>`;
   if (c.titulo && (c.texto || c.foto)) h += `<h2>${esc(c.titulo)}</h2>`;
   if (c.data) h += `<div><span class="big">6</span> <b style="font-size:13px;letter-spacing:.14em;text-transform:uppercase">janeiro</b></div>`;
@@ -354,6 +376,7 @@ function cardBody(c){
   if (c.stats) h += `<div class="stats">${c.stats.map(s => `<div><b>${esc(s[0])}</b><span>${esc(s[1])}</span></div>`).join('')}</div>`;
   if (c.vs) h += `<div class="vs">${c.vs.map(v => `<div><b>${esc(v[0])}</b><span>${esc(v[1])}</span><span>${esc(v[2])}</span></div>`).join('')}</div>`;
   if (c.depois) h += paras(c.depois);
+  if (c.video) h += `<figure><video src="${esc(c.video)}" poster="${esc(c.poster || '')}" autoplay muted loop playsinline controls></video></figure>`;
   if (c.foto) h += `<figure><img src="${esc(c.foto)}" alt="${esc(c.leg || c.titulo || 'foto do Tiago')}" loading="lazy">${(c.ano || c.leg) ? `<figcaption>${c.ano ? `<b>${esc(c.ano)}</b> ` : ''}${esc(c.leg || '')}</figcaption>` : ''}</figure>`;
   return h;
 }
@@ -386,6 +409,7 @@ function startWorld(i){
   P = {x:3*T, y:GROUND*T - 20, w:10, h:20, vx:0, vy:0, face:1, ground:false, inv:0, coyote:0};
   cam = 0; lastSafe = {x:P.x, y:P.y}; seen = new Set();
   if (i > unlocked){ unlocked = i; save(); }
+  goBtn.hidden = true;
   document.documentElement.style.setProperty('--c', WORLDS[i].cor);
   setMission(); playMusic();
   const w = WORLDS[i];
@@ -396,15 +420,15 @@ function startWorld(i){
     <div class="row"><button data-act="ok" style="--c:${w.cor}">Jogar</button><button class="ghost" data-act="map">Mapa</button></div></div>`, {map:goMap});
 }
 function titleScreen(){
-  mode = 'title';
-  queueCard(`<div class="card" role="dialog" aria-modal="true" style="--c:${C.tec}">
-    <span class="tag"><span>@otiagoarantes</span></span>
+  mode = 'title'; goBtn.hidden = true;
+  const entrar = som => { somOn = som; somBtn.setAttribute('aria-pressed', String(som)); somBtn.textContent = som ? '♪ som ligado' : '♪ som'; goMap(unlocked); };
+  queueCard(`<div class="card portal" role="dialog" aria-modal="true" style="--c:${C.tec}">
+    <img src="fotos/tiago-uniforme-medalhas.jpg" alt="Tiago com uniforme e medalhas">
+    <span class="tag" style="justify-content:center"><span>@otiagoarantes</span></span>
     <h2>Tiago em construção</h2>
-    <p>Antes era só @tiagodarobotica.<br>Agora é muito mais que robótica.</p>
-    <div class="chips"><span style="--c:${C.tec};border-color:${C.tec};color:${C.tec}">TECNOLOGIA</span><span style="border-color:${C.fe};color:${C.fe}">ESPIRITUALIDADE</span><span style="border-color:${C.edu};color:${C.edu}">EDUCAÇÃO</span><span style="border-color:${C.emp};color:${C.emp}">EMPREENDEDORISMO</span></div>
-    <p style="color:var(--muted);font-size:14px">Bata a cabeça nos blocos ? para abrir as memórias.</p>
-    <div class="row"><button data-act="go">${unlocked > 0 ? 'Continuar de onde parei' : 'Começar'}</button>${unlocked > 0 ? '<button class="ghost" data-act="map">Mapa</button>' : ''}</div></div>`,
-    {go: () => unlocked > 0 ? goMap(unlocked) : startWorld(0), map: () => goMap(unlocked)});
+    <p class="fone">Melhor com fone</p>
+    <div class="row"><button data-act="som">Entrar com som</button><button class="ghost" data-act="mudo">entrar sem som</button></div></div>`,
+    {som: () => entrar(true), mudo: () => entrar(false)});
 }
 function worldDone(){
   paused = true; mode = 'done';
@@ -446,13 +470,35 @@ function finale(n){
 }
 
 /* ============ VOO ============ */
+const FLY_LEN = 780;
 function startFlight(key, to){
-  mode = 'flight'; paused = false; fly = {t:0, v:VOOS[key], to};
-  missionEl.innerHTML = `<b>${esc(fly.v.de)} → ${esc(fly.v.para)}</b>`;
+  mode = 'flight'; paused = false;
+  fly = {t:0, v:VOOS[key], to, y:110, vy:0, obs:[], got:0, hit:0}; goBtn.hidden = true;
+  missionEl.innerHTML = `<b>${esc(fly.v.de)} ✈ ${esc(fly.v.para)}</b> · segure PULAR pra subir, solte pra descer`;
+  playMusic();
 }
 function updateFlight(){
   frame++; fly.t++;
-  if (fly.t === 200){
+  if (fly.t < FLY_LEN){
+    fly.vy += (keys.jump || keys.up) ? -0.32 : 0.2; fly.vy = clamp(fly.vy, -3, 3); fly.y += fly.vy;
+    if (fly.y < 26){ fly.y = 26; fly.vy = 0; } if (fly.y > 200){ fly.y = 200; fly.vy = 0; }
+    if (fly.hit > 0) fly.hit--;
+    if (fly.t % 46 === 0 && fly.t < FLY_LEN - 120){
+      const r = Math.sin(fly.t * 12.9898) * 43758.5453, rr = r - Math.floor(r);
+      fly.obs.push({x:W + 20, y:30 + rr * 160, kind: (fly.t / 46) % 3 === 1 ? 'nuvem' : 'gear', on:true});
+      if ((fly.t / 46) % 2 === 0) fly.obs.push({x:W + 60, y:30 + ((rr * 7) % 1) * 160, kind:'gear', on:true});
+    }
+    for (const o of fly.obs){
+      o.x -= o.kind === 'nuvem' ? 2.6 : 2.2;
+      if (!o.on) continue;
+      const px = 70, py = fly.y;
+      if (o.kind === 'gear' && Math.abs(o.x - px) < 14 && Math.abs(o.y - py) < 14){ o.on = false; gears++; fly.got++; }
+      if (o.kind === 'nuvem' && fly.hit === 0 && Math.abs(o.x - px) < 26 && Math.abs(o.y - py) < 16){ fly.hit = 60; gears = Math.max(0, gears - 2); }
+    }
+    fly.obs = fly.obs.filter(o => o.x > -40);
+    return;
+  }
+  if (fly.t === FLY_LEN){
     paused = true;
     queueCard(`<div class="card" role="dialog" aria-modal="true" style="--c:${fly.v.cor}">
       <span class="tag"><span>${esc(fly.v.de)} → ${esc(fly.v.para)}</span></span><h2>${esc(fly.v.texto)}</h2>
@@ -461,41 +507,64 @@ function updateFlight(){
 }
 
 /* ============ MAPA ============ */
-const NODES = [
-  {x:30,y:84},{x:80,y:72},{x:130,y:84},{x:180,y:72},{x:230,y:84},{x:282,y:72},
-  {x:262,y:148},{x:176,y:140},{x:90,y:148},
-  {x:150,y:206},{x:236,y:200}];
-const mc = {x:NODES[0].x, y:NODES[0].y, face:1, moving:false};
+// mapa do Brasil em lon/lat, projetado na tela
+const proj = (lon, lat) => [Math.round(78 + (lon + 74) / 39.2 * 212), Math.round(22 + (5.3 - lat) / 39 * 212)];
+const BRASIL = [[-60,5.2],[-56.5,1.9],[-51.6,4.2],[-50,1.8],[-48.5,-1.2],[-44.3,-2.5],[-41.8,-2.9],[-38.5,-3.7],[-35.2,-5.5],[-34.9,-8],[-35.7,-9.7],[-37,-11],[-38.5,-13],[-39,-17.5],[-40.3,-20.3],[-42,-22.9],[-43.2,-22.9],[-45.4,-23.8],[-48,-25.4],[-48.5,-27.6],[-49.5,-29],[-51,-31],[-52.5,-33.7],[-53.5,-32.5],[-55.5,-30.9],[-57.6,-30.2],[-56,-28.2],[-54.6,-25.6],[-55,-23.9],[-57.9,-22.1],[-58.2,-19.9],[-57.7,-17.7],[-60.2,-16.3],[-60,-13.5],[-65.3,-11],[-69.5,-11],[-73.9,-7.3],[-70,-4.3],[-69.9,-1.1],[-69.4,1],[-67,2],[-64,4],[-60,5.2]].map(p => proj(p[0], p[1]));
+const CITIES = [
+  {nome:'Campo Grande', ll:[-54.6,-20.4], caps:[0,1,2,3,4], lado:'esq'},
+  {nome:'Brasília', ll:[-47.9,-15.8], caps:[5], lado:'esq'},
+  {nome:'Fortaleza', ll:[-38.5,-3.7], caps:[6,7], lado:'esq'},
+  {nome:'na estrada', ll:[-46.6,-23.5], caps:[8], lado:'dir'},
+  {nome:'Florianópolis', ll:[-48.5,-27.6], caps:[9,10], lado:'esq'}
+].map(c => Object.assign(c, {p:proj(c.ll[0], c.ll[1])}));
+const ESTRADA = [[-38.5,-3.7],[-35.2,-5.8],[-34.9,-8.05],[-46.6,-23.5]].map(p => proj(p[0], p[1]));
+const cityOf = i => CITIES.findIndex(c => c.caps.includes(i));
+const goBtn = document.getElementById('goBtn');
 function goMap(at){
   mode = 'map'; queue.length = 0; ov.hidden = true; paused = true;
-  sel = clamp(typeof at === 'number' ? at : Math.min(wi, unlocked), 0, unlocked);
-  mc.x = NODES[sel].x; mc.y = NODES[sel].y;
+  sel = cityOf(clamp(typeof at === 'number' ? at : unlocked, 0, WORLDS.length - 1));
   for (const k in keys) keys[k] = false; prevK = {};
-  document.documentElement.style.setProperty('--c', WORLDS[sel].cor);
-  missionEl.innerHTML = `<b>Mapa</b> · toque num capítulo liberado ou use ← → e pule para entrar`;
+  const w = WORLDS[unlocked];
+  document.documentElement.style.setProperty('--c', w.cor);
+  const algum = seenAll.some(s => s.length) || unlocked > 0;
+  missionEl.innerHTML = algum ? `<b>Você parou em:</b> ${esc(w.tag)}` : `<b>Toque numa cidade</b> ou comece do começo`;
+  goBtn.textContent = algum ? `Continuar: capítulo ${unlocked + 1}` : 'Começar';
+  goBtn.hidden = false; playMusic();
+}
+function openCity(ci){
+  const c = CITIES[ci];
+  const items = c.caps.map(i => {
+    const w = WORLDS[i], open = i <= unlocked, n = (seenAll[i] || []).length;
+    return `<button data-act="c${i}" style="--k:${w.cor}" class="${i === unlocked ? 'aqui' : ''}" ${open ? '' : 'disabled'}><span>${i + 1} · ${esc(w.tag)}</span><span>${open ? (i === unlocked && !n ? 'você está aqui' : `${n}/${w.cards.length}`) : 'fechado'}</span></button>`;
+  }).join('');
+  const actions = {map: () => goMap(c.caps[0])};
+  c.caps.forEach(i => actions['c' + i] = () => startWorld(i));
+  queueCard(`<div class="card" role="dialog" aria-modal="true" style="--c:${WORLDS[c.caps[0]].cor}">
+    <span class="tag"><span>${esc(c.nome)}</span><span>${c.caps.length} ${c.caps.length === 1 ? 'capítulo' : 'capítulos'}</span></span>
+    <div class="lista">${items}</div>
+    <div class="row"><button class="ghost" data-act="map">Voltar ao mapa</button></div></div>`, actions);
 }
 function updateMap(){
   frame++;
-  const t = NODES[sel], dx = t.x - mc.x, dy = t.y - mc.y, d = Math.hypot(dx, dy);
-  mc.moving = d > 0.6;
-  if (mc.moving){ const sp = Math.min(2.4, d); mc.x += dx / d * sp; mc.y += dy / d * sp; if (Math.abs(dx) > 0.3) mc.face = dx < 0 ? -1 : 1; }
-  else { mc.x = t.x; mc.y = t.y; }
   const pressed = k => keys[k] && !prevK[k];
-  if (!mc.moving){
-    if (pressed('right') && sel + 1 <= unlocked) sel++;
-    else if (pressed('left') && sel > 0) sel--;
-    else if (jumpBuf > 0) startWorld(sel);
-  }
+  const maxCity = cityOf(unlocked);
+  if (pressed('right') && sel < maxCity) sel++;
+  else if (pressed('left') && sel > 0) sel--;
+  else if (jumpBuf > 0) openCity(sel);
   jumpBuf = 0; prevK = Object.assign({}, keys);
 }
 cv.addEventListener('pointerdown', e => {
-  if (mode !== 'map' || !ov.hidden) return;
+  if (!ov.hidden) return;
+  if (mode === 'flight'){ keys.jump = true; return; }
+  if (mode !== 'map') return;
   const r = cv.getBoundingClientRect(), x = (e.clientX - r.left) / r.width * W, y = (e.clientY - r.top) / r.height * H;
-  let best = -1, bd = 22;
-  NODES.forEach((n, i) => { const d = Math.hypot(n.x - x, n.y - y); if (d < bd && i <= unlocked){ bd = d; best = i; } });
-  if (best < 0) return;
-  if (best === sel && !mc.moving) startWorld(best); else sel = best;
+  let best = -1, bd = 26;
+  CITIES.forEach((c, i) => { const d = Math.hypot(c.p[0] - x, c.p[1] - y); if (d < bd && i <= cityOf(unlocked)){ bd = d; best = i; } });
+  if (best >= 0){ sel = best; openCity(best); }
 });
+const soltar = () => { if (mode === 'flight') keys.jump = false; };
+cv.addEventListener('pointerup', soltar); cv.addEventListener('pointercancel', soltar); cv.addEventListener('pointerleave', soltar);
+goBtn.onclick = () => startWorld(unlocked);
 
 /* ============ JOGO ============ */
 function hurt(from){
@@ -506,7 +575,20 @@ function hurt(from){
 }
 function update(){
   frame++;
-  const ax = P.ground ? 0.3 : 0.18, max = keys.run ? 3.0 : 2.0;
+  if (L.desabei === 'pending'){
+    // "Desabei.": o chão some embaixo dos pés
+    const c = Math.floor((P.x + P.w/2) / T);
+    L.hole = [c - 2, c + 2];
+    for (let tx = c - 2; tx <= c + 2; tx++){ if (tile(tx, GROUND)) falling.push({x:tx*T, y:GROUND*T, vy:-1 - Math.random()}); L.map[GROUND][tx] = 0; L.map[GROUND+1][tx] = 0; }
+    P.vx = 0; L.desabei = 'falling';
+  }
+  if (L.desabei === 'falling'){
+    P.vx *= 0.8; P.vy = Math.min(P.vy + 0.5, 7); P.y += P.vy;
+    for (const f of falling){ f.vy = Math.min(f.vy + 0.4, 8); f.y += f.vy; }
+    if (P.y > H + 30) startQuarto();
+    return;
+  }
+  const ax = P.ground ? 0.3 : 0.18, max = keys.run ? 3.4 : 2.4;
   if (keys.left){ P.vx -= ax; P.face = -1; }
   else if (keys.right){ P.vx += ax; P.face = 1; }
   else { P.vx *= P.ground ? 0.75 : 0.95; if (Math.abs(P.vx) < 0.05) P.vx = 0; }
@@ -515,7 +597,9 @@ function update(){
   if (jumpBuf > 0){ jumpBuf--; if (P.coyote > 0){ P.vy = keys.run ? -8 : -7.6; P.coyote = 0; jumpBuf = 0; } }
   P.vy = Math.min(P.vy + ((keys.jump && P.vy < 0) ? 0.36 : 0.75), 9);
   moveX(P);
-  const b = moveY(P);
+  let b = moveY(P);
+  // se a pessoa passar direto pelo bloco do "Desabei.", ele abre sozinho
+  if (!b && L.desX >= 0 && !L.desabei && P.x > (L.desX + 1) * T && L.map[QROW][L.desX] === 3) b = {tx:L.desX, ty:QROW};
   if (b){
     const v = L.map[b.ty][b.tx];
     if (v === 2 || v === 3) bumps.push({tx:b.tx, ty:b.ty, t:10});
@@ -526,6 +610,7 @@ function update(){
         seen.add(k); setMission();
         for (let s = 0; s < 10; s++) parts.push({x:b.tx*T + 8, y:b.ty*T, vx:(Math.random() - .5) * 3, vy:-1.5 - Math.random() * 2.5, t:34, star:true});
         const w = WORLDS[wi];
+        if (k === w.desabei) L.desabei = 'pending';
         queueCard(cardHTML(w, w.cards[k], `<span>memória ${seen.size}/${w.cards.length}</span>`));
       }
     }
@@ -822,42 +907,71 @@ function drawMap(){
   ctx.strokeStyle = 'rgba(255,255,255,.04)'; ctx.lineWidth = 1;
   for (let x = 0; x < W; x += 14){ ctx.beginPath(); ctx.moveTo(x + .5, 0); ctx.lineTo(x + .5, H); ctx.stroke(); }
   for (let y = 0; y < H; y += 14){ ctx.beginPath(); ctx.moveTo(0, y + .5); ctx.lineTo(W, y + .5); ctx.stroke(); }
-  ctx.font = '800 8px "Libre Franklin", sans-serif'; ctx.textAlign = 'left'; ctx.textBaseline = 'middle';
-  ctx.fillStyle = '#eef1ff'; ctx.fillText('TIAGO EM CONSTRUÇÃO · MAPA', 10, 14);
+  // o Brasil
+  ctx.fillStyle = '#18204a'; ctx.strokeStyle = '#3a4580'; ctx.lineWidth = 1.5;
+  ctx.beginPath(); BRASIL.forEach((p, i) => i ? ctx.lineTo(p[0], p[1]) : ctx.moveTo(p[0], p[1])); ctx.closePath(); ctx.fill(); ctx.stroke();
+  ctx.fillStyle = 'rgba(255,255,255,.05)'; for (let i = 0; i < 70; i++){ const x = 90 + (i * 37) % 200, y = 30 + (i * 53) % 200; ctx.fillRect(x, y, 1, 1); }
+  // caminhos: estrada de Campo Grande a Brasília, voo pra Fortaleza, estrada pelo Nordeste até SP, voo pra Floripa
+  const reached = ci => ci <= cityOf(unlocked);
+  const line = (pts, dashed, on, cor) => { ctx.strokeStyle = on ? cor : 'rgba(154,163,199,.25)'; ctx.lineWidth = 2; ctx.setLineDash(dashed ? [3, 4] : []); ctx.beginPath(); pts.forEach((p, i) => i ? ctx.lineTo(p[0], p[1]) : ctx.moveTo(p[0], p[1])); ctx.stroke(); ctx.setLineDash([]); };
+  const arc = (a, b, on, cor, bend) => { ctx.strokeStyle = on ? cor : 'rgba(154,163,199,.25)'; ctx.lineWidth = 2; ctx.setLineDash([3, 4]); ctx.beginPath(); ctx.moveTo(a[0], a[1]); ctx.quadraticCurveTo((a[0] + b[0]) / 2 + bend, (a[1] + b[1]) / 2 - 20, b[0], b[1]); ctx.stroke(); ctx.setLineDash([]); };
+  line([CITIES[0].p, CITIES[1].p], false, reached(1), C.edu);
+  arc(CITIES[1].p, CITIES[2].p, reached(2), '#ffd36b', -14);
+  line(ESTRADA, false, reached(3), C.edu);
+  arc(CITIES[3].p, CITIES[4].p, reached(4), '#ffd36b', 30);
+  ESTRADA.slice(1, 3).forEach(p => { ctx.fillStyle = reached(3) ? '#eef1ff' : '#3a4580'; ctx.fillRect(p[0] - 1, p[1] - 1, 3, 3); });
+  // título e legenda
+  ctx.font = '900 9px "Libre Franklin", sans-serif'; ctx.textAlign = 'left'; ctx.textBaseline = 'middle';
+  ctx.fillStyle = '#eef1ff'; ctx.fillText('MAPA DA', 10, 20); ctx.fillText('CONSTRUÇÃO', 10, 31);
+  const total = WORLDS.reduce((s, w) => s + w.cards.length, 0), abertas = seenAll.reduce((s, x) => s + x.length, 0);
   ctx.font = '700 7px "Libre Franklin", sans-serif'; ctx.fillStyle = '#9aa3c7';
-  ctx.fillText(REGIOES[0], 10, 46); ctx.fillText(REGIOES[1], 10, 116); ctx.fillText(REGIOES[2], 10, 180);
-  for (let i = 0; i < NODES.length - 1; i++){
-    const a = NODES[i], b = NODES[i + 1], flight = WORLDS[i].voo;
-    ctx.strokeStyle = i < unlocked ? (flight ? '#ffd36b' : WORLDS[i + 1].cor) : 'rgba(154,163,199,.3)';
-    ctx.lineWidth = 2; ctx.setLineDash(flight ? [3, 4] : []);
-    ctx.beginPath(); ctx.moveTo(a.x, a.y);
-    if (flight){ const mx = (a.x + b.x) / 2 + (i === 5 ? 26 : 0), my = Math.min(a.y, b.y) - 14; ctx.quadraticCurveTo(mx, my, b.x, b.y); } else ctx.lineTo(b.x, b.y);
-    ctx.stroke(); ctx.setLineDash([]);
-    if (flight){ const px = (a.x + b.x) / 2 + (i === 5 ? 14 : 0), py = (a.y + b.y) / 2 - 8; ctx.fillStyle = '#ffd36b'; ctx.fillRect(px - 5, py, 10, 2); ctx.fillRect(px - 1, py - 3, 3, 8); ctx.fillRect(px - 5, py - 2, 2, 3); }
-  }
-  NODES.forEach((n, i) => {
-    const w = WORLDS[i], open = i <= unlocked, done = (seenAll[i] || []).length;
-    ctx.fillStyle = open ? w.cor : '#2a3160'; ctx.fillRect(n.x - 9, n.y - 9, 18, 18);
-    ctx.fillStyle = '#000'; ctx.fillRect(n.x - 9, n.y + 9, 18, 2); ctx.fillRect(n.x + 9, n.y - 7, 2, 18);
-    ctx.fillStyle = open ? '#0a0c18' : '#9aa3c7'; ctx.font = '900 9px "Libre Franklin", sans-serif'; ctx.textAlign = 'center';
-    ctx.fillText(String(i + 1), n.x, n.y + 1);
-    ctx.font = '700 6.5px "Libre Franklin", sans-serif'; ctx.fillStyle = open ? '#eef1ff' : '#5a6290';
-    ctx.fillText(w.nome, n.x, n.y + 18);
-    if (done){ ctx.fillStyle = done >= w.cards.length ? w.cor : '#9aa3c7'; ctx.fillText(`${done}/${w.cards.length}`, n.x, n.y + 26); }
-    if (i === sel){ ctx.strokeStyle = '#fff'; ctx.lineWidth = 1; ctx.strokeRect(n.x - 11.5, n.y - 11.5, 23, 23); }
+  ctx.fillText(`${abertas}/${total} memórias`, 10, 46);
+  ctx.fillStyle = C.tec; ctx.fillRect(10, 52, 60, 3); ctx.fillStyle = '#2a3160'; ctx.fillRect(10 + 60 * abertas / total, 52, 60 - 60 * abertas / total, 3);
+  ctx.fillStyle = '#ffd36b'; ctx.font = '800 7px "Libre Franklin", sans-serif'; ctx.fillText('VOCÊ PAROU EM', 10, 72);
+  ctx.fillStyle = '#eef1ff'; ctx.font = '800 8px "Libre Franklin", sans-serif'; ctx.fillText(CITIES[cityOf(unlocked)].nome, 10, 83);
+  ctx.fillStyle = '#9aa3c7'; ctx.font = '700 7px "Libre Franklin", sans-serif'; ctx.fillText(`capítulo ${unlocked + 1}`, 10, 93);
+  ctx.fillText('toque numa', 10, 214); ctx.fillText('cidade', 10, 224);
+  // cidades
+  const here = cityOf(unlocked);
+  CITIES.forEach((c, i) => {
+    const open = i <= here, [x, y] = c.p, w = WORLDS[c.caps[c.caps.length - 1]];
+    const doneAll = c.caps.every(k => (seenAll[k] || []).length >= WORLDS[k].cards.length);
+    if (i === here){ const r = 9 + (frame % 60) / 6; ctx.strokeStyle = `rgba(255,255,255,${1 - (frame % 60) / 60})`; ctx.lineWidth = 1; ctx.beginPath(); ctx.arc(x, y, r, 0, 7); ctx.stroke(); }
+    ctx.fillStyle = '#000'; ctx.beginPath(); ctx.arc(x + 1, y + 1, 6, 0, 7); ctx.fill();
+    ctx.fillStyle = open ? w.cor : '#3a4580'; ctx.beginPath(); ctx.arc(x, y, 6, 0, 7); ctx.fill();
+    if (doneAll){ ctx.fillStyle = '#0a0c18'; ctx.fillRect(x - 2, y - 1, 4, 2); }
+    ctx.font = '800 7px "Libre Franklin", sans-serif'; ctx.textAlign = c.lado === 'esq' ? 'right' : 'left';
+    const lx = c.lado === 'esq' ? x - 10 : x + 10;
+    ctx.fillStyle = open ? '#eef1ff' : '#5a6290'; ctx.fillText(c.nome, lx, y - 1);
+    ctx.font = '700 6px "Libre Franklin", sans-serif'; ctx.fillStyle = open ? '#9aa3c7' : '#3a4580';
+    const caps = c.caps.length > 1 ? `cap. ${c.caps[0] + 1} a ${c.caps[c.caps.length - 1] + 1}` : `cap. ${c.caps[0] + 1}`;
+    ctx.fillText(caps, lx, y + 7);
+    if (i === sel && i !== here){ ctx.strokeStyle = '#fff'; ctx.lineWidth = 1; ctx.strokeRect(x - 9.5, y - 9.5, 19, 19); }
   });
-  const bob = mc.moving ? 0 : Math.round(Math.sin(frame / 14));
-  drawSprite(Math.round(mc.x - 6), Math.round(mc.y - 33 + bob), mc.face, mc.moving && Math.floor(frame / 7) % 2 === 0, WORLDS[sel].look);
+  // Tiaguinho onde a pessoa parou
+  const p = CITIES[here].p, bob = Math.round(Math.sin(frame / 14));
+  drawSprite(p[0] - 6, p[1] - 26 + bob, 1, false, WORLDS[unlocked].look);
 }
 function drawFlight(){
   const t = fly.t, v = fly.v;
   sky('#2f8fe0', '#bfe6ff');
   for (let i = 0; i < 14; i++){
     const sp = 0.6 + (i % 3) * 0.5, x = ((i * 97 - t * sp * 2) % (W + 80) + W + 80) % (W + 80) - 40, y = 30 + (i * 53) % 170;
-    ctx.fillStyle = `rgba(255,255,255,${0.5 + (i % 3) * 0.15})`;
+    ctx.fillStyle = `rgba(255,255,255,${0.35 + (i % 3) * 0.12})`;
     ctx.beginPath(); ctx.arc(x, y, 7 + (i % 3) * 2, 0, 7); ctx.arc(x + 12, y - 4, 9 + (i % 3) * 2, 0, 7); ctx.arc(x + 24, y, 7, 0, 7); ctx.fill();
   }
-  const px = Math.round(-90 + t * 1.55), py = Math.round(112 + Math.sin(t / 16) * 5);
+  for (const o of fly.obs){
+    if (!o.on) continue;
+    if (o.kind === 'gear'){ ctx.save(); ctx.translate(o.x - 4, o.y - 5); drawGear(0, 0, false); ctx.restore(); }
+    else {
+      ctx.fillStyle = '#5b6480'; ctx.beginPath(); ctx.arc(o.x - 12, o.y, 9, 0, 7); ctx.arc(o.x, o.y - 6, 12, 0, 7); ctx.arc(o.x + 13, o.y, 9, 0, 7); ctx.fill(); ctx.fillRect(o.x - 12, o.y, 25, 9);
+      ctx.fillStyle = '#ffd36b'; ctx.fillRect(o.x - 1, o.y + 9, 3, 5); ctx.fillRect(o.x - 3, o.y + 13, 3, 4);
+    }
+  }
+  if (t >= FLY_LEN - 120){ ctx.fillStyle = 'rgba(80,140,70,.9)'; ctx.fillRect(0, 214 + Math.max(0, FLY_LEN - t) / 6, W, 40); }
+  const landing = t > FLY_LEN - 60 ? (t - (FLY_LEN - 60)) : 0;
+  const px = 70 - 48 + landing * 2, py = Math.round(fly.y - 8);
+  if (fly.hit > 0 && frame % 6 < 3) return drawFlightHUD();
   ctx.fillStyle = '#f4f6fb'; ctx.fillRect(px, py, 86, 16); ctx.fillRect(px + 86, py + 3, 8, 10); ctx.fillRect(px + 94, py + 6, 4, 5);
   ctx.fillStyle = v.cor; ctx.fillRect(px, py + 10, 94, 3);
   ctx.fillStyle = '#d0d6e6'; ctx.beginPath(); ctx.moveTo(px + 34, py + 12); ctx.lineTo(px + 54, py + 12); ctx.lineTo(px + 36, py + 34); ctx.lineTo(px + 26, py + 34); ctx.fill();
@@ -865,14 +979,71 @@ function drawFlight(){
   ctx.fillStyle = v.cor; ctx.fillRect(px - 9, py - 18, 7, 4);
   ctx.fillStyle = '#7fb6e6'; for (let i = 0; i < 7; i++) ctx.fillRect(px + 14 + i * 9, py + 3, 5, 5);
   ctx.fillStyle = '#2a1a12'; ctx.fillRect(px + 60, py + 3, 5, 2); ctx.fillStyle = '#d9a37a'; ctx.fillRect(px + 60, py + 5, 5, 3);
-  ctx.font = '800 9px "Libre Franklin", sans-serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
-  ctx.fillStyle = 'rgba(8,10,22,.7)'; ctx.fillRect(W/2 - 60, 16, 120, 18);
-  ctx.fillStyle = '#fff'; ctx.fillText(`${v.de}  ✈  ${v.para}`, W/2, 25);
+  drawFlightHUD();
+}
+function drawFlightHUD(){
+  const v = fly.v;
+  ctx.fillStyle = 'rgba(8,10,22,.78)'; ctx.fillRect(0, 0, W, 15);
+  ctx.fillStyle = v.cor; ctx.fillRect(0, 15, W * Math.min(1, fly.t / FLY_LEN), 2);
+  ctx.font = '800 7.5px "Libre Franklin", sans-serif'; ctx.textBaseline = 'middle'; ctx.textAlign = 'left';
+  ctx.fillStyle = v.cor; ctx.fillText(`${v.de.toUpperCase()}  ✈  ${v.para.toUpperCase()}`, 6, 8);
+  ctx.textAlign = 'right'; ctx.fillStyle = '#eef1ff'; drawGear(W - 38, 3, false); ctx.fillText(String(gears), W - 6, 8);
+}
+/* ============ QUARTO: depois do "Desabei." ============ */
+function startQuarto(){ mode = 'quarto'; paused = false; quarto = {t:0}; }
+let quarto = null;
+function updateQuarto(){
+  frame++; quarto.t++;
+  if (quarto.t === 170){
+    paused = true;
+    const w = WORLDS[wi], k = w.quarto;
+    seen.add(k); setMission();
+    queueCard(cardHTML(w, w.cards[k], `<span>memória ${seen.size}/${w.cards.length}</span>`), {ok: endQuarto});
+  }
+}
+function endQuarto(){
+  // a base se firma: do buraco pra frente, o chão vira rocha
+  const from = L.hole[0];
+  for (let tx = from; tx < L.cols; tx++) for (const ty of [GROUND, GROUND+1]){ if (tile(tx, ty) === 1 || tile(tx, ty) === 8) L.map[ty][tx] = 9; }
+  for (let tx = L.hole[0]; tx <= L.hole[1]; tx++){ L.map[GROUND][tx] = 9; L.map[GROUND+1][tx] = 9; }
+  falling = []; L.desabei = 'ok';
+  P.x = (L.hole[1] + 2) * T; P.y = GROUND*T - P.h - 30; P.vx = 0; P.vy = 0; P.inv = 40;
+  lastSafe = {x:P.x, y:GROUND*T - P.h};
+  mode = 'play'; paused = false;
+}
+function drawQuarto(){
+  const t = quarto.t;
+  ctx.fillStyle = '#05040c'; ctx.fillRect(0, 0, W, H);
+  if (t < 30){ // ainda caindo
+    for (let i = 0; i < 20; i++){ ctx.fillStyle = 'rgba(165,108,255,.25)'; ctx.fillRect((i * 53) % W, ((i * 37) + t * 9) % H, 1, 8); }
+    drawSprite(154, Math.round(-20 + t * 6), 1, true);
+    return;
+  }
+  const a = Math.min(1, (t - 30) / 60);
+  // quarto: parede, porta fechada, cama
+  ctx.fillStyle = `rgba(42,31,74,${a})`; ctx.fillRect(0, 0, W, 196);
+  ctx.fillStyle = `rgba(28,20,52,${a})`; ctx.fillRect(0, 196, W, 44);
+  ctx.fillStyle = `rgba(20,14,38,${a})`; ctx.fillRect(34, 98, 46, 98); ctx.fillStyle = `rgba(255,211,107,${a * .6})`; ctx.fillRect(72, 148, 3, 3);
+  ctx.fillStyle = `rgba(70,55,110,${a})`; ctx.fillRect(226, 164, 74, 32); ctx.fillStyle = `rgba(220,215,240,${a * .8})`; ctx.fillRect(228, 158, 22, 8);
+  // luz que desce
+  const g = Math.max(0, (t - 70) / 80);
+  if (g > 0){
+    const r = 30 + g * 110;
+    const grd = ctx.createRadialGradient(160, 150, 4, 160, 150, r);
+    grd.addColorStop(0, `rgba(255,236,170,${0.55 * Math.min(1, g)})`); grd.addColorStop(1, 'rgba(165,108,255,0)');
+    ctx.fillStyle = grd; ctx.fillRect(0, 0, W, H);
+    ctx.fillStyle = `rgba(255,236,170,${0.25 * Math.min(1, g)})`; ctx.beginPath(); ctx.moveTo(150, 0); ctx.lineTo(170, 0); ctx.lineTo(200, 196); ctx.lineTo(120, 196); ctx.fill();
+  }
+  // Tiaguinho de joelhos
+  ctx.save(); ctx.beginPath(); ctx.rect(0, 0, W, 196); ctx.clip();
+  drawSprite(154, 182, 1, false); ctx.restore();
+  ctx.fillStyle = WORLDS[wi].look.p; ctx.fillRect(152, 192, 16, 4);
 }
 function draw(){
   ctx.setTransform(scale, 0, 0, scale, 0, 0); ctx.imageSmoothingEnabled = false;
   if (mode === 'map' || mode === 'title') drawMap();
   else if (mode === 'flight') drawFlight();
+  else if (mode === 'quarto') drawQuarto();
   else if (L) drawPlay();
 }
 
@@ -881,7 +1052,7 @@ let somOn = false, audio = null, faixa = 0;
 const somBtn = document.getElementById('somBtn');
 function playMusic(){
   if (!somOn) return;
-  const f = mode === 'map' || mode === 'title' ? (WORLDS[sel] || WORLDS[0]).musica : WORLDS[wi].musica;
+  const f = mode === 'map' || mode === 'title' ? WORLDS[unlocked].musica : mode === 'flight' ? WORLDS[fly.to].musica : WORLDS[wi].musica;
   if (audio && faixa === f) { if (audio.paused) audio.play().catch(() => {}); return; }
   if (audio) audio.pause();
   faixa = f; audio = new Audio(`../midia/musica/trilha-${f}.mp3`); audio.loop = true; audio.volume = 0.5;
@@ -921,13 +1092,14 @@ function loop(now){
       if (mode === 'play' && !paused) update();
       else if (mode === 'map') updateMap();
       else if (mode === 'flight') updateFlight();
+      else if (mode === 'quarto') updateQuarto();
       else frame++;
     }
   }
   draw(); requestAnimationFrame(loop);
 }
 resize();
-sel = Math.min(unlocked, NODES.length - 1); mc.x = NODES[sel].x; mc.y = NODES[sel].y;
+sel = cityOf(unlocked);
 missionEl.innerHTML = '<b>11 capítulos</b> · uma história em construção';
 (document.fonts ? document.fonts.ready : Promise.resolve()).then(() => {
   resize();
